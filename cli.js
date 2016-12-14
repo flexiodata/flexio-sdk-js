@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var ini = require('ini')
 var http = require('http');
 var fs = require('fs');

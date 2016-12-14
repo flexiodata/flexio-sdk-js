@@ -12,6 +12,6 @@
     "url": "git://github.com/flexiodata/flexio-js"
   },
   "license": "Apache-2.0",
-  "bin": { "flexio" : "./flexio.js" },
+  "bin": { "flexio" : "./flexio-cli" },
   "dependencies": { "ini" : ">=1.3.4" }
 }
