@@ -160,7 +160,14 @@ function main()
             g_flexio.setPort(443);
             g_flexio.setPipe(pipe);
 
-            g_flexio.addFile("/Users/biwillia/test.txt");
+            var i;
+            for (i = 5; i < process.argv.length; ++i)
+            {
+                g_flexio.addFile(process.argv[i]);
+            }
+
+
+            
             g_flexio.run();
         }
     }

@@ -42,7 +42,7 @@ module.exports = class Flexio
     {
 
 
-        this.doCall('POST', '/api/v1/processes', {parent_eid:this.pipe}, (res)=>{
+        this.doCall('POST', '/api/v1/processes', null, {parent_eid:this.pipe}, (res)=>{
         
             if (!res.hasOwnProperty('eid'))
                 throw '/api/v1/processes: missing eid'
@@ -52,7 +52,7 @@ module.exports = class Flexio
             console.log('About to send file');
             this.sendOneFile(process_eid, ()=>{
 
-                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', {}, (res)=>{});
+                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, (res)=>{});
         
 
             });
@@ -63,7 +63,7 @@ module.exports = class Flexio
     }
 
 
-    doCall(method, path, body, callback)
+    doCall(method, path, filename, body, callback)
     {
 
         var options = {
@@ -143,11 +143,13 @@ module.exports = class Flexio
         }
         else if (bodytype == 'stream')
         {
+            var header = '--' + boundary + '\r\nContent-Disposition: form-data; name="file"; filename="' + filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n';
+            console.log(header);
 
-            request.write('--' + boundary + '\r\nContent-Disposition: form-data; name="file"; filename="file.txt"\r\nContent-Type: application/octet-stream\r\n\r\n');
+            request.write(header);
             body.pipe(request);
             body.on('close', function () {
-                request.end('Hello there\r\n--' + boundary + '--\r\n\r\n');
+                request.end('\r\n--' + boundary + '--\r\n\r\n');
             });
         }
         else if (bodytype == 'buffer')
@@ -170,14 +172,17 @@ module.exports = class Flexio
         
         var filename = this.files.shift();
 
+        console.log("Sending " + filename);
+
         var stream = fs.createReadStream(filename);
 
-        this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', stream, (res)=>{
+        this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', filename, stream, (res)=>{
         
-            this.sendOneFile(process_eid, callback);
-
             if (this.files.length == 0)
                 callback();
+                 else
+                this.sendOneFile(process_eid, callback);
+
         });
 
     }
