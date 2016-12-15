@@ -171,10 +171,19 @@ module.exports = class Flexio
             return;
         
         var filename = this.files.shift();
+        var stream;
 
-        console.log("Sending " + filename);
-
-        var stream = fs.createReadStream(filename);
+        if (filename === null)
+        {
+            console.log("Sending stdin");
+            filename = "file.txt";
+            stream = process.stdin;
+        }
+         else
+        {
+            console.log("Sending " + filename);
+            stream = fs.createReadStream(filename);
+        }
 
         this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', filename, stream, (res)=>{
         

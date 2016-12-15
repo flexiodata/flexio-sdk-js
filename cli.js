@@ -165,7 +165,14 @@ function main()
             var i;
             for (i = 5; i < process.argv.length; ++i)
             {
-                g_flexio.addFile(process.argv[i]);
+                if (process.argv[i] == '-')
+                {
+                    g_flexio.addFile(null);
+                }
+                 else
+                {
+                    g_flexio.addFile(process.argv[i]);
+                }
             }
 
 
