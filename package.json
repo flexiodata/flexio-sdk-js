@@ -1,5 +1,5 @@
 {
-  "name": "flexio",
+  "name": "flexio-sdk-js",
   "version": "1.0.0",
   "description": "Javascript SDK for managing Flex.io resources and services",
   "main": "flexio.js",
@@ -9,12 +9,9 @@
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/flexiodata/flexio-js"
+    "url": "git://github.com/flexiodata/flexio-sdk-js"
   },
   "license": "Apache-2.0",
-  "bin": {
-    "flexio": "./flexio-cli"
-  },
   "dependencies": {
     "ini": ">=1.3.4"
   }
