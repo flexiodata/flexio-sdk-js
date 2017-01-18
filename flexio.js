@@ -41,23 +41,37 @@ module.exports = class Flexio
     run()
     {
 
+        this.doCall('GET', '/api/v1/search', null, {"name":this.pipe}, (res)=>{
 
-        this.doCall('POST', '/api/v1/processes', null, {parent_eid:this.pipe}, (res)=>{
-        
-            if (!res.hasOwnProperty('eid'))
-                throw '/api/v1/processes: missing eid'
+            if (!Array.isArray(res) || res.length != 1 || !res[0].hasOwnProperty('eid'))
+                throw '/api/v1/search: missing eid';
 
-            var process_eid = res['eid'];
+            var pipe_eid = res[0].eid;
 
-            console.log('About to send file');
-            this.sendOneFile(process_eid, ()=>{
+            this.doCall('POST', '/api/v1/processes', null, {parent_eid:pipe_eid}, (res)=>{
+            
+                if (!res.hasOwnProperty('eid'))
+                    throw '/api/v1/processes: missing eid';
 
-                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, (res)=>{});
-        
+                var process_eid = res['eid'];
+
+                if (this.files.length > 0)
+                {
+                    // send the files, and then run the pipe process
+                    this.sendOneFile(process_eid, ()=>{
+                        this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, (res)=>{});
+                    });
+                }
+                 else
+                {
+                    // no files to send, just run the pipe process
+                    this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, (res)=>{});
+                }
 
             });
 
         });
+
 
 
     }
@@ -65,7 +79,7 @@ module.exports = class Flexio
 
     doCall(method, path, filename, body, callback)
     {
-
+ 
         var options = {
             'host': this.host,
             'port': this.port,
@@ -108,19 +122,30 @@ module.exports = class Flexio
         }
 
 
+        if (method == 'GET')
+        {
+            path += '?' + body;
+            options.path = path;
+        }
+
         console.log(method + ' ' + this.host + path, 'Authorization: Bearer ' + this.apikey);
+
+
+
 
         var request = https.request(options, (response) => {
 
             console.log('statusCode:', response.statusCode);
 
             var body = '';
+
             response.on('data', function(d) {
                 body += d;
             });
+
             response.on('end', function() {
 
-                console.log('Body: ' + body);
+                //console.log('Body: ' + body);
 
                 try
                 {

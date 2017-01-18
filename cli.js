@@ -8,6 +8,7 @@ var flexio = require('./flexio.js');
 
 var g_config_file = '';
 var g_profile = 'default';
+var g_host = 'www.flex.io';
 var g_flexio = new flexio;
 
 
@@ -135,8 +136,24 @@ function main()
         return;
     }
 
-    var pclass = process.argv[2] || '';
-    var pverb = process.argv[3] || '';
+
+    var argv = process.argv.slice(); // make a copy of argv
+    for (var i = 0; i < argv.length; ++i)
+    {
+        if (argv[i].substr(0,2) == '--')
+        {
+            if (argv[i] == '--test')
+            {
+                g_host = 'test.flex.io';
+                argv.splice(i,1);
+                --i;
+            }
+        }
+    }
+
+
+    var pclass = argv[2] || '';
+    var pverb = argv[3] || '';
 
 
     if (pclass == "help")
@@ -145,11 +162,11 @@ function main()
     }
     else if (pclass == "configure")
     {
-        configure(process.argv[3] || 'default');
+        configure(argv[3] || 'default');
     }
     else if (pclass == "pipes" && pverb == "run")
     {
-        var pipe = process.argv[4] || '';
+        var pipe = argv[4] || '';
         if (pipe.length == 0)
         {
             displayUsage();
@@ -158,25 +175,23 @@ function main()
         {
             loadConfigFile("default");
 
-            g_flexio.setHost("www.flex.io");
+            g_flexio.setHost(g_host);
             g_flexio.setPort(443);
             g_flexio.setPipe(pipe);
 
             var i;
-            for (i = 5; i < process.argv.length; ++i)
+            for (i = 5; i < argv.length; ++i)
             {
-                if (process.argv[i] == '-')
+                if (argv[i] == '-')
                 {
                     g_flexio.addFile(null);
                 }
                  else
                 {
-                    g_flexio.addFile(process.argv[i]);
+                    g_flexio.addFile(argv[i]);
                 }
             }
 
-
-            
             g_flexio.run();
         }
     }
