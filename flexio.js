@@ -48,7 +48,7 @@ module.exports = class Flexio
     {
         if (this.debug_active)
         {   
-            console.log.call(arguments);
+            console.log.apply(console, arguments);
         }
     }
     
