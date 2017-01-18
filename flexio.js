@@ -11,6 +11,7 @@ module.exports = class Flexio
     constructor()
     {
         this.files = [];
+        this.debug_active = false;
     }
 
     setApiKey(value)
@@ -38,6 +39,19 @@ module.exports = class Flexio
         this.files.push(value);
     }
 
+    setDebug(value)
+    {
+        this.debug_active = value;
+    }
+
+    debug(str)
+    {
+        if (this.debug_active)
+        {   
+            console.log.call(arguments);
+        }
+    }
+    
     run()
     {
 
@@ -113,7 +127,7 @@ module.exports = class Flexio
         {
             bodytype = 'formdata';
             body = querystring.stringify(body);
-            console.log("length", body.length, body);
+            this.debug("length", body.length, body);
             if (body.length > 0)
             {
                 options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -128,14 +142,14 @@ module.exports = class Flexio
             options.path = path;
         }
 
-        console.log(method + ' ' + this.host + path, 'Authorization: Bearer ' + this.apikey);
+        this.debug(method + ' ' + this.host + path, 'Authorization: Bearer ' + this.apikey);
 
 
 
 
         var request = https.request(options, (response) => {
 
-            console.log('statusCode:', response.statusCode);
+            this.debug('statusCode:', response.statusCode);
 
             var body = '';
 
@@ -145,7 +159,7 @@ module.exports = class Flexio
 
             response.on('end', function() {
 
-                //console.log('Body: ' + body);
+                //this.debug('Body: ' + body);
 
                 try
                 {
@@ -169,7 +183,7 @@ module.exports = class Flexio
         else if (bodytype == 'stream')
         {
             var header = '--' + boundary + '\r\nContent-Disposition: form-data; name="file"; filename="' + filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n';
-            console.log(header);
+            this.debug(header);
 
             request.write(header);
             body.pipe(request);
@@ -200,13 +214,13 @@ module.exports = class Flexio
 
         if (filename === null)
         {
-            console.log("Sending stdin");
+            this.debug("Sending stdin");
             filename = "file.txt";
             stream = process.stdin;
         }
          else
         {
-            console.log("Sending " + filename);
+            this.debug("Sending " + filename);
             stream = fs.createReadStream(filename);
         }
 
