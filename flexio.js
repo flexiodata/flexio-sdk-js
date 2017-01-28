@@ -39,6 +39,11 @@ module.exports = class Flexio
         this.files.push(value);
     }
 
+    setCallback(func)
+    {
+        this.callback = func;
+    }
+    
     setDebug(value)
     {
         this.debug_active = value;
@@ -54,7 +59,41 @@ module.exports = class Flexio
     
     run()
     {
+        var me = this;
 
+        this.doCall('POST', '/api/v1/processes', null, {parent_eid:this.pipe}, null, (res)=>{
+        
+            if (!res.hasOwnProperty('eid'))
+                throw '/api/v1/processes: missing eid';
+
+            var process_eid = res['eid'];
+
+            // send the files (if any), and then run the pipe process
+            this.sendFiles(process_eid, ()=>{
+                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, null, (res)=>{
+
+                    if (me.callback) {
+                        me.callback('begin', '');
+                    }
+
+                    this.doCall('GET', '/api/v1/processes/'+process_eid+'/output?fields=content&format=text/plain', null, {},
+                        (data) => {
+                            if (me.callback) {
+                                me.callback('data', data);
+                            }
+                        },
+                        (res)=>{
+                            if (me.callback) {
+                                me.callback('end', '');
+                            }
+                        }
+                    );
+
+                });
+            });
+        });
+
+/*
         this.doCall('GET', '/api/v1/search', null, {"name":this.pipe}, (res)=>{
 
             if (!Array.isArray(res) || res.length != 1 || !res[0].hasOwnProperty('eid'))
@@ -62,38 +101,17 @@ module.exports = class Flexio
 
             var pipe_eid = res[0].eid;
 
-            this.doCall('POST', '/api/v1/processes', null, {parent_eid:pipe_eid}, (res)=>{
-            
-                if (!res.hasOwnProperty('eid'))
-                    throw '/api/v1/processes: missing eid';
-
-                var process_eid = res['eid'];
-
-                if (this.files.length > 0)
-                {
-                    // send the files, and then run the pipe process
-                    this.sendOneFile(process_eid, ()=>{
-                        this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, (res)=>{});
-                    });
-                }
-                 else
-                {
-                    // no files to send, just run the pipe process
-                    this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, (res)=>{});
-                }
-
-            });
-
         });
-
+*/
 
 
     }
 
 
-    doCall(method, path, filename, body, callback)
+    doCall(method, path, filename, body, data_callback, callback)
     {
- 
+        var me = this;
+
         var options = {
             'host': this.host,
             'port': this.port,
@@ -127,7 +145,7 @@ module.exports = class Flexio
         {
             bodytype = 'formdata';
             body = querystring.stringify(body);
-            this.debug("length", body.length, body);
+            me.debug("length", body.length, body);
             if (body.length > 0)
             {
                 options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -138,39 +156,52 @@ module.exports = class Flexio
 
         if (method == 'GET')
         {
-            path += '?' + body;
+            if (body.length > 0)
+            {
+                path += '?' + body;
+            }
             options.path = path;
         }
 
-        this.debug(method + ' ' + this.host + path, 'Authorization: Bearer ' + this.apikey);
+        me.debug(method + ' ' + this.host + path, 'Authorization: Bearer ' + this.apikey);
 
 
 
 
         var request = https.request(options, (response) => {
 
-            this.debug('statusCode:', response.statusCode);
+            me.debug('statusCode:', response.statusCode);
 
             var body = '';
 
             response.on('data', function(d) {
+
+                me.debug('Data Received ***' + d + '***');
+
+                if (data_callback)
+                {
+                    data_callback(d);
+                }
                 body += d;
             });
 
             response.on('end', function() {
 
-                //this.debug('Body: ' + body);
-
-                try
+                if (data_callback)
                 {
-                    var parsed = JSON.parse(body);
-                    callback(parsed);
+                    callback('');
                 }
-                catch (e)
+                 else
                 {
-
+                    try
+                    {
+                        var parsed = JSON.parse(body);
+                        callback(parsed);
+                    }
+                    catch (e)
+                    {
+                    }
                 }
-
             });
         });
 
@@ -183,7 +214,7 @@ module.exports = class Flexio
         else if (bodytype == 'stream')
         {
             var header = '--' + boundary + '\r\nContent-Disposition: form-data; name="file"; filename="' + filename + '"\r\nContent-Type: application/octet-stream\r\n\r\n';
-            this.debug(header);
+            me.debug(header);
 
             request.write(header);
             body.pipe(request);
@@ -204,10 +235,13 @@ module.exports = class Flexio
 
 
 
-    sendOneFile(process_eid, callback)
+    sendFiles(process_eid, callback)
     {
         if (this.files.length == 0)
+        {
+            callback();
             return;
+        }
         
         var filename = this.files.shift();
         var stream;

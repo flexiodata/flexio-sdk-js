@@ -142,9 +142,25 @@ function main()
     {
         if (argv[i].substr(0,2) == '--')
         {
-            if (argv[i] == '--test')
+            if (argv[i] == '--debug')
+            {
+                g_flexio.setDebug(true);
+                argv.splice(i,1);
+                --i;
+            }
+            else if (argv[i] == '--test')
             {
                 g_host = 'test.flex.io';
+                argv.splice(i,1);
+                --i;
+            }
+            else if (argv[i] == '--stdout')
+            {
+                g_flexio.setCallback((type, data)=>{
+                    if (type == 'data') {
+                        process.stdout.write(data);
+                    }
+                });
                 argv.splice(i,1);
                 --i;
             }
