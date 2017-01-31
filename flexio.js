@@ -12,6 +12,8 @@ module.exports = class Flexio
     {
         this.files = [];
         this.debug_active = false;
+        this.callback = null;
+        this.job_params = null;
     }
 
     setApiKey(value)
@@ -39,6 +41,11 @@ module.exports = class Flexio
         this.files.push(value);
     }
 
+    setJobParams(params)
+    {
+        this.job_params = params;
+    }
+
     setCallback(func)
     {
         this.callback = func;
@@ -62,7 +69,6 @@ module.exports = class Flexio
         var me = this;
 
         this.doCall('POST', '/api/v1/processes', null, {parent_eid:this.pipe}, null, (res)=>{
-        
             if (!res.hasOwnProperty('eid'))
                 throw '/api/v1/processes: missing eid';
 
@@ -70,7 +76,14 @@ module.exports = class Flexio
 
             // send the files (if any), and then run the pipe process
             this.sendFiles(process_eid, ()=>{
-                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, null, (res)=>{
+
+                var call_params = {};
+                if (this.job_params)
+                {
+                    call_params.params = this.job_params;
+                }
+
+                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, call_params, null, (res)=>{
 
                     if (me.callback) {
                         me.callback('begin', '');
@@ -103,8 +116,6 @@ module.exports = class Flexio
 
         });
 */
-
-
     }
 
 
@@ -126,7 +137,6 @@ module.exports = class Flexio
         var bodytype;
         var boundary;
 
-
         if (Buffer.isBuffer(body))
         {
             bodytype = 'buffer';
@@ -139,18 +149,36 @@ module.exports = class Flexio
             hash.update(Date() + Math.random());
             boundary =  hash.digest('hex');
             options.headers['Content-Type'] = 'multipart/form-data; boundary=' + boundary;
-
         }
-        else
+        else 
         {
-            bodytype = 'formdata';
-            body = querystring.stringify(body);
-            me.debug("length", body.length, body);
-            if (body.length > 0)
+            if (method == 'POST')
             {
-                options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-                options.headers['Content-Length'] = body.length;
+                bodytype = 'json';
+                body = JSON.stringify(body);
+                if (body.length > 0)
+                {
+                    options.headers['Content-Type'] = 'application/json';
+                    options.headers['Content-Length'] = body.length;
+                }
+                
+                /*
+                bodytype = 'formdata';
+                body = querystring.stringify(body);
+                me.debug("length", body.length, body);
+                if (body.length > 0)
+                {
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.headers['Content-Length'] = body.length;
+                }*/
             }
+             else if (method == 'GET')
+            {
+                body = querystring.stringify(body);
+                bodytype = 'none';
+            }
+            
+            
         }
 
 
@@ -163,7 +191,7 @@ module.exports = class Flexio
             options.path = path;
         }
 
-        me.debug(method + ' ' + this.host + path, 'Authorization: Bearer ' + this.apikey);
+        me.debug(method + ' https://' + this.host + path, 'Authorization: Bearer ' + this.apikey);
 
 
 
@@ -172,7 +200,7 @@ module.exports = class Flexio
 
             me.debug('statusCode:', response.statusCode);
 
-            var body = '';
+            var data = '';
 
             response.on('data', function(d) {
 
@@ -182,31 +210,36 @@ module.exports = class Flexio
                 {
                     data_callback(d);
                 }
-                body += d;
+                data += d;
             });
 
             response.on('end', function() {
 
                 if (data_callback)
                 {
-                    callback('');
+                    callback(null);
                 }
                  else
                 {
+                    var parsed = null;
                     try
                     {
-                        var parsed = JSON.parse(body);
-                        callback(parsed);
+                        parsed = JSON.parse(data);
                     }
                     catch (e)
                     {
                     }
+                    callback(parsed);
                 }
             });
         });
 
 
-        if (bodytype == 'formdata')
+        if (bodytype == 'none')
+        {
+            request.end();
+        }
+        else if (bodytype == 'json' || bodytype == 'formdata')
         {
             request.write(body);
             request.end();

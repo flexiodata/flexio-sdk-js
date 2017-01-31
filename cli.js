@@ -4,6 +4,7 @@ var ini = require('ini')
 var http = require('http');
 var fs = require('fs');
 var readline = require('readline');
+//var flexio = require('flexio-sdk-js');
 var flexio = require('./flexio.js');
 
 var g_config_file = '';
@@ -136,23 +137,21 @@ function main()
         return;
     }
 
+    var job_params = {};
 
-    var argv = process.argv.slice(); // make a copy of argv
+    var eq, argv = process.argv.slice(); // make a copy of argv
     for (var i = 0; i < argv.length; ++i)
     {
+        eq = argv[i].indexOf('=');
         if (argv[i].substr(0,2) == '--')
         {
             if (argv[i] == '--debug')
             {
                 g_flexio.setDebug(true);
-                argv.splice(i,1);
-                --i;
             }
             else if (argv[i] == '--test')
             {
                 g_host = 'test.flex.io';
-                argv.splice(i,1);
-                --i;
             }
             else if (argv[i] == '--stdout')
             {
@@ -161,9 +160,25 @@ function main()
                         process.stdout.write(data);
                     }
                 });
-                argv.splice(i,1);
-                --i;
             }
+            else if (argv[i].substr(0,4) == '--x-')
+            {
+                var arg = (eq == -1 ? argv[i].substr(4) : argv[i].substr(4, eq-4));
+                var val = (eq == -1 ? (i+1 >= argv.length ? '' : argv[i+1]) : argv[i].substr(eq+1));
+
+                if (eq == -1)
+                {
+                    // equals sign not used, absorb value parameter
+                    argv.splice(i,1);
+                    --i;
+                }
+
+                job_params[arg] = val;
+                g_flexio.setJobParams(job_params);
+            }
+
+            argv.splice(i,1);
+            --i;
         }
     }
 
