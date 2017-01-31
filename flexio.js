@@ -68,7 +68,13 @@ module.exports = class Flexio
     {
         var me = this;
 
-        this.doCall('POST', '/api/v1/processes', null, {parent_eid:this.pipe}, null, (res)=>{
+        var call_params = { parent_eid: this.pipe };
+        if (this.job_params)
+        {
+            call_params.params = this.job_params;
+        }
+
+        this.doCall('POST', '/api/v1/processes', null, call_params, null, (res)=>{
             if (!res.hasOwnProperty('eid'))
                 throw '/api/v1/processes: missing eid';
 
@@ -77,13 +83,7 @@ module.exports = class Flexio
             // send the files (if any), and then run the pipe process
             this.sendFiles(process_eid, ()=>{
 
-                var call_params = {};
-                if (this.job_params)
-                {
-                    call_params.params = this.job_params;
-                }
-
-                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, call_params, null, (res)=>{
+                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, null, (res)=>{
 
                     if (me.callback) {
                         me.callback('begin', '');
