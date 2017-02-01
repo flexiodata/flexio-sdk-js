@@ -291,7 +291,7 @@ module.exports = class Flexio
             stream = fs.createReadStream(filename);
         }
 
-        this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', filename, stream, (res)=>{
+        this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', filename, stream, null, (res)=>{
         
             if (this.files.length == 0)
                 callback();
