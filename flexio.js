@@ -14,6 +14,7 @@ module.exports = class Flexio
         this.debug_active = false;
         this.callback = null;
         this.job_params = null;
+        this.ssl_verify = true;
     }
 
     setApiKey(value)
@@ -24,6 +25,11 @@ module.exports = class Flexio
     setHost(value)
     {
         this.host = value;
+    }
+
+    setSSLVerify(value)
+    {
+        this.ssl_verify = value;
     }
 
     setPort(value)
@@ -126,6 +132,7 @@ module.exports = class Flexio
         var options = {
             'host': this.host,
             'port': this.port,
+            'rejectUnauthorized': this.ssl_verify,
             'path': path,
             'method': method,
             'headers': {
