@@ -1,6 +1,6 @@
 {
   "name": "flexio-sdk-js",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Javascript SDK for managing Flex.io resources and services",
   "main": "flexio.js",
   "scripts": {
