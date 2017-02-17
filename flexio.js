@@ -6,6 +6,20 @@ var crypto = require('crypto');
 var querystring = require('querystring');
 var fs = require('fs');
 
+
+class FlexioError extends Error
+{
+    constructor (message, extra)
+    {
+        super();
+        Error.captureStackTrace(this, this.constructor);
+        this.name = 'FlexioError';
+        this.message = message;
+        this.extra = extra;
+    }
+}
+
+
 module.exports = class Flexio
 {
     constructor()
@@ -70,7 +84,7 @@ module.exports = class Flexio
         }
     }
     
-    run()
+    run(methodCallback)
     {
         var me = this;
 
@@ -80,16 +94,31 @@ module.exports = class Flexio
             call_params.params = this.job_params;
         }
 
-        this.doCall('POST', '/api/v1/processes', null, call_params, null, (res)=>{
-            if (!res.hasOwnProperty('eid'))
-                throw '/api/v1/processes: missing eid';
+        this.doCall('POST', '/api/v1/processes', null, call_params, null, (response, obj)=>{
 
-            var process_eid = res['eid'];
+            switch (response.statusCode)
+            {
+                case 400: if (methodCallback) { methodCallback(new FlexioError("General Error",        "FLEXIO_ERROR")) };                return;
+                case 401: if (methodCallback) { methodCallback(new FlexioError("Authentication Error", "FLEXIO_ERROR_AUTHENTICATION")) }; return;
+                case 403: if (methodCallback) { methodCallback(new FlexioError("Access Forbidden",     "FLEXIO_ERROR_FORBIDDEN")) };      return;
+                case 404: if (methodCallback) { methodCallback(new FlexioError("Invalid Pipe",         "FLEXIO_ERROR_INVALID_PIPE")) };   return;
+            }
+
+            if (!obj.hasOwnProperty('eid'))
+            {
+                if (methodCallback)
+                {
+                    methodCallback(new FlexioError("Invalid Pipe", "FLEXIO_ERROR_INVALID_PIPE"));
+                    return;
+                }
+            }
+
+            var process_eid = obj['eid'];
 
             // send the files (if any), and then run the pipe process
             this.sendFiles(process_eid, ()=>{
 
-                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, null, (res)=>{
+                this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, null, (response, obj)=>{
 
                     if (me.callback) {
                         me.callback('begin', '');
@@ -101,9 +130,15 @@ module.exports = class Flexio
                                 me.callback('data', data);
                             }
                         },
-                        (res)=>{
+                        (response, obj)=>{
                             if (me.callback) {
                                 me.callback('end', '');
+                            }
+
+                            // run callback with no error
+                            if (methodCallback)
+                            {
+                                methodCallback(null);
                             }
                         }
                     );
@@ -112,16 +147,6 @@ module.exports = class Flexio
             });
         });
 
-/*
-        this.doCall('GET', '/api/v1/search', null, {"name":this.pipe}, (res)=>{
-
-            if (!Array.isArray(res) || res.length != 1 || !res[0].hasOwnProperty('eid'))
-                throw '/api/v1/search: missing eid';
-
-            var pipe_eid = res[0].eid;
-
-        });
-*/
     }
 
 
@@ -168,24 +193,12 @@ module.exports = class Flexio
                     options.headers['Content-Type'] = 'application/json';
                     options.headers['Content-Length'] = body.length;
                 }
-                
-                /*
-                bodytype = 'formdata';
-                body = querystring.stringify(body);
-                me.debug("length", body.length, body);
-                if (body.length > 0)
-                {
-                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-                    options.headers['Content-Length'] = body.length;
-                }*/
             }
              else if (method == 'GET')
             {
                 body = querystring.stringify(body);
                 bodytype = 'none';
             }
-            
-            
         }
 
 
@@ -224,7 +237,8 @@ module.exports = class Flexio
 
                 if (data_callback)
                 {
-                    callback(null);
+                    // reponse body went to data callback
+                    callback(response, null);
                 }
                  else
                 {
@@ -236,7 +250,7 @@ module.exports = class Flexio
                     catch (e)
                     {
                     }
-                    callback(parsed);
+                    callback(response, parsed);
                 }
             });
         });
@@ -268,9 +282,6 @@ module.exports = class Flexio
        	    request.end();
         }
 
-
-
-
     }
 
 
@@ -289,7 +300,7 @@ module.exports = class Flexio
         if (filename === null)
         {
             this.debug("Sending stdin");
-            filename = "file.txt";
+            filename = "input.dat";
             stream = process.stdin;
         }
          else
