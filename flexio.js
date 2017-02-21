@@ -104,7 +104,7 @@ module.exports = class Flexio
                 case 404: if (methodCallback) { methodCallback(new FlexioError("Invalid Pipe",         "FLEXIO_ERROR_INVALID_PIPE")) };   return;
             }
 
-            if (!obj.hasOwnProperty('eid'))
+            if (!obj || !obj.hasOwnProperty('eid'))
             {
                 if (methodCallback)
                 {
