@@ -294,6 +294,7 @@ module.exports = class Flexio
             return;
         }
         
+        var me = this;
         var filename = this.files.shift();
         var stream;
 
@@ -311,10 +312,10 @@ module.exports = class Flexio
 
         this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', filename, stream, null, (res)=>{
         
-            if (this.files.length == 0)
+            if (me.files.length == 0)
                 callback();
                  else
-                this.sendOneFile(process_eid, callback);
+                me.sendFiles(process_eid, callback);
 
         });
 
