@@ -26,8 +26,6 @@ module.exports = class Flexio
     {
         this.files = [];
         this.debug_active = false;
-        this.callback = null;
-        this.job_params = null;
         this.ssl_verify = true;
     }
 
@@ -50,26 +48,6 @@ module.exports = class Flexio
     {
         this.port = value;
     }
-
-    setPipe(value)
-    {
-        this.pipe = value;
-    }
-
-    addFile(value)
-    {
-        this.files.push(value);
-    }
-
-    setJobParams(params)
-    {
-        this.job_params = params;
-    }
-
-    setCallback(func)
-    {
-        this.callback = func;
-    }
     
     setDebug(value)
     {
@@ -84,31 +62,56 @@ module.exports = class Flexio
         }
     }
     
-    run(methodCallback)
+    pipes(method_callback)
+    {
+        this.doCall('GET', '/api/v1/pipes', null, {}, null, (response, obj)=>{
+            switch (response.statusCode)
+            {
+                case 400: if (method_callback) { method_callback(new FlexioError("General Error",        "FLEXIO_ERROR")) };                return;
+                case 401: if (method_callback) { method_callback(new FlexioError("Authentication Error", "FLEXIO_ERROR_AUTHENTICATION")) }; return;
+                case 403: if (method_callback) { method_callback(new FlexioError("Access Forbidden",     "FLEXIO_ERROR_FORBIDDEN")) };      return;
+                case 404: if (method_callback) { method_callback(new FlexioError("Invalid Pipe",         "FLEXIO_ERROR_INVALID_PIPE")) };   return;
+            }
+
+            if (!obj || !Array.isArray(obj))
+            {
+                if (method_callback)
+                {
+                    method_callback(new FlexioError("General Error",        "FLEXIO_ERROR"));
+                    return;
+                }
+            }
+
+            method_callback(null, obj);
+        })
+
+    }
+
+    run(pipe, process_params, files, data_callback, method_callback)
     {
         var me = this;
 
-        var call_params = { parent_eid: this.pipe };
-        if (this.job_params)
+        var call_params = { parent_eid: pipe };
+        if (process_params)
         {
-            call_params.params = this.job_params;
+            call_params.params = process_params;
         }
 
         this.doCall('POST', '/api/v1/processes', null, call_params, null, (response, obj)=>{
 
             switch (response.statusCode)
             {
-                case 400: if (methodCallback) { methodCallback(new FlexioError("General Error",        "FLEXIO_ERROR")) };                return;
-                case 401: if (methodCallback) { methodCallback(new FlexioError("Authentication Error", "FLEXIO_ERROR_AUTHENTICATION")) }; return;
-                case 403: if (methodCallback) { methodCallback(new FlexioError("Access Forbidden",     "FLEXIO_ERROR_FORBIDDEN")) };      return;
-                case 404: if (methodCallback) { methodCallback(new FlexioError("Invalid Pipe",         "FLEXIO_ERROR_INVALID_PIPE")) };   return;
+                case 400: if (method_callback) { method_callback(new FlexioError("General Error",        "FLEXIO_ERROR")) };                return;
+                case 401: if (method_callback) { method_callback(new FlexioError("Authentication Error", "FLEXIO_ERROR_AUTHENTICATION")) }; return;
+                case 403: if (method_callback) { method_callback(new FlexioError("Access Forbidden",     "FLEXIO_ERROR_FORBIDDEN")) };      return;
+                case 404: if (method_callback) { method_callback(new FlexioError("Invalid Pipe",         "FLEXIO_ERROR_INVALID_PIPE")) };   return;
             }
 
             if (!obj || !obj.hasOwnProperty('eid'))
             {
-                if (methodCallback)
+                if (method_callback)
                 {
-                    methodCallback(new FlexioError("Invalid Pipe", "FLEXIO_ERROR_INVALID_PIPE"));
+                    method_callback(new FlexioError("Invalid Pipe", "FLEXIO_ERROR_INVALID_PIPE"));
                     return;
                 }
             }
@@ -116,29 +119,29 @@ module.exports = class Flexio
             var process_eid = obj['eid'];
 
             // send the files (if any), and then run the pipe process
-            this.sendFiles(process_eid, ()=>{
+            this.sendFiles(process_eid, files, ()=>{
 
                 this.doCall('POST', '/api/v1/processes/'+process_eid+'/run?background=false', null, {}, null, (response, obj)=>{
 
-                    if (me.callback) {
-                        me.callback('begin', '');
+                    if (data_callback) {
+                        data_callback('begin', '');
                     }
 
                     this.doCall('GET', '/api/v1/processes/'+process_eid+'/output?fields=content&format=text/plain', null, {},
                         (data) => {
-                            if (me.callback) {
-                                me.callback('data', data);
+                            if (data_callback) {
+                                data_callback('data', data);
                             }
                         },
                         (response, obj)=>{
-                            if (me.callback) {
-                                me.callback('end', '');
+                            if (data_callback) {
+                                data_callback('end', '');
                             }
 
                             // run callback with no error
-                            if (methodCallback)
+                            if (method_callback)
                             {
-                                methodCallback(null);
+                                method_callback(null);
                             }
                         }
                     );
@@ -213,9 +216,6 @@ module.exports = class Flexio
 
         me.debug(method + ' https://' + this.host + path, 'Authorization: Bearer ' + this.apikey);
 
-
-
-
         var request = https.request(options, (response) => {
 
             me.debug('statusCode:', response.statusCode);
@@ -286,16 +286,16 @@ module.exports = class Flexio
 
 
 
-    sendFiles(process_eid, callback)
+    sendFiles(process_eid, files, callback)
     {
-        if (this.files.length == 0)
+        if (files.length == 0)
         {
             callback();
             return;
         }
         
         var me = this;
-        var filename = this.files.shift();
+        var filename = files.shift();
         var stream;
 
         if (filename === null)
@@ -312,11 +312,10 @@ module.exports = class Flexio
 
         this.doCall('POST', '/api/v1/processes/'+process_eid+'/input', filename, stream, null, (res)=>{
         
-            if (me.files.length == 0)
+            if (files.length == 0)
                 callback();
                  else
-                me.sendFiles(process_eid, callback);
-
+                me.sendFiles(process_eid, files, callback);
         });
 
     }
