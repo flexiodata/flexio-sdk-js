@@ -104,7 +104,12 @@ module.exports = class Flexio
         for (k in files)
         {
             if (files.hasOwnProperty(k))
-                form.append(k, fs.createReadStream(files[k]));
+            {
+                if (files[k] == '-')
+                    form.append(k, process.stdin, { filename: k });
+                     else
+                    form.append(k, fs.createReadStream(files[k]));
+            }
         }
 
         var headers = form.getHeaders();
@@ -179,6 +184,7 @@ module.exports = class Flexio
         })
 
         form.pipe(request);
+        //form.pipe(process.stdout);
     }
 
     runOld(pipe, process_params, files, data_callback, method_callback)
