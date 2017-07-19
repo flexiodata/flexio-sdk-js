@@ -5,6 +5,7 @@ var https = require('https');
 var crypto = require('crypto');
 var querystring = require('querystring');
 var fs = require('fs');
+var FormData = require('form-data');
 
 
 class FlexioError extends Error
@@ -27,6 +28,7 @@ module.exports = class Flexio
         this.files = [];
         this.debug_active = false;
         this.ssl_verify = true;
+        this.apikey = '';
     }
 
     setApiKey(value)
@@ -88,6 +90,104 @@ module.exports = class Flexio
     }
 
     run(pipe, process_params, files, data_callback, method_callback)
+    {
+        var form = new FormData();
+        var me = this;
+        var k;
+
+        for (k in process_params)
+        {
+            if (process_params.hasOwnProperty(k))
+                form.append(k, process_params[k]);
+        }
+
+        for (k in files)
+        {
+            if (files.hasOwnProperty(k))
+            {
+                if (files[k] == '-')
+                    form.append(k, process.stdin, { filename: k });
+                     else
+                    form.append(k, fs.createReadStream(files[k]));
+            }
+        }
+
+        var headers = form.getHeaders();
+        
+        if (this.apikey.length > 0)
+        {
+            headers['Authorization'] = 'Bearer ' + this.apikey
+        }
+
+        var options = {
+            'host': this.host,
+            'port': this.port,
+            'rejectUnauthorized': this.ssl_verify,
+            'path': '/api/v1/pipes/'+pipe+'/run?stream=0',
+            'method': 'POST',
+            'headers': headers
+        };
+
+        me.debug(options.path);
+
+        if (data_callback)
+        {
+            data_callback('begin', '');
+        }
+
+        var request = https.request(options, (response) => {
+            me.debug('statusCode:', response.statusCode);
+
+            switch (response.statusCode)
+            {
+                case 400: if (method_callback) { method_callback(new FlexioError("General Error",        "FLEXIO_ERROR")) };                return;
+                case 401: if (method_callback) { method_callback(new FlexioError("Authentication Error", "FLEXIO_ERROR_AUTHENTICATION")) }; return;
+                case 403: if (method_callback) { method_callback(new FlexioError("Access Forbidden",     "FLEXIO_ERROR_FORBIDDEN")) };      return;
+                case 404: if (method_callback) { method_callback(new FlexioError("Invalid Pipe",         "FLEXIO_ERROR_INVALID_PIPE")) };   return;
+            }
+
+            var data = '';
+
+            response.on('data', function(d) {
+
+                me.debug('Data Received ***' + d + '***');
+
+                if (data_callback)
+                {
+                    data_callback('data', d);
+                }
+                data += d;
+            });
+
+            response.on('end', function() {
+
+                if (data_callback)
+                {
+                    data_callback('end', '');
+
+                    // reponse body went to data callback
+                    method_callback(null);
+                }
+                 else
+                {
+                    var parsed = null;
+                    try
+                    {
+                        parsed = JSON.parse(data);
+                    }
+                    catch (e)
+                    {
+                    }
+                    method_callback(null);
+                }
+            });
+        })
+
+        form.pipe(request);
+        //form.pipe(process.stdout);
+    }
+
+    runOld(pipe, process_params, files, data_callback, method_callback)
     {
         var me = this;
 
@@ -163,11 +263,13 @@ module.exports = class Flexio
             'rejectUnauthorized': this.ssl_verify,
             'path': path,
             'method': method,
-            'headers': {
-                'Authorization': 'Bearer ' + this.apikey
-            }
+            'headers': {}
         };
 
+        if (this.apikey.length > 0)
+        {
+            options.headers['Authorization'] = 'Bearer ' + this.apikey
+        }
 
         var bodytype;
         var boundary;
