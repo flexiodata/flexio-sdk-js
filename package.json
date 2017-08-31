@@ -2,17 +2,25 @@
   "name": "flexio-sdk-js",
   "version": "1.4.1",
   "description": "Javascript SDK for managing Flex.io resources and services",
-  "main": "flexio.js",
+  "author": "David Z. Williams <dave@flex.io>",
+  "main": "dist/flexio.js"
+  //"main": "flexio.js",
   "scripts": {
+    "build": "webpack --config build/webpack.dist.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/flexiodata/flexio-sdk-js"
+    "url": "git+https://github.com/flexiodata/flexio-sdk-js.git"
   },
+  "keywords": [
+  ],
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/flexiodata/flexio-sdk-js/issues"
+  },
+  "homepage": "https://github.com/flexiodata/flexio-sdk-js/",
   "dependencies": {
-    "form-data": ">=2.2.0"
+    "form-data": ">=2.2.0" // prior to rework
   }
 }
