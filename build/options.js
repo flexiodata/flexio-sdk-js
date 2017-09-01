@@ -28,5 +28,7 @@ module.exports = {
     resolve(location) {
       return path.join(__dirname, '..', location)
     }
-  }
+  },
+
+  version
 }

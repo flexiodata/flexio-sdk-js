@@ -25,19 +25,22 @@ const config = merge(base, {
   ]
 })
 
+// debug and production
 config.plugins = config.plugins.concat([
   new webpack.LoaderOptionsPlugin({
     minimize: true
+  }),
+  new webpack.DefinePlugin({
+    VERSION: JSON.stringify(options.version)
   })
 ])
 
 if (options.isProduction) {
+  // production only
   config.plugins = config.plugins.concat([
     // Set the production environment
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
+      'process.env.NODE_ENV': JSON.stringify('production')
     }),
 
     // Minify with dead-code elimination

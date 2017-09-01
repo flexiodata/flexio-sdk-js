@@ -112,20 +112,11 @@ exports.default = _flexio2.default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _version = __webpack_require__(2).version;
-
 exports.default = {
   version: function version() {
-    return 'Flex.io Javascript SDK v' + _version;
+    return 'Flex.io Javascript SDK v' + "1.4.1";
   }
 };
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = {"name":"flexio-sdk-js","version":"1.4.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","main":"dist/flexio.js","scripts":{"build:debug":"cross-env NODE_ENV=debug webpack --config build/webpack.dist.js","build:release":"cross-env NODE_ENV=production webpack --config build/webpack.dist.js","build":"npm run build:debug && npm run build:release","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"form-data":">=2.2.0"},"devDependencies":{"babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","deep-assign":"^2.0.0","webpack":"^3.5.5"}}
 
 /***/ })
 /******/ ]);
