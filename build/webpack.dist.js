@@ -1,6 +1,5 @@
 'use strict'
 
-//const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const merge = require('deep-assign')
 const webpack = require('webpack')
 
