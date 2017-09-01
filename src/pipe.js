@@ -1,4 +1,14 @@
 
+import axios from 'axios'
+
+// Set config defaults when creating the instance
+var axios_auth = axios.create({
+  baseURL: 'https://www.flex.io/api/v1'
+})
+
+// Alter defaults after instance has been created
+axios_auth.defaults.headers.common['Authorization'] = 'Bearer kmzdxtzwybzyqrqjbrnm'
+
 var base = {
   name: 'Javascript SDK Process',
   description: 'Created from the Flex.io Javascript SDK',
@@ -31,6 +41,7 @@ var base = {
 export default () => {
   return Object.assign({}, base, {
     run() {
+      axios_auth.post('https://www.flex.io/api/v1/pipes/flexio-chicago-crime-v1/run?stream=0', { year: 2016 })
       return this
     }
   })
