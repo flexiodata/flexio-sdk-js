@@ -20,9 +20,7 @@
     "url": "https://github.com/flexiodata/flexio-sdk-js/issues"
   },
   "homepage": "https://github.com/flexiodata/flexio-sdk-js/",
-  "dependencies": {
-    "form-data": ">=2.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
