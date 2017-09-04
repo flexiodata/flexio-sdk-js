@@ -1,5 +1,4 @@
-
-import $ from 'jquery'
+import axios from 'axios'
 
 var base = {
   name: 'Javascript SDK Process',
@@ -33,20 +32,19 @@ var base = {
 export default () => {
   return Object.assign({}, base, {
     run(success_cb, error_cb) {
-      $.ajax({
-        type: 'POST',
+      axios({
         url: 'https://test.flex.io/api/v1/pipes',
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer crbdqtptwthytgtdksgz')
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer gnffbxwtrrqfkvxdmrjs'
         },
-        data: base,
-        dataType: 'json',
-        success: function () {
-          alert('Success!')
-        },
-        error: function () {
-          alert('Something went wrong.')
-        }
+        data: base
+      })
+      .then(function (response) {
+        alert('Success!')
+      })
+      .catch(function (error) {
+        alert('Something went wrong.')
       })
 
       return this
