@@ -1087,12 +1087,17 @@ var _pipe2 = _interopRequireDefault(_pipe);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var auth_token = '';
+
 exports.default = {
   version: function version() {
     return "1.4.1";
   },
+  setup: function setup(token) {
+    auth_token = token;
+  },
   pipe: function pipe() {
-    return (0, _pipe2.default)();
+    return (0, _pipe2.default)(auth_token);
   }
 };
 
@@ -1118,43 +1123,32 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var base = {
-  name: 'Javascript SDK Process',
-  description: 'Created from the Flex.io Javascript SDK',
-  task: [{
-    type: 'flexio.input',
-    metadata: {
-      connection_type: 'http'
-    },
-    params: {
-      items: [{
-        path: 'https://static.pexels.com/photos/51387/mount-everest-himalayas-nuptse-lhotse-51387.jpeg'
-      }]
-    }
-  }, {
-    type: 'flexio.output',
-    metadata: {
-      connection_type: 'stdout'
-    },
-    params: {
-      connection: 'stdout'
-    }
-  }]
+  name: 'New JS SDK Pipe',
+  description: '',
+  task: []
 };
 
-exports.default = function () {
+var echo = function echo(msg) {
+  if (window && window.console) window.console.log(msg);else alert(msg);
+};
+
+exports.default = function (auth_token) {
   return (0, _assign2.default)({}, base, {
-    run: function run(success_cb, error_cb) {
+    saveAs: function saveAs(params, successCb, errorCb) {
+      (0, _assign2.default)(this, params);
+
       (0, _axios2.default)({
         url: 'https://test.flex.io/api/v1/pipes',
         method: 'POST',
-        headers: {
-          'Authorization': 'Bearer gnffbxwtrrqfkvxdmrjs'
-        },
-        data: base
-      }).then(function (response) {
-        alert('Success!');
+        headers: { 'Authorization': 'Bearer ' + auth_token },
+        data: base }).then(function (response) {
+        echo('Success!');
+
+        if (typeof successCb == 'function') successCb(response);
       }).catch(function (error) {
-        alert('Something went wrong.');
+        echo('Something went wrong...');
+
+        if (typeof errorCb == 'function') errorCb(response);
       });
 
       return this;
