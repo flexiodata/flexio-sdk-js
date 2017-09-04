@@ -2,7 +2,7 @@ import newPipe from './pipe'
 
 export default {
   version() {
-    return 'Flex.io Javascript SDK v' + VERSION
+    return VERSION
   },
   pipe() {
     return newPipe()
