@@ -9,7 +9,7 @@ export default {
   setup(token) {
     auth_token = token
   },
-  pipe() {
-    return newPipe(auth_token)
+  pipe(params) {
+    return newPipe(auth_token, params)
   }
 }

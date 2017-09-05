@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/flexiodata/flexio-sdk-js/",
   "dependencies": {
-    "axios": "^0.16.2"
+    "axios": "^0.16.2",
+    "lodash.assign": "^4.2.0",
+    "lodash.get": "^4.4.2",
+    "lodash.pick": "^4.4.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
