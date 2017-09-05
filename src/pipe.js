@@ -4,7 +4,12 @@ import axios from 'axios'
 import assign from 'lodash.assign'
 import pick from 'lodash.pick'
 import last from 'lodash.last'
+import tail from 'lodash.tail'
 import get from 'lodash.get'
+import map from 'lodash.map'
+
+import * as ttypes from './constants/task-type'
+import * as ctypes from './constants/connection-type'
 
 var echo = (msg) => {
   window && window.console ? console.log(msg) : alert(msg)
@@ -13,30 +18,7 @@ var echo = (msg) => {
 var base_params = {
   name: 'New JS SDK Pipe',
   description: '',
-  task: [
-    {
-      type: 'flexio.input',
-      metadata: {
-        connection_type: 'http'
-      },
-      params: {
-        items: [
-          {
-            path: 'https://static.pexels.com/photos/51387/mount-everest-himalayas-nuptse-lhotse-51387.jpeg'
-          }
-        ]
-      }
-    },
-    {
-      type: 'flexio.output',
-      metadata: {
-        connection_type: 'stdout'
-      },
-      params: {
-        connection: 'stdout'
-      }
-    }
-  ]
+  task: []
 }
 
 export default (auth_token, params) => {
@@ -135,6 +117,114 @@ export default (auth_token, params) => {
 
         if (typeof errorCb == 'function')
           errorCb(error)
+      })
+
+      return this
+    },
+
+    // -- tasks --
+
+    input() {
+      var args = Array.from(arguments)
+      var type = ttypes.TASK_TYPE_INPUT
+      var connection_type = get(args, '[0]', '')
+      var connection = undefined
+      var items = undefined
+
+      switch (connection_type)
+      {
+        default:
+          if (args.length == 0)
+          {
+            connection_type = ctypes.CONNECTION_TYPE_STDIN
+            connection = connection_type
+          }
+           else
+          {
+            connection_type = ctypes.CONNECTION_TYPE_HTTP
+            items = [].concat(args)
+          }
+
+          break
+
+        case ctypes.CONNECTION_TYPE_AMAZONS3:
+        case ctypes.CONNECTION_TYPE_DROPBOX:
+        case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
+        case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
+        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
+        case ctypes.CONNECTION_TYPE_HTTP:
+        case ctypes.CONNECTION_TYPE_MYSQL:
+        case ctypes.CONNECTION_TYPE_POSTGRES:
+        case ctypes.CONNECTION_TYPE_SFTP:
+          connection = connection_type
+          items = tail(args)
+          break
+
+        case ctypes.CONNECTION_TYPE_RSS:
+          items = tail(args)
+          break
+      }
+
+      items = map(items, (item) => {
+        return {
+          path: item
+        }
+      })
+
+      this.pipe.task.push({
+        type,
+        metadata: { connection_type },
+        params: {
+          connection,
+          items
+        }
+      })
+
+      return this
+    },
+
+    output() {
+      var args = Array.from(arguments)
+      var type = ttypes.TASK_TYPE_OUTPUT
+      var connection_type = get(args, '[0]', '')
+      var connection = undefined
+      var location = undefined
+
+      switch (connection_type)
+      {
+        default:
+          if (args.length == 0)
+          {
+            connection_type = ctypes.CONNECTION_TYPE_STDOUT
+            connection = connection_type
+          }
+
+          break
+
+        case ctypes.CONNECTION_TYPE_AMAZONS3:
+        case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
+          connection = connection_type
+          items = tail(args)
+          break
+
+        case ctypes.CONNECTION_TYPE_DROPBOX:
+        case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
+        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
+        case ctypes.CONNECTION_TYPE_MYSQL:
+        case ctypes.CONNECTION_TYPE_POSTGRES:
+        case ctypes.CONNECTION_TYPE_SFTP:
+          connection = connection_type
+          location = '/'
+          break
+      }
+
+      this.pipe.task.push({
+        type,
+        metadata: { connection_type },
+        params: {
+          connection,
+          location
+        }
       })
 
       return this
