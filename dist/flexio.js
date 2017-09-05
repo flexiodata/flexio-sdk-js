@@ -1056,6 +1056,10 @@ var _lodash5 = __webpack_require__(33);
 
 var _lodash6 = _interopRequireDefault(_lodash5);
 
+var _lodash7 = __webpack_require__(34);
+
+var _lodash8 = _interopRequireDefault(_lodash7);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var echo = function echo(msg) {
@@ -1100,6 +1104,9 @@ exports.default = function (auth_token, params) {
     getProcesses: function getProcesses() {
       return [].concat(this.processes);
     },
+    getLastProcess: function getLastProcess() {
+      return (0, _lodash6.default)(this.processes);
+    },
     save: function save(successCb, errorCb) {
       var _this = this;
 
@@ -1111,8 +1118,7 @@ exports.default = function (auth_token, params) {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + auth_token },
         data: this.pipe }).then(function (response) {
-        (0, _lodash2.default)(_this.pipe, (0, _lodash6.default)(response, 'data', {}));
-        console.log(_this.pipe);
+        (0, _lodash2.default)(_this.pipe, (0, _lodash8.default)(response, 'data', {}));
         _this.saving = false;
         echo('Pipe Saved.');
 
@@ -1141,7 +1147,7 @@ exports.default = function (auth_token, params) {
 
       var run_params = (0, _lodash2.default)({}, this.pipe);
 
-      var parent_eid = (0, _lodash6.default)(this.pipe, 'eid', '');
+      var parent_eid = (0, _lodash8.default)(this.pipe, 'eid', '');
       if (parent_eid.length > 0) run_params = { parent_eid: parent_eid };
 
       (0, _lodash2.default)(run_params, {
@@ -1155,7 +1161,7 @@ exports.default = function (auth_token, params) {
         headers: { 'Authorization': 'Bearer ' + auth_token },
         data: run_params
       }).then(function (response) {
-        _this2.processes.push((0, _lodash6.default)(response, 'data', {}));
+        _this2.processes.push((0, _lodash8.default)(response, 'data', {}));
         echo('Process Running.');
         _this2.running = false;
 
@@ -3201,6 +3207,40 @@ module.exports = pick;
 
 /***/ }),
 /* 33 */
+/***/ (function(module, exports) {
+
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Gets the last element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the last element of `array`.
+ * @example
+ *
+ * _.last([1, 2, 3]);
+ * // => 3
+ */
+function last(array) {
+  var length = array ? array.length : 0;
+  return length ? array[length - 1] : undefined;
+}
+
+module.exports = last;
+
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**

@@ -3,6 +3,7 @@ import axios from 'axios'
 // individual lodash includes
 import assign from 'lodash.assign'
 import pick from 'lodash.pick'
+import last from 'lodash.last'
 import get from 'lodash.get'
 
 var echo = (msg) => {
@@ -56,6 +57,10 @@ export default (auth_token, params) => {
 
     getProcesses() {
       return [].concat(this.processes)
+    },
+
+    getLastProcess() {
+      return last(this.processes)
     },
 
     save(successCb, errorCb) {
