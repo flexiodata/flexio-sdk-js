@@ -26,6 +26,12 @@ export default (auth_token, params) => {
     pipe: assign({}, base_params, pick(params, ['name', 'description', 'ename'])),
     processes: [],
 
+    // axios instance with base url and auth token factored into it
+    http: axios.create({
+      baseURL: 'https://test.flex.io/api/v1',
+      headers: { 'Authorization': 'Bearer ' + auth_token }
+    }),
+
     // -- state --
 
     saving: false,
@@ -49,27 +55,23 @@ export default (auth_token, params) => {
       this.saving = true
       echo('Saving Pipe...')
 
-      axios({
-        url: 'https://test.flex.io/api/v1/pipes',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + auth_token },
-        data: this.pipe // TODO: change this to `_.pick(this, ...)`
-      })
-      .then(response => {
-        assign(this.pipe, get(response, 'data', {}))
-        this.saving = false
-        echo('Pipe Saved.')
+      this.http
+        .post('/pipes', this.pipe)
+        .then(response => {
+          assign(this.pipe, get(response, 'data', {}))
+          this.saving = false
+          echo('Pipe Saved.')
 
-        if (typeof successCb == 'function')
-          successCb(response)
-      })
-      .catch(error => {
-        this.saving = false
-        echo('Pipe Save Failed.')
+          if (typeof successCb == 'function')
+            successCb(response)
+        })
+        .catch(error => {
+          this.saving = false
+          echo('Pipe Save Failed.')
 
-        if (typeof errorCb == 'function')
-          errorCb(error)
-      })
+          if (typeof errorCb == 'function')
+            errorCb(error)
+        })
 
       return this
     },
@@ -97,27 +99,23 @@ export default (auth_token, params) => {
         run: true
       })
 
-      axios({
-        url: 'https://test.flex.io/api/v1/processes',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + auth_token },
-        data: run_params
-      })
-      .then(response => {
-        this.processes.push(get(response, 'data', {}))
-        echo('Process Running.')
-        this.running = false
+      this.http
+        .post('/processes', run_params)
+        .then(response => {
+          this.processes.push(get(response, 'data', {}))
+          echo('Process Running.')
+          this.running = false
 
-        if (typeof successCb == 'function')
-          successCb(response)
-      })
-      .catch(error => {
-        echo('Process Failed.')
-        this.running = false
+          if (typeof successCb == 'function')
+            successCb(response)
+        })
+        .catch(error => {
+          echo('Process Failed.')
+          this.running = false
 
-        if (typeof errorCb == 'function')
-          errorCb(error)
-      })
+          if (typeof errorCb == 'function')
+            errorCb(error)
+        })
 
       return this
     },

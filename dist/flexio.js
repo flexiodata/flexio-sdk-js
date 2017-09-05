@@ -1478,6 +1478,11 @@ exports.default = function (auth_token, params) {
     pipe: (0, _lodash2.default)({}, base_params, (0, _lodash4.default)(params, ['name', 'description', 'ename'])),
     processes: [],
 
+    http: _axios2.default.create({
+      baseURL: 'https://test.flex.io/api/v1',
+      headers: { 'Authorization': 'Bearer ' + auth_token }
+    }),
+
     saving: false,
     running: false,
 
@@ -1496,11 +1501,7 @@ exports.default = function (auth_token, params) {
       this.saving = true;
       echo('Saving Pipe...');
 
-      (0, _axios2.default)({
-        url: 'https://test.flex.io/api/v1/pipes',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + auth_token },
-        data: this.pipe }).then(function (response) {
+      this.http.post('/pipes', this.pipe).then(function (response) {
         (0, _lodash2.default)(_this.pipe, (0, _lodash10.default)(response, 'data', {}));
         _this.saving = false;
         echo('Pipe Saved.');
@@ -1538,12 +1539,7 @@ exports.default = function (auth_token, params) {
         run: true
       });
 
-      (0, _axios2.default)({
-        url: 'https://test.flex.io/api/v1/processes',
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + auth_token },
-        data: run_params
-      }).then(function (response) {
+      this.http.post('/processes', run_params).then(function (response) {
         _this2.processes.push((0, _lodash10.default)(response, 'data', {}));
         echo('Process Running.');
         _this2.running = false;
