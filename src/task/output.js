@@ -1,8 +1,8 @@
 
 /* -- NOTE: the `this` scope always refers back to the pipe -- */
 
-import  { TASK_TYPE_OUTPUT } from './constants/task-type'
-import * as ctypes from './constants/connection-type'
+import  { TASK_TYPE_OUTPUT } from '../constants/task-type'
+import * as ctypes from '../constants/connection-type'
 
 export default () => {
   var args = Array.from(arguments)
