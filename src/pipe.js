@@ -8,12 +8,8 @@ import tail from 'lodash.tail'
 import get from 'lodash.get'
 import map from 'lodash.map'
 
-import * as ttypes from './constants/task-type'
-import * as ctypes from './constants/connection-type'
-
-var echo = (msg) => {
-  window && window.console ? console.log(msg) : alert(msg)
-}
+import input from './task/input'
+import output from './task/output'
 
 var base_params = {
   name: 'New JS SDK Pipe',
@@ -37,6 +33,18 @@ export default (auth_token, params) => {
     saving: false,
     running: false,
 
+    // -- debug --
+
+    debug(msg) {
+      if (!window)
+        return
+
+      // TODO: add flag for 'debug' mode
+
+      var msg = 'Flex.io Javascript SDK: ' + msg
+      return window.console ? console.log(msg) : alert(msg)
+    },
+
     // -- methods --
 
     getJson() {
@@ -51,23 +59,28 @@ export default (auth_token, params) => {
       return last(this.processes)
     },
 
+    addTask(task) {
+      this.pipe.task.push(task)
+      return this
+    },
+
     save(successCb, errorCb) {
       this.saving = true
-      echo('Saving Pipe...')
+      this.debug('Saving Pipe...')
 
       this.http
         .post('/pipes', this.pipe)
         .then(response => {
           assign(this.pipe, get(response, 'data', {}))
           this.saving = false
-          echo('Pipe Saved.')
+          this.debug('Pipe Saved.')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.saving = false
-          echo('Pipe Save Failed.')
+          this.debug('Pipe Save Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)
@@ -84,7 +97,7 @@ export default (auth_token, params) => {
       }
 
       this.running = true
-      echo('Running Pipe...')
+      this.debug('Running Pipe...')
 
       var run_params = assign({}, this.pipe)
 
@@ -103,14 +116,14 @@ export default (auth_token, params) => {
         .post('/processes', run_params)
         .then(response => {
           this.processes.push(get(response, 'data', {}))
-          echo('Process Running.')
+          this.debug('Process Running.')
           this.running = false
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
-          echo('Process Failed.')
+          this.debug('Process Failed.')
           this.running = false
 
           if (typeof errorCb == 'function')
@@ -122,110 +135,7 @@ export default (auth_token, params) => {
 
     // -- tasks --
 
-    input() {
-      var args = Array.from(arguments)
-      var type = ttypes.TASK_TYPE_INPUT
-      var connection_type = get(args, '[0]', '')
-      var connection = undefined
-      var items = undefined
-
-      switch (connection_type)
-      {
-        default:
-          if (args.length == 0)
-          {
-            connection_type = ctypes.CONNECTION_TYPE_STDIN
-            connection = connection_type
-          }
-           else
-          {
-            connection_type = ctypes.CONNECTION_TYPE_HTTP
-            items = [].concat(args)
-          }
-
-          break
-
-        case ctypes.CONNECTION_TYPE_AMAZONS3:
-        case ctypes.CONNECTION_TYPE_DROPBOX:
-        case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
-        case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
-        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
-        case ctypes.CONNECTION_TYPE_HTTP:
-        case ctypes.CONNECTION_TYPE_MYSQL:
-        case ctypes.CONNECTION_TYPE_POSTGRES:
-        case ctypes.CONNECTION_TYPE_SFTP:
-          connection = connection_type
-          items = tail(args)
-          break
-
-        case ctypes.CONNECTION_TYPE_RSS:
-          items = tail(args)
-          break
-      }
-
-      items = map(items, (item) => {
-        return {
-          path: item
-        }
-      })
-
-      this.pipe.task.push({
-        type,
-        metadata: { connection_type },
-        params: {
-          connection,
-          items
-        }
-      })
-
-      return this
-    },
-
-    output() {
-      var args = Array.from(arguments)
-      var type = ttypes.TASK_TYPE_OUTPUT
-      var connection_type = get(args, '[0]', '')
-      var connection = undefined
-      var location = undefined
-
-      switch (connection_type)
-      {
-        default:
-          if (args.length == 0)
-          {
-            connection_type = ctypes.CONNECTION_TYPE_STDOUT
-            connection = connection_type
-          }
-
-          break
-
-        case ctypes.CONNECTION_TYPE_AMAZONS3:
-        case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
-          connection = connection_type
-          items = tail(args)
-          break
-
-        case ctypes.CONNECTION_TYPE_DROPBOX:
-        case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
-        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
-        case ctypes.CONNECTION_TYPE_MYSQL:
-        case ctypes.CONNECTION_TYPE_POSTGRES:
-        case ctypes.CONNECTION_TYPE_SFTP:
-          connection = connection_type
-          location = '/'
-          break
-      }
-
-      this.pipe.task.push({
-        type,
-        metadata: { connection_type },
-        params: {
-          connection,
-          location
-        }
-      })
-
-      return this
-    }
+    input,
+    output
   })
 }
