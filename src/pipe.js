@@ -135,6 +135,11 @@ export default (auth_token, params) => {
 
     // -- tasks --
 
+    /*
+      syntax:
+        url1, url2, etc.
+        connection identifier, [path1, path2, etc.]
+    */
     input() {
       var args = Array.from(arguments)
       var type = ttypes.TASK_TYPE_INPUT
@@ -142,20 +147,17 @@ export default (auth_token, params) => {
       var connection = undefined
       var items = undefined
 
+      if (args.length == 0)
+      {
+        this.debug('Input task requires at least 1 parameter')
+        return this
+      }
+
       switch (connection_type)
       {
         default:
-          if (args.length == 0)
-          {
-            connection_type = ctypes.CONNECTION_TYPE_STDIN
-            connection = connection_type
-          }
-           else
-          {
-            connection_type = ctypes.CONNECTION_TYPE_HTTP
-            items = [].concat(args)
-          }
-
+          connection_type = ctypes.CONNECTION_TYPE_HTTP
+          items = [].concat(args)
           break
 
         case ctypes.CONNECTION_TYPE_AMAZONS3:
@@ -167,12 +169,13 @@ export default (auth_token, params) => {
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = connection_type
-          items = tail(args)
+          connection = get(args, '[1]', '')
+          items = get(args, '[2]', [])
           break
 
         case ctypes.CONNECTION_TYPE_RSS:
-          items = tail(args)
+          connection = connection_type
+          items = get(args, '[1]', [])
           break
       }
 
@@ -201,31 +204,27 @@ export default (auth_token, params) => {
       var connection = undefined
       var location = undefined
 
+      if (args.length == 0)
+      {
+        this.debug('Output task requires at least 1 parameter')
+        return this
+      }
+
       switch (connection_type)
       {
-        default:
-          if (args.length == 0)
-          {
-            connection_type = ctypes.CONNECTION_TYPE_STDOUT
-            connection = connection_type
-          }
-
-          break
-
         case ctypes.CONNECTION_TYPE_AMAZONS3:
         case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
-          connection = connection_type
-          items = tail(args)
+        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
+        case ctypes.CONNECTION_TYPE_MYSQL:
+        case ctypes.CONNECTION_TYPE_POSTGRES:
+          connection = get(args, '[1]', '')
           break
 
         case ctypes.CONNECTION_TYPE_DROPBOX:
         case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
-        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
-        case ctypes.CONNECTION_TYPE_MYSQL:
-        case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = connection_type
-          location = '/'
+          connection = get(args, '[1]', '')
+          location = get(args, '[2]', '/')
           break
       }
 
