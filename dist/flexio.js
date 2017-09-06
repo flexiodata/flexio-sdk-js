@@ -1403,8 +1403,8 @@ exports.default = {
   setup: function setup(token) {
     auth_token = token;
   },
-  pipe: function pipe(params) {
-    return (0, _pipe2.default)(auth_token, params);
+  pipe: function pipe() {
+    return (0, _pipe2.default)(auth_token);
   }
 };
 
@@ -1489,9 +1489,9 @@ var base_params = {
   task: []
 };
 
-exports.default = function (auth_token, params) {
+exports.default = function (auth_token) {
   return (0, _lodash2.default)({}, {
-    pipe: (0, _lodash2.default)({}, base_params, (0, _lodash4.default)(params, ['name', 'description', 'ename'])),
+    pipe: (0, _lodash2.default)({}, base_params),
     processes: [],
 
     http: _axios2.default.create({
@@ -1521,11 +1521,37 @@ exports.default = function (auth_token, params) {
       this.pipe.task.push(task);
       return this;
     },
-    save: function save(successCb, errorCb) {
-      var _this = this;
+    clearTasks: function clearTasks() {
+      this.pipe.task = [];
+      return this;
+    },
+    save: function save() {
+      var _this = this,
+          _arguments = arguments;
+
+      var args = (0, _from2.default)(arguments);
+      var params = (0, _lodash10.default)(args, '[0]');
+      var successCb;
+      var errorCb;
+
+      if (this.saving === true || this.running === true) {
+        setTimeout(function () {
+          _this.save.apply(_this, _arguments);
+        }, 50);
+        return this;
+      }
+
+      if ((0, _lodash22.default)(params)) {
+        (0, _lodash2.default)(this.pipe, (0, _lodash4.default)(params, ['name', 'description', 'ename']));
+        successCb = (0, _lodash10.default)(args, '[1]');
+        errorCb = (0, _lodash10.default)(args, '[2]');
+      } else {
+        successCb = (0, _lodash10.default)(args, '[0]');
+        errorCb = (0, _lodash10.default)(args, '[1]');
+      }
 
       this.saving = true;
-      this.debug('Saving Pipe...');
+      this.debug('Saving Pipe `' + (0, _lodash10.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
       this.http.post('/pipes', this.pipe).then(function (response) {
         (0, _lodash2.default)(_this.pipe, (0, _lodash10.default)(response, 'data', {}));
@@ -1542,18 +1568,23 @@ exports.default = function (auth_token, params) {
 
       return this;
     },
-    run: function run(successCb, errorCb) {
-      var _this2 = this;
+    run: function run() {
+      var _this2 = this,
+          _arguments2 = arguments;
 
-      if (this.saving === true) {
+      var args = (0, _from2.default)(arguments);
+      var successCb = (0, _lodash10.default)(args, '[0]');
+      var errorCb = (0, _lodash10.default)(args, '[1]');
+
+      if (this.saving === true || this.running === true) {
         setTimeout(function () {
-          _this2.run(successCb, errorCb);
+          _this2.run.apply(_this2, _arguments2);
         }, 50);
         return this;
       }
 
       this.running = true;
-      this.debug('Running Pipe...');
+      this.debug('Running Pipe `' + (0, _lodash10.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
       var run_params = (0, _lodash2.default)({}, this.pipe);
 

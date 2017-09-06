@@ -22,9 +22,9 @@ var base_params = {
   task: []
 }
 
-export default (auth_token, params) => {
+export default (auth_token) => {
   return assign({}, {
-    pipe: assign({}, base_params, pick(params, ['name', 'description', 'ename'])),
+    pipe: assign({}, base_params),
     processes: [],
 
     // axios instance with base url and auth token factored into it
@@ -69,9 +69,37 @@ export default (auth_token, params) => {
       return this
     },
 
-    save(successCb, errorCb) {
+    clearTasks() {
+      this.pipe.task = []
+      return this
+    },
+
+    save() {
+      var args = Array.from(arguments)
+      var params = get(args, '[0]')
+      var successCb
+      var errorCb
+
+      if (this.saving === true || this.running === true)
+      {
+        setTimeout(() => { this.save.apply(this, arguments) }, 50)
+        return this
+      }
+
+      if (isObject(params))
+      {
+        assign(this.pipe, pick(params, ['name', 'description', 'ename']))
+        successCb = get(args, '[1]')
+        errorCb = get(args, '[2]')
+      }
+       else
+      {
+        successCb = get(args, '[0]')
+        errorCb = get(args, '[1]')
+      }
+
       this.saving = true
-      this.debug('Saving Pipe...')
+      this.debug('Saving Pipe `' + get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       this.http
         .post('/pipes', this.pipe)
@@ -94,15 +122,19 @@ export default (auth_token, params) => {
       return this
     },
 
-    run(successCb, errorCb) {
-      if (this.saving === true)
+    run() {
+      var args = Array.from(arguments)
+      var successCb = get(args, '[0]')
+      var errorCb = get(args, '[1]')
+
+      if (this.saving === true || this.running === true)
       {
-        setTimeout(() => { this.run(successCb, errorCb) }, 50)
+        setTimeout(() => { this.run.apply(this, arguments) }, 50)
         return this
       }
 
       this.running = true
-      this.debug('Running Pipe...')
+      this.debug('Running Pipe `' + get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       var run_params = assign({}, this.pipe)
 
@@ -140,11 +172,6 @@ export default (auth_token, params) => {
 
     // -- tasks --
 
-    /*
-      syntax:
-        url1, url2, etc.
-        connection identifier, [path1, path2, etc.]
-    */
     input() {
       var type = ttypes.TASK_TYPE_INPUT
       var args = Array.from(arguments)
