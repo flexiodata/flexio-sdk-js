@@ -19,8 +19,8 @@
     var pipe = Flexio.pipe({
         name: 'My Test Pipe'
       })
-      .input('https://static.pexels.com/photos/51387/mount-everest-himalayas-nuptse-lhotse-51387.jpeg')
-      .output()
+      .input('googledrive', 'dave-google-drive', ['/test_data/*'])
+      .output('dropbox', 'dave-dropbox', '/test_data')
       .save(function() {
         $app.append('<h3>Pipe Content</h3>')
         $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
