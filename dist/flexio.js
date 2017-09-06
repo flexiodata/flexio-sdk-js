@@ -1567,16 +1567,15 @@ exports.default = function (auth_token, params) {
       var connection = undefined;
       var items = undefined;
 
+      if (args.length == 0) {
+        this.debug('Input task requires at least 1 parameter');
+        return this;
+      }
+
       switch (connection_type) {
         default:
-          if (args.length == 0) {
-            connection_type = ctypes.CONNECTION_TYPE_STDIN;
-            connection = connection_type;
-          } else {
-            connection_type = ctypes.CONNECTION_TYPE_HTTP;
-            items = [].concat(args);
-          }
-
+          connection_type = ctypes.CONNECTION_TYPE_HTTP;
+          items = [].concat(args);
           break;
 
         case ctypes.CONNECTION_TYPE_AMAZONS3:
@@ -1588,12 +1587,13 @@ exports.default = function (auth_token, params) {
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = connection_type;
-          items = (0, _lodash8.default)(args);
+          connection = (0, _lodash10.default)(args, '[1]', '');
+          items = (0, _lodash10.default)(args, '[2]', []);
           break;
 
         case ctypes.CONNECTION_TYPE_RSS:
-          items = (0, _lodash8.default)(args);
+          connection = connection_type;
+          items = (0, _lodash10.default)(args, '[1]', []);
           break;
       }
 
@@ -1621,29 +1621,25 @@ exports.default = function (auth_token, params) {
       var connection = undefined;
       var location = undefined;
 
+      if (args.length == 0) {
+        this.debug('Output task requires at least 1 parameter');
+        return this;
+      }
+
       switch (connection_type) {
-        default:
-          if (args.length == 0) {
-            connection_type = ctypes.CONNECTION_TYPE_STDOUT;
-            connection = connection_type;
-          }
-
-          break;
-
         case ctypes.CONNECTION_TYPE_AMAZONS3:
         case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
-          connection = connection_type;
-          items = (0, _lodash8.default)(args);
+        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
+        case ctypes.CONNECTION_TYPE_MYSQL:
+        case ctypes.CONNECTION_TYPE_POSTGRES:
+          connection = (0, _lodash10.default)(args, '[1]', '');
           break;
 
         case ctypes.CONNECTION_TYPE_DROPBOX:
         case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
-        case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
-        case ctypes.CONNECTION_TYPE_MYSQL:
-        case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = connection_type;
-          location = '/';
+          connection = (0, _lodash10.default)(args, '[1]', '');
+          location = (0, _lodash10.default)(args, '[2]', '/');
           break;
       }
 
