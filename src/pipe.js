@@ -16,6 +16,14 @@ import isObject from 'lodash.isobject'
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
 
+function toBase64(str) {
+  try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
+}
+
+function fromBase64(str) {
+  try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
+}
+
 var base_params = {
   name: 'New JS SDK Pipe',
   description: '',
@@ -285,6 +293,39 @@ export default (auth_token) => {
         set(task, 'params.output.format', output)
          else if (isObject(output))
         set(task, 'params.output', output)
+
+      return this.addTask(task)
+    },
+
+    execute() {
+      var type = ttypes.TASK_TYPE_EXECUTE
+      var args = Array.from(arguments)
+      var lang = get(args, '[0]', '')
+      var code = undefined
+
+      var task = {
+        type,
+        params: {}
+      }
+
+      if (lang == 'python' || lang == 'javascript')
+      {
+        set(task, 'params.lang', lang)
+        code = toBase64(get(args, '[1]', ''))
+      }
+       else
+      {
+        // default to python
+        set(task, 'params.lang', 'python')
+        code = toBase64(get(args, '[0]', ''))
+      }
+
+      // handle files or code snippets
+      var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+      if (code.match(http_regex))
+        set(task, 'params.file', code)
+         else
+        set(task, 'params.code', code)
 
       return this.addTask(task)
     },

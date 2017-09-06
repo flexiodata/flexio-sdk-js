@@ -1,4 +1,4 @@
-import newPipe from './pipe'
+import pipe from './pipe'
 
 var auth_token = ''
 
@@ -10,6 +10,6 @@ export default {
     auth_token = token
   },
   pipe() {
-    return newPipe(auth_token)
+    return pipe(auth_token)
   }
 }

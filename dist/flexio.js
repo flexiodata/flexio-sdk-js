@@ -1388,9 +1388,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _pipe = __webpack_require__(37);
+var _pipe2 = __webpack_require__(37);
 
-var _pipe2 = _interopRequireDefault(_pipe);
+var _pipe3 = _interopRequireDefault(_pipe2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1404,7 +1404,7 @@ exports.default = {
     auth_token = token;
   },
   pipe: function pipe() {
-    return (0, _pipe2.default)(auth_token);
+    return (0, _pipe3.default)(auth_token);
   }
 };
 
@@ -1482,6 +1482,22 @@ var ctypes = _interopRequireWildcard(_connectionType);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function toBase64(str) {
+  try {
+    return btoa(unescape(encodeURIComponent(str)));
+  } catch (e) {
+    return e;
+  }
+}
+
+function fromBase64(str) {
+  try {
+    return decodeURIComponent(escape(atob(str)));
+  } catch (e) {
+    return e;
+  }
+}
 
 var base_params = {
   name: 'New JS SDK Pipe',
@@ -1712,6 +1728,30 @@ exports.default = function (auth_token) {
       if ((0, _lodash20.default)(input)) (0, _lodash12.default)(task, 'params.input.format', input);else if ((0, _lodash22.default)(input)) (0, _lodash12.default)(task, 'params.input', input);
 
       if ((0, _lodash20.default)(output)) (0, _lodash12.default)(task, 'params.output.format', output);else if ((0, _lodash22.default)(output)) (0, _lodash12.default)(task, 'params.output', output);
+
+      return this.addTask(task);
+    },
+    execute: function execute() {
+      var type = ttypes.TASK_TYPE_EXECUTE;
+      var args = (0, _from2.default)(arguments);
+      var lang = (0, _lodash10.default)(args, '[0]', '');
+      var code = undefined;
+
+      var task = {
+        type: type,
+        params: {}
+      };
+
+      if (lang == 'python' || lang == 'javascript') {
+        (0, _lodash12.default)(task, 'params.lang', lang);
+        code = toBase64((0, _lodash10.default)(args, '[1]', ''));
+      } else {
+        (0, _lodash12.default)(task, 'params.lang', 'python');
+        code = toBase64((0, _lodash10.default)(args, '[0]', ''));
+      }
+
+      var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+      if (code.match(http_regex)) (0, _lodash12.default)(task, 'params.file', code);else (0, _lodash12.default)(task, 'params.code', code);
 
       return this.addTask(task);
     },
