@@ -142,8 +142,8 @@ export default (auth_token, params) => {
         connection identifier, [path1, path2, etc.]
     */
     input() {
-      var args = Array.from(arguments)
       var type = ttypes.TASK_TYPE_INPUT
+      var args = Array.from(arguments)
       var connection_type = get(args, '[0]', '')
       var connection = undefined
       var items = undefined
@@ -197,8 +197,8 @@ export default (auth_token, params) => {
     },
 
     output() {
-      var args = Array.from(arguments)
       var type = ttypes.TASK_TYPE_OUTPUT
+      var args = Array.from(arguments)
       var connection_type = get(args, '[0]', '')
       var connection = undefined
       var location = undefined
@@ -255,6 +255,18 @@ export default (auth_token, params) => {
         type,
         params: {
           value
+        }
+      })
+    },
+
+    select() {
+      var type = ttypes.TASK_TYPE_SELECT
+      var columns = Array.from(arguments)
+
+      return this.addTask({
+        type,
+        params: {
+          columns
         }
       })
     }

@@ -1565,8 +1565,8 @@ exports.default = function (auth_token, params) {
       return this;
     },
     input: function input() {
-      var args = (0, _from2.default)(arguments);
       var type = ttypes.TASK_TYPE_INPUT;
+      var args = (0, _from2.default)(arguments);
       var connection_type = (0, _lodash10.default)(args, '[0]', '');
       var connection = undefined;
       var items = undefined;
@@ -1617,8 +1617,8 @@ exports.default = function (auth_token, params) {
       });
     },
     output: function output() {
-      var args = (0, _from2.default)(arguments);
       var type = ttypes.TASK_TYPE_OUTPUT;
+      var args = (0, _from2.default)(arguments);
       var connection_type = (0, _lodash10.default)(args, '[0]', '');
       var connection = undefined;
       var location = undefined;
@@ -1671,6 +1671,17 @@ exports.default = function (auth_token, params) {
         type: type,
         params: {
           value: value
+        }
+      });
+    },
+    select: function select() {
+      var type = ttypes.TASK_TYPE_SELECT;
+      var columns = (0, _from2.default)(arguments);
+
+      return this.addTask({
+        type: type,
+        params: {
+          columns: columns
         }
       });
     }
