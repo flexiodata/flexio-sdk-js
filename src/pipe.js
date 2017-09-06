@@ -7,6 +7,7 @@ import last from 'lodash.last'
 import tail from 'lodash.tail'
 import get from 'lodash.get'
 import map from 'lodash.map'
+import defaultTo from 'lodash.defaultto'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
@@ -243,6 +244,18 @@ export default (auth_token, params) => {
       return this.addTask({
         type,
         params
+      })
+    },
+
+    limit(value) {
+      var type = ttypes.TASK_TYPE_LIMIT
+      value = defaultTo(value, 10)
+
+      return this.addTask({
+        type,
+        params: {
+          value
+        }
       })
     }
   })

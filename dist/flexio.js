@@ -1451,11 +1451,15 @@ var _lodash11 = __webpack_require__(89);
 
 var _lodash12 = _interopRequireDefault(_lodash11);
 
-var _taskType = __webpack_require__(91);
+var _lodash13 = __webpack_require__(91);
+
+var _lodash14 = _interopRequireDefault(_lodash13);
+
+var _taskType = __webpack_require__(92);
 
 var ttypes = _interopRequireWildcard(_taskType);
 
-var _connectionType = __webpack_require__(92);
+var _connectionType = __webpack_require__(93);
 
 var ctypes = _interopRequireWildcard(_connectionType);
 
@@ -1657,6 +1661,17 @@ exports.default = function (auth_token, params) {
       return this.addTask({
         type: type,
         params: params
+      });
+    },
+    limit: function limit(value) {
+      var type = ttypes.TASK_TYPE_LIMIT;
+      value = (0, _lodash14.default)(value, 10);
+
+      return this.addTask({
+        type: type,
+        params: {
+          value: value
+        }
       });
     }
   });
@@ -7684,6 +7699,46 @@ module.exports = function(module) {
 
 /***/ }),
 /* 91 */
+/***/ (function(module, exports) {
+
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/**
+ * Checks `value` to determine whether a default value should be returned in
+ * its place. The `defaultValue` is returned if `value` is `NaN`, `null`,
+ * or `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.14.0
+ * @category Util
+ * @param {*} value The value to check.
+ * @param {*} defaultValue The default value.
+ * @returns {*} Returns the resolved value.
+ * @example
+ *
+ * _.defaultTo(1, 10);
+ * // => 1
+ *
+ * _.defaultTo(undefined, 10);
+ * // => 10
+ */
+function defaultTo(value, defaultValue) {
+  return (value == null || value !== value) ? defaultValue : value;
+}
+
+module.exports = defaultTo;
+
+
+/***/ }),
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7719,7 +7774,7 @@ var TASK_TYPE_SORT = exports.TASK_TYPE_SORT = 'flexio.sort';
 var TASK_TYPE_TRANSFORM = exports.TASK_TYPE_TRANSFORM = 'flexio.transform';
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
