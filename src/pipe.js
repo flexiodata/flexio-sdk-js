@@ -6,8 +6,12 @@ import pick from 'lodash.pick'
 import last from 'lodash.last'
 import tail from 'lodash.tail'
 import get from 'lodash.get'
+import set from 'lodash.set'
 import map from 'lodash.map'
 import defaultTo from 'lodash.defaultto'
+import isNil from 'lodash.isnil'
+import isString from 'lodash.isstring'
+import isObject from 'lodash.isobject'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
@@ -237,14 +241,25 @@ export default (auth_token, params) => {
       })
     },
 
-    convert(params) {
+    convert(input, output) {
       var type = ttypes.TASK_TYPE_CONVERT
-      params = assign({}, params)
 
-      return this.addTask({
+      var task = {
         type,
-        params
-      })
+        params: {}
+      }
+
+      if (isString(input))
+        set(task, 'params.input.format', input)
+         else if (isObject(input))
+        set(task, 'params.input', input)
+
+      if (isString(output))
+        set(task, 'params.output.format', output)
+         else if (isObject(output))
+        set(task, 'params.output', output)
+
+      return this.addTask(task)
     },
 
     limit(value) {
@@ -267,6 +282,18 @@ export default (auth_token, params) => {
         type,
         params: {
           columns
+        }
+      })
+    },
+
+    sleep(value) {
+      var type = ttypes.TASK_TYPE_SLEEP
+      value = defaultTo(value, 10)
+
+      return this.addTask({
+        type,
+        params: {
+          value
         }
       })
     }
