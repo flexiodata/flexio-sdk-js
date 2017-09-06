@@ -1,10 +1,15 @@
 import newPipe from './pipe'
 
+var auth_token = ''
+
 export default {
   version() {
-    return 'Flex.io Javascript SDK v' + VERSION
+    return VERSION
   },
-  pipe() {
-    return newPipe()
+  setup(token) {
+    auth_token = token
+  },
+  pipe(params) {
+    return newPipe(auth_token, params)
   }
 }
