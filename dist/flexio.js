@@ -1603,7 +1603,7 @@ exports.default = function (auth_token, params) {
         };
       });
 
-      this.pipe.task.push({
+      return this.addTask({
         type: type,
         metadata: { connection_type: connection_type },
         params: {
@@ -1611,8 +1611,6 @@ exports.default = function (auth_token, params) {
           items: items
         }
       });
-
-      return this;
     },
     output: function output() {
       var args = (0, _from2.default)(arguments);
@@ -1643,7 +1641,7 @@ exports.default = function (auth_token, params) {
           break;
       }
 
-      this.pipe.task.push({
+      return this.addTask({
         type: type,
         metadata: { connection_type: connection_type },
         params: {
@@ -1651,8 +1649,15 @@ exports.default = function (auth_token, params) {
           location: location
         }
       });
+    },
+    convert: function convert(params) {
+      var type = ttypes.TASK_TYPE_CONVERT;
+      params = (0, _lodash2.default)({}, params);
 
-      return this;
+      return this.addTask({
+        type: type,
+        params: params
+      });
     }
   });
 };

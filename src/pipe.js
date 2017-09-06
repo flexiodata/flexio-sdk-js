@@ -185,7 +185,7 @@ export default (auth_token, params) => {
         }
       })
 
-      this.pipe.task.push({
+      return this.addTask({
         type,
         metadata: { connection_type },
         params: {
@@ -193,8 +193,6 @@ export default (auth_token, params) => {
           items
         }
       })
-
-      return this
     },
 
     output() {
@@ -228,7 +226,7 @@ export default (auth_token, params) => {
           break
       }
 
-      this.pipe.task.push({
+      return this.addTask({
         type,
         metadata: { connection_type },
         params: {
@@ -236,8 +234,16 @@ export default (auth_token, params) => {
           location
         }
       })
+    },
 
-      return this
+    convert(params) {
+      var type = ttypes.TASK_TYPE_CONVERT
+      params = assign({}, params)
+
+      return this.addTask({
+        type,
+        params
+      })
     }
   })
 }
