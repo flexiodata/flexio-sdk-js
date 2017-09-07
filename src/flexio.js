@@ -4,6 +4,7 @@ var auth_token = ''
 
 export default {
   version() {
+    // see `../build/webpack.dist.js`
     return VERSION
   },
   setup(token) {
