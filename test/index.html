@@ -18,22 +18,6 @@
     var $app = $('#app')
     $app.append('<h1>Flex.io Javascript SDK Version: ' + Flexio.version() + '</h1>')
 
-    /*
-    var pipe = Flexio.pipe()
-      .input('googledrive', 'dave-google-drive', ['/test_data/data_payment.csv'])
-      .convert('delimited', 'table')
-      .select('VEND_NAME', 'DUE_DATE')
-      .limit(10)
-      .convert('table', 'json')
-      .output('dropbox', 'dave-dropbox', '/test_data')
-    */
-
-    /*
-    var pipe = Flexio.pipe()
-      .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
-    */
-
-    /*
     var pipe = Flexio.pipe()
       .execute("\
 def flexio_handler(input, output):\n\
@@ -43,9 +27,32 @@ def flexio_handler(input, output):\n\
     else:\n\
         writer.write('Hello, World!')")
       .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
-    */
+      .run()
 
-    /*
+    $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
+
+/*
+    var pipe = Flexio.pipe()
+      .input('googledrive', 'dave-google-drive', ['/test_data/data_payment.csv'])
+      .convert('delimited', 'table')
+      .select('VEND_NAME', 'DUE_DATE')
+      .limit(10)
+      .convert('table', 'json')
+      .output('dropbox', 'dave-dropbox', '/test_data')
+
+    var pipe = Flexio.pipe()
+      .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+
+    var pipe = Flexio.pipe()
+      .execute("\
+def flexio_handler(input, output):\n\
+    writer = output.create(name='Hello')\n\
+    if 'message' in input.env:\n\
+        writer.write(input.env['message'])\n\
+    else:\n\
+        writer.write('Hello, World!')")
+      .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
+
     pipe.save({
       name: 'Test Pipe ' + (idx++)
     }, function() {
@@ -56,7 +63,6 @@ def flexio_handler(input, output):\n\
       $app.append('<h3>Process Content</h3>')
       $app.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
     })
-    */
 
     var pipe = Flexio.pipe()
       .load('my-pipe-alias', function() {
@@ -67,6 +73,7 @@ def flexio_handler(input, output):\n\
         $app.append('<h3>Process Content</h3>')
         $app.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
       })
+*/
   </script>
 </body>
 </html>

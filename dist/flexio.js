@@ -1475,6 +1475,10 @@ var _lodash19 = __webpack_require__(96);
 
 var _lodash20 = _interopRequireDefault(_lodash19);
 
+var _lodash21 = __webpack_require__(97);
+
+var _lodash22 = _interopRequireDefault(_lodash21);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1488,8 +1492,9 @@ var _ = {
   map: _lodash12.default,
   defaultTo: _lodash14.default,
   isNil: _lodash16.default,
-  isString: _lodash18.default,
-  isObject: _lodash20.default
+  isArray: _lodash18.default,
+  isString: _lodash20.default,
+  isObject: _lodash22.default
 };
 
 function toBase64(str) {
@@ -1798,6 +1803,8 @@ exports.default = function (auth_token) {
       if (_.isNil(subject)) return this.debug('The `subject` parameter is required');
 
       if (_.isNil(body_text)) return this.debug('The `body_text` parameter is required');
+
+      if (!_.isArray(to)) to = [to];
 
       if (_.isNil(body_html)) body_html = body_text;
 
@@ -8989,6 +8996,47 @@ module.exports = isNil;
 /***/ (function(module, exports) {
 
 /**
+ * lodash 4.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @type Function
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports) {
+
+/**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
@@ -9086,7 +9134,7 @@ module.exports = isString;
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports) {
 
 /**

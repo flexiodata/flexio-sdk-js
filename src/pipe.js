@@ -12,6 +12,7 @@ import set from 'lodash.set'
 import map from 'lodash.map'
 import defaultTo from 'lodash.defaultto'
 import isNil from 'lodash.isnil'
+import isArray from 'lodash.isarray'
 import isString from 'lodash.isstring'
 import isObject from 'lodash.isobject'
 
@@ -25,6 +26,7 @@ var _ = {
   map,
   defaultTo,
   isNil,
+  isArray,
   isString,
   isObject
 }
@@ -386,6 +388,10 @@ export default (auth_token) => {
 
       if (_.isNil(body_text))
         return this.debug('The `body_text` parameter is required')
+
+      // `to` parameter must be an array
+      if (!_.isArray(to))
+        to = [to]
 
       if (_.isNil(body_html))
         body_html = body_text
