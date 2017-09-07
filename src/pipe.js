@@ -54,6 +54,7 @@ export default (auth_token) => {
 
     // -- state --
 
+    loading: false,
     saving: false,
     running: false,
 
@@ -95,13 +96,52 @@ export default (auth_token) => {
       return this
     },
 
+    load() {
+      var args = Array.from(arguments)
+      var identifier = _.get(args, '[0]')
+      var successCb = _.get(args, '[1]')
+      var errorCb = _.get(args, '[2]')
+
+      if (this.loading === true || this.saving === true || this.running === true)
+      {
+        setTimeout(() => { this.load.apply(this, arguments) }, 50)
+        return this
+      }
+
+      if (_.isNil(identifier))
+        return this.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
+
+      this.loading = true
+      this.debug('Loading Pipe `' + identifier + '`...')
+
+      this.http
+        .get('/pipes/' + identifier)
+        .then(response => {
+          _.assign(this.pipe, _.get(response, 'data', {}))
+          this.loading = false
+          this.debug('Pipe Loaded.')
+
+          if (typeof successCb == 'function')
+            successCb(response)
+        })
+        .catch(error => {
+          this.loading = false
+          this.debug('Pipe Load Failed.')
+
+          if (typeof errorCb == 'function')
+            errorCb(error)
+        })
+
+      return this
+    },
+
     save() {
       var args = Array.from(arguments)
       var params = _.get(args, '[0]')
       var successCb = _.get(args, '[0]')
       var errorCb = _.get(args, '[1]')
 
-      if (this.saving === true || this.running === true)
+      if (this.loading === true || this.saving === true || this.running === true)
       {
         setTimeout(() => { this.save.apply(this, arguments) }, 50)
         return this
@@ -143,7 +183,7 @@ export default (auth_token) => {
       var successCb = _.get(args, '[0]')
       var errorCb = _.get(args, '[1]')
 
-      if (this.saving === true || this.running === true)
+      if (this.loading === true || this.saving === true || this.running === true)
       {
         setTimeout(() => { this.run.apply(this, arguments) }, 50)
         return this

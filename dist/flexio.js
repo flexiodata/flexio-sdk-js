@@ -1522,6 +1522,7 @@ exports.default = function (auth_token) {
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 
+    loading: false,
     saving: false,
     running: false,
 
@@ -1550,18 +1551,54 @@ exports.default = function (auth_token) {
       this.pipe.task = [];
       return this;
     },
-    save: function save() {
+    load: function load() {
       var _this = this,
           _arguments = arguments;
+
+      var args = (0, _from2.default)(arguments);
+      var identifier = _.get(args, '[0]');
+      var successCb = _.get(args, '[1]');
+      var errorCb = _.get(args, '[2]');
+
+      if (this.loading === true || this.saving === true || this.running === true) {
+        setTimeout(function () {
+          _this.load.apply(_this, _arguments);
+        }, 50);
+        return this;
+      }
+
+      if (_.isNil(identifier)) return this.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.");
+
+      this.loading = true;
+      this.debug('Loading Pipe `' + identifier + '`...');
+
+      this.http.get('/pipes/' + identifier).then(function (response) {
+        _.assign(_this.pipe, _.get(response, 'data', {}));
+        _this.loading = false;
+        _this.debug('Pipe Loaded.');
+
+        if (typeof successCb == 'function') successCb(response);
+      }).catch(function (error) {
+        _this.loading = false;
+        _this.debug('Pipe Load Failed.');
+
+        if (typeof errorCb == 'function') errorCb(error);
+      });
+
+      return this;
+    },
+    save: function save() {
+      var _this2 = this,
+          _arguments2 = arguments;
 
       var args = (0, _from2.default)(arguments);
       var params = _.get(args, '[0]');
       var successCb = _.get(args, '[0]');
       var errorCb = _.get(args, '[1]');
 
-      if (this.saving === true || this.running === true) {
+      if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
-          _this.save.apply(_this, _arguments);
+          _this2.save.apply(_this2, _arguments2);
         }, 50);
         return this;
       }
@@ -1576,14 +1613,14 @@ exports.default = function (auth_token) {
       this.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
       this.http.post('/pipes', this.pipe).then(function (response) {
-        _.assign(_this.pipe, _.get(response, 'data', {}));
-        _this.saving = false;
-        _this.debug('Pipe Saved.');
+        _.assign(_this2.pipe, _.get(response, 'data', {}));
+        _this2.saving = false;
+        _this2.debug('Pipe Saved.');
 
         if (typeof successCb == 'function') successCb(response);
       }).catch(function (error) {
-        _this.saving = false;
-        _this.debug('Pipe Save Failed.');
+        _this2.saving = false;
+        _this2.debug('Pipe Save Failed.');
 
         if (typeof errorCb == 'function') errorCb(error);
       });
@@ -1591,16 +1628,16 @@ exports.default = function (auth_token) {
       return this;
     },
     run: function run() {
-      var _this2 = this,
-          _arguments2 = arguments;
+      var _this3 = this,
+          _arguments3 = arguments;
 
       var args = (0, _from2.default)(arguments);
       var successCb = _.get(args, '[0]');
       var errorCb = _.get(args, '[1]');
 
-      if (this.saving === true || this.running === true) {
+      if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
-          _this2.run.apply(_this2, _arguments2);
+          _this3.run.apply(_this3, _arguments3);
         }, 50);
         return this;
       }
@@ -1619,14 +1656,14 @@ exports.default = function (auth_token) {
       });
 
       this.http.post('/processes', run_params).then(function (response) {
-        _this2.processes.push(_.get(response, 'data', {}));
-        _this2.debug('Process Running.');
-        _this2.running = false;
+        _this3.processes.push(_.get(response, 'data', {}));
+        _this3.debug('Process Running.');
+        _this3.running = false;
 
         if (typeof successCb == 'function') successCb(response);
       }).catch(function (error) {
-        _this2.debug('Process Failed.');
-        _this2.running = false;
+        _this3.debug('Process Failed.');
+        _this3.running = false;
 
         if (typeof errorCb == 'function') errorCb(error);
       });

@@ -33,6 +33,7 @@
       .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
     */
 
+    /*
     var pipe = Flexio.pipe()
       .execute("\
 def flexio_handler(input, output):\n\
@@ -42,7 +43,9 @@ def flexio_handler(input, output):\n\
     else:\n\
         writer.write('Hello, World!')")
       .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
+    */
 
+    /*
     pipe.save({
       name: 'Test Pipe ' + (idx++)
     }, function() {
@@ -53,6 +56,17 @@ def flexio_handler(input, output):\n\
       $app.append('<h3>Process Content</h3>')
       $app.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
     })
+    */
+
+    var pipe = Flexio.pipe()
+      .load('my-pipe-alias', function() {
+        $app.append('<h3>Pipe Content</h3>')
+        $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
+      })
+      .run(function() {
+        $app.append('<h3>Process Content</h3>')
+        $app.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
+      })
   </script>
 </body>
 </html>
