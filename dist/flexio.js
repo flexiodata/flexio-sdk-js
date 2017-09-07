@@ -1427,49 +1427,49 @@ var _axios = __webpack_require__(65);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _lodash = __webpack_require__(84);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _lodash3 = __webpack_require__(85);
-
-var _lodash4 = _interopRequireDefault(_lodash3);
-
-var _lodash5 = __webpack_require__(86);
-
-var _lodash6 = _interopRequireDefault(_lodash5);
-
-var _lodash7 = __webpack_require__(87);
-
-var _lodash8 = _interopRequireDefault(_lodash7);
-
-var _lodash9 = __webpack_require__(88);
-
-var _lodash10 = _interopRequireDefault(_lodash9);
-
-var _lodash11 = __webpack_require__(89);
-
-var _lodash12 = _interopRequireDefault(_lodash11);
-
-var _lodash13 = __webpack_require__(91);
-
-var _lodash14 = _interopRequireDefault(_lodash13);
-
-var _lodash15 = __webpack_require__(92);
-
-var _lodash16 = _interopRequireDefault(_lodash15);
-
-var _lodash17 = __webpack_require__(93);
-
-var _lodash18 = _interopRequireDefault(_lodash17);
-
-var _taskType = __webpack_require__(94);
+var _taskType = __webpack_require__(84);
 
 var ttypes = _interopRequireWildcard(_taskType);
 
-var _connectionType = __webpack_require__(95);
+var _connectionType = __webpack_require__(85);
 
 var ctypes = _interopRequireWildcard(_connectionType);
+
+var _lodash = __webpack_require__(86);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = __webpack_require__(87);
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _lodash5 = __webpack_require__(88);
+
+var _lodash6 = _interopRequireDefault(_lodash5);
+
+var _lodash7 = __webpack_require__(89);
+
+var _lodash8 = _interopRequireDefault(_lodash7);
+
+var _lodash9 = __webpack_require__(90);
+
+var _lodash10 = _interopRequireDefault(_lodash9);
+
+var _lodash11 = __webpack_require__(91);
+
+var _lodash12 = _interopRequireDefault(_lodash11);
+
+var _lodash13 = __webpack_require__(93);
+
+var _lodash14 = _interopRequireDefault(_lodash13);
+
+var _lodash15 = __webpack_require__(94);
+
+var _lodash16 = _interopRequireDefault(_lodash15);
+
+var _lodash17 = __webpack_require__(95);
+
+var _lodash18 = _interopRequireDefault(_lodash17);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1503,15 +1503,13 @@ function fromBase64(str) {
   }
 }
 
-var base_params = {
-  name: 'New JS SDK Pipe',
-  description: '',
-  task: []
-};
-
 exports.default = function (auth_token) {
   return _.assign({}, {
-    pipe: _.assign({}, base_params),
+    pipe: {
+      name: 'Javascript SDK Pipe',
+      description: 'This pipe was created using the Flex.io Javascript SDK',
+      task: []
+    },
     processes: [],
 
     http: _axios2.default.create({
@@ -1551,8 +1549,8 @@ exports.default = function (auth_token) {
 
       var args = (0, _from2.default)(arguments);
       var params = _.get(args, '[0]');
-      var successCb;
-      var errorCb;
+      var successCb = _.get(args, '[0]');
+      var errorCb = _.get(args, '[1]');
 
       if (this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -1565,9 +1563,6 @@ exports.default = function (auth_token) {
         _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']));
         successCb = _.get(args, '[1]');
         errorCb = _.get(args, '[2]');
-      } else {
-        successCb = _.get(args, '[0]');
-        errorCb = _.get(args, '[1]');
       }
 
       this.saving = true;
@@ -1729,9 +1724,31 @@ exports.default = function (auth_token) {
         params: {}
       };
 
-      if (_.isString(input)) _.set(task, 'params.input.format', input);else if (_.isObject(input)) _.set(task, 'params.input', input);
+      var csv_format = {
+        format: 'delimited',
+        delimiter: '{comma}',
+        header: true,
+        qualifier: '{double-quote}'
+      };
 
-      if (_.isString(output)) _.set(task, 'params.output.format', output);else if (_.isObject(output)) _.set(task, 'params.output', output);
+      var tsv_format = {
+        format: 'delimited',
+        delimiter: '{tab}',
+        header: true,
+        qualifier: '{none}'
+      };
+
+      if (_.isString(input)) {
+        if (input == 'csv') _.set(task, 'params.input', csv_format);else if (input == 'tsv') _.set(task, 'params.input', tsv_format);else _.set(task, 'params.input.format', input);
+      } else if (_.isObject(input)) {
+        _.set(task, 'params.input', input);
+      }
+
+      if (_.isString(output)) {
+        if (output == 'csv') _.set(task, 'params.output', csv_format);else if (output == 'tsv') _.set(task, 'params.output', tsv_format);else _.set(task, 'params.output.format', output);
+      } else if (_.isObject(output)) {
+        _.set(task, 'params.output', output);
+      }
 
       return this.addTask(task);
     },
@@ -3226,6 +3243,73 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var TASK_TYPE_CALC = exports.TASK_TYPE_CALC = 'flexio.calc';
+var TASK_TYPE_COMMENT = exports.TASK_TYPE_COMMENT = 'flexio.comment';
+var TASK_TYPE_CONVERT = exports.TASK_TYPE_CONVERT = 'flexio.convert';
+var TASK_TYPE_COPY = exports.TASK_TYPE_COPY = 'flexio.copy';
+var TASK_TYPE_CUSTOM = exports.TASK_TYPE_CUSTOM = 'flexio.custom';
+var TASK_TYPE_DISTINCT = exports.TASK_TYPE_DISTINCT = 'flexio.distinct';
+var TASK_TYPE_DUPLICATE = exports.TASK_TYPE_DUPLICATE = 'flexio.duplicate';
+var TASK_TYPE_EMAIL_SEND = exports.TASK_TYPE_EMAIL_SEND = 'flexio.email';
+var TASK_TYPE_EXECUTE = exports.TASK_TYPE_EXECUTE = 'flexio.execute';
+var TASK_TYPE_FIND_REPLACE = exports.TASK_TYPE_FIND_REPLACE = 'flexio.replace';
+var TASK_TYPE_FILTER = exports.TASK_TYPE_FILTER = 'flexio.filter';
+var TASK_TYPE_GROUP = exports.TASK_TYPE_GROUP = 'flexio.group';
+var TASK_TYPE_INPUT = exports.TASK_TYPE_INPUT = 'flexio.input';
+var TASK_TYPE_LIMIT = exports.TASK_TYPE_LIMIT = 'flexio.limit';
+var TASK_TYPE_MERGE = exports.TASK_TYPE_MERGE = 'flexio.merge';
+var TASK_TYPE_NOP = exports.TASK_TYPE_NOP = 'flexio.nop';
+var TASK_TYPE_OUTPUT = exports.TASK_TYPE_OUTPUT = 'flexio.output';
+var TASK_TYPE_PROMPT = exports.TASK_TYPE_PROMPT = 'flexio.prompt';
+var TASK_TYPE_R = exports.TASK_TYPE_R = 'flexio.r';
+var TASK_TYPE_RENAME = exports.TASK_TYPE_RENAME = 'flexio.rename';
+var TASK_TYPE_SEARCH = exports.TASK_TYPE_SEARCH = 'flexio.search';
+var TASK_TYPE_SELECT = exports.TASK_TYPE_SELECT = 'flexio.select';
+var TASK_TYPE_SLEEP = exports.TASK_TYPE_SLEEP = 'flexio.sleep';
+var TASK_TYPE_SORT = exports.TASK_TYPE_SORT = 'flexio.sort';
+var TASK_TYPE_TRANSFORM = exports.TASK_TYPE_TRANSFORM = 'flexio.transform';
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var CONNECTION_TYPE_UNKNOWN = exports.CONNECTION_TYPE_UNKNOWN = '';
+var CONNECTION_TYPE_AMAZONS3 = exports.CONNECTION_TYPE_AMAZONS3 = 'amazons3';
+var CONNECTION_TYPE_BLANK_PIPE = exports.CONNECTION_TYPE_BLANK_PIPE = 'blank-pipe';
+var CONNECTION_TYPE_DOWNLOAD = exports.CONNECTION_TYPE_DOWNLOAD = 'download';
+var CONNECTION_TYPE_DROPBOX = exports.CONNECTION_TYPE_DROPBOX = 'dropbox';
+var CONNECTION_TYPE_ELASTICSEARCH = exports.CONNECTION_TYPE_ELASTICSEARCH = 'elasticsearch';
+var CONNECTION_TYPE_EMAIL = exports.CONNECTION_TYPE_EMAIL = 'email';
+var CONNECTION_TYPE_GOOGLEDRIVE = exports.CONNECTION_TYPE_GOOGLEDRIVE = 'googledrive';
+var CONNECTION_TYPE_GOOGLESHEETS = exports.CONNECTION_TYPE_GOOGLESHEETS = 'googlesheets';
+var CONNECTION_TYPE_HTTP = exports.CONNECTION_TYPE_HTTP = 'http';
+var CONNECTION_TYPE_MAILJET = exports.CONNECTION_TYPE_MAILJET = 'mailjet';
+var CONNECTION_TYPE_MYSQL = exports.CONNECTION_TYPE_MYSQL = 'mysql';
+var CONNECTION_TYPE_POSTGRES = exports.CONNECTION_TYPE_POSTGRES = 'postgres';
+var CONNECTION_TYPE_RSS = exports.CONNECTION_TYPE_RSS = 'rss';
+var CONNECTION_TYPE_SFTP = exports.CONNECTION_TYPE_SFTP = 'sftp';
+var CONNECTION_TYPE_SOCRATA = exports.CONNECTION_TYPE_SOCRATA = 'socrata';
+var CONNECTION_TYPE_STDIN = exports.CONNECTION_TYPE_STDIN = 'stdin';
+var CONNECTION_TYPE_STDOUT = exports.CONNECTION_TYPE_STDOUT = 'stdout';
+var CONNECTION_TYPE_PIPELINEDEALS = exports.CONNECTION_TYPE_PIPELINEDEALS = 'pipelinedeals';
+var CONNECTION_TYPE_UPLOAD = exports.CONNECTION_TYPE_UPLOAD = 'upload';
+
+/***/ }),
+/* 86 */
 /***/ (function(module, exports) {
 
 /**
@@ -3868,7 +3952,7 @@ module.exports = assign;
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4378,7 +4462,7 @@ module.exports = pick;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports) {
 
 /**
@@ -4412,7 +4496,7 @@ module.exports = last;
 
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5350,7 +5434,7 @@ module.exports = get;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6347,7 +6431,7 @@ module.exports = set;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -8717,10 +8801,10 @@ function property(path) {
 
 module.exports = map;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(90)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(92)(module)))
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -8748,7 +8832,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports) {
 
 /**
@@ -8788,7 +8872,7 @@ module.exports = defaultTo;
 
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports) {
 
 /**
@@ -8889,7 +8973,7 @@ module.exports = isString;
 
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports) {
 
 /**
@@ -8930,73 +9014,6 @@ function isObject(value) {
 
 module.exports = isObject;
 
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var TASK_TYPE_CALC = exports.TASK_TYPE_CALC = 'flexio.calc';
-var TASK_TYPE_COMMENT = exports.TASK_TYPE_COMMENT = 'flexio.comment';
-var TASK_TYPE_CONVERT = exports.TASK_TYPE_CONVERT = 'flexio.convert';
-var TASK_TYPE_COPY = exports.TASK_TYPE_COPY = 'flexio.copy';
-var TASK_TYPE_CUSTOM = exports.TASK_TYPE_CUSTOM = 'flexio.custom';
-var TASK_TYPE_DISTINCT = exports.TASK_TYPE_DISTINCT = 'flexio.distinct';
-var TASK_TYPE_DUPLICATE = exports.TASK_TYPE_DUPLICATE = 'flexio.duplicate';
-var TASK_TYPE_EMAIL_SEND = exports.TASK_TYPE_EMAIL_SEND = 'flexio.email';
-var TASK_TYPE_EXECUTE = exports.TASK_TYPE_EXECUTE = 'flexio.execute';
-var TASK_TYPE_FIND_REPLACE = exports.TASK_TYPE_FIND_REPLACE = 'flexio.replace';
-var TASK_TYPE_FILTER = exports.TASK_TYPE_FILTER = 'flexio.filter';
-var TASK_TYPE_GROUP = exports.TASK_TYPE_GROUP = 'flexio.group';
-var TASK_TYPE_INPUT = exports.TASK_TYPE_INPUT = 'flexio.input';
-var TASK_TYPE_LIMIT = exports.TASK_TYPE_LIMIT = 'flexio.limit';
-var TASK_TYPE_MERGE = exports.TASK_TYPE_MERGE = 'flexio.merge';
-var TASK_TYPE_NOP = exports.TASK_TYPE_NOP = 'flexio.nop';
-var TASK_TYPE_OUTPUT = exports.TASK_TYPE_OUTPUT = 'flexio.output';
-var TASK_TYPE_PROMPT = exports.TASK_TYPE_PROMPT = 'flexio.prompt';
-var TASK_TYPE_R = exports.TASK_TYPE_R = 'flexio.r';
-var TASK_TYPE_RENAME = exports.TASK_TYPE_RENAME = 'flexio.rename';
-var TASK_TYPE_SEARCH = exports.TASK_TYPE_SEARCH = 'flexio.search';
-var TASK_TYPE_SELECT = exports.TASK_TYPE_SELECT = 'flexio.select';
-var TASK_TYPE_SLEEP = exports.TASK_TYPE_SLEEP = 'flexio.sleep';
-var TASK_TYPE_SORT = exports.TASK_TYPE_SORT = 'flexio.sort';
-var TASK_TYPE_TRANSFORM = exports.TASK_TYPE_TRANSFORM = 'flexio.transform';
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var CONNECTION_TYPE_UNKNOWN = exports.CONNECTION_TYPE_UNKNOWN = '';
-var CONNECTION_TYPE_AMAZONS3 = exports.CONNECTION_TYPE_AMAZONS3 = 'amazons3';
-var CONNECTION_TYPE_BLANK_PIPE = exports.CONNECTION_TYPE_BLANK_PIPE = 'blank-pipe';
-var CONNECTION_TYPE_DOWNLOAD = exports.CONNECTION_TYPE_DOWNLOAD = 'download';
-var CONNECTION_TYPE_DROPBOX = exports.CONNECTION_TYPE_DROPBOX = 'dropbox';
-var CONNECTION_TYPE_ELASTICSEARCH = exports.CONNECTION_TYPE_ELASTICSEARCH = 'elasticsearch';
-var CONNECTION_TYPE_EMAIL = exports.CONNECTION_TYPE_EMAIL = 'email';
-var CONNECTION_TYPE_GOOGLEDRIVE = exports.CONNECTION_TYPE_GOOGLEDRIVE = 'googledrive';
-var CONNECTION_TYPE_GOOGLESHEETS = exports.CONNECTION_TYPE_GOOGLESHEETS = 'googlesheets';
-var CONNECTION_TYPE_HTTP = exports.CONNECTION_TYPE_HTTP = 'http';
-var CONNECTION_TYPE_MAILJET = exports.CONNECTION_TYPE_MAILJET = 'mailjet';
-var CONNECTION_TYPE_MYSQL = exports.CONNECTION_TYPE_MYSQL = 'mysql';
-var CONNECTION_TYPE_POSTGRES = exports.CONNECTION_TYPE_POSTGRES = 'postgres';
-var CONNECTION_TYPE_RSS = exports.CONNECTION_TYPE_RSS = 'rss';
-var CONNECTION_TYPE_SFTP = exports.CONNECTION_TYPE_SFTP = 'sftp';
-var CONNECTION_TYPE_SOCRATA = exports.CONNECTION_TYPE_SOCRATA = 'socrata';
-var CONNECTION_TYPE_STDIN = exports.CONNECTION_TYPE_STDIN = 'stdin';
-var CONNECTION_TYPE_STDOUT = exports.CONNECTION_TYPE_STDOUT = 'stdout';
-var CONNECTION_TYPE_PIPELINEDEALS = exports.CONNECTION_TYPE_PIPELINEDEALS = 'pipelinedeals';
-var CONNECTION_TYPE_UPLOAD = exports.CONNECTION_TYPE_UPLOAD = 'upload';
 
 /***/ })
 /******/ ]);

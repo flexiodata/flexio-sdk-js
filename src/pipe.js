@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import * as ttypes from './constants/task-type'
+import * as ctypes from './constants/connection-type'
+
 // individual lodash includes
 import assign from 'lodash.assign'
 import pick from 'lodash.pick'
@@ -24,9 +27,6 @@ var _ = {
   isObject
 }
 
-import * as ttypes from './constants/task-type'
-import * as ctypes from './constants/connection-type'
-
 function toBase64(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
 }
@@ -35,15 +35,13 @@ function fromBase64(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
 }
 
-var base_params = {
-  name: 'New JS SDK Pipe',
-  description: '',
-  task: []
-}
-
 export default (auth_token) => {
   return _.assign({}, {
-    pipe: _.assign({}, base_params),
+    pipe: {
+      name: 'Javascript SDK Pipe',
+      description: 'This pipe was created using the Flex.io Javascript SDK',
+      task: []
+    },
     processes: [],
 
     // axios instance with base url and auth token factored into it
@@ -96,8 +94,8 @@ export default (auth_token) => {
     save() {
       var args = Array.from(arguments)
       var params = _.get(args, '[0]')
-      var successCb
-      var errorCb
+      var successCb = _.get(args, '[0]')
+      var errorCb = _.get(args, '[1]')
 
       if (this.saving === true || this.running === true)
       {
@@ -110,11 +108,6 @@ export default (auth_token) => {
         _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']))
         successCb = _.get(args, '[1]')
         errorCb = _.get(args, '[2]')
-      }
-       else
-      {
-        successCb = _.get(args, '[0]')
-        errorCb = _.get(args, '[1]')
       }
 
       this.saving = true
@@ -295,15 +288,51 @@ export default (auth_token) => {
         params: {}
       }
 
+      var csv_format = {
+        format: 'delimited',
+        delimiter: '{comma}',
+        header: true,
+        qualifier: '{double-quote}'
+      }
+
+      var tsv_format = {
+        format: 'delimited',
+        delimiter: '{tab}',
+        header: true,
+        qualifier: '{none}'
+      }
+
+      // convert input
+
       if (_.isString(input))
-        _.set(task, 'params.input.format', input)
-         else if (_.isObject(input))
+      {
+        if (input == 'csv')
+          _.set(task, 'params.input', csv_format)
+           else if (input == 'tsv')
+          _.set(task, 'params.input', tsv_format)
+           else
+          _.set(task, 'params.input.format', input)
+      }
+       else if (_.isObject(input))
+      {
         _.set(task, 'params.input', input)
+      }
+
+      // convert output
 
       if (_.isString(output))
-        _.set(task, 'params.output.format', output)
-         else if (_.isObject(output))
+      {
+        if (output == 'csv')
+          _.set(task, 'params.output', csv_format)
+           else if (output == 'tsv')
+          _.set(task, 'params.output', tsv_format)
+           else
+          _.set(task, 'params.output.format', output)
+      }
+       else if (_.isObject(output))
+      {
         _.set(task, 'params.output', output)
+      }
 
       return this.addTask(task)
     },
