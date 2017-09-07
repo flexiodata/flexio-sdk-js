@@ -1,6 +1,6 @@
 {
   "name": "flexio-sdk-js",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Javascript SDK for managing Flex.io resources and services",
   "author": "David Z. Williams <dave@flex.io>",
   "main": "dist/flexio.js",
