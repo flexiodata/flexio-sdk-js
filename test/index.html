@@ -26,7 +26,7 @@ def flexio_handler(input, output):\n\
         writer.write(input.env['message'])\n\
     else:\n\
         writer.write('Hello, World!')")
-      .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
+      .email('dave@flex.io', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
       .run()
 
     $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
