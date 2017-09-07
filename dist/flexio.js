@@ -1471,6 +1471,10 @@ var _lodash17 = __webpack_require__(95);
 
 var _lodash18 = _interopRequireDefault(_lodash17);
 
+var _lodash19 = __webpack_require__(96);
+
+var _lodash20 = _interopRequireDefault(_lodash19);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1483,8 +1487,9 @@ var _ = {
   set: _lodash10.default,
   map: _lodash12.default,
   defaultTo: _lodash14.default,
-  isString: _lodash16.default,
-  isObject: _lodash18.default
+  isNil: _lodash16.default,
+  isString: _lodash18.default,
+  isObject: _lodash20.default
 };
 
 function toBase64(str) {
@@ -1775,6 +1780,21 @@ exports.default = function (auth_token) {
       if (code.match(http_regex)) _.set(task, 'params.file', code);else _.set(task, 'params.code', code);
 
       return this.addTask(task);
+    },
+    filter: function filter(where) {
+      var type = ttypes.TASK_TYPE_FILTER;
+
+      if (_.isNil(where)) {
+        this.debug('A filter expression is required');
+        return this;
+      }
+
+      return this.addTask({
+        type: type,
+        params: {
+          where: where
+        }
+      });
     },
     limit: function limit(value) {
       var type = ttypes.TASK_TYPE_LIMIT;
@@ -8876,6 +8896,45 @@ module.exports = defaultTo;
 /***/ (function(module, exports) {
 
 /**
+ * lodash 4.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is `null` or `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+ * @example
+ *
+ * _.isNil(null);
+ * // => true
+ *
+ * _.isNil(void 0);
+ * // => true
+ *
+ * _.isNil(NaN);
+ * // => false
+ */
+function isNil(value) {
+  return value == null;
+}
+
+module.exports = isNil;
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports) {
+
+/**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
@@ -8973,7 +9032,7 @@ module.exports = isString;
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports) {
 
 /**

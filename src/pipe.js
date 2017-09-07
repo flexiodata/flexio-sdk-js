@@ -11,6 +11,7 @@ import get from 'lodash.get'
 import set from 'lodash.set'
 import map from 'lodash.map'
 import defaultTo from 'lodash.defaultto'
+import isNil from 'lodash.isnil'
 import isString from 'lodash.isstring'
 import isObject from 'lodash.isobject'
 
@@ -23,6 +24,7 @@ var _ = {
   set,
   map,
   defaultTo,
+  isNil,
   isString,
   isObject
 }
@@ -368,6 +370,23 @@ export default (auth_token) => {
         _.set(task, 'params.code', code)
 
       return this.addTask(task)
+    },
+
+    filter(where) {
+      var type = ttypes.TASK_TYPE_FILTER
+
+      if (_.isNil(where))
+      {
+        this.debug('A filter expression is required')
+        return this
+      }
+
+      return this.addTask({
+        type,
+        params: {
+          where
+        }
+      })
     },
 
     limit(value) {
