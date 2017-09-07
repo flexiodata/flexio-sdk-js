@@ -18,6 +18,12 @@
     var $app = $('#app')
     $app.append('<h1>Flex.io Javascript SDK Version: ' + Flexio.version() + '</h1>')
 
+    var pipes = Flexio.pipes().list(function() {
+      $app.append('<h3>Pipe List</h3>')
+      $app.append('<pre>' + JSON.stringify(pipes.getJson(['eid', 'ename', 'name']), null, 2) + '</pre>')
+    })
+
+/*
     var pipe = Flexio.pipe()
       .execute("\
 def flexio_handler(input, output):\n\
@@ -30,6 +36,7 @@ def flexio_handler(input, output):\n\
       .run()
 
     $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
+*/
 
 /*
     var pipe = Flexio.pipe()
