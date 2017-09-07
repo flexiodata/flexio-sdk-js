@@ -41,6 +41,7 @@ def flexio_handler(input, output):\n\
         writer.write(input.env['message'])\n\
     else:\n\
         writer.write('Hello, World!')")
+      .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
 
     pipe.save({
       name: 'Test Pipe ' + (idx++)

@@ -66,7 +66,9 @@ export default (auth_token) => {
       // TODO: add flag for 'debug' mode
 
       var msg = 'Flex.io Javascript SDK: ' + msg
-      return window.console ? console.log(msg) : alert(msg)
+      window.console ? console.log(msg) : alert(msg)
+
+      return this
     },
 
     // -- methods --
@@ -194,10 +196,7 @@ export default (auth_token) => {
       var items = undefined
 
       if (args.length == 0)
-      {
-        this.debug('Input task requires at least 1 parameter')
-        return this
-      }
+        return this.debug('The input task requires at least 1 parameter')
 
       switch (connection_type)
       {
@@ -249,10 +248,7 @@ export default (auth_token) => {
       var location = undefined
 
       if (args.length == 0)
-      {
-        this.debug('Output task requires at least 1 parameter')
-        return this
-      }
+        return this.debug('The output task requires at least 1 parameter')
 
       switch (connection_type)
       {
@@ -339,6 +335,36 @@ export default (auth_token) => {
       return this.addTask(task)
     },
 
+    email(to, subject, body_text, body_html, data) {
+      var type = ttypes.TASK_TYPE_EMAIL_SEND
+
+      if (_.isNil(to))
+        return this.debug('The `to` parameter is required')
+
+      if (_.isNil(subject))
+        return this.debug('The `subject` parameter is required')
+
+      if (_.isNil(body_text))
+        return this.debug('The `body_text` parameter is required')
+
+      if (_.isNil(body_html))
+        body_html = body_text
+
+      if (data != 'body' && data != 'attachment')
+        data = 'none'
+
+      return this.addTask({
+        type,
+        params: {
+          to,
+          subject,
+          body_text,
+          body_html,
+          data
+        }
+      })
+    },
+
     execute() {
       var type = ttypes.TASK_TYPE_EXECUTE
       var args = Array.from(arguments)
@@ -376,10 +402,7 @@ export default (auth_token) => {
       var type = ttypes.TASK_TYPE_FILTER
 
       if (_.isNil(where))
-      {
-        this.debug('A filter expression is required')
-        return this
-      }
+        return this.debug('The `filter` parameter is required')
 
       return this.addTask({
         type,

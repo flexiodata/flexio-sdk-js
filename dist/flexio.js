@@ -1529,7 +1529,9 @@ exports.default = function (auth_token) {
       if (!window) return;
 
       var msg = 'Flex.io Javascript SDK: ' + msg;
-      return window.console ? console.log(msg) : alert(msg);
+      window.console ? console.log(msg) : alert(msg);
+
+      return this;
     },
     getJson: function getJson() {
       return _.assign({}, this.pipe);
@@ -1638,10 +1640,7 @@ exports.default = function (auth_token) {
       var connection = undefined;
       var items = undefined;
 
-      if (args.length == 0) {
-        this.debug('Input task requires at least 1 parameter');
-        return this;
-      }
+      if (args.length == 0) return this.debug('The input task requires at least 1 parameter');
 
       switch (connection_type) {
         default:
@@ -1690,10 +1689,7 @@ exports.default = function (auth_token) {
       var connection = undefined;
       var location = undefined;
 
-      if (args.length == 0) {
-        this.debug('Output task requires at least 1 parameter');
-        return this;
-      }
+      if (args.length == 0) return this.debug('The output task requires at least 1 parameter');
 
       switch (connection_type) {
         case ctypes.CONNECTION_TYPE_AMAZONS3:
@@ -1757,6 +1753,30 @@ exports.default = function (auth_token) {
 
       return this.addTask(task);
     },
+    email: function email(to, subject, body_text, body_html, data) {
+      var type = ttypes.TASK_TYPE_EMAIL_SEND;
+
+      if (_.isNil(to)) return this.debug('The `to` parameter is required');
+
+      if (_.isNil(subject)) return this.debug('The `subject` parameter is required');
+
+      if (_.isNil(body_text)) return this.debug('The `body_text` parameter is required');
+
+      if (_.isNil(body_html)) body_html = body_text;
+
+      if (data != 'body' && data != 'attachment') data = 'none';
+
+      return this.addTask({
+        type: type,
+        params: {
+          to: to,
+          subject: subject,
+          body_text: body_text,
+          body_html: body_html,
+          data: data
+        }
+      });
+    },
     execute: function execute() {
       var type = ttypes.TASK_TYPE_EXECUTE;
       var args = (0, _from2.default)(arguments);
@@ -1784,10 +1804,7 @@ exports.default = function (auth_token) {
     filter: function filter(where) {
       var type = ttypes.TASK_TYPE_FILTER;
 
-      if (_.isNil(where)) {
-        this.debug('A filter expression is required');
-        return this;
-      }
+      if (_.isNil(where)) return this.debug('The `filter` parameter is required');
 
       return this.addTask({
         type: type,
