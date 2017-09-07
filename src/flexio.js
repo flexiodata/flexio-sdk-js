@@ -1,4 +1,4 @@
-import newPipe from './pipe'
+import pipe from './pipe'
 
 var auth_token = ''
 
@@ -9,7 +9,7 @@ export default {
   setup(token) {
     auth_token = token
   },
-  pipe(params) {
-    return newPipe(auth_token, params)
+  pipe() {
+    return pipe(auth_token)
   }
 }

@@ -421,7 +421,7 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(4);
-var createDesc = __webpack_require__(12);
+var createDesc = __webpack_require__(13);
 module.exports = __webpack_require__(6) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
@@ -456,7 +456,7 @@ exports.f = __webpack_require__(6) ? Object.defineProperty : function defineProp
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11);
+var isObject = __webpack_require__(12);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -487,6 +487,33 @@ module.exports = function (it, key) {
 /* 8 */
 /***/ (function(module, exports) {
 
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
 // 7.1.4 ToInteger
 var ceil = Math.ceil;
 var floor = Math.floor;
@@ -496,7 +523,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
@@ -507,7 +534,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 var core = module.exports = { version: '2.5.1' };
@@ -515,7 +542,7 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -524,7 +551,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -538,14 +565,14 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(24)('keys');
@@ -556,7 +583,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -656,38 +683,11 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
-var core = __webpack_require__(10);
+var core = __webpack_require__(11);
 var ctx = __webpack_require__(18);
 var hide = __webpack_require__(3);
 var PROTOTYPE = 'prototype';
@@ -792,7 +792,7 @@ module.exports = function (exec) {
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11);
+var isObject = __webpack_require__(12);
 var document = __webpack_require__(2).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
@@ -807,7 +807,7 @@ module.exports = function (it) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = __webpack_require__(53);
-var defined = __webpack_require__(9);
+var defined = __webpack_require__(10);
 module.exports = function (it) {
   return IObject(defined(it));
 };
@@ -829,7 +829,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(8);
+var toInteger = __webpack_require__(9);
 var min = Math.min;
 module.exports = function (it) {
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -887,7 +887,7 @@ module.exports = function (it, tag, stat) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
-var defined = __webpack_require__(9);
+var defined = __webpack_require__(10);
 module.exports = function (it) {
   return Object(defined(it));
 };
@@ -1388,9 +1388,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _pipe = __webpack_require__(37);
+var _pipe2 = __webpack_require__(37);
 
-var _pipe2 = _interopRequireDefault(_pipe);
+var _pipe3 = _interopRequireDefault(_pipe2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1403,8 +1403,8 @@ exports.default = {
   setup: function setup(token) {
     auth_token = token;
   },
-  pipe: function pipe(params) {
-    return (0, _pipe2.default)(auth_token, params);
+  pipe: function pipe() {
+    return (0, _pipe3.default)(auth_token);
   }
 };
 
@@ -1427,51 +1427,94 @@ var _axios = __webpack_require__(65);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _lodash = __webpack_require__(84);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _lodash3 = __webpack_require__(85);
-
-var _lodash4 = _interopRequireDefault(_lodash3);
-
-var _lodash5 = __webpack_require__(86);
-
-var _lodash6 = _interopRequireDefault(_lodash5);
-
-var _lodash7 = __webpack_require__(87);
-
-var _lodash8 = _interopRequireDefault(_lodash7);
-
-var _lodash9 = __webpack_require__(88);
-
-var _lodash10 = _interopRequireDefault(_lodash9);
-
-var _lodash11 = __webpack_require__(89);
-
-var _lodash12 = _interopRequireDefault(_lodash11);
-
-var _taskType = __webpack_require__(91);
+var _taskType = __webpack_require__(84);
 
 var ttypes = _interopRequireWildcard(_taskType);
 
-var _connectionType = __webpack_require__(92);
+var _connectionType = __webpack_require__(85);
 
 var ctypes = _interopRequireWildcard(_connectionType);
+
+var _lodash = __webpack_require__(86);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _lodash3 = __webpack_require__(87);
+
+var _lodash4 = _interopRequireDefault(_lodash3);
+
+var _lodash5 = __webpack_require__(88);
+
+var _lodash6 = _interopRequireDefault(_lodash5);
+
+var _lodash7 = __webpack_require__(89);
+
+var _lodash8 = _interopRequireDefault(_lodash7);
+
+var _lodash9 = __webpack_require__(90);
+
+var _lodash10 = _interopRequireDefault(_lodash9);
+
+var _lodash11 = __webpack_require__(91);
+
+var _lodash12 = _interopRequireDefault(_lodash11);
+
+var _lodash13 = __webpack_require__(93);
+
+var _lodash14 = _interopRequireDefault(_lodash13);
+
+var _lodash15 = __webpack_require__(94);
+
+var _lodash16 = _interopRequireDefault(_lodash15);
+
+var _lodash17 = __webpack_require__(95);
+
+var _lodash18 = _interopRequireDefault(_lodash17);
+
+var _lodash19 = __webpack_require__(96);
+
+var _lodash20 = _interopRequireDefault(_lodash19);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var base_params = {
-  name: 'New JS SDK Pipe',
-  description: '',
-  task: []
+var _ = {
+  assign: _lodash2.default,
+  pick: _lodash4.default,
+  last: _lodash6.default,
+  get: _lodash8.default,
+  set: _lodash10.default,
+  map: _lodash12.default,
+  defaultTo: _lodash14.default,
+  isNil: _lodash16.default,
+  isString: _lodash18.default,
+  isObject: _lodash20.default
 };
 
-exports.default = function (auth_token, params) {
-  return (0, _lodash2.default)({}, {
-    pipe: (0, _lodash2.default)({}, base_params, (0, _lodash4.default)(params, ['name', 'description', 'ename'])),
+function toBase64(str) {
+  try {
+    return btoa(unescape(encodeURIComponent(str)));
+  } catch (e) {
+    return e;
+  }
+}
+
+function fromBase64(str) {
+  try {
+    return decodeURIComponent(escape(atob(str)));
+  } catch (e) {
+    return e;
+  }
+}
+
+exports.default = function (auth_token) {
+  return _.assign({}, {
+    pipe: {
+      name: 'Javascript SDK Pipe',
+      description: 'This pipe was created using the Flex.io Javascript SDK',
+      task: []
+    },
     processes: [],
 
     http: _axios2.default.create({
@@ -1479,6 +1522,7 @@ exports.default = function (auth_token, params) {
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 
+    loading: false,
     saving: false,
     running: false,
 
@@ -1486,74 +1530,140 @@ exports.default = function (auth_token, params) {
       if (!window) return;
 
       var msg = 'Flex.io Javascript SDK: ' + msg;
-      return window.console ? console.log(msg) : alert(msg);
+      window.console ? console.log(msg) : alert(msg);
+
+      return this;
     },
     getJson: function getJson() {
-      return (0, _lodash2.default)({}, this.pipe);
+      return _.assign({}, this.pipe);
     },
     getProcesses: function getProcesses() {
       return [].concat(this.processes);
     },
     getLastProcess: function getLastProcess() {
-      return (0, _lodash6.default)(this.processes);
+      return _.last(this.processes);
     },
     addTask: function addTask(task) {
       this.pipe.task.push(task);
       return this;
     },
-    save: function save(successCb, errorCb) {
-      var _this = this;
+    clearTasks: function clearTasks() {
+      this.pipe.task = [];
+      return this;
+    },
+    load: function load() {
+      var _this = this,
+          _arguments = arguments;
 
-      this.saving = true;
-      this.debug('Saving Pipe...');
+      var args = (0, _from2.default)(arguments);
+      var identifier = _.get(args, '[0]');
+      var successCb = _.get(args, '[1]');
+      var errorCb = _.get(args, '[2]');
 
-      this.http.post('/pipes', this.pipe).then(function (response) {
-        (0, _lodash2.default)(_this.pipe, (0, _lodash10.default)(response, 'data', {}));
-        _this.saving = false;
-        _this.debug('Pipe Saved.');
+      if (this.loading === true || this.saving === true || this.running === true) {
+        setTimeout(function () {
+          _this.load.apply(_this, _arguments);
+        }, 50);
+        return this;
+      }
+
+      if (_.isNil(identifier)) return this.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.");
+
+      this.loading = true;
+      this.debug('Loading Pipe `' + identifier + '`...');
+
+      this.http.get('/pipes/' + identifier).then(function (response) {
+        _.assign(_this.pipe, _.get(response, 'data', {}));
+        _this.loading = false;
+        _this.debug('Pipe Loaded.');
 
         if (typeof successCb == 'function') successCb(response);
       }).catch(function (error) {
-        _this.saving = false;
-        _this.debug('Pipe Save Failed.');
+        _this.loading = false;
+        _this.debug('Pipe Load Failed.');
 
         if (typeof errorCb == 'function') errorCb(error);
       });
 
       return this;
     },
-    run: function run(successCb, errorCb) {
-      var _this2 = this;
+    save: function save() {
+      var _this2 = this,
+          _arguments2 = arguments;
 
-      if (this.saving === true) {
+      var args = (0, _from2.default)(arguments);
+      var params = _.get(args, '[0]');
+      var successCb = _.get(args, '[0]');
+      var errorCb = _.get(args, '[1]');
+
+      if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
-          _this2.run(successCb, errorCb);
+          _this2.save.apply(_this2, _arguments2);
+        }, 50);
+        return this;
+      }
+
+      if (_.isObject(params)) {
+        _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']));
+        successCb = _.get(args, '[1]');
+        errorCb = _.get(args, '[2]');
+      }
+
+      this.saving = true;
+      this.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
+
+      this.http.post('/pipes', this.pipe).then(function (response) {
+        _.assign(_this2.pipe, _.get(response, 'data', {}));
+        _this2.saving = false;
+        _this2.debug('Pipe Saved.');
+
+        if (typeof successCb == 'function') successCb(response);
+      }).catch(function (error) {
+        _this2.saving = false;
+        _this2.debug('Pipe Save Failed.');
+
+        if (typeof errorCb == 'function') errorCb(error);
+      });
+
+      return this;
+    },
+    run: function run() {
+      var _this3 = this,
+          _arguments3 = arguments;
+
+      var args = (0, _from2.default)(arguments);
+      var successCb = _.get(args, '[0]');
+      var errorCb = _.get(args, '[1]');
+
+      if (this.loading === true || this.saving === true || this.running === true) {
+        setTimeout(function () {
+          _this3.run.apply(_this3, _arguments3);
         }, 50);
         return this;
       }
 
       this.running = true;
-      this.debug('Running Pipe...');
+      this.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
-      var run_params = (0, _lodash2.default)({}, this.pipe);
+      var run_params = _.assign({}, this.pipe);
 
-      var parent_eid = (0, _lodash10.default)(this.pipe, 'eid', '');
+      var parent_eid = _.get(this.pipe, 'eid', '');
       if (parent_eid.length > 0) run_params = { parent_eid: parent_eid };
 
-      (0, _lodash2.default)(run_params, {
+      _.assign(run_params, {
         process_mode: 'R',
         run: true
       });
 
       this.http.post('/processes', run_params).then(function (response) {
-        _this2.processes.push((0, _lodash10.default)(response, 'data', {}));
-        _this2.debug('Process Running.');
-        _this2.running = false;
+        _this3.processes.push(_.get(response, 'data', {}));
+        _this3.debug('Process Running.');
+        _this3.running = false;
 
         if (typeof successCb == 'function') successCb(response);
       }).catch(function (error) {
-        _this2.debug('Process Failed.');
-        _this2.running = false;
+        _this3.debug('Process Failed.');
+        _this3.running = false;
 
         if (typeof errorCb == 'function') errorCb(error);
       });
@@ -1561,16 +1671,13 @@ exports.default = function (auth_token, params) {
       return this;
     },
     input: function input() {
-      var args = (0, _from2.default)(arguments);
       var type = ttypes.TASK_TYPE_INPUT;
-      var connection_type = (0, _lodash10.default)(args, '[0]', '');
+      var args = (0, _from2.default)(arguments);
+      var connection_type = _.get(args, '[0]', '');
       var connection = undefined;
       var items = undefined;
 
-      if (args.length == 0) {
-        this.debug('Input task requires at least 1 parameter');
-        return this;
-      }
+      if (args.length == 0) return this.debug('The input task requires at least 1 parameter');
 
       switch (connection_type) {
         default:
@@ -1587,23 +1694,23 @@ exports.default = function (auth_token, params) {
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = (0, _lodash10.default)(args, '[1]', '');
-          items = (0, _lodash10.default)(args, '[2]', []);
+          connection = _.get(args, '[1]', '');
+          items = _.get(args, '[2]', []);
           break;
 
         case ctypes.CONNECTION_TYPE_RSS:
           connection = connection_type;
-          items = (0, _lodash10.default)(args, '[1]', []);
+          items = _.get(args, '[1]', []);
           break;
       }
 
-      items = (0, _lodash12.default)(items, function (item) {
+      items = _.map(items, function (item) {
         return {
           path: item
         };
       });
 
-      this.pipe.task.push({
+      return this.addTask({
         type: type,
         metadata: { connection_type: connection_type },
         params: {
@@ -1611,20 +1718,15 @@ exports.default = function (auth_token, params) {
           items: items
         }
       });
-
-      return this;
     },
     output: function output() {
-      var args = (0, _from2.default)(arguments);
       var type = ttypes.TASK_TYPE_OUTPUT;
-      var connection_type = (0, _lodash10.default)(args, '[0]', '');
+      var args = (0, _from2.default)(arguments);
+      var connection_type = _.get(args, '[0]', '');
       var connection = undefined;
       var location = undefined;
 
-      if (args.length == 0) {
-        this.debug('Output task requires at least 1 parameter');
-        return this;
-      }
+      if (args.length == 0) return this.debug('The output task requires at least 1 parameter');
 
       switch (connection_type) {
         case ctypes.CONNECTION_TYPE_AMAZONS3:
@@ -1632,18 +1734,18 @@ exports.default = function (auth_token, params) {
         case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
-          connection = (0, _lodash10.default)(args, '[1]', '');
+          connection = _.get(args, '[1]', '');
           break;
 
         case ctypes.CONNECTION_TYPE_DROPBOX:
         case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = (0, _lodash10.default)(args, '[1]', '');
-          location = (0, _lodash10.default)(args, '[2]', '/');
+          connection = _.get(args, '[1]', '');
+          location = _.get(args, '[2]', '/');
           break;
       }
 
-      this.pipe.task.push({
+      return this.addTask({
         type: type,
         metadata: { connection_type: connection_type },
         params: {
@@ -1651,8 +1753,135 @@ exports.default = function (auth_token, params) {
           location: location
         }
       });
+    },
+    convert: function convert(input, output) {
+      var type = ttypes.TASK_TYPE_CONVERT;
 
-      return this;
+      var task = {
+        type: type,
+        params: {}
+      };
+
+      var csv_format = {
+        format: 'delimited',
+        delimiter: '{comma}',
+        header: true,
+        qualifier: '{double-quote}'
+      };
+
+      var tsv_format = {
+        format: 'delimited',
+        delimiter: '{tab}',
+        header: true,
+        qualifier: '{none}'
+      };
+
+      if (_.isString(input)) {
+        if (input == 'csv') _.set(task, 'params.input', csv_format);else if (input == 'tsv') _.set(task, 'params.input', tsv_format);else _.set(task, 'params.input.format', input);
+      } else if (_.isObject(input)) {
+        _.set(task, 'params.input', input);
+      }
+
+      if (_.isString(output)) {
+        if (output == 'csv') _.set(task, 'params.output', csv_format);else if (output == 'tsv') _.set(task, 'params.output', tsv_format);else _.set(task, 'params.output.format', output);
+      } else if (_.isObject(output)) {
+        _.set(task, 'params.output', output);
+      }
+
+      return this.addTask(task);
+    },
+    email: function email(to, subject, body_text, body_html, data) {
+      var type = ttypes.TASK_TYPE_EMAIL_SEND;
+
+      if (_.isNil(to)) return this.debug('The `to` parameter is required');
+
+      if (_.isNil(subject)) return this.debug('The `subject` parameter is required');
+
+      if (_.isNil(body_text)) return this.debug('The `body_text` parameter is required');
+
+      if (_.isNil(body_html)) body_html = body_text;
+
+      if (data != 'body' && data != 'attachment') data = 'none';
+
+      return this.addTask({
+        type: type,
+        params: {
+          to: to,
+          subject: subject,
+          body_text: body_text,
+          body_html: body_html,
+          data: data
+        }
+      });
+    },
+    execute: function execute() {
+      var type = ttypes.TASK_TYPE_EXECUTE;
+      var args = (0, _from2.default)(arguments);
+      var lang = _.get(args, '[0]', '');
+      var code = undefined;
+
+      var task = {
+        type: type,
+        params: {}
+      };
+
+      if (lang == 'python' || lang == 'javascript') {
+        _.set(task, 'params.lang', lang);
+        code = toBase64(_.get(args, '[1]', ''));
+      } else {
+        _.set(task, 'params.lang', 'python');
+        code = toBase64(_.get(args, '[0]', ''));
+      }
+
+      var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+      if (code.match(http_regex)) _.set(task, 'params.file', code);else _.set(task, 'params.code', code);
+
+      return this.addTask(task);
+    },
+    filter: function filter(where) {
+      var type = ttypes.TASK_TYPE_FILTER;
+
+      if (_.isNil(where)) return this.debug('The `filter` parameter is required');
+
+      return this.addTask({
+        type: type,
+        params: {
+          where: where
+        }
+      });
+    },
+    limit: function limit(value) {
+      var type = ttypes.TASK_TYPE_LIMIT;
+      value = _.defaultTo(value, 10);
+
+      return this.addTask({
+        type: type,
+        params: {
+          value: value
+        }
+      });
+    },
+    select: function select() {
+      var type = ttypes.TASK_TYPE_SELECT;
+      var columns = (0, _from2.default)(arguments);
+
+      return this.addTask({
+        type: type,
+        params: {
+          columns: columns
+        }
+      });
+    },
+    sleep: function sleep(value) {
+      var type = ttypes.TASK_TYPE_SLEEP;
+      value = _.defaultTo(value, 10);
+
+      return this.addTask({
+        type: type,
+        params: {
+          value: value
+        }
+      });
     }
   });
 };
@@ -1669,7 +1898,7 @@ module.exports = { "default": __webpack_require__(39), __esModule: true };
 
 __webpack_require__(40);
 __webpack_require__(58);
-module.exports = __webpack_require__(10).Array.from;
+module.exports = __webpack_require__(11).Array.from;
 
 
 /***/ }),
@@ -1700,8 +1929,8 @@ __webpack_require__(42)(String, 'String', function (iterated) {
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(8);
-var defined = __webpack_require__(9);
+var toInteger = __webpack_require__(9);
+var defined = __webpack_require__(10);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function (TO_STRING) {
@@ -1730,7 +1959,7 @@ var $export = __webpack_require__(17);
 var redefine = __webpack_require__(47);
 var hide = __webpack_require__(3);
 var has = __webpack_require__(7);
-var Iterators = __webpack_require__(13);
+var Iterators = __webpack_require__(14);
 var $iterCreate = __webpack_require__(48);
 var setToStringTag = __webpack_require__(27);
 var getPrototypeOf = __webpack_require__(57);
@@ -1827,7 +2056,7 @@ module.exports = !__webpack_require__(6) && !__webpack_require__(19)(function ()
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(11);
+var isObject = __webpack_require__(12);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -1854,7 +2083,7 @@ module.exports = __webpack_require__(3);
 "use strict";
 
 var create = __webpack_require__(49);
-var descriptor = __webpack_require__(12);
+var descriptor = __webpack_require__(13);
 var setToStringTag = __webpack_require__(27);
 var IteratorPrototype = {};
 
@@ -1875,7 +2104,7 @@ module.exports = function (Constructor, NAME, next) {
 var anObject = __webpack_require__(5);
 var dPs = __webpack_require__(50);
 var enumBugKeys = __webpack_require__(26);
-var IE_PROTO = __webpack_require__(14)('IE_PROTO');
+var IE_PROTO = __webpack_require__(15)('IE_PROTO');
 var Empty = function () { /* empty */ };
 var PROTOTYPE = 'prototype';
 
@@ -1953,7 +2182,7 @@ module.exports = Object.keys || function keys(O) {
 var has = __webpack_require__(7);
 var toIObject = __webpack_require__(21);
 var arrayIndexOf = __webpack_require__(54)(false);
-var IE_PROTO = __webpack_require__(14)('IE_PROTO');
+var IE_PROTO = __webpack_require__(15)('IE_PROTO');
 
 module.exports = function (object, names) {
   var O = toIObject(object);
@@ -2014,7 +2243,7 @@ module.exports = function (IS_INCLUDES) {
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(8);
+var toInteger = __webpack_require__(9);
 var max = Math.max;
 var min = Math.min;
 module.exports = function (index, length) {
@@ -2038,7 +2267,7 @@ module.exports = document && document.documentElement;
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has = __webpack_require__(7);
 var toObject = __webpack_require__(28);
-var IE_PROTO = __webpack_require__(14)('IE_PROTO');
+var IE_PROTO = __webpack_require__(15)('IE_PROTO');
 var ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function (O) {
@@ -2117,7 +2346,7 @@ module.exports = function (iterator, fn, value, entries) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
-var Iterators = __webpack_require__(13);
+var Iterators = __webpack_require__(14);
 var ITERATOR = __webpack_require__(1)('iterator');
 var ArrayProto = Array.prototype;
 
@@ -2133,7 +2362,7 @@ module.exports = function (it) {
 "use strict";
 
 var $defineProperty = __webpack_require__(4);
-var createDesc = __webpack_require__(12);
+var createDesc = __webpack_require__(13);
 
 module.exports = function (object, index, value) {
   if (index in object) $defineProperty.f(object, index, createDesc(0, value));
@@ -2147,8 +2376,8 @@ module.exports = function (object, index, value) {
 
 var classof = __webpack_require__(63);
 var ITERATOR = __webpack_require__(1)('iterator');
-var Iterators = __webpack_require__(13);
-module.exports = __webpack_require__(10).getIteratorMethod = function (it) {
+var Iterators = __webpack_require__(14);
+module.exports = __webpack_require__(11).getIteratorMethod = function (it) {
   if (it != undefined) return it[ITERATOR]
     || it['@@iterator']
     || Iterators[classof(it)];
@@ -2228,7 +2457,7 @@ module.exports = __webpack_require__(66);
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(29);
 var Axios = __webpack_require__(68);
-var defaults = __webpack_require__(15);
+var defaults = __webpack_require__(16);
 
 /**
  * Create an instance of Axios
@@ -2311,7 +2540,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(15);
+var defaults = __webpack_require__(16);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(77);
 var dispatchRequest = __webpack_require__(78);
@@ -2843,7 +3072,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(79);
 var isCancel = __webpack_require__(33);
-var defaults = __webpack_require__(15);
+var defaults = __webpack_require__(16);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -3088,6 +3317,73 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var TASK_TYPE_CALC = exports.TASK_TYPE_CALC = 'flexio.calc';
+var TASK_TYPE_COMMENT = exports.TASK_TYPE_COMMENT = 'flexio.comment';
+var TASK_TYPE_CONVERT = exports.TASK_TYPE_CONVERT = 'flexio.convert';
+var TASK_TYPE_COPY = exports.TASK_TYPE_COPY = 'flexio.copy';
+var TASK_TYPE_CUSTOM = exports.TASK_TYPE_CUSTOM = 'flexio.custom';
+var TASK_TYPE_DISTINCT = exports.TASK_TYPE_DISTINCT = 'flexio.distinct';
+var TASK_TYPE_DUPLICATE = exports.TASK_TYPE_DUPLICATE = 'flexio.duplicate';
+var TASK_TYPE_EMAIL_SEND = exports.TASK_TYPE_EMAIL_SEND = 'flexio.email';
+var TASK_TYPE_EXECUTE = exports.TASK_TYPE_EXECUTE = 'flexio.execute';
+var TASK_TYPE_FIND_REPLACE = exports.TASK_TYPE_FIND_REPLACE = 'flexio.replace';
+var TASK_TYPE_FILTER = exports.TASK_TYPE_FILTER = 'flexio.filter';
+var TASK_TYPE_GROUP = exports.TASK_TYPE_GROUP = 'flexio.group';
+var TASK_TYPE_INPUT = exports.TASK_TYPE_INPUT = 'flexio.input';
+var TASK_TYPE_LIMIT = exports.TASK_TYPE_LIMIT = 'flexio.limit';
+var TASK_TYPE_MERGE = exports.TASK_TYPE_MERGE = 'flexio.merge';
+var TASK_TYPE_NOP = exports.TASK_TYPE_NOP = 'flexio.nop';
+var TASK_TYPE_OUTPUT = exports.TASK_TYPE_OUTPUT = 'flexio.output';
+var TASK_TYPE_PROMPT = exports.TASK_TYPE_PROMPT = 'flexio.prompt';
+var TASK_TYPE_R = exports.TASK_TYPE_R = 'flexio.r';
+var TASK_TYPE_RENAME = exports.TASK_TYPE_RENAME = 'flexio.rename';
+var TASK_TYPE_SEARCH = exports.TASK_TYPE_SEARCH = 'flexio.search';
+var TASK_TYPE_SELECT = exports.TASK_TYPE_SELECT = 'flexio.select';
+var TASK_TYPE_SLEEP = exports.TASK_TYPE_SLEEP = 'flexio.sleep';
+var TASK_TYPE_SORT = exports.TASK_TYPE_SORT = 'flexio.sort';
+var TASK_TYPE_TRANSFORM = exports.TASK_TYPE_TRANSFORM = 'flexio.transform';
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var CONNECTION_TYPE_UNKNOWN = exports.CONNECTION_TYPE_UNKNOWN = '';
+var CONNECTION_TYPE_AMAZONS3 = exports.CONNECTION_TYPE_AMAZONS3 = 'amazons3';
+var CONNECTION_TYPE_BLANK_PIPE = exports.CONNECTION_TYPE_BLANK_PIPE = 'blank-pipe';
+var CONNECTION_TYPE_DOWNLOAD = exports.CONNECTION_TYPE_DOWNLOAD = 'download';
+var CONNECTION_TYPE_DROPBOX = exports.CONNECTION_TYPE_DROPBOX = 'dropbox';
+var CONNECTION_TYPE_ELASTICSEARCH = exports.CONNECTION_TYPE_ELASTICSEARCH = 'elasticsearch';
+var CONNECTION_TYPE_EMAIL = exports.CONNECTION_TYPE_EMAIL = 'email';
+var CONNECTION_TYPE_GOOGLEDRIVE = exports.CONNECTION_TYPE_GOOGLEDRIVE = 'googledrive';
+var CONNECTION_TYPE_GOOGLESHEETS = exports.CONNECTION_TYPE_GOOGLESHEETS = 'googlesheets';
+var CONNECTION_TYPE_HTTP = exports.CONNECTION_TYPE_HTTP = 'http';
+var CONNECTION_TYPE_MAILJET = exports.CONNECTION_TYPE_MAILJET = 'mailjet';
+var CONNECTION_TYPE_MYSQL = exports.CONNECTION_TYPE_MYSQL = 'mysql';
+var CONNECTION_TYPE_POSTGRES = exports.CONNECTION_TYPE_POSTGRES = 'postgres';
+var CONNECTION_TYPE_RSS = exports.CONNECTION_TYPE_RSS = 'rss';
+var CONNECTION_TYPE_SFTP = exports.CONNECTION_TYPE_SFTP = 'sftp';
+var CONNECTION_TYPE_SOCRATA = exports.CONNECTION_TYPE_SOCRATA = 'socrata';
+var CONNECTION_TYPE_STDIN = exports.CONNECTION_TYPE_STDIN = 'stdin';
+var CONNECTION_TYPE_STDOUT = exports.CONNECTION_TYPE_STDOUT = 'stdout';
+var CONNECTION_TYPE_PIPELINEDEALS = exports.CONNECTION_TYPE_PIPELINEDEALS = 'pipelinedeals';
+var CONNECTION_TYPE_UPLOAD = exports.CONNECTION_TYPE_UPLOAD = 'upload';
+
+/***/ }),
+/* 86 */
 /***/ (function(module, exports) {
 
 /**
@@ -3730,7 +4026,7 @@ module.exports = assign;
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4237,10 +4533,10 @@ var pick = baseRest(function(object, props) {
 
 module.exports = pick;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports) {
 
 /**
@@ -4274,72 +4570,7 @@ module.exports = last;
 
 
 /***/ }),
-/* 87 */
-/***/ (function(module, exports) {
-
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  if (start < 0) {
-    start = -start > length ? 0 : (length + start);
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : ((end - start) >>> 0);
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-/**
- * Gets all but the first element of `array`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Array
- * @param {Array} array The array to query.
- * @returns {Array} Returns the slice of `array`.
- * @example
- *
- * _.tail([1, 2, 3]);
- * // => [2, 3]
- */
-function tail(array) {
-  var length = array ? array.length : 0;
-  return length ? baseSlice(array, 1, length) : [];
-}
-
-module.exports = tail;
-
-
-/***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5274,10 +5505,1007 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 89 */
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    symbolTag = '[object Symbol]';
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/,
+    reLeadingDot = /^\./,
+    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype,
+    funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Symbol = root.Symbol,
+    splice = arrayProto.splice;
+
+/* Built-in method references that are verified to be native. */
+var Map = getNative(root, 'Map'),
+    nativeCreate = getNative(Object, 'create');
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Hash(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+}
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  return this.has(key) && delete this.__data__[key];
+}
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+}
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+}
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+// Add methods to `Hash`.
+Hash.prototype.clear = hashClear;
+Hash.prototype['delete'] = hashDelete;
+Hash.prototype.get = hashGet;
+Hash.prototype.has = hashHas;
+Hash.prototype.set = hashSet;
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+}
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  return true;
+}
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  return getMapData(this, key)['delete'](key);
+}
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapCacheGet(key) {
+  return getMapData(this, key).get(key);
+}
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapCacheHas(key) {
+  return getMapData(this, key).has(key);
+}
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  getMapData(this, key).set(key, value);
+  return this;
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+/**
+ * Assigns `value` to `key` of `object` if the existing value is not equivalent
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function assignValue(object, key, value) {
+  var objValue = object[key];
+  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+      (value === undefined && !(key in object))) {
+    object[key] = value;
+  }
+}
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * The base implementation of `_.set`.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {Array|string} path The path of the property to set.
+ * @param {*} value The value to set.
+ * @param {Function} [customizer] The function to customize path creation.
+ * @returns {Object} Returns `object`.
+ */
+function baseSet(object, path, value, customizer) {
+  if (!isObject(object)) {
+    return object;
+  }
+  path = isKey(path, object) ? [path] : castPath(path);
+
+  var index = -1,
+      length = path.length,
+      lastIndex = length - 1,
+      nested = object;
+
+  while (nested != null && ++index < length) {
+    var key = toKey(path[index]),
+        newValue = value;
+
+    if (index != lastIndex) {
+      var objValue = nested[key];
+      newValue = customizer ? customizer(objValue, key, nested) : undefined;
+      if (newValue === undefined) {
+        newValue = isObject(objValue)
+          ? objValue
+          : (isIndex(path[index + 1]) ? [] : {});
+      }
+    }
+    assignValue(nested, key, newValue);
+    nested = nested[key];
+  }
+  return object;
+}
+
+/**
+ * The base implementation of `_.toString` which doesn't convert nullish
+ * values to empty strings.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+/**
+ * Casts `value` to a path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Array} Returns the cast property path array.
+ */
+function castPath(value) {
+  return isArray(value) ? value : stringToPath(value);
+}
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  if (isArray(value)) {
+    return false;
+  }
+  var type = typeof value;
+  if (type == 'number' || type == 'symbol' || type == 'boolean' ||
+      value == null || isSymbol(value)) {
+    return true;
+  }
+  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+    (object != null && value in Object(object));
+}
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Converts `string` to a property path array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the property path array.
+ */
+var stringToPath = memoize(function(string) {
+  string = toString(string);
+
+  var result = [];
+  if (reLeadingDot.test(string)) {
+    result.push('');
+  }
+  string.replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+});
+
+/**
+ * Converts `value` to a string key if it's not a string or symbol.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {string|symbol} Returns the key.
+ */
+function toKey(value) {
+  if (typeof value == 'string' || isSymbol(value)) {
+    return value;
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided, it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoized function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result);
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || MapCache);
+  return memoized;
+}
+
+// Assign cache to `_.memoize`.
+memoize.Cache = MapCache;
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a string. An empty string is returned for `null`
+ * and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  return value == null ? '' : baseToString(value);
+}
+
+/**
+ * Sets the value at `path` of `object`. If a portion of `path` doesn't exist,
+ * it's created. Arrays are created for missing index properties while objects
+ * are created for all other missing properties. Use `_.setWith` to customize
+ * `path` creation.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.7.0
+ * @category Object
+ * @param {Object} object The object to modify.
+ * @param {Array|string} path The path of the property to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ *
+ * _.set(object, 'a[0].b.c', 4);
+ * console.log(object.a[0].b.c);
+ * // => 4
+ *
+ * _.set(object, ['x', '0', 'y', 'z'], 5);
+ * console.log(object.x[0].y.z);
+ * // => 5
+ */
+function set(object, path, value) {
+  return object == null ? object : baseSet(object, path, value);
+}
+
+module.exports = set;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -7647,10 +8875,10 @@ function property(path) {
 
 module.exports = map;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(90)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(92)(module)))
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -7678,71 +8906,227 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 93 */
+/***/ (function(module, exports) {
 
-"use strict";
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
 
+/**
+ * Checks `value` to determine whether a default value should be returned in
+ * its place. The `defaultValue` is returned if `value` is `NaN`, `null`,
+ * or `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.14.0
+ * @category Util
+ * @param {*} value The value to check.
+ * @param {*} defaultValue The default value.
+ * @returns {*} Returns the resolved value.
+ * @example
+ *
+ * _.defaultTo(1, 10);
+ * // => 1
+ *
+ * _.defaultTo(undefined, 10);
+ * // => 10
+ */
+function defaultTo(value, defaultValue) {
+  return (value == null || value !== value) ? defaultValue : value;
+}
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var TASK_TYPE_CALC = exports.TASK_TYPE_CALC = 'flexio.calc';
-var TASK_TYPE_COMMENT = exports.TASK_TYPE_COMMENT = 'flexio.comment';
-var TASK_TYPE_CONVERT = exports.TASK_TYPE_CONVERT = 'flexio.convert';
-var TASK_TYPE_COPY = exports.TASK_TYPE_COPY = 'flexio.copy';
-var TASK_TYPE_CUSTOM = exports.TASK_TYPE_CUSTOM = 'flexio.custom';
-var TASK_TYPE_DISTINCT = exports.TASK_TYPE_DISTINCT = 'flexio.distinct';
-var TASK_TYPE_DUPLICATE = exports.TASK_TYPE_DUPLICATE = 'flexio.duplicate';
-var TASK_TYPE_EMAIL_SEND = exports.TASK_TYPE_EMAIL_SEND = 'flexio.email';
-var TASK_TYPE_EXECUTE = exports.TASK_TYPE_EXECUTE = 'flexio.execute';
-var TASK_TYPE_FIND_REPLACE = exports.TASK_TYPE_FIND_REPLACE = 'flexio.replace';
-var TASK_TYPE_FILTER = exports.TASK_TYPE_FILTER = 'flexio.filter';
-var TASK_TYPE_GROUP = exports.TASK_TYPE_GROUP = 'flexio.group';
-var TASK_TYPE_INPUT = exports.TASK_TYPE_INPUT = 'flexio.input';
-var TASK_TYPE_LIMIT = exports.TASK_TYPE_LIMIT = 'flexio.limit';
-var TASK_TYPE_MERGE = exports.TASK_TYPE_MERGE = 'flexio.merge';
-var TASK_TYPE_NOP = exports.TASK_TYPE_NOP = 'flexio.nop';
-var TASK_TYPE_OUTPUT = exports.TASK_TYPE_OUTPUT = 'flexio.output';
-var TASK_TYPE_PROMPT = exports.TASK_TYPE_PROMPT = 'flexio.prompt';
-var TASK_TYPE_R = exports.TASK_TYPE_R = 'flexio.r';
-var TASK_TYPE_RENAME = exports.TASK_TYPE_RENAME = 'flexio.rename';
-var TASK_TYPE_SEARCH = exports.TASK_TYPE_SEARCH = 'flexio.search';
-var TASK_TYPE_SELECT = exports.TASK_TYPE_SELECT = 'flexio.select';
-var TASK_TYPE_SLEEP = exports.TASK_TYPE_SLEEP = 'flexio.sleep';
-var TASK_TYPE_SORT = exports.TASK_TYPE_SORT = 'flexio.sort';
-var TASK_TYPE_TRANSFORM = exports.TASK_TYPE_TRANSFORM = 'flexio.transform';
+module.exports = defaultTo;
+
 
 /***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 94 */
+/***/ (function(module, exports) {
 
-"use strict";
+/**
+ * lodash 4.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is `null` or `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+ * @example
+ *
+ * _.isNil(null);
+ * // => true
+ *
+ * _.isNil(void 0);
+ * // => true
+ *
+ * _.isNil(NaN);
+ * // => false
+ */
+function isNil(value) {
+  return value == null;
+}
+
+module.exports = isNil;
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var CONNECTION_TYPE_UNKNOWN = exports.CONNECTION_TYPE_UNKNOWN = '';
-var CONNECTION_TYPE_AMAZONS3 = exports.CONNECTION_TYPE_AMAZONS3 = 'amazons3';
-var CONNECTION_TYPE_BLANK_PIPE = exports.CONNECTION_TYPE_BLANK_PIPE = 'blank-pipe';
-var CONNECTION_TYPE_DOWNLOAD = exports.CONNECTION_TYPE_DOWNLOAD = 'download';
-var CONNECTION_TYPE_DROPBOX = exports.CONNECTION_TYPE_DROPBOX = 'dropbox';
-var CONNECTION_TYPE_ELASTICSEARCH = exports.CONNECTION_TYPE_ELASTICSEARCH = 'elasticsearch';
-var CONNECTION_TYPE_EMAIL = exports.CONNECTION_TYPE_EMAIL = 'email';
-var CONNECTION_TYPE_GOOGLEDRIVE = exports.CONNECTION_TYPE_GOOGLEDRIVE = 'googledrive';
-var CONNECTION_TYPE_GOOGLESHEETS = exports.CONNECTION_TYPE_GOOGLESHEETS = 'googlesheets';
-var CONNECTION_TYPE_HTTP = exports.CONNECTION_TYPE_HTTP = 'http';
-var CONNECTION_TYPE_MAILJET = exports.CONNECTION_TYPE_MAILJET = 'mailjet';
-var CONNECTION_TYPE_MYSQL = exports.CONNECTION_TYPE_MYSQL = 'mysql';
-var CONNECTION_TYPE_POSTGRES = exports.CONNECTION_TYPE_POSTGRES = 'postgres';
-var CONNECTION_TYPE_RSS = exports.CONNECTION_TYPE_RSS = 'rss';
-var CONNECTION_TYPE_SFTP = exports.CONNECTION_TYPE_SFTP = 'sftp';
-var CONNECTION_TYPE_SOCRATA = exports.CONNECTION_TYPE_SOCRATA = 'socrata';
-var CONNECTION_TYPE_STDIN = exports.CONNECTION_TYPE_STDIN = 'stdin';
-var CONNECTION_TYPE_STDOUT = exports.CONNECTION_TYPE_STDOUT = 'stdout';
-var CONNECTION_TYPE_PIPELINEDEALS = exports.CONNECTION_TYPE_PIPELINEDEALS = 'pipelinedeals';
-var CONNECTION_TYPE_UPLOAD = exports.CONNECTION_TYPE_UPLOAD = 'upload';
+/***/ }),
+/* 95 */
+/***/ (function(module, exports) {
+
+/**
+ * lodash 4.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @type Function
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' ||
+    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+}
+
+module.exports = isString;
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports) {
+
+/**
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
 
 /***/ })
 /******/ ]);
