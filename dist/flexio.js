@@ -1451,7 +1451,7 @@ var _lodash11 = __webpack_require__(89);
 
 var _lodash12 = _interopRequireDefault(_lodash11);
 
-var _lodash13 = __webpack_require__(90);
+var _lodash13 = __webpack_require__(91);
 
 var _lodash14 = _interopRequireDefault(_lodash13);
 
@@ -1463,25 +1463,29 @@ var _lodash17 = __webpack_require__(93);
 
 var _lodash18 = _interopRequireDefault(_lodash17);
 
-var _lodash19 = __webpack_require__(94);
-
-var _lodash20 = _interopRequireDefault(_lodash19);
-
-var _lodash21 = __webpack_require__(95);
-
-var _lodash22 = _interopRequireDefault(_lodash21);
-
-var _taskType = __webpack_require__(96);
+var _taskType = __webpack_require__(94);
 
 var ttypes = _interopRequireWildcard(_taskType);
 
-var _connectionType = __webpack_require__(97);
+var _connectionType = __webpack_require__(95);
 
 var ctypes = _interopRequireWildcard(_connectionType);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _ = {
+  assign: _lodash2.default,
+  pick: _lodash4.default,
+  last: _lodash6.default,
+  get: _lodash8.default,
+  set: _lodash10.default,
+  map: _lodash12.default,
+  defaultTo: _lodash14.default,
+  isString: _lodash16.default,
+  isObject: _lodash18.default
+};
 
 function toBase64(str) {
   try {
@@ -1506,8 +1510,8 @@ var base_params = {
 };
 
 exports.default = function (auth_token) {
-  return (0, _lodash2.default)({}, {
-    pipe: (0, _lodash2.default)({}, base_params),
+  return _.assign({}, {
+    pipe: _.assign({}, base_params),
     processes: [],
 
     http: _axios2.default.create({
@@ -1525,13 +1529,13 @@ exports.default = function (auth_token) {
       return window.console ? console.log(msg) : alert(msg);
     },
     getJson: function getJson() {
-      return (0, _lodash2.default)({}, this.pipe);
+      return _.assign({}, this.pipe);
     },
     getProcesses: function getProcesses() {
       return [].concat(this.processes);
     },
     getLastProcess: function getLastProcess() {
-      return (0, _lodash6.default)(this.processes);
+      return _.last(this.processes);
     },
     addTask: function addTask(task) {
       this.pipe.task.push(task);
@@ -1546,7 +1550,7 @@ exports.default = function (auth_token) {
           _arguments = arguments;
 
       var args = (0, _from2.default)(arguments);
-      var params = (0, _lodash10.default)(args, '[0]');
+      var params = _.get(args, '[0]');
       var successCb;
       var errorCb;
 
@@ -1557,20 +1561,20 @@ exports.default = function (auth_token) {
         return this;
       }
 
-      if ((0, _lodash22.default)(params)) {
-        (0, _lodash2.default)(this.pipe, (0, _lodash4.default)(params, ['name', 'description', 'ename']));
-        successCb = (0, _lodash10.default)(args, '[1]');
-        errorCb = (0, _lodash10.default)(args, '[2]');
+      if (_.isObject(params)) {
+        _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']));
+        successCb = _.get(args, '[1]');
+        errorCb = _.get(args, '[2]');
       } else {
-        successCb = (0, _lodash10.default)(args, '[0]');
-        errorCb = (0, _lodash10.default)(args, '[1]');
+        successCb = _.get(args, '[0]');
+        errorCb = _.get(args, '[1]');
       }
 
       this.saving = true;
-      this.debug('Saving Pipe `' + (0, _lodash10.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
+      this.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
       this.http.post('/pipes', this.pipe).then(function (response) {
-        (0, _lodash2.default)(_this.pipe, (0, _lodash10.default)(response, 'data', {}));
+        _.assign(_this.pipe, _.get(response, 'data', {}));
         _this.saving = false;
         _this.debug('Pipe Saved.');
 
@@ -1589,8 +1593,8 @@ exports.default = function (auth_token) {
           _arguments2 = arguments;
 
       var args = (0, _from2.default)(arguments);
-      var successCb = (0, _lodash10.default)(args, '[0]');
-      var errorCb = (0, _lodash10.default)(args, '[1]');
+      var successCb = _.get(args, '[0]');
+      var errorCb = _.get(args, '[1]');
 
       if (this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -1600,20 +1604,20 @@ exports.default = function (auth_token) {
       }
 
       this.running = true;
-      this.debug('Running Pipe `' + (0, _lodash10.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
+      this.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
-      var run_params = (0, _lodash2.default)({}, this.pipe);
+      var run_params = _.assign({}, this.pipe);
 
-      var parent_eid = (0, _lodash10.default)(this.pipe, 'eid', '');
+      var parent_eid = _.get(this.pipe, 'eid', '');
       if (parent_eid.length > 0) run_params = { parent_eid: parent_eid };
 
-      (0, _lodash2.default)(run_params, {
+      _.assign(run_params, {
         process_mode: 'R',
         run: true
       });
 
       this.http.post('/processes', run_params).then(function (response) {
-        _this2.processes.push((0, _lodash10.default)(response, 'data', {}));
+        _this2.processes.push(_.get(response, 'data', {}));
         _this2.debug('Process Running.');
         _this2.running = false;
 
@@ -1630,7 +1634,7 @@ exports.default = function (auth_token) {
     input: function input() {
       var type = ttypes.TASK_TYPE_INPUT;
       var args = (0, _from2.default)(arguments);
-      var connection_type = (0, _lodash10.default)(args, '[0]', '');
+      var connection_type = _.get(args, '[0]', '');
       var connection = undefined;
       var items = undefined;
 
@@ -1654,17 +1658,17 @@ exports.default = function (auth_token) {
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = (0, _lodash10.default)(args, '[1]', '');
-          items = (0, _lodash10.default)(args, '[2]', []);
+          connection = _.get(args, '[1]', '');
+          items = _.get(args, '[2]', []);
           break;
 
         case ctypes.CONNECTION_TYPE_RSS:
           connection = connection_type;
-          items = (0, _lodash10.default)(args, '[1]', []);
+          items = _.get(args, '[1]', []);
           break;
       }
 
-      items = (0, _lodash14.default)(items, function (item) {
+      items = _.map(items, function (item) {
         return {
           path: item
         };
@@ -1682,7 +1686,7 @@ exports.default = function (auth_token) {
     output: function output() {
       var type = ttypes.TASK_TYPE_OUTPUT;
       var args = (0, _from2.default)(arguments);
-      var connection_type = (0, _lodash10.default)(args, '[0]', '');
+      var connection_type = _.get(args, '[0]', '');
       var connection = undefined;
       var location = undefined;
 
@@ -1697,14 +1701,14 @@ exports.default = function (auth_token) {
         case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
-          connection = (0, _lodash10.default)(args, '[1]', '');
+          connection = _.get(args, '[1]', '');
           break;
 
         case ctypes.CONNECTION_TYPE_DROPBOX:
         case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = (0, _lodash10.default)(args, '[1]', '');
-          location = (0, _lodash10.default)(args, '[2]', '/');
+          connection = _.get(args, '[1]', '');
+          location = _.get(args, '[2]', '/');
           break;
       }
 
@@ -1725,16 +1729,16 @@ exports.default = function (auth_token) {
         params: {}
       };
 
-      if ((0, _lodash20.default)(input)) (0, _lodash12.default)(task, 'params.input.format', input);else if ((0, _lodash22.default)(input)) (0, _lodash12.default)(task, 'params.input', input);
+      if (_.isString(input)) _.set(task, 'params.input.format', input);else if (_.isObject(input)) _.set(task, 'params.input', input);
 
-      if ((0, _lodash20.default)(output)) (0, _lodash12.default)(task, 'params.output.format', output);else if ((0, _lodash22.default)(output)) (0, _lodash12.default)(task, 'params.output', output);
+      if (_.isString(output)) _.set(task, 'params.output.format', output);else if (_.isObject(output)) _.set(task, 'params.output', output);
 
       return this.addTask(task);
     },
     execute: function execute() {
       var type = ttypes.TASK_TYPE_EXECUTE;
       var args = (0, _from2.default)(arguments);
-      var lang = (0, _lodash10.default)(args, '[0]', '');
+      var lang = _.get(args, '[0]', '');
       var code = undefined;
 
       var task = {
@@ -1743,21 +1747,21 @@ exports.default = function (auth_token) {
       };
 
       if (lang == 'python' || lang == 'javascript') {
-        (0, _lodash12.default)(task, 'params.lang', lang);
-        code = toBase64((0, _lodash10.default)(args, '[1]', ''));
+        _.set(task, 'params.lang', lang);
+        code = toBase64(_.get(args, '[1]', ''));
       } else {
-        (0, _lodash12.default)(task, 'params.lang', 'python');
-        code = toBase64((0, _lodash10.default)(args, '[0]', ''));
+        _.set(task, 'params.lang', 'python');
+        code = toBase64(_.get(args, '[0]', ''));
       }
 
       var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-      if (code.match(http_regex)) (0, _lodash12.default)(task, 'params.file', code);else (0, _lodash12.default)(task, 'params.code', code);
+      if (code.match(http_regex)) _.set(task, 'params.file', code);else _.set(task, 'params.code', code);
 
       return this.addTask(task);
     },
     limit: function limit(value) {
       var type = ttypes.TASK_TYPE_LIMIT;
-      value = (0, _lodash16.default)(value, 10);
+      value = _.defaultTo(value, 10);
 
       return this.addTask({
         type: type,
@@ -1779,7 +1783,7 @@ exports.default = function (auth_token) {
     },
     sleep: function sleep(value) {
       var type = ttypes.TASK_TYPE_SLEEP;
-      value = (0, _lodash16.default)(value, 10);
+      value = _.defaultTo(value, 10);
 
       return this.addTask({
         type: type,
@@ -4409,71 +4413,6 @@ module.exports = last;
 
 /***/ }),
 /* 87 */
-/***/ (function(module, exports) {
-
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  if (start < 0) {
-    start = -start > length ? 0 : (length + start);
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : ((end - start) >>> 0);
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-/**
- * Gets all but the first element of `array`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Array
- * @param {Array} array The array to query.
- * @returns {Array} Returns the slice of `array`.
- * @example
- *
- * _.tail([1, 2, 3]);
- * // => [2, 3]
- */
-function tail(array) {
-  var length = array ? array.length : 0;
-  return length ? baseSlice(array, 1, length) : [];
-}
-
-module.exports = tail;
-
-
-/***/ }),
-/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -5411,7 +5350,7 @@ module.exports = get;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 89 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6408,7 +6347,7 @@ module.exports = set;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 90 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -8778,10 +8717,10 @@ function property(path) {
 
 module.exports = map;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(91)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(90)(module)))
 
 /***/ }),
-/* 91 */
+/* 90 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -8809,7 +8748,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports) {
 
 /**
@@ -8849,46 +8788,7 @@ module.exports = defaultTo;
 
 
 /***/ }),
-/* 93 */
-/***/ (function(module, exports) {
-
-/**
- * lodash 4.0.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/**
- * Checks if `value` is `null` or `undefined`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
- * @example
- *
- * _.isNil(null);
- * // => true
- *
- * _.isNil(void 0);
- * // => true
- *
- * _.isNil(NaN);
- * // => false
- */
-function isNil(value) {
-  return value == null;
-}
-
-module.exports = isNil;
-
-
-/***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports) {
 
 /**
@@ -8989,7 +8889,7 @@ module.exports = isString;
 
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, exports) {
 
 /**
@@ -9032,7 +8932,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 96 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9068,7 +8968,7 @@ var TASK_TYPE_SORT = exports.TASK_TYPE_SORT = 'flexio.sort';
 var TASK_TYPE_TRANSFORM = exports.TASK_TYPE_TRANSFORM = 'flexio.transform';
 
 /***/ }),
-/* 97 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

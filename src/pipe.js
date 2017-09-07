@@ -4,14 +4,25 @@ import axios from 'axios'
 import assign from 'lodash.assign'
 import pick from 'lodash.pick'
 import last from 'lodash.last'
-import tail from 'lodash.tail'
 import get from 'lodash.get'
 import set from 'lodash.set'
 import map from 'lodash.map'
 import defaultTo from 'lodash.defaultto'
-import isNil from 'lodash.isnil'
 import isString from 'lodash.isstring'
 import isObject from 'lodash.isobject'
+
+// emulate lodash syntax
+var _ = {
+  assign,
+  pick,
+  last,
+  get,
+  set,
+  map,
+  defaultTo,
+  isString,
+  isObject
+}
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
@@ -31,8 +42,8 @@ var base_params = {
 }
 
 export default (auth_token) => {
-  return assign({}, {
-    pipe: assign({}, base_params),
+  return _.assign({}, {
+    pipe: _.assign({}, base_params),
     processes: [],
 
     // axios instance with base url and auth token factored into it
@@ -61,7 +72,7 @@ export default (auth_token) => {
     // -- methods --
 
     getJson() {
-      return assign({}, this.pipe)
+      return _.assign({}, this.pipe)
     },
 
     getProcesses() {
@@ -69,7 +80,7 @@ export default (auth_token) => {
     },
 
     getLastProcess() {
-      return last(this.processes)
+      return _.last(this.processes)
     },
 
     addTask(task) {
@@ -84,7 +95,7 @@ export default (auth_token) => {
 
     save() {
       var args = Array.from(arguments)
-      var params = get(args, '[0]')
+      var params = _.get(args, '[0]')
       var successCb
       var errorCb
 
@@ -94,25 +105,25 @@ export default (auth_token) => {
         return this
       }
 
-      if (isObject(params))
+      if (_.isObject(params))
       {
-        assign(this.pipe, pick(params, ['name', 'description', 'ename']))
-        successCb = get(args, '[1]')
-        errorCb = get(args, '[2]')
+        _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']))
+        successCb = _.get(args, '[1]')
+        errorCb = _.get(args, '[2]')
       }
        else
       {
-        successCb = get(args, '[0]')
-        errorCb = get(args, '[1]')
+        successCb = _.get(args, '[0]')
+        errorCb = _.get(args, '[1]')
       }
 
       this.saving = true
-      this.debug('Saving Pipe `' + get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      this.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       this.http
         .post('/pipes', this.pipe)
         .then(response => {
-          assign(this.pipe, get(response, 'data', {}))
+          _.assign(this.pipe, _.get(response, 'data', {}))
           this.saving = false
           this.debug('Pipe Saved.')
 
@@ -132,8 +143,8 @@ export default (auth_token) => {
 
     run() {
       var args = Array.from(arguments)
-      var successCb = get(args, '[0]')
-      var errorCb = get(args, '[1]')
+      var successCb = _.get(args, '[0]')
+      var errorCb = _.get(args, '[1]')
 
       if (this.saving === true || this.running === true)
       {
@@ -142,17 +153,17 @@ export default (auth_token) => {
       }
 
       this.running = true
-      this.debug('Running Pipe `' + get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      this.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
-      var run_params = assign({}, this.pipe)
+      var run_params = _.assign({}, this.pipe)
 
       // if we have saved this pipe, use the pipe's eid as the parent eid
-      var parent_eid = get(this.pipe, 'eid', '')
+      var parent_eid = _.get(this.pipe, 'eid', '')
       if (parent_eid.length > 0)
         run_params = { parent_eid }
 
       // set the process to run mode and auto-run it
-      assign(run_params, {
+      _.assign(run_params, {
         process_mode: 'R',
         run: true
       })
@@ -160,7 +171,7 @@ export default (auth_token) => {
       this.http
         .post('/processes', run_params)
         .then(response => {
-          this.processes.push(get(response, 'data', {}))
+          this.processes.push(_.get(response, 'data', {}))
           this.debug('Process Running.')
           this.running = false
 
@@ -183,7 +194,7 @@ export default (auth_token) => {
     input() {
       var type = ttypes.TASK_TYPE_INPUT
       var args = Array.from(arguments)
-      var connection_type = get(args, '[0]', '')
+      var connection_type = _.get(args, '[0]', '')
       var connection = undefined
       var items = undefined
 
@@ -209,17 +220,17 @@ export default (auth_token) => {
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = get(args, '[1]', '')
-          items = get(args, '[2]', [])
+          connection = _.get(args, '[1]', '')
+          items = _.get(args, '[2]', [])
           break
 
         case ctypes.CONNECTION_TYPE_RSS:
           connection = connection_type
-          items = get(args, '[1]', [])
+          items = _.get(args, '[1]', [])
           break
       }
 
-      items = map(items, (item) => {
+      items = _.map(items, (item) => {
         return {
           path: item
         }
@@ -238,7 +249,7 @@ export default (auth_token) => {
     output() {
       var type = ttypes.TASK_TYPE_OUTPUT
       var args = Array.from(arguments)
-      var connection_type = get(args, '[0]', '')
+      var connection_type = _.get(args, '[0]', '')
       var connection = undefined
       var location = undefined
 
@@ -255,14 +266,14 @@ export default (auth_token) => {
         case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
         case ctypes.CONNECTION_TYPE_MYSQL:
         case ctypes.CONNECTION_TYPE_POSTGRES:
-          connection = get(args, '[1]', '')
+          connection = _.get(args, '[1]', '')
           break
 
         case ctypes.CONNECTION_TYPE_DROPBOX:
         case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
         case ctypes.CONNECTION_TYPE_SFTP:
-          connection = get(args, '[1]', '')
-          location = get(args, '[2]', '/')
+          connection = _.get(args, '[1]', '')
+          location = _.get(args, '[2]', '/')
           break
       }
 
@@ -284,15 +295,15 @@ export default (auth_token) => {
         params: {}
       }
 
-      if (isString(input))
-        set(task, 'params.input.format', input)
-         else if (isObject(input))
-        set(task, 'params.input', input)
+      if (_.isString(input))
+        _.set(task, 'params.input.format', input)
+         else if (_.isObject(input))
+        _.set(task, 'params.input', input)
 
-      if (isString(output))
-        set(task, 'params.output.format', output)
-         else if (isObject(output))
-        set(task, 'params.output', output)
+      if (_.isString(output))
+        _.set(task, 'params.output.format', output)
+         else if (_.isObject(output))
+        _.set(task, 'params.output', output)
 
       return this.addTask(task)
     },
@@ -300,7 +311,7 @@ export default (auth_token) => {
     execute() {
       var type = ttypes.TASK_TYPE_EXECUTE
       var args = Array.from(arguments)
-      var lang = get(args, '[0]', '')
+      var lang = _.get(args, '[0]', '')
       var code = undefined
 
       var task = {
@@ -310,29 +321,29 @@ export default (auth_token) => {
 
       if (lang == 'python' || lang == 'javascript')
       {
-        set(task, 'params.lang', lang)
-        code = toBase64(get(args, '[1]', ''))
+        _.set(task, 'params.lang', lang)
+        code = toBase64(_.get(args, '[1]', ''))
       }
        else
       {
         // default to python
-        set(task, 'params.lang', 'python')
-        code = toBase64(get(args, '[0]', ''))
+        _.set(task, 'params.lang', 'python')
+        code = toBase64(_.get(args, '[0]', ''))
       }
 
       // handle files or code snippets
       var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
       if (code.match(http_regex))
-        set(task, 'params.file', code)
+        _.set(task, 'params.file', code)
          else
-        set(task, 'params.code', code)
+        _.set(task, 'params.code', code)
 
       return this.addTask(task)
     },
 
     limit(value) {
       var type = ttypes.TASK_TYPE_LIMIT
-      value = defaultTo(value, 10)
+      value = _.defaultTo(value, 10)
 
       return this.addTask({
         type,
@@ -356,7 +367,7 @@ export default (auth_token) => {
 
     sleep(value) {
       var type = ttypes.TASK_TYPE_SLEEP
-      value = defaultTo(value, 10)
+      value = _.defaultTo(value, 10)
 
       return this.addTask({
         type,
