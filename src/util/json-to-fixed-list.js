@@ -1,7 +1,9 @@
 // individual lodash includes
 import assign from 'lodash.assign'
 import map from 'lodash.map'
+import pickBy from 'lodash.pickby'
 import forEach from 'lodash.foreach'
+import isNil from 'lodash.isnil'
 import isArray from 'lodash.isarray'
 import isString from 'lodash.isstring'
 import isNumber from 'lodash.isnumber'
@@ -13,7 +15,9 @@ import mapValues from 'lodash.mapvalues'
 var _ = {
   assign,
   map,
+  pickBy,
   forEach,
+  isNil,
   isArray,
   isString,
   isNumber,
@@ -30,8 +34,8 @@ var default_cfg = {
 var valuesToLengths = function(arr) {
   return _.map(arr, (a) => {
     return _.mapValues(a, (val, key) => {
-      if (_.isObject(val) || _.isArray(val) || _.isFunction(val))
-        return ''
+      if (isNil(val) || _.isFunction(val) || _.isObject(val) || _.isArray(val))
+        return 0
          else if (_.isString(val))
         return val.length
          else
@@ -68,6 +72,16 @@ var getColumnWidths = function(arr, cfg) {
   return retval
 }
 
+var sanitizeItems = function(arr) {
+  var arr = [].concat(arr)
+
+  return _.map(arr, (a) => {
+    return _.pickBy(a, function(val) {
+      return _.isString(val) || _.isNumber(val)
+    })
+  })
+}
+
 var renderList = function(arr, cfg, lengths) {
   var retval = ''
 
@@ -89,7 +103,11 @@ var renderList = function(arr, cfg, lengths) {
   _.forEach(arr, (a) => {
     _.forEach(a, (val, key) => {
       var len = lengths[key]
-      retval += (val + ' '.repeat(len)).substr(0, len)
+
+      if (_.isString(val))
+        retval += (val + ' '.repeat(len)).substr(0, len)
+         else
+        retval += (val.toString() + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
@@ -110,6 +128,7 @@ export default (items, cfg) => {
   if (!_.isArray(items) || items.length == 0)
     return ''
 
+  var items = sanitizeItems(items)
   var lengths = getColumnWidths(valuesToLengths(items), cfg)
   return renderList(items, cfg, lengths)
 }
