@@ -78,7 +78,7 @@
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-console">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="connections-console"></div>
+      <div id="connections-console"></div>
     </div>
 
     <div class="mv3">
@@ -89,7 +89,7 @@
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="connections-json"></div>
+      <div id="connections-json"></div>
     </div>
 
     <div class="mv3">
@@ -100,7 +100,7 @@
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-console">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="pipes-console"></div>
+      <div id="pipes-console"></div>
     </div>
 
     <div class="mv3">
@@ -111,7 +111,7 @@
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="pipes-json"></div>
+      <div id="pipes-json"></div>
     </div>
 
     <h2>Pipe Examples</h2>
@@ -133,7 +133,7 @@
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-1">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="run-pipe-1"></div>
+      <div id="run-pipe-1"></div>
     </div>
 
 
@@ -155,7 +155,7 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-2">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="run-pipe-2"></div>
+      <div id="run-pipe-2"></div>
     </div>
 
 
@@ -171,7 +171,7 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-3">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="run-pipe-3"></div>
+      <div id="run-pipe-3"></div>
     </div>
 
 
@@ -183,7 +183,7 @@ def flexio_handler(input, output):\n\
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe().load('my-pipe-alias').run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-4">Run</button>
       </div>
-      <div class="pa3 nt2 bg-near-white" id="run-pipe-4"></div>
+      <div id="run-pipe-4"></div>
     </div>
   </div>
 
@@ -199,7 +199,7 @@ def flexio_handler(input, output):\n\
     $app.find('h1').text('Flex.io Javascript SDK Version: ' + Flexio.version())
 
     function listConnectionsConsole() {
-      var $div = $('#connections-console')
+      var $div = $('#connections-console').addClass('pa3 pt0 bg-near-white')
       $div.empty().append('Loading...')
 
       var connections = Flexio.connections().load(function() {
@@ -213,7 +213,7 @@ def flexio_handler(input, output):\n\
     }
 
     function listConnectionsJson() {
-      var $div = $('#connections-json')
+      var $div = $('#connections-json').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var connections = Flexio.connections().load(function() {
@@ -231,7 +231,7 @@ def flexio_handler(input, output):\n\
     }
 
     function listPipesConsole() {
-      var $div = $('#pipes-console')
+      var $div = $('#pipes-console').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var pipes = Flexio.pipes().load(function() {
@@ -245,7 +245,7 @@ def flexio_handler(input, output):\n\
     }
 
     function listPipesJson() {
-      var $div = $('#pipes-json')
+      var $div = $('#pipes-json').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var pipes = Flexio.pipes().load(function() {
@@ -279,7 +279,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-1').click(function() {
-      var $div = $('#run-pipe-1')
+      var $div = $('#run-pipe-1').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -305,7 +305,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-2').click(function() {
-      var $div = $('#run-pipe-2')
+      var $div = $('#run-pipe-2').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -335,7 +335,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-3').click(function() {
-      var $div = $('#run-pipe-4')
+      var $div = $('#run-pipe-4').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -359,7 +359,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-4').click(function() {
-      var $div = $('#run-pipe-4')
+      var $div = $('#run-pipe-4').addClass('pa3 bg-near-white')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
