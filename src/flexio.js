@@ -1,5 +1,6 @@
 import pipe from './pipe'
 import pipes from './pipes'
+import connections from './connections'
 
 var auth_token = ''
 
@@ -19,5 +20,9 @@ export default {
 
   pipes() {
     return pipes(auth_token)
+  },
+
+  connections() {
+    return connections(auth_token)
   }
 }
