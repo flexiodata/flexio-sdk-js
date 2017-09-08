@@ -6459,14 +6459,14 @@ exports.default = function (auth_token) {
 
       if (lang == 'python' || lang == 'javascript') {
         _.set(task, 'params.lang', lang);
-        code = toBase64(_.get(args, '[1]', ''));
+        code = _.get(args, '[1]', '');
       } else {
         _.set(task, 'params.lang', 'python');
-        code = toBase64(_.get(args, '[0]', ''));
+        code = _.get(args, '[0]', '');
       }
 
       var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-      if (code.match(http_regex)) _.set(task, 'params.file', code);else _.set(task, 'params.code', code);
+      if (code.match(http_regex)) _.set(task, 'params.file', code);else _.set(task, 'params.code', toBase64(code));
 
       return this.addTask(task);
     },

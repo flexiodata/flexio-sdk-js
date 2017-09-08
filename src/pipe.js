@@ -425,13 +425,13 @@ export default (auth_token) => {
       if (lang == 'python' || lang == 'javascript')
       {
         _.set(task, 'params.lang', lang)
-        code = toBase64(_.get(args, '[1]', ''))
+        code = _.get(args, '[1]', '')
       }
        else
       {
         // default to python
         _.set(task, 'params.lang', 'python')
-        code = toBase64(_.get(args, '[0]', ''))
+        code = _.get(args, '[0]', '')
       }
 
       // handle files or code snippets
@@ -439,7 +439,7 @@ export default (auth_token) => {
       if (code.match(http_regex))
         _.set(task, 'params.file', code)
          else
-        _.set(task, 'params.code', code)
+        _.set(task, 'params.code', toBase64(code))
 
       return this.addTask(task)
     },
