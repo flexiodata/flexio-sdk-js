@@ -6,6 +6,8 @@
   <title>Flex.io Javascript SDK Test</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.8.1/tachyons.min.css" integrity="sha256-i0Y6JXo6ZVDJM7TUXTNTB2KKeO4TFQOfMTGgm9mW0II=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" integrity="sha256-3YM6A3pH4QFCl9WbSU8oXF5N6W/2ylvW0o2g+Z6TmLQ=" crossorigin="anonymous" />
+
 
   <style>
     html, body {
@@ -46,6 +48,10 @@
       box-shadow: inset 9999px 9999px rgba(0,0,0,0.20)
     }
 
+    .bg-near-white {
+      background-color: #f8f8f8;
+    }
+
   </style>
 </head>
 
@@ -58,7 +64,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Initialize Flex.io JS SDK with your API key</h4>
-        <pre class="overflow-x-auto">Flexio.setup('YOUR API KEY GOES HERE')</pre>
+        <pre class="overflow-x-auto"><code class="js">Flexio.setup('YOUR API KEY GOES HERE')</code></pre>
       </div>
     </div>
 
@@ -67,45 +73,45 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List connections (Console)</h4>
-        <pre class="overflow-x-auto">var connections = Flexio.connections().load(function() {
+        <pre class="overflow-x-auto"><code class="js">var connections = Flexio.connections().load(function() {
   connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
-})</pre>
+})</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-console">Run</button>
       </div>
-      <div class="pa3" id="connections-console"></div>
+      <div class="pa3 nt2 bg-near-white" id="connections-console"></div>
     </div>
 
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List connections (JSON)</h4>
-        <pre class="overflow-x-auto">var connections = Flexio.connections().load(function() {
+        <pre class="overflow-x-auto"><code class="js">var connections = Flexio.connections().load(function() {
   connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
-})</pre>
+})</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
       </div>
-      <div class="pa3" id="connections-json"></div>
+      <div class="pa3 nt2 bg-near-white" id="connections-json"></div>
     </div>
 
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List pipes (Console)</h4>
-        <pre class="overflow-x-auto">var pipes = Flexio.pipes().load(function() {
+        <pre class="overflow-x-auto"><code class="js">var pipes = Flexio.pipes().load(function() {
   pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
-})</pre>
+})</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-console">Run</button>
       </div>
-      <div class="pa3" id="pipes-console"></div>
+      <div class="pa3 nt2 bg-near-white" id="pipes-console"></div>
     </div>
 
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List pipes (JSON)</h4>
-        <pre class="overflow-x-auto">var pipes = Flexio.pipes().load(function() {
+        <pre class="overflow-x-auto"><code class="js">var pipes = Flexio.pipes().load(function() {
   pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
-})</pre>
+})</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
       </div>
-      <div class="pa3" id="pipes-json"></div>
+      <div class="pa3 nt2 bg-near-white" id="pipes-json"></div>
     </div>
 
     <h2>Pipe Examples</h2>
@@ -116,7 +122,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Move a file from Google Drive to Dropbox (with modifications)</h4>
-        <pre class="overflow-x-auto">Flexio.pipe()
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
   .convert('delimited', 'table')
   .select('VEND_NAME', 'DUE_DATE')
@@ -124,10 +130,10 @@
   .convert('table', 'json')
   .output('dropbox', 'fxtest103-dropbox', '/test_data')
   .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
-  .run()</pre>
+  .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-1">Run</button>
       </div>
-      <div class="pa3" id="run-pipe-1"></div>
+      <div class="pa3 nt2 bg-near-white" id="run-pipe-1"></div>
     </div>
 
 
@@ -136,7 +142,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Create a message in python and email it as an attachment</h4>
-        <pre class="overflow-x-auto">Flexio.pipe()
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .execute("\
 def flexio_handler(input, output):\n\
     writer = output.create(name='Hello')\n\
@@ -146,10 +152,10 @@ def flexio_handler(input, output):\n\
         writer.write('Hello, World!')")
         .email('flexio@mailinator.com', 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
   .save({ name: 'Create a message in python and email it as an attachment' })
-  .run()</pre>
+  .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-2">Run</button>
       </div>
-      <div class="pa3" id="run-pipe-2"></div>
+      <div class="pa3 nt2 bg-near-white" id="run-pipe-2"></div>
     </div>
 
 
@@ -158,14 +164,14 @@ def flexio_handler(input, output):\n\
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Create a message from a remote python script and email it as an attachment</h4>
-        <pre class="overflow-x-auto">Flexio.pipe()
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
   .email('flexio@mailinator.com', 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(), 'This is a test using Python code from a remote file...', null, 'attachment')
   .save({ name: 'Create a message from a remote python script and email it as an attachment' })
-  .run()</pre>
+  .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-3">Run</button>
       </div>
-      <div class="pa3" id="run-pipe-3"></div>
+      <div class="pa3 nt2 bg-near-white" id="run-pipe-3"></div>
     </div>
 
 
@@ -174,14 +180,16 @@ def flexio_handler(input, output):\n\
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Run an existing pipe</h4>
-        <pre class="overflow-x-auto">Flexio.pipe().load('my-pipe-alias').run()</pre>
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe().load('my-pipe-alias').run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-4">Run</button>
       </div>
-      <div class="pa3" id="run-pipe-4"></div>
+      <div class="pa3 nt2 bg-near-white" id="run-pipe-4"></div>
     </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+  <script>hljs.initHighlightingOnLoad()</script>
   <script src="../dist/flexio.min.js"></script>
   <script>
     var $app = $('#app')
@@ -211,7 +219,11 @@ def flexio_handler(input, output):\n\
       var connections = Flexio.connections().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre>' + connections.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
+        $div.append('<pre><code class="json">' + connections.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</code></pre>')
+
+        $div.find('code').each(function(i, block) {
+          hljs.highlightBlock(block)
+        })
       }, function() {
         $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the connection list</pre>')
@@ -239,7 +251,11 @@ def flexio_handler(input, output):\n\
       var pipes = Flexio.pipes().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre>' + pipes.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
+        $div.append('<pre><code class="json">' + pipes.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</code></pre>')
+
+        $div.find('code').each(function(i, block) {
+          hljs.highlightBlock(block)
+        })
       }, function() {
         $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the pipe list</pre>')
@@ -275,13 +291,17 @@ def flexio_handler(input, output):\n\
         .output('dropbox', 'fxtest103-dropbox', '/test_data')
         .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
         .run(function() {
-          $div.empty()
-          $div.append('<h4 class="mt0">Output</h4>')
-          $div.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
-        }, function() {
-          $div.append('<h4 class="mt0">Output</h4>')
-          $div.append('<pre>There was an error running the pipe</pre>')
-        })
+            $div.empty()
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
+          }, function() {
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>There was an error running the pipe</pre>')
+          })
     })
 
     $('#btn-run-pipe-2').click(function() {
@@ -303,7 +323,11 @@ def flexio_handler(input, output):\n\
             $div.append('<h4 class="mt0">Instructions</h4>')
             $div.append('<p>Visit <a href="https://www.mailinator.com/v2/inbox.jsp?zone=public&query=flexio" target="_blank">Mailinator</a> to see the email that was sent.</p>')
             $div.append('<h4 class="mt0">Output</h4>')
-            $div.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
           }, function() {
             $div.append('<h4 class="mt0">Output</h4>')
             $div.append('<pre>There was an error running the pipe</pre>')
@@ -323,7 +347,11 @@ def flexio_handler(input, output):\n\
             $div.append('<h4 class="mt0">Instructions</h4>')
             $div.append('<p>Visit <a href="https://www.mailinator.com/v2/inbox.jsp?zone=public&query=flexio" target="_blank">Mailinator</a> to see the email that was sent.</p>')
             $div.append('<h4 class="mt0">Output</h4>')
-            $div.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
           }, function() {
             $div.append('<h4 class="mt0">Output</h4>')
             $div.append('<pre>There was an error running the pipe</pre>')
@@ -339,7 +367,11 @@ def flexio_handler(input, output):\n\
         .run(function() {
             $div.empty()
             $div.append('<h4 class="mt0">Output</h4>')
-            $div.append('<pre>' + JSON.stringify(pipe.getJSON(), null, 2) + '</pre>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getJSON(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
           }, function() {
             $div.append('<h4 class="mt0">Output</h4>')
             $div.append('<pre>There was an error running the pipe</pre>')
