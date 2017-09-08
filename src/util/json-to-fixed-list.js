@@ -66,7 +66,7 @@ var getColumnWidths = function(arr, cfg) {
 
   // add spacing to column width
   _.forEach(retval, (len, key) => {
-    retval[key] = len + cfg.spacing
+    retval[key] = len
   })
 
   return retval
@@ -87,14 +87,16 @@ var renderList = function(arr, cfg, lengths) {
 
   if (cfg.show_header === true)
   {
-    _.forEach(lengths, (len, key) => {
+    _.forEach(lengths, (val, key) => {
+      var len = val + cfg.spacing
       retval += (key + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
 
-    _.forEach(lengths, (len, key) => {
-      retval += ('-'.repeat(len) + ' '.repeat(len)).substr(0, len)
+    _.forEach(lengths, (val, key) => {
+      var len = val + cfg.spacing
+      retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
@@ -102,7 +104,7 @@ var renderList = function(arr, cfg, lengths) {
 
   _.forEach(arr, (a) => {
     _.forEach(a, (val, key) => {
-      var len = lengths[key]
+      var len = lengths[key] + cfg.spacing
 
       if (_.isString(val))
         retval += (val + ' '.repeat(len)).substr(0, len)

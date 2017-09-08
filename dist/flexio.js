@@ -6180,7 +6180,7 @@ var getColumnWidths = function getColumnWidths(arr, cfg) {
   }
 
   _.forEach(retval, function (len, key) {
-    retval[key] = len + cfg.spacing;
+    retval[key] = len;
   });
 
   return retval;
@@ -6200,14 +6200,16 @@ var renderList = function renderList(arr, cfg, lengths) {
   var retval = '';
 
   if (cfg.show_header === true) {
-    _.forEach(lengths, function (len, key) {
+    _.forEach(lengths, function (val, key) {
+      var len = val + cfg.spacing;
       retval += (key + ' '.repeat(len)).substr(0, len);
     });
 
     retval += '\n';
 
-    _.forEach(lengths, function (len, key) {
-      retval += ('-'.repeat(len) + ' '.repeat(len)).substr(0, len);
+    _.forEach(lengths, function (val, key) {
+      var len = val + cfg.spacing;
+      retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len);
     });
 
     retval += '\n';
@@ -6215,7 +6217,7 @@ var renderList = function renderList(arr, cfg, lengths) {
 
   _.forEach(arr, function (a) {
     _.forEach(a, function (val, key) {
-      var len = lengths[key];
+      var len = lengths[key] + cfg.spacing;
 
       if (_.isString(val)) retval += (val + ' '.repeat(len)).substr(0, len);else retval += (val.toString() + ' '.repeat(len)).substr(0, len);
     });
