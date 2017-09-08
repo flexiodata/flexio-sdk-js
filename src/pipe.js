@@ -76,7 +76,7 @@ export default (auth_token) => {
 
     // -- methods --
 
-    getJson() {
+    getJSON() {
       return _.assign({}, this.pipe)
     },
 

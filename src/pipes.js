@@ -22,7 +22,7 @@ var _ = {
 
 export default (auth_token) => {
   return _.assign({}, {
-    pipes: [],
+    items: [],
 
     // axios instance with base url and auth token factored into it
     http: axios.create({
@@ -51,7 +51,7 @@ export default (auth_token) => {
     // -- methods --
 
     getJson(keys) {
-      var arr = [].concat(this.pipes)
+      var arr = [].concat(this.items)
 
       return _.map(arr, (a) => {
         if (!_.isArray(keys))
@@ -61,17 +61,17 @@ export default (auth_token) => {
     },
 
     list(cfg) {
-      cfg = _.assign({
+      var cfg = _.assign({
         format: 'json',
         keys: undefined,
         show_header: true,
-        spacing: 1
+        spacing: _.get(cfg, 'format', 'json') == 'list' ? 1 : 2
       }, cfg)
 
       if (cfg.format == 'list')
         return consoleList(this.getJson(cfg.keys), cfg)
 
-      return this.getJson(cfg.keys)
+      return JSON.stringify(this.getJson(cfg.keys), null, cfg.spacing)
     },
 
     load() {
@@ -91,7 +91,7 @@ export default (auth_token) => {
       this.http
         .get('/pipes')
         .then(response => {
-          this.pipes = [].concat(_.get(response, 'data', []))
+          this.items = [].concat(_.get(response, 'data', []))
           this.loading = false
           this.debug('Success!')
 

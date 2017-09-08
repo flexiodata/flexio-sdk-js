@@ -58,7 +58,7 @@
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List connections (JSON)</h4>
         <pre>var connections = Flexio.connections().load(function() {
-  JSON.stringify(connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] }), null, 2)
+  connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
 })</pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
       </div>
@@ -80,7 +80,7 @@
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List pipes (JSON)</h4>
         <pre>var pipes = Flexio.pipes().load(function() {
-  JSON.stringify(pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] }), null, 2)
+  pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
 })</pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
       </div>
@@ -136,7 +136,7 @@
       var connections = Flexio.connections().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre>' + JSON.stringify(connections.list({ keys: ['eid', 'ename', 'name', 'description'] }), null, 2) + '</pre>')
+        $div.append('<pre>' + connections.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
       }, function() {
         $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the connection list</pre>')
@@ -164,7 +164,7 @@
       var pipes = Flexio.pipes().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre>' + JSON.stringify(pipes.list({ keys: ['eid', 'ename', 'name', 'description'] }), null, 2) + '</pre>')
+        $div.append('<pre>' + pipes.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
       }, function() {
         $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the pipe list</pre>')
@@ -221,7 +221,7 @@ def flexio_handler(input, output):\n\
       .email('dave@flex.io', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
       .run()
 
-    $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
+    $app.append('<pre>' + JSON.stringify(pipe.getJSON(), null, 2) + '</pre>')
 
     var pipe = Flexio.pipe()
       .execute("\
@@ -240,7 +240,7 @@ def flexio_handler(input, output):\n\
 
     pipe.save({}, function() {
       $app.append('<h2>Pipe Content</h2>')
-      $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
+      $app.append('<pre>' + JSON.stringify(pipe.getJSON(), null, 2) + '</pre>')
     })
     .run(function() {
       $app.append('<h2>Process Content</h2>')
@@ -250,7 +250,7 @@ def flexio_handler(input, output):\n\
     var pipe = Flexio.pipe()
       .load('my-pipe-alias', function() {
         $app.append('<h2>Pipe Content</h2>')
-        $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
+        $app.append('<pre>' + JSON.stringify(pipe.getJSON(), null, 2) + '</pre>')
       })
       .run(function() {
         $app.append('<h2>Process Content</h2>')
