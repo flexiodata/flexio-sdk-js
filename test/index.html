@@ -18,26 +18,26 @@
     var $app = $('#app')
     $app.append('<h1>Flex.io Javascript SDK Version: ' + Flexio.version() + '</h1>')
 
-    var pipes = Flexio.pipes().load(function() {
-      $app.append('<h3>Pipe List</h3>')
-      $app.append('<h5>List</h3>')
-      $app.append('<pre>' + pipes.list({ format: 'list' }) + '</pre>')
-      $app.append('<h5>JSON</h3>')
-      $app.append('<pre>' + JSON.stringify(pipes.list(), null, 2) + '</pre>')
-    }, function() {
-      $app.append('<h3>Pipe List</h3>')
-      $app.append('<pre>There was an error requesting the pipe list</pre>')
-    })
-
     var connections = Flexio.connections().load(function() {
       $app.append('<h3>Connection List</h3>')
-      $app.append('<h5>List</h3>')
+      $app.append('<h4>List View</h4>')
       $app.append('<pre>' + connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
-      $app.append('<h5>JSON</h3>')
+      $app.append('<h4>JSON View</h4>')
       $app.append('<pre>' + JSON.stringify(connections.list({ keys: ['eid', 'ename', 'name', 'description'] }), null, 2) + '</pre>')
     }, function() {
       $app.append('<h3>Connection List</h3>')
       $app.append('<pre>There was an error requesting the connection list</pre>')
+    })
+
+    var pipes = Flexio.pipes().load(function() {
+      $app.append('<h3>Pipe List</h3>')
+      $app.append('<h4>List View</h4>')
+      $app.append('<pre>' + pipes.list({ format: 'list' }) + '</pre>')
+      $app.append('<h4>JSON View</h4>')
+      $app.append('<pre>' + JSON.stringify(pipes.list(), null, 2) + '</pre>')
+    }, function() {
+      $app.append('<h3>Pipe List</h3>')
+      $app.append('<pre>There was an error requesting the pipe list</pre>')
     })
 
 /*
