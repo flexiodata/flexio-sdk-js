@@ -6122,21 +6122,21 @@ var _ = {
   isObject: _lodash22.default
 };
 
-function toBase64(str) {
+var toBase64 = function toBase64(str) {
   try {
     return btoa(unescape(encodeURIComponent(str)));
   } catch (e) {
     return e;
   }
-}
+};
 
-function fromBase64(str) {
+var fromBase64 = function fromBase64(str) {
   try {
     return decodeURIComponent(escape(atob(str)));
   } catch (e) {
     return e;
   }
-}
+};
 
 exports.default = function (auth_token) {
   return _.assign({}, {
@@ -6148,7 +6148,7 @@ exports.default = function (auth_token) {
     processes: [],
 
     http: _axios2.default.create({
-      baseURL: 'https://test.flex.io/api/v1',
+      baseURL: 'https://www.flex.io/api/v1',
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 
@@ -9242,7 +9242,7 @@ exports.default = function (auth_token) {
     pipes: [],
 
     http: _axios2.default.create({
-      baseURL: 'https://test.flex.io/api/v1',
+      baseURL: 'https://www.flex.io/api/v1',
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 

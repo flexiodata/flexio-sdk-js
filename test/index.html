@@ -11,20 +11,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="../dist/flexio.min.js"></script>
   <script>
-    Flexio.setup('gnffbxwtrrqfkvxdmrjs')
+    Flexio.setup('crhxftrjzjdjcbfvdcqg')
 
     var idx = 1;
 
     var $app = $('#app')
     $app.append('<h1>Flex.io Javascript SDK Version: ' + Flexio.version() + '</h1>')
 
+    var pipe = Flexio.pipe()
+      .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+      .save()
+      .run()
+/*
     var pipes = Flexio.pipes().list(function() {
       $app.append('<h3>Pipe List</h3>')
       $app.append('<pre>' + JSON.stringify(pipes.getJson(['eid', 'ename', 'name']), null, 2) + '</pre>')
       $app.append('<pre>' + JSON.stringify(pipes.getFixed(['eid', 'ename', 'name']), null, 2) + '</pre>')
     })
 
-/*
     var pipe = Flexio.pipe()
       .execute("\
 def flexio_handler(input, output):\n\
@@ -47,9 +51,6 @@ def flexio_handler(input, output):\n\
       .limit(10)
       .convert('table', 'json')
       .output('dropbox', 'dave-dropbox', '/test_data')
-
-    var pipe = Flexio.pipe()
-      .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
 
     var pipe = Flexio.pipe()
       .execute("\
