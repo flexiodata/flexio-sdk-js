@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.5.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.5.2 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -6302,7 +6302,7 @@ var auth_token = '';
 
 exports.default = {
   version: function version() {
-    return "1.5.1";
+    return "1.5.2";
   },
   setup: function setup(token) {
     auth_token = token;
