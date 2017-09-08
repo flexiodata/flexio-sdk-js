@@ -58,7 +58,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List connections (Console)</h4>
-        <pre>var connections = Flexio.connections().load(function() {
+        <pre class="overflow-x-auto">var connections = Flexio.connections().load(function() {
   connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
 })</pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-console">Run</button>
@@ -69,7 +69,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List connections (JSON)</h4>
-        <pre>var connections = Flexio.connections().load(function() {
+        <pre class="overflow-x-auto">var connections = Flexio.connections().load(function() {
   connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
 })</pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
@@ -80,7 +80,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List pipes (Console)</h4>
-        <pre>var pipes = Flexio.pipes().load(function() {
+        <pre class="overflow-x-auto">var pipes = Flexio.pipes().load(function() {
   pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
 })</pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-console">Run</button>
@@ -91,7 +91,7 @@
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">List pipes (JSON)</h4>
-        <pre>var pipes = Flexio.pipes().load(function() {
+        <pre class="overflow-x-auto">var pipes = Flexio.pipes().load(function() {
   pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
 })</pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
@@ -101,10 +101,13 @@
 
     <h2>Pipe Examples</h2>
 
+
+
+
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Move a file from Google Drive to Dropbox (with modifications)</h4>
-        <pre>Flexio.pipe()
+        <pre class="overflow-x-auto">Flexio.pipe()
   .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
   .convert('delimited', 'table')
   .select('VEND_NAME', 'DUE_DATE')
@@ -118,10 +121,13 @@
       <div class="pa3" id="run-pipe-1"></div>
     </div>
 
+
+
+
     <div class="mv3">
       <div class="pa3 bg-near-white">
         <h4 class="mt0">Create a message in python and email it as an attachment</h4>
-        <pre>Flexio.pipe()
+        <pre class="overflow-x-auto">Flexio.pipe()
   .execute("\
 def flexio_handler(input, output):\n\
     writer = output.create(name='Hello')\n\
@@ -129,7 +135,7 @@ def flexio_handler(input, output):\n\
         writer.write(input.env['message'])\n\
     else:\n\
         writer.write('Hello, World!')")
-        .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test...', null, 'attachment')
+        .email('flexio@mailinator.com', 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
   .save({ name: 'Create a message in python and email it as an attachment' })
   .run()</pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-2">Run</button>
@@ -137,7 +143,23 @@ def flexio_handler(input, output):\n\
       <div class="pa3" id="run-pipe-2"></div>
     </div>
 
+
+
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">Create a message from a remote python script and email it as an attachment</h4>
+        <pre class="overflow-x-auto">Flexio.pipe()
+  .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+  .email('flexio@mailinator.com', 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(), 'This is a test using Python code from a remote file...', null, 'attachment')
+  .save({ name: 'Create a message from a remote python script and email it as an attachment' })
+  .run()</pre>
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-3">Run</button>
+      </div>
+      <div class="pa3" id="run-pipe-3"></div>
+    </div>
   </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="../dist/flexio.min.js"></script>
   <script>
@@ -253,8 +275,28 @@ def flexio_handler(input, output):\n\
         writer.write(input.env['message'])\n\
     else:\n\
         writer.write('Hello, World!')")
-        .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test...', null, 'attachment')
-        .save({ name: 'Create a message in python and email it as an attachment' })
+        .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
+        .save({ name: 'Create a message from a remote python script and email it as an attachment' })
+        .run(function() {
+            $div.empty()
+            $div.append('<h4 class="mt0">Instructions</h4>')
+            $div.append('<p>Visit <a href="https://www.mailinator.com/v2/inbox.jsp?zone=public&query=flexio" target="_blank">Mailinator</a> to see the email that was sent.</p>')
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
+          }, function() {
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>There was an error running the pipe</pre>')
+          })
+    })
+
+    $('#btn-run-pipe-3').click(function() {
+      var $div = $('#run-pipe-3')
+      $div.empty().append('Loading...')
+
+      var pipe = Flexio.pipe()
+        .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+        .email('flexio@mailinator.com', 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(), 'This is a test using Python code from a remote file...', null, 'attachment')
+        .save({ name: 'Create a message from a remote python script and email it as an attachment' })
         .run(function() {
             $div.empty()
             $div.append('<h4 class="mt0">Instructions</h4>')
@@ -268,28 +310,6 @@ def flexio_handler(input, output):\n\
     })
 
 /*
-    var pipe = Flexio.pipe()
-      .execute("\
-def flexio_handler(input, output):\n\
-    writer = output.create(name='Hello')\n\
-    if 'message' in input.env:\n\
-        writer.write(input.env['message'])\n\
-    else:\n\
-        writer.write('Hello, World!')")
-      .email('dave@flex.io', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
-      .run()
-
-    $app.append('<pre>' + JSON.stringify(pipe.getJSON(), null, 2) + '</pre>')
-
-    var pipe = Flexio.pipe()
-      .execute("\
-def flexio_handler(input, output):\n\
-    writer = output.create(name='Hello')\n\
-    if 'message' in input.env:\n\
-        writer.write(input.env['message'])\n\
-    else:\n\
-        writer.write('Hello, World!')")
-      .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
 
     var pipe = Flexio.pipe()
       .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
