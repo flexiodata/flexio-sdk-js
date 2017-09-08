@@ -60,8 +60,8 @@ export default (auth_token) => {
       })
     },
 
-    getFixed(keys, spacing) {
-      return jsonToFixedList(this.getJson(keys), spacing)
+    getFixed(keys, show_header, spacing) {
+      return jsonToFixedList(this.getJson(keys), show_header, spacing)
     },
 
     list() {

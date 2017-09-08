@@ -9268,8 +9268,8 @@ exports.default = function (auth_token) {
         return _.pick(a, keys);
       });
     },
-    getFixed: function getFixed(keys, spacing) {
-      return (0, _jsonToFixedList2.default)(this.getJson(keys), spacing);
+    getFixed: function getFixed(keys, show_header, spacing) {
+      return (0, _jsonToFixedList2.default)(this.getJson(keys), show_header, spacing);
     },
     list: function list() {
       var _this = this,
@@ -9383,8 +9383,24 @@ var reduceToMaxLengths = function reduceToMaxLengths(arr) {
   return retval;
 };
 
-var arrayToList = function arrayToList(arr, spacing, max_lengths) {
+var arrayToList = function arrayToList(arr, show_header, spacing, max_lengths) {
   var retval = '';
+
+  if (show_header === true) {
+    _.forEach(max_lengths, function (val, key) {
+      var len = val + spacing;
+      retval += (key + ' '.repeat(len)).substr(0, len);
+    });
+
+    retval += '\n';
+
+    _.forEach(max_lengths, function (val, key) {
+      var len = val + spacing;
+      retval += '-'.repeat(len);
+    });
+
+    retval += '\n';
+  }
 
   _.forEach(arr, function (a) {
     _.forEach(a, function (val, key) {
@@ -9398,13 +9414,15 @@ var arrayToList = function arrayToList(arr, spacing, max_lengths) {
   return retval;
 };
 
-exports.default = function (arr, spacing) {
+exports.default = function (arr, show_header, spacing) {
+  if (show_header !== false) show_header = true;
+
   if (!_.isNumber(spacing)) spacing = 1;
 
   if (!_.isArray(arr) || arr.length == 0) return '';
 
   var max_lengths = reduceToMaxLengths(getLengths(arr));
-  return arrayToList(arr, spacing, max_lengths);
+  return arrayToList(arr, show_header, spacing, max_lengths);
 };
 
 /***/ }),

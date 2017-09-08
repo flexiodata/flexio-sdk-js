@@ -48,8 +48,26 @@ var reduceToMaxLengths = function(arr) {
   return retval
 }
 
-var arrayToList = function(arr, spacing, max_lengths) {
+var arrayToList = function(arr, show_header, spacing, max_lengths) {
   var retval = ''
+
+
+  if (show_header === true)
+  {
+    _.forEach(max_lengths, (val, key) => {
+      var len = val + spacing
+      retval += (key + ' '.repeat(len)).substr(0, len)
+    })
+
+    retval += '\n'
+
+    _.forEach(max_lengths, (val, key) => {
+      var len = val + spacing
+      retval += '-'.repeat(len)
+    })
+
+    retval += '\n'
+  }
 
   _.forEach(arr, (a) => {
     _.forEach(a, (val, key) => {
@@ -63,7 +81,10 @@ var arrayToList = function(arr, spacing, max_lengths) {
   return retval
 }
 
-export default (arr, spacing) => {
+export default (arr, show_header, spacing) => {
+  if (show_header !== false)
+    show_header = true
+
   if (!_.isNumber(spacing))
     spacing = 1
 
@@ -71,5 +92,5 @@ export default (arr, spacing) => {
     return ''
 
   var max_lengths = reduceToMaxLengths(getLengths(arr))
-  return arrayToList(arr, spacing, max_lengths)
+  return arrayToList(arr, show_header, spacing, max_lengths)
 }
