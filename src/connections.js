@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import jsonToFixedList from './util/json-to-fixed-list'
+import consoleList from './util/json-to-fixed-list'
 
 // individual lodash includes
 import assign from 'lodash.assign'
@@ -60,18 +60,28 @@ export default (auth_token) => {
       })
     },
 
-    getConsoleList(keys, show_header, spacing) {
-      return jsonToFixedList(this.getJson(keys), show_header, spacing)
+    list(cfg) {
+      cfg = _.assign({
+        format: 'json',
+        keys: [],
+        show_header: true,
+        spacing: 1
+      }, cfg)
+
+      if (cfg.format == 'list')
+        return consoleList(this.getJson(cfg.keys), cfg)
+
+      return this.getJson(cfg.keys)
     },
 
-    list() {
+    load() {
       var args = Array.from(arguments)
       var successCb = _.get(args, '[0]')
       var errorCb = _.get(args, '[1]')
 
       if (this.loading === true)
       {
-        setTimeout(() => { this.list.apply(this, arguments) }, 50)
+        setTimeout(() => { this.load.apply(this, arguments) }, 50)
         return this
       }
 

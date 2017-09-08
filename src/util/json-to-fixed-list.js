@@ -1,4 +1,5 @@
 // individual lodash includes
+import assign from 'lodash.assign'
 import map from 'lodash.map'
 import forEach from 'lodash.foreach'
 import isArray from 'lodash.isarray'
@@ -10,6 +11,7 @@ import mapValues from 'lodash.mapvalues'
 
 // emulate lodash syntax
 var _ = {
+  assign,
   map,
   forEach,
   isArray,
@@ -20,7 +22,12 @@ var _ = {
   mapValues
 }
 
-var getLengths = function(arr) {
+var default_cfg = {
+  show_header: true,
+  spacing: 1
+}
+
+var valuesToLengths = function(arr) {
   return _.map(arr, (a) => {
     return _.mapValues(a, (val, key) => {
       if (_.isObject(val) || _.isArray(val) || _.isFunction(val))
@@ -33,37 +40,47 @@ var getLengths = function(arr) {
   })
 }
 
-var reduceToMaxLengths = function(arr) {
+var getColumnWidths = function(arr, cfg) {
   var retval = {}
 
   _.forEach(arr, (a) => {
-    _.forEach(a, (val, key) => {
+    _.forEach(a, (len, key) => {
       if (retval[key])
-        retval[key] = Math.max(val, retval[key])
+        retval[key] = Math.max(len, retval[key])
          else
-        retval[key] = val
+        retval[key] = len
     })
+  })
+
+  // take into account header widths
+  if (cfg.show_header === true)
+  {
+    _.forEach(retval, (len, key) => {
+      retval[key] = Math.max(len, key.length)
+    })
+  }
+
+  // add spacing to column width
+  _.forEach(retval, (len, key) => {
+    retval[key] = len + cfg.spacing
   })
 
   return retval
 }
 
-var arrayToList = function(arr, show_header, spacing, max_lengths) {
+var renderList = function(arr, cfg, lengths) {
   var retval = ''
 
-
-  if (show_header === true)
+  if (cfg.show_header === true)
   {
-    _.forEach(max_lengths, (val, key) => {
-      var len = val + spacing
+    _.forEach(lengths, (len, key) => {
       retval += (key + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
 
-    _.forEach(max_lengths, (val, key) => {
-      var len = val + spacing
-      retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
+    _.forEach(lengths, (len, key) => {
+      retval += ('-'.repeat(len) + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
@@ -71,7 +88,7 @@ var arrayToList = function(arr, show_header, spacing, max_lengths) {
 
   _.forEach(arr, (a) => {
     _.forEach(a, (val, key) => {
-      var len = max_lengths[key] + spacing
+      var len = lengths[key]
       retval += (val + ' '.repeat(len)).substr(0, len)
     })
 
@@ -81,16 +98,18 @@ var arrayToList = function(arr, show_header, spacing, max_lengths) {
   return retval
 }
 
-export default (arr, show_header, spacing) => {
-  if (show_header !== false)
-    show_header = true
+export default (items, cfg) => {
+  var cfg = _.assign({}, default_cfg, cfg)
 
-  if (!_.isNumber(spacing))
-    spacing = 1
+  if (cfg.show_header !== false)
+    cfg.show_header = true
 
-  if (!_.isArray(arr) || arr.length == 0)
+  if (!_.isNumber(cfg.spacing))
+    cfg.spacing = 1
+
+  if (!_.isArray(items) || items.length == 0)
     return ''
 
-  var max_lengths = reduceToMaxLengths(getLengths(arr))
-  return arrayToList(arr, show_header, spacing, max_lengths)
+  var lengths = getColumnWidths(valuesToLengths(items), cfg)
+  return renderList(items, cfg, lengths)
 }
