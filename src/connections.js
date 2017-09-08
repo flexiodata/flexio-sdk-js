@@ -50,7 +50,7 @@ export default (auth_token) => {
 
     // -- methods --
 
-    getJson(keys) {
+    getJSON(keys) {
       var arr = [].concat(this.items)
 
       return _.map(arr, (a) => {
@@ -69,9 +69,9 @@ export default (auth_token) => {
       }, cfg)
 
       if (cfg.format == 'list')
-        return consoleList(this.getJson(cfg.keys), cfg)
+        return consoleList(this.getJSON(cfg.keys), cfg)
 
-      return JSON.stringify(this.getJson(cfg.keys), null, cfg.spacing)
+      return JSON.stringify(this.getJSON(cfg.keys), null, cfg.spacing)
     },
 
     load() {

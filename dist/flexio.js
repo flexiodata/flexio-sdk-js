@@ -9439,7 +9439,7 @@ exports.default = function (auth_token) {
 
       return this;
     },
-    getJson: function getJson(keys) {
+    getJSON: function getJSON(keys) {
       var arr = [].concat(this.items);
 
       return _.map(arr, function (a) {
@@ -9455,9 +9455,9 @@ exports.default = function (auth_token) {
         spacing: _.get(cfg, 'format', 'json') == 'list' ? 1 : 2
       }, cfg);
 
-      if (cfg.format == 'list') return (0, _jsonToFixedList2.default)(this.getJson(cfg.keys), cfg);
+      if (cfg.format == 'list') return (0, _jsonToFixedList2.default)(this.getJSON(cfg.keys), cfg);
 
-      return (0, _stringify2.default)(this.getJson(cfg.keys), null, cfg.spacing);
+      return (0, _stringify2.default)(this.getJSON(cfg.keys), null, cfg.spacing);
     },
     load: function load() {
       var _this = this,
@@ -15023,7 +15023,7 @@ exports.default = function (auth_token) {
 
       return this;
     },
-    getJson: function getJson(keys) {
+    getJSON: function getJSON(keys) {
       var arr = [].concat(this.items);
 
       return _.map(arr, function (a) {
@@ -15039,9 +15039,9 @@ exports.default = function (auth_token) {
         spacing: _.get(cfg, 'format', 'json') == 'list' ? 1 : 2
       }, cfg);
 
-      if (cfg.format == 'list') return (0, _jsonToFixedList2.default)(this.getJson(cfg.keys), cfg);
+      if (cfg.format == 'list') return (0, _jsonToFixedList2.default)(this.getJSON(cfg.keys), cfg);
 
-      return (0, _stringify2.default)(this.getJson(cfg.keys), null, cfg.spacing);
+      return (0, _stringify2.default)(this.getJSON(cfg.keys), null, cfg.spacing);
     },
     load: function load() {
       var _this = this,
