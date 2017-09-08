@@ -16,6 +16,7 @@
     pre {
       font-family: Consolas, monaco, monospace;
       font-size: 13px;
+      margin: 0;
     }
 
     .flex-fill {
@@ -37,19 +38,72 @@
 </head>
 
 <body>
-  <div id="app" class="pa3">
-    <h1 class="mt0"></h1>
-    <div class="flex flex-row mv3 w-100">
-      <div class="w5 mr3">
-        <button class="w-100 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections">List connections</button>
+  <div id="app" class="pa3 w-60 center">
+    <h1 class="mt0 pb2 bb b--black-10"></h1>
+
+    <h2>List Examples</h2>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">List connections (Console)</h4>
+        <pre>var connections = Flexio.connections().load(function() {
+  connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+})</pre>
+        <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-console">Run</button>
       </div>
-      <div class="flex-fill" id="connections"></div>
+      <div class="pa3" id="connections-console"></div>
     </div>
-    <div class="flex flex-row mv3 w-100">
-      <div class="w5 mr3">
-        <button class="w-100 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes">List pipes</button>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">List connections (JSON)</h4>
+        <pre>var connections = Flexio.connections().load(function() {
+  JSON.stringify(connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] }), null, 2)
+})</pre>
+        <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
       </div>
-      <div class="flex-fill" id="pipes"></div>
+      <div class="pa3" id="connections-json"></div>
+    </div>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">List pipes (Console)</h4>
+        <pre>var pipes = Flexio.pipes().load(function() {
+  pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+})</pre>
+        <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-console">Run</button>
+      </div>
+      <div class="pa3" id="pipes-console"></div>
+    </div>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">List pipes (JSON)</h4>
+        <pre>var pipes = Flexio.pipes().load(function() {
+  JSON.stringify(pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] }), null, 2)
+})</pre>
+        <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
+      </div>
+      <div class="pa3" id="pipes-json"></div>
+    </div>
+
+    <h2>Pipe Examples</h2>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">Move files from Google Drive to Dropbox (with modifications)</h4>
+        <pre>Flexio.pipe()
+  .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+  .convert('delimited', 'table')
+  .select('VEND_NAME', 'DUE_DATE')
+  .limit(10)
+  .convert('table', 'json')
+  .output('dropbox', 'fxtest103-dropbox', '/test_data')
+  .save({ name: 'Move files from Google Drive to Dropbox (with modifications)' })
+  .run()</pre>
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-1">Run</button>
+      </div>
+      <div class="pa3" id="run-pipe-1"></div>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -61,46 +115,98 @@
 
     $app.find('h1').text('Flex.io Javascript SDK Version: ' + Flexio.version())
 
-    function listConnections() {
-      var $div = $('#connections')
+    function listConnectionsConsole() {
+      var $div = $('#connections-console')
       $div.empty().append('Loading...')
 
       var connections = Flexio.connections().load(function() {
         $div.empty()
-        $div.append('<h2 class="mt0">Connection List</h2>')
-        $div.append('<h4>List View</h4>')
+        $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>' + connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
-        $div.append('<h4>JSON View</h4>')
-        $div.append('<pre>' + JSON.stringify(connections.list({ keys: ['eid', 'ename', 'name', 'description'] }), null, 2) + '</pre>')
       }, function() {
-        $div.append('<h2>Connection List</h2>')
+        $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the connection list</pre>')
       })
     }
 
-    function listPipes() {
-      var $div = $('#pipes')
+    function listConnectionsJson() {
+      var $div = $('#connections-json')
+      $div.empty().append('Loading...')
+
+      var connections = Flexio.connections().load(function() {
+        $div.empty()
+        $div.append('<h4 class="mt0">Output</h4>')
+        $div.append('<pre>' + JSON.stringify(connections.list({ keys: ['eid', 'ename', 'name', 'description'] }), null, 2) + '</pre>')
+      }, function() {
+        $div.append('<h4 class="mt0">Output</h4>')
+        $div.append('<pre>There was an error requesting the connection list</pre>')
+      })
+    }
+
+    function listPipesConsole() {
+      var $div = $('#pipes-console')
       $div.empty().append('Loading...')
 
       var pipes = Flexio.pipes().load(function() {
         $div.empty()
-        $div.append('<h2 class="mt0">Pipe List</h2>')
-        $div.append('<h4>List View</h4>')
-        $div.append('<pre>' + pipes.list({ format: 'list' }) + '</pre>')
-        $div.append('<h4>JSON View</h4>')
-        $div.append('<pre>' + JSON.stringify(pipes.list(), null, 2) + '</pre>')
+        $div.append('<h4 class="mt0">Output</h4>')
+        $div.append('<pre>' + pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
       }, function() {
-        $div.append('<h2>Pipe List</h2>')
+        $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the pipe list</pre>')
       })
     }
 
-    $('#btn-list-connections').click(function() {
-      listConnections()
+    function listPipesJson() {
+      var $div = $('#pipes-json')
+      $div.empty().append('Loading...')
+
+      var pipes = Flexio.pipes().load(function() {
+        $div.empty()
+        $div.append('<h4 class="mt0">Output</h4>')
+        $div.append('<pre>' + JSON.stringify(pipes.list({ keys: ['eid', 'ename', 'name', 'description'] }), null, 2) + '</pre>')
+      }, function() {
+        $div.append('<h4 class="mt0">Output</h4>')
+        $div.append('<pre>There was an error requesting the pipe list</pre>')
+      })
+    }
+
+    $('#btn-list-connections-console').click(function() {
+      listConnectionsConsole()
     })
 
-    $('#btn-list-pipes').click(function() {
-      listPipes()
+    $('#btn-list-connections-json').click(function() {
+      listConnectionsJson()
+    })
+
+    $('#btn-list-pipes-console').click(function() {
+      listPipesConsole()
+    })
+
+    $('#btn-list-pipes-json').click(function() {
+      listPipesJson()
+    })
+
+    $('#btn-run-pipe-1').click(function() {
+      var $div = $('#run-pipe-1')
+      $div.empty().append('Loading...')
+
+      var pipe = Flexio.pipe()
+        .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+        .convert('delimited', 'table')
+        .select('VEND_NAME', 'DUE_DATE')
+        .limit(10)
+        .convert('table', 'json')
+        .output('dropbox', 'fxtest103-dropbox', '/test_data')
+        .save({ name: 'Move files from Google Drive to Dropbox (with modifications)' })
+        .run(function() {
+          $div.empty()
+          $div.append('<h4 class="mt0">Output</h4>')
+          $div.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
+        }, function() {
+          $div.append('<h4 class="mt0">Output</h4>')
+          $div.append('<pre>There was an error running the pipe</pre>')
+        })
     })
 
 /*
@@ -131,14 +237,6 @@ def flexio_handler(input, output):\n\
       .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
       .save()
       .run()
-
-    var pipe = Flexio.pipe()
-      .input('googledrive', 'dave-google-drive', ['/test_data/data_payment.csv'])
-      .convert('delimited', 'table')
-      .select('VEND_NAME', 'DUE_DATE')
-      .limit(10)
-      .convert('table', 'json')
-      .output('dropbox', 'dave-dropbox', '/test_data')
 
     pipe.save({}, function() {
       $app.append('<h2>Pipe Content</h2>')
