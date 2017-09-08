@@ -24,7 +24,7 @@ export default (auth_token) => {
 
     // axios instance with base url and auth token factored into it
     http: axios.create({
-      baseURL: 'https://test.flex.io/api/v1',
+      baseURL: 'https://www.flex.io/api/v1',
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 

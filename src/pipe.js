@@ -31,11 +31,11 @@ var _ = {
   isObject
 }
 
-function toBase64(str) {
+var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
 }
 
-function fromBase64(str) {
+var fromBase64 = function(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
 }
 
@@ -50,7 +50,7 @@ export default (auth_token) => {
 
     // axios instance with base url and auth token factored into it
     http: axios.create({
-      baseURL: 'https://test.flex.io/api/v1',
+      baseURL: 'https://www.flex.io/api/v1',
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 
