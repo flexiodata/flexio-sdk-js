@@ -9409,14 +9409,14 @@ exports.default = function (auth_token) {
       var arr = [].concat(this.pipes);
 
       return _.map(arr, function (a) {
-        if (!(0, _lodash10.default)(keys)) return a;
+        if (!_.isArray(keys)) return a;
         return _.pick(a, keys);
       });
     },
     list: function list(cfg) {
       cfg = _.assign({
         format: 'json',
-        keys: [],
+        keys: undefined,
         show_header: true,
         spacing: 1
       }, cfg);
@@ -12566,14 +12566,14 @@ exports.default = function (auth_token) {
       var arr = [].concat(this.connections);
 
       return _.map(arr, function (a) {
-        if (!(0, _lodash10.default)(keys)) return a;
+        if (!_.isArray(keys)) return a;
         return _.pick(a, keys);
       });
     },
     list: function list(cfg) {
       cfg = _.assign({
         format: 'json',
-        keys: [],
+        keys: undefined,
         show_header: true,
         spacing: 1
       }, cfg);

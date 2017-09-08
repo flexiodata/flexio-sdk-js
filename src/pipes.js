@@ -54,7 +54,7 @@ export default (auth_token) => {
       var arr = [].concat(this.pipes)
 
       return _.map(arr, (a) => {
-        if (!isArray(keys))
+        if (!_.isArray(keys))
           return a
         return _.pick(a, keys)
       })
@@ -63,7 +63,7 @@ export default (auth_token) => {
     list(cfg) {
       cfg = _.assign({
         format: 'json',
-        keys: [],
+        keys: undefined,
         show_header: true,
         spacing: 1
       }, cfg)
