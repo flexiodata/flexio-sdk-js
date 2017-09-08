@@ -19,6 +19,18 @@
       margin: 0;
     }
 
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      color: #357edd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
     .flex-fill {
       flex: 1 1;
       min-width: 0; /* 1 */
@@ -91,7 +103,7 @@
 
     <div class="mv3">
       <div class="pa3 bg-near-white">
-        <h4 class="mt0">Move files from Google Drive to Dropbox (with modifications)</h4>
+        <h4 class="mt0">Move a file from Google Drive to Dropbox (with modifications)</h4>
         <pre>Flexio.pipe()
   .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
   .convert('delimited', 'table')
@@ -99,12 +111,32 @@
   .limit(10)
   .convert('table', 'json')
   .output('dropbox', 'fxtest103-dropbox', '/test_data')
-  .save({ name: 'Move files from Google Drive to Dropbox (with modifications)' })
+  .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
   .run()</pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-1">Run</button>
       </div>
       <div class="pa3" id="run-pipe-1"></div>
     </div>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">Create a message in python and email it as an attachment</h4>
+        <pre>Flexio.pipe()
+  .execute("\
+def flexio_handler(input, output):\n\
+    writer = output.create(name='Hello')\n\
+    if 'message' in input.env:\n\
+        writer.write(input.env['message'])\n\
+    else:\n\
+        writer.write('Hello, World!')")
+        .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test...', null, 'attachment')
+  .save({ name: 'Create a message in python and email it as an attachment' })
+  .run()</pre>
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-2">Run</button>
+      </div>
+      <div class="pa3" id="run-pipe-2"></div>
+    </div>
+
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="../dist/flexio.min.js"></script>
@@ -198,7 +230,7 @@
         .limit(10)
         .convert('table', 'json')
         .output('dropbox', 'fxtest103-dropbox', '/test_data')
-        .save({ name: 'Move files from Google Drive to Dropbox (with modifications)' })
+        .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
         .run(function() {
           $div.empty()
           $div.append('<h4 class="mt0">Output</h4>')
@@ -207,6 +239,32 @@
           $div.append('<h4 class="mt0">Output</h4>')
           $div.append('<pre>There was an error running the pipe</pre>')
         })
+    })
+
+    $('#btn-run-pipe-2').click(function() {
+      var $div = $('#run-pipe-2')
+      $div.empty().append('Loading...')
+
+      var pipe = Flexio.pipe()
+        .execute("\
+def flexio_handler(input, output):\n\
+    writer = output.create(name='Hello')\n\
+    if 'message' in input.env:\n\
+        writer.write(input.env['message'])\n\
+    else:\n\
+        writer.write('Hello, World!')")
+        .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test...', null, 'attachment')
+        .save({ name: 'Create a message in python and email it as an attachment' })
+        .run(function() {
+            $div.empty()
+            $div.append('<h4 class="mt0">Instructions</h4>')
+            $div.append('<p>Visit <a href="https://www.mailinator.com/v2/inbox.jsp?zone=public&query=flexio" target="_blank">Mailinator</a> to see the email that was sent.</p>')
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>' + JSON.stringify(pipe.getLastProcess(), null, 2) + '</pre>')
+          }, function() {
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>There was an error running the pipe</pre>')
+          })
     })
 
 /*
