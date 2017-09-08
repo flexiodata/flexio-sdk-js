@@ -39,10 +39,18 @@
 <body>
   <div id="app" class="pa3">
     <h1 class="mt0"></h1>
-    <button class="border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections">List connections</button>
-    <div class="mv3" id="connections"></div>
-    <button class="border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes">List pipes</button>
-    <div class="mv3" id="pipes"></div>
+    <div class="flex flex-row mv3 w-100">
+      <div class="w5 mr3">
+        <button class="w-100 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections">List connections</button>
+      </div>
+      <div class="flex-fill" id="connections"></div>
+    </div>
+    <div class="flex flex-row mv3 w-100">
+      <div class="w5 mr3">
+        <button class="w-100 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes">List pipes</button>
+      </div>
+      <div class="flex-fill" id="pipes"></div>
+    </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="../dist/flexio.min.js"></script>
@@ -59,7 +67,7 @@
 
       var connections = Flexio.connections().load(function() {
         $div.empty()
-        $div.append('<h2>Connection List</h2>')
+        $div.append('<h2 class="mt0">Connection List</h2>')
         $div.append('<h4>List View</h4>')
         $div.append('<pre>' + connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
         $div.append('<h4>JSON View</h4>')
@@ -76,7 +84,7 @@
 
       var pipes = Flexio.pipes().load(function() {
         $div.empty()
-        $div.append('<h2>Pipe List</h2>')
+        $div.append('<h2 class="mt0">Pipe List</h2>')
         $div.append('<h4>List View</h4>')
         $div.append('<pre>' + pipes.list({ format: 'list' }) + '</pre>')
         $div.append('<h4>JSON View</h4>')
