@@ -20,7 +20,7 @@
 
     var pipes = Flexio.pipes().list(function() {
       $app.append('<h3>Pipe List</h3>')
-      $app.append('<pre>' + pipes.getConsoleList(['eid', 'ename', 'name', 'description'], true, 2) + '</pre>')
+      $app.append('<pre>' + pipes.getConsoleList(['eid', 'ename', 'name', 'description']) + '</pre>')
     }, function() {
       $app.append('<h3>Pipe List</h3>')
       $app.append('<pre>There was an error requesting the pipe list</pre>')
@@ -28,7 +28,7 @@
 
     var connections = Flexio.connections().list(function() {
       $app.append('<h3>Connection List</h3>')
-      $app.append('<pre>' + connections.getConsoleList(['eid', 'ename', 'name', 'description'], true, 2) + '</pre>')
+      $app.append('<pre>' + connections.getConsoleList(['eid', 'ename', 'name', 'description']) + '</pre>')
     }, function() {
       $app.append('<h3>Connection List</h3>')
       $app.append('<pre>There was an error requesting the connection list</pre>')

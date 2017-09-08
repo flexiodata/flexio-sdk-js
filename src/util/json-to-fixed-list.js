@@ -63,7 +63,7 @@ var arrayToList = function(arr, show_header, spacing, max_lengths) {
 
     _.forEach(max_lengths, (val, key) => {
       var len = val + spacing
-      retval += '-'.repeat(len)
+      retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
