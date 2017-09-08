@@ -9268,7 +9268,7 @@ exports.default = function (auth_token) {
         return _.pick(a, keys);
       });
     },
-    getFixed: function getFixed(keys, show_header, spacing) {
+    getConsoleList: function getConsoleList(keys, show_header, spacing) {
       return (0, _jsonToFixedList2.default)(this.getJson(keys), show_header, spacing);
     },
     list: function list() {

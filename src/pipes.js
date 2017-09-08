@@ -60,7 +60,7 @@ export default (auth_token) => {
       })
     },
 
-    getFixed(keys, show_header, spacing) {
+    getConsoleList(keys, show_header, spacing) {
       return jsonToFixedList(this.getJson(keys), show_header, spacing)
     },
 

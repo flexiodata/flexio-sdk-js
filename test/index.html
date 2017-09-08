@@ -20,7 +20,7 @@
 
     var pipes = Flexio.pipes().list(function() {
       $app.append('<h3>Pipe List</h3>')
-      $app.append('<pre>' + pipes.getFixed(['eid', 'ename', 'name', 'description'], true, 2) + '</pre>')
+      $app.append('<pre>' + pipes.getConsoleList(['eid', 'ename', 'name', 'description'], true, 2) + '</pre>')
     })
 
 /*
