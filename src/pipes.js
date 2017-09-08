@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import jsonToFixedList from './util/json-to-fixed-list'
+
 // individual lodash includes
 import assign from 'lodash.assign'
 import pick from 'lodash.pick'
@@ -58,8 +60,8 @@ export default (auth_token) => {
       })
     },
 
-    getFixed(keys) {
-      return this.getJson(keys)
+    getFixed(keys, spacing) {
+      return jsonToFixedList(this.getJson(keys), spacing)
     },
 
     list() {

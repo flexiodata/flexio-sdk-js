@@ -18,17 +18,12 @@
     var $app = $('#app')
     $app.append('<h1>Flex.io Javascript SDK Version: ' + Flexio.version() + '</h1>')
 
-    var pipe = Flexio.pipe()
-      .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
-      .save()
-      .run()
-/*
     var pipes = Flexio.pipes().list(function() {
       $app.append('<h3>Pipe List</h3>')
-      $app.append('<pre>' + JSON.stringify(pipes.getJson(['eid', 'ename', 'name']), null, 2) + '</pre>')
-      $app.append('<pre>' + JSON.stringify(pipes.getFixed(['eid', 'ename', 'name']), null, 2) + '</pre>')
+      $app.append('<pre>' + pipes.getFixed(['eid', 'ename', 'name']) + '</pre>')
     })
 
+/*
     var pipe = Flexio.pipe()
       .execute("\
 def flexio_handler(input, output):\n\
@@ -41,16 +36,6 @@ def flexio_handler(input, output):\n\
       .run()
 
     $app.append('<pre>' + JSON.stringify(pipe.getJson(), null, 2) + '</pre>')
-*/
-
-/*
-    var pipe = Flexio.pipe()
-      .input('googledrive', 'dave-google-drive', ['/test_data/data_payment.csv'])
-      .convert('delimited', 'table')
-      .select('VEND_NAME', 'DUE_DATE')
-      .limit(10)
-      .convert('table', 'json')
-      .output('dropbox', 'dave-dropbox', '/test_data')
 
     var pipe = Flexio.pipe()
       .execute("\
@@ -61,6 +46,19 @@ def flexio_handler(input, output):\n\
     else:\n\
         writer.write('Hello, World!')")
       .email('dzwillia@gmail.com', 'Flex.io JS SDK Test', 'This is a test...', null, 'attachment')
+
+    var pipe = Flexio.pipe()
+      .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+      .save()
+      .run()
+
+    var pipe = Flexio.pipe()
+      .input('googledrive', 'dave-google-drive', ['/test_data/data_payment.csv'])
+      .convert('delimited', 'table')
+      .select('VEND_NAME', 'DUE_DATE')
+      .limit(10)
+      .convert('table', 'json')
+      .output('dropbox', 'dave-dropbox', '/test_data')
 
     pipe.save({
       name: 'Test Pipe ' + (idx++)
