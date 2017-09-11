@@ -3,33 +3,7 @@ import axios from 'axios'
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
 
-// individual lodash includes
-import assign from 'lodash.assign'
-import pick from 'lodash.pick'
-import last from 'lodash.last'
-import get from 'lodash.get'
-import set from 'lodash.set'
-import map from 'lodash.map'
-import defaultTo from 'lodash.defaultto'
-import isNil from 'lodash.isnil'
-import isArray from 'lodash.isarray'
-import isString from 'lodash.isstring'
-import isObject from 'lodash.isobject'
-
-// emulate lodash syntax
-var _ = {
-  assign,
-  pick,
-  last,
-  get,
-  set,
-  map,
-  defaultTo,
-  isNil,
-  isArray,
-  isString,
-  isObject
-}
+import _ from 'lodash'
 
 var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }

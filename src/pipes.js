@@ -2,21 +2,7 @@ import axios from 'axios'
 
 import consoleList from 'console-list'
 
-// individual lodash includes
-import assign from 'lodash.assign'
-import pick from 'lodash.pick'
-import get from 'lodash.get'
-import map from 'lodash.map'
-import isString from 'lodash.isstring'
-
-// emulate lodash syntax
-var _ = {
-  assign,
-  pick,
-  get,
-  map,
-  isString
-}
+import _ from 'lodash'
 
 export default (auth_token) => {
   return _.assign({}, {
