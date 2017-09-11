@@ -12,7 +12,8 @@ const config = merge(base, {
   output: {
     filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
     path: options.paths.output.main,
-    library: 'flexio',
+    library: 'Flexio',
+    libraryExport: 'default',
     libraryTarget: 'umd'
   },
 

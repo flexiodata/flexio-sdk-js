@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.5.2 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.5.3 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -8,9 +8,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["flexio"] = factory();
+		exports["Flexio"] = factory();
 	else
-		root["flexio"] = factory();
+		root["Flexio"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -4738,7 +4738,6 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Flexio = undefined;
 
 var _flexio = __webpack_require__(89);
 
@@ -4746,11 +4745,6 @@ var _flexio2 = _interopRequireDefault(_flexio);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (typeof window !== 'undefined') {
-  window.Flexio = _flexio2.default;
-}
-
-exports.Flexio = _flexio2.default;
 exports.default = _flexio2.default;
 
 /***/ }),
@@ -4782,7 +4776,7 @@ var auth_token = '';
 
 exports.default = {
   version: function version() {
-    return "1.5.2";
+    return "1.5.3";
   },
   setup: function setup(token) {
     auth_token = token;
@@ -10224,5 +10218,5 @@ exports.default = function (auth_token) {
 };
 
 /***/ })
-/******/ ]);
+/******/ ])["default"];
 });
