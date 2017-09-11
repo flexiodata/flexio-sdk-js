@@ -1,9 +1,8 @@
+import _ from 'lodash'
 import axios from 'axios'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
-
-import _ from 'lodash'
 
 var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }

@@ -1,8 +1,6 @@
-import axios from 'axios'
-
-import consoleList from 'console-list'
-
 import _ from 'lodash'
+import axios from 'axios'
+import consoleList from 'console-list'
 
 export default (auth_token) => {
   return _.assign({}, {

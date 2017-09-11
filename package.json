@@ -22,7 +22,7 @@
   "homepage": "https://github.com/flexiodata/flexio-sdk-js/",
   "dependencies": {
     "axios": "^0.16.2",
-    "console-list": "^1.0.1"
+    "console-list": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
