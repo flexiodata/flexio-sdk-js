@@ -1,39 +1,14 @@
+import _ from 'lodash'
 import axios from 'axios'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
 
-// individual lodash includes
-import assign from 'lodash.assign'
-import pick from 'lodash.pick'
-import last from 'lodash.last'
-import get from 'lodash.get'
-import set from 'lodash.set'
-import map from 'lodash.map'
-import defaultTo from 'lodash.defaultto'
-import isNil from 'lodash.isnil'
-import isString from 'lodash.isstring'
-import isObject from 'lodash.isobject'
-
-// emulate lodash syntax
-var _ = {
-  assign,
-  pick,
-  last,
-  get,
-  set,
-  map,
-  defaultTo,
-  isNil,
-  isString,
-  isObject
-}
-
-function toBase64(str) {
+var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
 }
 
-function fromBase64(str) {
+var fromBase64 = function(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
 }
 
@@ -48,7 +23,7 @@ export default (auth_token) => {
 
     // axios instance with base url and auth token factored into it
     http: axios.create({
-      baseURL: 'https://test.flex.io/api/v1',
+      baseURL: 'https://www.flex.io/api/v1',
       headers: { 'Authorization': 'Bearer ' + auth_token }
     }),
 
@@ -74,7 +49,7 @@ export default (auth_token) => {
 
     // -- methods --
 
-    getJson() {
+    getJSON() {
       return _.assign({}, this.pipe)
     },
 
@@ -387,6 +362,10 @@ export default (auth_token) => {
       if (_.isNil(body_text))
         return this.debug('The `body_text` parameter is required')
 
+      // `to` parameter must be an array
+      if (!_.isArray(to))
+        to = [to]
+
       if (_.isNil(body_html))
         body_html = body_text
 
@@ -419,13 +398,13 @@ export default (auth_token) => {
       if (lang == 'python' || lang == 'javascript')
       {
         _.set(task, 'params.lang', lang)
-        code = toBase64(_.get(args, '[1]', ''))
+        code = _.get(args, '[1]', '')
       }
        else
       {
         // default to python
         _.set(task, 'params.lang', 'python')
-        code = toBase64(_.get(args, '[0]', ''))
+        code = _.get(args, '[0]', '')
       }
 
       // handle files or code snippets
@@ -433,7 +412,7 @@ export default (auth_token) => {
       if (code.match(http_regex))
         _.set(task, 'params.file', code)
          else
-        _.set(task, 'params.code', code)
+        _.set(task, 'params.code', toBase64(code))
 
       return this.addTask(task)
     },
