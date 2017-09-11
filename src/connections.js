@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import consoleList from './util/json-to-fixed-list'
+import consoleList from 'console-list'
 
 // individual lodash includes
 import assign from 'lodash.assign'

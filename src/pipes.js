@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-import consoleList from './util/json-to-fixed-list'
+import consoleList from 'console-list'
 
 // individual lodash includes
 import assign from 'lodash.assign'
 import pick from 'lodash.pick'
 import get from 'lodash.get'
 import map from 'lodash.map'
-import isArray from 'lodash.isarray'
 import isString from 'lodash.isstring'
 
 // emulate lodash syntax
@@ -16,7 +15,6 @@ var _ = {
   pick,
   get,
   map,
-  isArray,
   isString
 }
 
@@ -54,7 +52,7 @@ export default (auth_token) => {
       var arr = [].concat(this.items)
 
       return _.map(arr, (a) => {
-        if (!_.isArray(keys))
+        if (!Array.isArray(keys))
           return a
         return _.pick(a, keys)
       })
