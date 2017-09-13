@@ -143,7 +143,7 @@ def flexio_handler(input, output):\n\
         writer.write(input.env['message'])\n\
     else:\n\
         writer.write('Hello, World!')")
-        .email('flexio@mailinator.com', 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
+  .email('flexio@mailinator.com', 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
   .save({ name: 'Create a message in python and email it as an attachment' })
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-2">Run</button>
@@ -171,6 +171,56 @@ def flexio_handler(input, output):\n\
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-4">Run</button>
       </div>
       <div id="run-pipe-4"></div>
+    </div>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">GET request with no parameters</h4>
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
+  .request({
+    method: 'GET',
+    url: 'https://now.httpbin.org'
+  })
+  .run()</code></pre>
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-5">Run</button>
+      </div>
+      <div id="run-pipe-5"></div>
+    </div>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">GET request with parameters</h4>
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
+  .request({
+    method: 'GET',
+    url: 'https://httpbin.org/get',
+    params: {
+      foo: 'bar',
+      munch: 'rank'
+    }
+  })
+  .run()</code></pre>
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-6">Run</button>
+      </div>
+      <div id="run-pipe-6"></div>
+    </div>
+
+    <div class="mv3">
+      <div class="pa3 bg-near-white">
+        <h4 class="mt0">POST request with data</h4>
+        <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
+  .request({
+    method: 'POST',
+    url: 'https://httpbin.org/post',
+    data: {
+      foo: 'bar',
+      munch: 'rank'
+    }
+  })
+  .run()</code></pre>
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-7">Run</button>
+      </div>
+      <div id="run-pipe-7"></div>
     </div>
   </div>
 
@@ -350,7 +400,85 @@ def flexio_handler(input, output):\n\
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
-        .load('my-pipe-alias')
+        .load('example-pipe-alias')
+        .run(function() {
+            $div.empty()
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getJSON(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
+          }, function() {
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>There was an error running the pipe</pre>')
+          })
+    })
+
+    $('#btn-run-pipe-5').click(function() {
+      var $div = $('#run-pipe-5').addClass('pa3 pt0 bg-near-white')
+      $div.empty().append('Loading...')
+
+      var pipe = Flexio.pipe()
+        .request({
+          method: 'GET',
+          url: 'https://now.httpbin.org'
+        })
+        .run(function() {
+            $div.empty()
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getJSON(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
+          }, function() {
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>There was an error running the pipe</pre>')
+          })
+    })
+
+    $('#btn-run-pipe-6').click(function() {
+      var $div = $('#run-pipe-6').addClass('pa3 pt0 bg-near-white')
+      $div.empty().append('Loading...')
+
+      var pipe = Flexio.pipe()
+        .request({
+          method: 'GET',
+          url: 'https://httpbin.org/get',
+          params: {
+            foo: 'bar',
+            munch: 'rank'
+          }
+        })
+        .run(function() {
+            $div.empty()
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre><code class="json">' + JSON.stringify(pipe.getJSON(), null, 2) + '</code></pre>')
+
+            $div.find('code').each(function(i, block) {
+              hljs.highlightBlock(block)
+            })
+          }, function() {
+            $div.append('<h4 class="mt0">Output</h4>')
+            $div.append('<pre>There was an error running the pipe</pre>')
+          })
+    })
+
+
+    $('#btn-run-pipe-7').click(function() {
+      var $div = $('#run-pipe-7').addClass('pa3 pt0 bg-near-white')
+      $div.empty().append('Loading...')
+
+      var pipe = Flexio.pipe()
+        .request({
+          method: 'POST',
+          url: 'https://httpbin.org/post',
+          data: {
+            foo: 'bar',
+            munch: 'rank'
+          }
+        })
         .run(function() {
             $div.empty()
             $div.append('<h4 class="mt0">Output</h4>')
