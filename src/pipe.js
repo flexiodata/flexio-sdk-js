@@ -395,17 +395,39 @@ export default (auth_token) => {
         params: {}
       }
 
+      // allow for flexible parameters
       if (lang == 'python' || lang == 'javascript')
       {
-        _.set(task, 'params.lang', lang)
         code = _.get(args, '[1]', '')
       }
        else
       {
-        // default to python
-        _.set(task, 'params.lang', 'python')
+        lang = undefined
         code = _.get(args, '[0]', '')
       }
+
+      if (_.isFunction(code))
+      {
+        // first argument is a function; we're using javascript
+        lang = 'javascript'
+        code = _.get(args, '[0]', function(input, output) {})
+
+        // stringify the javascript function
+        try {
+          code = code.toString()
+        } catch(e) {
+          code = 'function(input, output) {}'
+        }
+      }
+
+      if (lang != 'python' && lang != 'javascript')
+      {
+        // default to python
+        lang = 'python'
+      }
+
+      // set the job's language
+      _.set(task, 'params.lang', lang)
 
       // handle files or code snippets
       var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
@@ -431,6 +453,12 @@ export default (auth_token) => {
       })
     },
 
+    // shorthand for .execute('javascript', ...)
+    javascript() {
+      var args = Array.from(arguments)
+      return this.execute('javascript', _.get(args, '[0]', ''))
+    },
+
     limit(value) {
       var type = ttypes.TASK_TYPE_LIMIT
       value = _.defaultTo(value, 10)
@@ -441,6 +469,12 @@ export default (auth_token) => {
           value
         }
       })
+    },
+
+    // shorthand for .execute('python', ...)
+    python() {
+      var args = Array.from(arguments)
+      return this.execute('python', _.get(args, '[0]', ''))
     },
 
     select() {
