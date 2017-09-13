@@ -477,6 +477,22 @@ export default (auth_token) => {
       return this.execute('python', _.get(args, '[0]', ''))
     },
 
+    request() {
+      var type = ttypes.TASK_TYPE_REQUEST
+      var args = Array.from(arguments)
+      var params = _.get(args, '[0]', {})
+
+      // defaults
+      params = _.assign({
+        method: 'GET'
+      }, params)
+
+      return this.addTask({
+        type,
+        params
+      })
+    },
+
     select() {
       var type = ttypes.TASK_TYPE_SELECT
       var columns = Array.from(arguments)
