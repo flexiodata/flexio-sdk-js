@@ -58,6 +58,16 @@
   <div id="app" class="pa3 center" style="max-width: 1152px;">
     <h1 class="mt0 pb2 bb b--black-10"></h1>
 
+    <h2>Use Your Own API Key</h2>
+    <div>Change this to your API key to test these calls with your Flex.io account:</div>
+
+    <form>
+      <div class="mt2">
+        <input type="text" value="crhxftrjzjdjcbfvdcqg" class="border-box ttl ba b--black-20 f6 pa2 w5" id="api-key">
+        <button class="border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-update-api-key">Use this API key</button>
+      </div>
+    </form>
+
     <h2>Setup</h2>
 
     <div class="mv3">
@@ -298,6 +308,11 @@ def flexio_handler(input, output):\n\
         $div.append('<pre>There was an error requesting the pipe list</pre>')
       })
     }
+
+    $('#btn-update-api-key').click(function() {
+      var key = $('#api-key').val()
+      Flexio.setup(val)
+    })
 
     $('#btn-list-connections-console').click(function() {
       listConnectionsConsole()
