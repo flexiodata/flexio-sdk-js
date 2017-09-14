@@ -3,8 +3,8 @@ import _ from 'lodash'
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
 
-import { http } from './flexio'
-import { debug } from './util'
+import util from './util'
+import flexio from './flexio'
 
 var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
@@ -65,23 +65,23 @@ export default (auth_token) => {
       }
 
       if (_.isNil(identifier))
-        return this.debug.call(this, "The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
+        return util.debug.call(this, "The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
 
       this.loading = true
-      this.debug.call(this, 'Loading Pipe `' + identifier + '`...')
+      util.debug.call(this, 'Loading Pipe `' + identifier + '`...')
 
-      http().get('/pipes/' + identifier)
+      flexio.http().get('/pipes/' + identifier)
         .then(response => {
           _.assign(this.pipe, _.get(response, 'data', {}))
           this.loading = false
-          this.debug.call(this, 'Pipe Loaded.')
+          util.debug.call(this, 'Pipe Loaded.')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.loading = false
-          this.debug.call(this, 'Pipe Load Failed.')
+          util.debug.call(this, 'Pipe Load Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)
@@ -110,20 +110,20 @@ export default (auth_token) => {
       }
 
       this.saving = true
-      this.debug.call(this, 'Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug.call(this, 'Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
-      http().post('/pipes', this.pipe)
+      flexio.http().post('/pipes', this.pipe)
         .then(response => {
           _.assign(this.pipe, _.get(response, 'data', {}))
           this.saving = false
-          this.debug.call(this, 'Pipe Saved.')
+          util.debug.call(this, 'Pipe Saved.')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.saving = false
-          this.debug.call(this, 'Pipe Save Failed.')
+          util.debug.call(this, 'Pipe Save Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)
@@ -144,7 +144,7 @@ export default (auth_token) => {
       }
 
       this.running = true
-      this.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       var run_params = _.assign({}, this.pipe)
 
@@ -160,17 +160,17 @@ export default (auth_token) => {
         run: true
       })
 
-      http().post('/processes', run_params)
+      flexio.http().post('/processes', run_params)
         .then(response => {
           this.processes.push(_.get(response, 'data', {}))
-          this.debug.call(this, 'Process Running.')
+          util.debug.call(this, 'Process Running.')
           this.running = false
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
-          this.debug.call(this, 'Process Failed.')
+          util.debug.call(this, 'Process Failed.')
           this.running = false
 
           if (typeof errorCb == 'function')
@@ -190,7 +190,7 @@ export default (auth_token) => {
       var items = undefined
 
       if (args.length == 0)
-        return this.debug.call(this, 'The input task requires at least 1 parameter')
+        return util.debug.call(this, 'The input task requires at least 1 parameter')
 
       switch (connection_type)
       {
@@ -242,7 +242,7 @@ export default (auth_token) => {
       var location = undefined
 
       if (args.length == 0)
-        return this.debug.call(this, 'The output task requires at least 1 parameter')
+        return util.debug.call(this, 'The output task requires at least 1 parameter')
 
       switch (connection_type)
       {
@@ -333,13 +333,13 @@ export default (auth_token) => {
       var type = ttypes.TASK_TYPE_EMAIL_SEND
 
       if (_.isNil(to))
-        return this.debug.call(this, 'The `to` parameter is required')
+        return util.debug.call(this, 'The `to` parameter is required')
 
       if (_.isNil(subject))
-        return this.debug.call(this, 'The `subject` parameter is required')
+        return util.debug.call(this, 'The `subject` parameter is required')
 
       if (_.isNil(body_text))
-        return this.debug.call(this, 'The `body_text` parameter is required')
+        return util.debug.call(this, 'The `body_text` parameter is required')
 
       // `to` parameter must be an array
       if (!_.isArray(to))
@@ -422,7 +422,7 @@ export default (auth_token) => {
       var type = ttypes.TASK_TYPE_FILTER
 
       if (_.isNil(where))
-        return this.debug.call(this, 'The `filter` parameter is required')
+        return util.debug.call(this, 'The `filter` parameter is required')
 
       return this.addTask({
         type,

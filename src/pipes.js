@@ -1,8 +1,8 @@
 import _ from 'lodash'
 import consoleList from 'console-list'
 
-import { http } from './flexio'
-import { debug } from './util'
+import util from './util'
+import flexio from './flexio'
 
 export default (auth_token) => {
   return _.assign({}, {
@@ -49,20 +49,20 @@ export default (auth_token) => {
       }
 
       this.loading = true
-      this.debug.call(this, 'Requesting Pipes...')
+      util.debug.call(this, 'Requesting Pipes...')
 
-      http().get('/pipes')
+      flexio.http().get('/pipes')
         .then(response => {
           this.items = [].concat(_.get(response, 'data', []))
           this.loading = false
-          this.debug.call(this, 'Success!')
+          util.debug.call(this, 'Success!')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.loading = false
-          this.debug.call(this, 'Failed.')
+          util.debug.call(this, 'Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)
