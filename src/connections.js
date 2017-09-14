@@ -30,6 +30,15 @@ export default (auth_token) => {
       return this
     },
 
+    // -- private methods --
+
+    setBaseUrl(url) {
+      this.http = axios.create({
+        baseURL: url,
+        headers: { 'Authorization': 'Bearer ' + auth_token }
+      })
+    },
+
     // -- methods --
 
     getJSON(keys) {
