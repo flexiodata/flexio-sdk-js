@@ -1,34 +1,15 @@
 import _ from 'lodash'
-import axios from 'axios'
 import consoleList from 'console-list'
+
+import util from './util'
+import flexio from './flexio'
 
 export default (auth_token) => {
   return _.assign({}, {
-    items: [],
-
-    // axios instance with base url and auth token factored into it
-    http: axios.create({
-      baseURL: 'https://www.flex.io/api/v1',
-      headers: { 'Authorization': 'Bearer ' + auth_token }
-    }),
-
     // -- state --
 
+    items: [],
     loading: false,
-
-    // -- debug --
-
-    debug(msg) {
-      if (!window)
-        return
-
-      // TODO: add flag for 'debug' mode
-
-      var msg = 'Flex.io Javascript SDK: ' + msg
-      window.console ? console.log(msg) : alert(msg)
-
-      return this
-    },
 
     // -- methods --
 
@@ -68,21 +49,20 @@ export default (auth_token) => {
       }
 
       this.loading = true
-      this.debug('Requesting Pipes...')
+      util.debug.call(this, 'Requesting Pipes...')
 
-      this.http
-        .get('/pipes')
+      flexio.http().get('/pipes')
         .then(response => {
           this.items = [].concat(_.get(response, 'data', []))
           this.loading = false
-          this.debug('Success!')
+          util.debug.call(this, 'Success!')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.loading = false
-          this.debug('Failed.')
+          util.debug.call(this, 'Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)

@@ -142,6 +142,13 @@ const RENAME = {
   bg_color: 'bg-task-orange'
 }
 
+const REQUEST = {
+  name: 'Request',
+  type: types.TASK_TYPE_REQUEST,
+  icon: 'edit',
+  bg_color: 'bg-task-blue'
+}
+
 const SEARCH = {
   name: 'Search',
   type: types.TASK_TYPE_SEARCH,
@@ -192,6 +199,7 @@ export const TASK_INFO_OUTPUT        = OUTPUT
 //export const TASK_INFO_PROMPT        = PROMPT
 //export const TASK_INFO_R             = R
 //export const TASK_INFO_RENAME        = RENAME
+export const TASK_INFO_REQUEST       = REQUEST
 //export const TASK_INFO_SEARCH        = SEARCH
 //export const TASK_INFO_SELECT        = SELECT
 //export const TASK_INFO_SORT          = SORT

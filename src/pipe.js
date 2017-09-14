@@ -1,8 +1,10 @@
 import _ from 'lodash'
-import axios from 'axios'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
+
+import util from './util'
+import flexio from './flexio'
 
 var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
@@ -14,38 +16,17 @@ var fromBase64 = function(str) {
 
 export default (auth_token) => {
   return _.assign({}, {
+    // -- state --
+
     pipe: {
       name: 'Javascript SDK Pipe',
       description: 'This pipe was created using the Flex.io Javascript SDK',
       task: []
     },
     processes: [],
-
-    // axios instance with base url and auth token factored into it
-    http: axios.create({
-      baseURL: 'https://www.flex.io/api/v1',
-      headers: { 'Authorization': 'Bearer ' + auth_token }
-    }),
-
-    // -- state --
-
     loading: false,
     saving: false,
     running: false,
-
-    // -- debug --
-
-    debug(msg) {
-      if (!window)
-        return
-
-      // TODO: add flag for 'debug' mode
-
-      var msg = 'Flex.io Javascript SDK: ' + msg
-      window.console ? console.log(msg) : alert(msg)
-
-      return this
-    },
 
     // -- methods --
 
@@ -84,24 +65,23 @@ export default (auth_token) => {
       }
 
       if (_.isNil(identifier))
-        return this.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
+        return util.debug.call(this, "The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
 
       this.loading = true
-      this.debug('Loading Pipe `' + identifier + '`...')
+      util.debug.call(this, 'Loading Pipe `' + identifier + '`...')
 
-      this.http
-        .get('/pipes/' + identifier)
+      flexio.http().get('/pipes/' + identifier)
         .then(response => {
           _.assign(this.pipe, _.get(response, 'data', {}))
           this.loading = false
-          this.debug('Pipe Loaded.')
+          util.debug.call(this, 'Pipe Loaded.')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.loading = false
-          this.debug('Pipe Load Failed.')
+          util.debug.call(this, 'Pipe Load Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)
@@ -130,21 +110,20 @@ export default (auth_token) => {
       }
 
       this.saving = true
-      this.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug.call(this, 'Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
-      this.http
-        .post('/pipes', this.pipe)
+      flexio.http().post('/pipes', this.pipe)
         .then(response => {
           _.assign(this.pipe, _.get(response, 'data', {}))
           this.saving = false
-          this.debug('Pipe Saved.')
+          util.debug.call(this, 'Pipe Saved.')
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
           this.saving = false
-          this.debug('Pipe Save Failed.')
+          util.debug.call(this, 'Pipe Save Failed.')
 
           if (typeof errorCb == 'function')
             errorCb(error)
@@ -165,7 +144,7 @@ export default (auth_token) => {
       }
 
       this.running = true
-      this.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       var run_params = _.assign({}, this.pipe)
 
@@ -177,21 +156,21 @@ export default (auth_token) => {
       // set the process to run mode and auto-run it
       _.assign(run_params, {
         process_mode: 'R',
+        background: false,
         run: true
       })
 
-      this.http
-        .post('/processes', run_params)
+      flexio.http().post('/processes', run_params)
         .then(response => {
           this.processes.push(_.get(response, 'data', {}))
-          this.debug('Process Running.')
+          util.debug.call(this, 'Process Running.')
           this.running = false
 
           if (typeof successCb == 'function')
             successCb(response)
         })
         .catch(error => {
-          this.debug('Process Failed.')
+          util.debug.call(this, 'Process Failed.')
           this.running = false
 
           if (typeof errorCb == 'function')
@@ -211,7 +190,7 @@ export default (auth_token) => {
       var items = undefined
 
       if (args.length == 0)
-        return this.debug('The input task requires at least 1 parameter')
+        return util.debug.call(this, 'The input task requires at least 1 parameter')
 
       switch (connection_type)
       {
@@ -263,7 +242,7 @@ export default (auth_token) => {
       var location = undefined
 
       if (args.length == 0)
-        return this.debug('The output task requires at least 1 parameter')
+        return util.debug.call(this, 'The output task requires at least 1 parameter')
 
       switch (connection_type)
       {
@@ -354,13 +333,13 @@ export default (auth_token) => {
       var type = ttypes.TASK_TYPE_EMAIL_SEND
 
       if (_.isNil(to))
-        return this.debug('The `to` parameter is required')
+        return util.debug.call(this, 'The `to` parameter is required')
 
       if (_.isNil(subject))
-        return this.debug('The `subject` parameter is required')
+        return util.debug.call(this, 'The `subject` parameter is required')
 
       if (_.isNil(body_text))
-        return this.debug('The `body_text` parameter is required')
+        return util.debug.call(this, 'The `body_text` parameter is required')
 
       // `to` parameter must be an array
       if (!_.isArray(to))
@@ -395,17 +374,39 @@ export default (auth_token) => {
         params: {}
       }
 
+      // allow for flexible parameters
       if (lang == 'python' || lang == 'javascript')
       {
-        _.set(task, 'params.lang', lang)
         code = _.get(args, '[1]', '')
       }
        else
       {
-        // default to python
-        _.set(task, 'params.lang', 'python')
+        lang = undefined
         code = _.get(args, '[0]', '')
       }
+
+      if (_.isFunction(code))
+      {
+        // first argument is a function; we're using javascript
+        lang = 'javascript'
+        code = _.get(args, '[0]', function(input, output) {})
+
+        // stringify the javascript function
+        try {
+          code = code.toString()
+        } catch(e) {
+          code = 'function(input, output) {}'
+        }
+      }
+
+      if (lang != 'python' && lang != 'javascript')
+      {
+        // default to python
+        lang = 'python'
+      }
+
+      // set the job's language
+      _.set(task, 'params.lang', lang)
 
       // handle files or code snippets
       var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
@@ -421,7 +422,7 @@ export default (auth_token) => {
       var type = ttypes.TASK_TYPE_FILTER
 
       if (_.isNil(where))
-        return this.debug('The `filter` parameter is required')
+        return util.debug.call(this, 'The `filter` parameter is required')
 
       return this.addTask({
         type,
@@ -429,6 +430,12 @@ export default (auth_token) => {
           where
         }
       })
+    },
+
+    // shorthand for .execute('javascript', ...)
+    javascript() {
+      var args = Array.from(arguments)
+      return this.execute('javascript', _.get(args, '[0]', ''))
     },
 
     limit(value) {
@@ -440,6 +447,28 @@ export default (auth_token) => {
         params: {
           value
         }
+      })
+    },
+
+    // shorthand for .execute('python', ...)
+    python() {
+      var args = Array.from(arguments)
+      return this.execute('python', _.get(args, '[0]', ''))
+    },
+
+    request() {
+      var type = ttypes.TASK_TYPE_REQUEST
+      var args = Array.from(arguments)
+      var params = _.get(args, '[0]', {})
+
+      // defaults
+      params = _.assign({
+        method: 'GET'
+      }, params)
+
+      return this.addTask({
+        type,
+        params
       })
     },
 
