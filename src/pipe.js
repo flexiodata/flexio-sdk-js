@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import axios from 'axios'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'

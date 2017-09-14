@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import axios from 'axios'
 import consoleList from 'console-list'
 
 import { http } from './flexio'

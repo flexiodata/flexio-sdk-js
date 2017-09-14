@@ -1,3 +1,4 @@
+import axios from 'axios'
 import pipe from './pipe'
 import pipes from './pipes'
 import connections from './connections'
