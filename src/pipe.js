@@ -177,6 +177,7 @@ export default (auth_token) => {
       // set the process to run mode and auto-run it
       _.assign(run_params, {
         process_mode: 'R',
+        background: false,
         run: true
       })
 
