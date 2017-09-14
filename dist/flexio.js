@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.5.7 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.5.8 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -676,7 +676,7 @@ var http = undefined;
 
 exports.default = {
   version: function version() {
-    return "1.5.7";
+    return "1.5.8";
   },
   setup: function setup(token) {
     auth_token = token;
@@ -4690,12 +4690,12 @@ exports.default = function (auth_token) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Pipe Loaded.');
 
-        if (typeof successCb == 'function') successCb(response);
+        if (typeof successCb == 'function') successCb.call(_this, response);
       }).catch(function (error) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Pipe Load Failed.');
 
-        if (typeof errorCb == 'function') errorCb(error);
+        if (typeof errorCb == 'function') errorCb.call(_this, error);
       });
 
       return this;
@@ -4730,12 +4730,12 @@ exports.default = function (auth_token) {
         _this2.saving = false;
         _util2.default.debug.call(_this2, 'Pipe Saved.');
 
-        if (typeof successCb == 'function') successCb(response);
+        if (typeof successCb == 'function') successCb.call(_this2, response);
       }).catch(function (error) {
         _this2.saving = false;
         _util2.default.debug.call(_this2, 'Pipe Save Failed.');
 
-        if (typeof errorCb == 'function') errorCb(error);
+        if (typeof errorCb == 'function') errorCb.call(_this2, error);
       });
 
       return this;
@@ -4774,12 +4774,12 @@ exports.default = function (auth_token) {
         _util2.default.debug.call(_this3, 'Process Running.');
         _this3.running = false;
 
-        if (typeof successCb == 'function') successCb(response);
+        if (typeof successCb == 'function') successCb.call(_this3, response);
       }).catch(function (error) {
         _util2.default.debug.call(_this3, 'Process Failed.');
         _this3.running = false;
 
-        if (typeof errorCb == 'function') errorCb(error);
+        if (typeof errorCb == 'function') errorCb.call(_this3, error);
       });
 
       return this;
@@ -8413,12 +8413,12 @@ exports.default = function (auth_token) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Success!');
 
-        if (typeof successCb == 'function') successCb(response);
+        if (typeof successCb == 'function') successCb.call(_this, response);
       }).catch(function (error) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Failed.');
 
-        if (typeof errorCb == 'function') errorCb(error);
+        if (typeof errorCb == 'function') errorCb.call(_this, error);
       });
 
       return this;
@@ -8520,12 +8520,12 @@ exports.default = function (auth_token) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Success!');
 
-        if (typeof successCb == 'function') successCb(response);
+        if (typeof successCb == 'function') successCb.call(_this, response);
       }).catch(function (error) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Failed.');
 
-        if (typeof errorCb == 'function') errorCb(error);
+        if (typeof errorCb == 'function') errorCb.call(_this, error);
       });
 
       return this;
