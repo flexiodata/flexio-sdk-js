@@ -58,14 +58,14 @@ export default (auth_token) => {
           util.debug.call(this, 'Success!')
 
           if (typeof successCb == 'function')
-            successCb(response)
+            successCb.call(this, response)
         })
         .catch(error => {
           this.loading = false
           util.debug.call(this, 'Failed.')
 
           if (typeof errorCb == 'function')
-            errorCb(error)
+            errorCb.call(this, error)
         })
 
       return this
