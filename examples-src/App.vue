@@ -106,13 +106,12 @@
     box-shadow: inset 9999px 9999px rgba(0,0,0,0.20)
   }
 
-  /* match .bg-near-white box-shadow */
   .hljs {
-    background-color: #f4f4f4;
+    background-color: #f4f4f4; /* match .bg-near-white */
     padding: 0;
   }
 
   .box-shadow {
-    box-shadow: 0 3px 3px -3px rgba(0,0,0,0.6);
+    box-shadow: 0 4px 6px -4px rgba(0,0,0,0.5);
   }
 </style>
