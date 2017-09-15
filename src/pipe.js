@@ -55,8 +55,7 @@ export default (auth_token) => {
     load() {
       var args = Array.from(arguments)
       var identifier = _.get(args, '[0]')
-      var successCb = _.get(args, '[1]')
-      var errorCb = _.get(args, '[2]')
+      var callback = _.get(args, '[1]')
 
       if (this.loading === true || this.saving === true || this.running === true)
       {
@@ -76,15 +75,15 @@ export default (auth_token) => {
           this.loading = false
           util.debug.call(this, 'Pipe Loaded.')
 
-          if (typeof successCb == 'function')
-            successCb.call(this, response)
+          if (typeof callback == 'function')
+            callback.call(this, null, response)
         })
         .catch(error => {
           this.loading = false
           util.debug.call(this, 'Pipe Load Failed.')
 
-          if (typeof errorCb == 'function')
-            errorCb.call(this, error)
+          if (typeof callback == 'function')
+            callback.call(this, error, null)
         })
 
       return this
@@ -93,8 +92,7 @@ export default (auth_token) => {
     save() {
       var args = Array.from(arguments)
       var params = _.get(args, '[0]')
-      var successCb = _.get(args, '[0]')
-      var errorCb = _.get(args, '[1]')
+      var callback = _.get(args, '[0]')
 
       if (this.loading === true || this.saving === true || this.running === true)
       {
@@ -105,8 +103,7 @@ export default (auth_token) => {
       if (_.isObject(params))
       {
         _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']))
-        successCb = _.get(args, '[1]')
-        errorCb = _.get(args, '[2]')
+        callback = _.get(args, '[1]')
       }
 
       this.saving = true
@@ -118,15 +115,15 @@ export default (auth_token) => {
           this.saving = false
           util.debug.call(this, 'Pipe Saved.')
 
-          if (typeof successCb == 'function')
-            successCb.call(this, response)
+          if (typeof callback == 'function')
+            callback.call(this, null, response)
         })
         .catch(error => {
           this.saving = false
           util.debug.call(this, 'Pipe Save Failed.')
 
-          if (typeof errorCb == 'function')
-            errorCb.call(this, error)
+          if (typeof callback == 'function')
+            callback.call(this, error, null)
         })
 
       return this
@@ -134,8 +131,7 @@ export default (auth_token) => {
 
     run() {
       var args = Array.from(arguments)
-      var successCb = _.get(args, '[0]')
-      var errorCb = _.get(args, '[1]')
+      var callback = _.get(args, '[0]')
 
       if (this.loading === true || this.saving === true || this.running === true)
       {
@@ -166,15 +162,15 @@ export default (auth_token) => {
           util.debug.call(this, 'Process Running.')
           this.running = false
 
-          if (typeof successCb == 'function')
-            successCb.call(this, response)
+          if (typeof callback == 'function')
+            callback.call(this, null, response)
         })
         .catch(error => {
           util.debug.call(this, 'Process Failed.')
           this.running = false
 
-          if (typeof errorCb == 'function')
-            errorCb.call(this, error)
+          if (typeof callback == 'function')
+            callback.call(this, error, null)
         })
 
       return this

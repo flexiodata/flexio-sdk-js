@@ -39,8 +39,7 @@ export default (auth_token) => {
 
     load() {
       var args = Array.from(arguments)
-      var successCb = _.get(args, '[0]')
-      var errorCb = _.get(args, '[1]')
+      var callback = _.get(args, '[0]')
 
       if (this.loading === true)
       {
@@ -57,15 +56,15 @@ export default (auth_token) => {
           this.loading = false
           util.debug.call(this, 'Success!')
 
-          if (typeof successCb == 'function')
-            successCb.call(this, response)
+          if (typeof callback == 'function')
+            callback.call(this, null, response)
         })
         .catch(error => {
           this.loading = false
           util.debug.call(this, 'Failed.')
 
-          if (typeof errorCb == 'function')
-            errorCb.call(this, error)
+          if (typeof callback == 'function')
+            callback.call(this, error, null)
         })
 
       return this
