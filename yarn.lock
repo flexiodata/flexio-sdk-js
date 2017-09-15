@@ -4320,6 +4320,10 @@ vue-loader@^13.0.4:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.5.3"
 
+vue-simple-spinner@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/vue-simple-spinner/-/vue-simple-spinner-1.2.7.tgz#c1fc94d10611835608f3543e7b6edac0667c69c8"
+
 vue-style-loader@^3.0.0, vue-style-loader@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.0.3.tgz#623658f81506aef9d121cdc113a4f5c9cac32df7"

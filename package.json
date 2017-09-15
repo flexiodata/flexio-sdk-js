@@ -44,6 +44,7 @@
     "deep-assign": "^2.0.0",
     "vue": "^2.4.4",
     "vue-loader": "^13.0.4",
+    "vue-simple-spinner": "^1.2.7",
     "vue-style-loader": "^3.0.3",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^3.5.5",

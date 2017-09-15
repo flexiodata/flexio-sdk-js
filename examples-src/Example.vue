@@ -1,6 +1,6 @@
 <template>
   <div class="mv3">
-    <div class="pa3 bg-near-white box-shadow">
+    <div class="pa3 bg-near-white br3 box-shadow">
       <h4 class="mt0">{{title}}</h4>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
       <div class="overflow-x-auto mt3" v-if="has_result">
@@ -19,11 +19,18 @@
 </template>
 
 <script>
+  import Flexio from '../src/flexio'
+  import VueSimpleSpinner from 'vue-simple-spinner'
+
   export default {
     props: {
       'title': {
         type: String,
         default: 'Example Title'
+      },
+      'api-key': {
+        type: String,
+        default: ''
       },
       'code': {
         type: String,
@@ -40,6 +47,14 @@
         default: true
       }
     },
+    components: {
+      VueSimpleSpinner
+    },
+    watch: {
+      apiKey(val, old_val) {
+        Flexio.setup(val)
+      }
+    },
     data() {
       return {
         result: '',
@@ -54,15 +69,18 @@
         return this.code.trim()
       }
     },
+    mounted() {
+      Flexio.setup(this.apiKey)
+    },
     methods: {
       run() {
         if (typeof this.fn == 'function')
         {
           this.is_loading = true
 
-          this.fn.call(this, (result) => {
+          this.fn.call(this, Flexio, (err, result) => {
             this.is_loading = false
-            this.result = result
+            this.result = JSON.stringify(result, null, 2)
           }, (result) => {
             this.is_loading = false
           })

@@ -71,12 +71,13 @@ export default (auth_token) => {
 
       flexio.http().get('/pipes/' + identifier)
         .then(response => {
-          _.assign(this.pipe, _.get(response, 'data', {}))
+          var obj = _.get(response, 'data', {})
+          this.pipe = _.assign({}, obj)
           this.loading = false
           util.debug.call(this, 'Pipe Loaded.')
 
           if (typeof callback == 'function')
-            callback.call(this, null, response)
+            callback.call(this, null, obj)
         })
         .catch(error => {
           this.loading = false
@@ -111,12 +112,13 @@ export default (auth_token) => {
 
       flexio.http().post('/pipes', this.pipe)
         .then(response => {
-          _.assign(this.pipe, _.get(response, 'data', {}))
+          var pipe = _.get(response, 'data', {})
+          this.pipe = _.assign({}, pipe)
           this.saving = false
           util.debug.call(this, 'Pipe Saved.')
 
           if (typeof callback == 'function')
-            callback.call(this, null, response)
+            callback.call(this, null, obj)
         })
         .catch(error => {
           this.saving = false
@@ -158,12 +160,13 @@ export default (auth_token) => {
 
       flexio.http().post('/processes', run_params)
         .then(response => {
-          this.processes.push(_.get(response, 'data', {}))
+          var obj = _.get(response, 'data', {})
+          this.processes.push(obj)
           util.debug.call(this, 'Process Running.')
           this.running = false
 
           if (typeof callback == 'function')
-            callback.call(this, null, response)
+            callback.call(this, null, obj)
         })
         .catch(error => {
           util.debug.call(this, 'Process Failed.')

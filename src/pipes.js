@@ -52,12 +52,13 @@ export default (auth_token) => {
 
       flexio.http().get('/pipes')
         .then(response => {
-          this.items = [].concat(_.get(response, 'data', []))
+          var items = _.get(response, 'data', [])
+          this.items = [].concat(items)
           this.loading = false
           util.debug.call(this, 'Success!')
 
           if (typeof callback == 'function')
-            callback.call(this, null, response)
+            callback.call(this, null, items)
         })
         .catch(error => {
           this.loading = false

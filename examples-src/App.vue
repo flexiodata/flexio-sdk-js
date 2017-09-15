@@ -19,22 +19,24 @@
       :show-run="false"
     ></example>
 
-    <h2>List Examples</h2>
+    <h2>Lists</h2>
 
     <example
       v-for="(example, index) in list_examples"
       :title="example.title"
       :code="example.code"
       :fn="example.fn"
+      :api-key="api_key"
     ></example>
 
-    <h2>Pipe Examples</h2>
+    <h2>Pipes</h2>
 
     <example
       v-for="(example, index) in pipe_example"
       :title="example.title"
       :code="example.code"
       :fn="example.fn"
+      :api-key="api_key"
     ></example>
   </div>
 </template>
@@ -42,23 +44,16 @@
 <script>
   import Flexio from '../src/flexio'
   import Example from './Example.vue'
+  import list_examples from './code/list'
 
   var version = Flexio.version
   var api_key = 'crhxftrjzjdjcbfvdcqg'
-  var list_examples = []
   var pipe_example = []
-
-  Flexio.setup(api_key)
 
   export default {
     name: 'app',
     components: {
       Example
-    },
-    watch: {
-      api_key(val, old_val) {
-        Flexio.setup(val)
-      }
     },
     data() {
       return {
@@ -113,11 +108,10 @@
   /* match .bg-near-white box-shadow */
   .hljs {
     background-color: #f4f4f4;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
   }
 
   .box-shadow {
-    box-shadow: 0 2px 4px -2px rgba(0,0,0,0.5);
+    box-shadow: 0 3px 3px -3px rgba(0,0,0,0.6);
   }
 </style>
