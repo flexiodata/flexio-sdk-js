@@ -30,7 +30,7 @@
         default: ''
       },
       'fn': {
-        type: String,
+        type: Function,
         default: () => {
           return function() { alert('No function specified!') }
         }
