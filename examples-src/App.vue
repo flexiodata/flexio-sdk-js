@@ -7,7 +7,7 @@
     <p class="lh-copy">Flexio SDK calls require an API key. A default API key is provided to test the following calls. Feel free to <a href="https://www.flex.io/app/signup" target="_blank">sign up for Flex.io</a> to use your own API key in order to test these calls with your Flex.io account:</p class="lh-copy">
     <form>
       <div class="flex flex-row items-center mt2">
-        <label class="mr2">API key:</label>
+        <label class="mr2">Use this API key:</label>
         <input type="text" class="border-box ttl ba b--black-20 f6 pa2 w5 code" v-model="api_key">
       </div>
     </form>
