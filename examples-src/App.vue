@@ -32,7 +32,7 @@
     <h2>Pipes</h2>
 
     <example
-      v-for="(example, index) in pipe_example"
+      v-for="(example, index) in pipe_examples"
       :title="example.title"
       :code="example.code"
       :fn="example.fn"
@@ -45,10 +45,10 @@
   import Flexio from '../src/flexio'
   import Example from './Example.vue'
   import list_examples from './code/list'
+  import pipe_examples from './code/pipe'
 
   var version = Flexio.version
   var api_key = 'crhxftrjzjdjcbfvdcqg'
-  var pipe_example = []
 
   export default {
     name: 'app',
@@ -60,7 +60,7 @@
         version,
         api_key,
         list_examples,
-        pipe_example
+        pipe_examples
       }
     }
   }
