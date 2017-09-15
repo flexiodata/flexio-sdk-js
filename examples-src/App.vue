@@ -108,7 +108,7 @@
 
   .hljs {
     background-color: #f4f4f4; /* match .bg-near-white */
-    padding: 0;
+    padding: 0 1rem;
   }
 
   .box-shadow {

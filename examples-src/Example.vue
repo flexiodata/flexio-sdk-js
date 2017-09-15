@@ -81,6 +81,7 @@
           this.fn.call(this, Flexio, (err, result) => {
             this.is_loading = false
             this.result = JSON.stringify(result, null, 2)
+            console.log(this.result)
           }, (result) => {
             this.is_loading = false
           })
