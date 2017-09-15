@@ -6,8 +6,9 @@
 
     <p class="lh-copy">Flexio SDK calls require an API key. A default API key is provided to test the following calls. Feel free to <a href="https://www.flex.io/app/signup" target="_blank">sign up for Flex.io</a> to use your own API key in order to test these calls with your Flex.io account:</p class="lh-copy">
     <form>
-      <div class="mt2">
-        <input type="text" class="border-box ttl ba b--black-20 f6 pa2 w5" v-model="api_key">
+      <div class="flex flex-row items-center mt2">
+        <label class="mr2">API key:</label>
+        <input type="text" class="border-box ttl ba b--black-20 f6 pa2 w5 code" v-model="api_key">
       </div>
     </form>
 
@@ -44,8 +45,8 @@
 <script>
   import Flexio from '../src/flexio'
   import Example from './Example.vue'
-  import list_examples from './code/list'
-  import pipe_examples from './code/pipe'
+  import list_examples from './examples/list'
+  import pipe_examples from './examples/pipe'
 
   var version = Flexio.version
   var api_key = 'crhxftrjzjdjcbfvdcqg'
