@@ -1,7 +1,7 @@
 # flexio-sdk-js
 Javascript SDK for managing [Flex.io](https://www.flex.io) resources and services
 
-The Flex.io SDK for Javascript is intended for developers who want to integrate Flex.io into their Javacript applications.   This respository also includes the Flex.io Command Line Interface (CLI) is a tool used to manage your Flex.io resources and services.   With just one compact tool, you can integrate Flex.io services into your scripts and command-line environment, enabling powerful integration with other systems and software.   As of this writing, this SDK is only intended for Node.js applications.  Client-side Javascript applications should call Flex.io's [REST API](https://docs.flex.io/docs/rest-api) directy.
+The Flex.io SDK for Javascript is intended for developers who want to integrate Flex.io into their Javacript applications.   This respository also includes the Flex.io Command Line Interface (CLI) is a tool used to manage your Flex.io resources and services.   With just one compact tool, you can integrate Flex.io services into your scripts and command-line environment, enabling powerful integration with other systems and software.   As of this writing, this SDK is only intended for Node.js applications.  Client-side Javascript applications should call Flex.io's [REST API](https://www.flex.io/docs/api/) directy.
 
 ## Installing
 
