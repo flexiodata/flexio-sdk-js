@@ -1,0 +1,290 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Flex.io Javascript SDK Test</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.8.1/tachyons.min.css" integrity="sha256-i0Y6JXo6ZVDJM7TUXTNTB2KKeO4TFQOfMTGgm9mW0II=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" integrity="sha256-3YM6A3pH4QFCl9WbSU8oXF5N6W/2ylvW0o2g+Z6TmLQ=" crossorigin="anonymous" />
+
+  <style>
+    html, body {
+      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 100%;
+    }
+
+    pre {
+      font-family: Consolas, monaco, monospace;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      color: #357edd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .flex-fill {
+      flex: 1 1;
+      min-width: 0; /* 1 */
+      min-height: 0; /* 1 */
+    }
+
+    .darken-10:hover,
+    .darken-10:focus {
+      box-shadow: inset 9999px 9999px rgba(0,0,0,0.10)
+    }
+
+    .darken-10:active {
+      box-shadow: inset 9999px 9999px rgba(0,0,0,0.20)
+    }
+
+    /* match .bg-near-white box-shadow */
+    .hljs {
+      background-color: #f4f4f4;
+      padding: 0;
+    }
+
+    .box-shadow {
+      box-shadow: 0 2px 4px -2px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="pa3 center" style="max-width: 1152px;" v-if="inited">
+    <h1 class="mt0 pb2 bb b--black-10">Flex.io Javascript SDK v{{version}}</h1>
+
+    <h2>API Key</h2>
+
+    <p class="lh-copy">Flexio SDK calls require an API key. A default API key is provided to test the following calls. Feel free to <a href="https://www.flex.io/app/signup" target="_blank">sign up for Flex.io</a> to use your own API key in order to test these calls with your Flex.io account:</p class="lh-copy">
+    <form>
+      <div class="mt2">
+        <input type="text" value="crhxftrjzjdjcbfvdcqg" class="border-box ttl ba b--black-20 f6 pa2 w5" id="api-key">
+        <button class="border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-update-api-key">Use this API key</button>
+      </div>
+    </form>
+
+    <h2>Setup</h2>
+
+    <example
+      title="Initialize Flex.io JS SDK with your API key"
+      code="Flexio.setup('YOUR API KEY GOES HERE')"
+      :show-run="false"
+    ></example>
+
+    <h2>List Examples</h2>
+
+    <example
+      v-for="(example, index) in example_lists"
+      :title="example.title"
+      :code="example.code"
+      :fn="example.fn"
+    ></example>
+
+    <h2>Pipe Examples</h2>
+
+    <example
+      v-for="(example, index) in example_pipes"
+      :title="example.title"
+      :code="example.code"
+      :fn="example.fn"
+    ></example>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.min.js" integrity="sha256-Ab5a6BPGk8Sg3mpdlsHzH6khPkniIWsvEuz8Fv/s9X8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.rawgit.com/dzwillia/vue-simple-spinner/v1.2.5/dist/vue-simple-spinner.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+  <script src="../dist/flexio.min.js"></script>
+  <script>
+    Flexio.setup('crhxftrjzjdjcbfvdcqg')
+    //Flexio.setBaseUrl('https://localhost/api/v1')
+
+    var example_lists = [
+      {
+        title: 'List connections (Console)',
+        fn: (successCb, errorCb) => {
+          var connections = Flexio.connections().load(function() {
+            var result = connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+            successCb(result)
+          }, function() {
+            errorCb()
+          })
+        },
+        code: `
+var connections = Flexio.connections().load(function() {
+  connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+})`,
+      },
+      {
+        title: 'List connections (JSON)',
+        fn: (successCb, errorCb) => {
+          var connections = Flexio.connections().load(function() {
+            var result = connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
+            successCb(result)
+          }, function() {
+            errorCb()
+          })
+        },
+        code: `
+var connections = Flexio.connections().load(function() {
+  connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
+})`,
+      }
+    ]
+
+    var example_pipes = [
+      {
+        title: 'Move a file from Google Drive to Dropbox (with modifications)',
+        fn: (successCb, errorCb) => {
+          var pipe = Flexio.pipe()
+            .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+            .convert('delimited', 'table')
+            .select('VEND_NAME', 'DUE_DATE')
+            .limit(10)
+            .convert('table', 'json')
+            .output('dropbox', 'fxtest103-dropbox', '/test_data')
+            .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
+            .run(function() {
+                var result = JSON.stringify(pipe.getLastProcess(), null, 2)
+                successCb(result)
+              }, function() {
+                errorCb()
+              })
+        },
+        code: `
+Flexio.pipe()
+  .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+  .convert('delimited', 'table')
+  .select('VEND_NAME', 'DUE_DATE')
+  .limit(10)
+  .convert('table', 'json')
+  .output('dropbox', 'fxtest103-dropbox', '/test_data')
+  .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
+  .run()`,
+      }
+    ]
+
+    Vue.directive('highlightjs', {
+      deep: true,
+      bind: function(el, binding) {
+        // on first bind, highlight all targets
+        let targets = el.querySelectorAll('code')
+        targets.forEach((target) => {
+          // if a value is directly assigned to the directive, use this
+          // instead of the element content.
+          if (binding.value) {
+            target.textContent = binding.value
+          }
+          hljs.highlightBlock(target)
+        })
+      },
+      componentUpdated: function(el, binding) {
+        // after an update, re-fill the content and then highlight
+        let targets = el.querySelectorAll('code')
+        targets.forEach((target) => {
+          if (binding.value) {
+            target.textContent = binding.value
+            hljs.highlightBlock(target)
+          }
+        })
+      }
+    })
+
+    Vue.component('example', {
+      props: {
+        'title': {
+          type: String,
+          default: 'Example Title'
+        },
+        'code': {
+          type: String,
+          default: ''
+        },
+        'fn': {
+          type: String,
+          default: () => {
+            return function() { alert('No function specified!') }
+          }
+        },
+        'show-run': {
+          type: Boolean,
+          default: true
+        }
+      },
+      data() {
+        return {
+          result: '',
+          is_loading: false
+        }
+      },
+      computed: {
+        has_result() {
+          return this.result.length > 0
+        },
+        code_trimmed() {
+          return this.code.trim()
+        }
+      },
+      methods: {
+        run() {
+          if (typeof this.fn == 'function')
+          {
+            this.is_loading = true
+
+            this.fn.call(this, (result) => {
+              this.is_loading = false
+              this.result = result
+            }, (result) => {
+              this.is_loading = false
+            })
+          }
+        }
+      },
+      template: `
+<div class="mv3">
+  <div class="pa3 bg-near-white box-shadow">
+    <h4 class="mt0">{{title}}</h4>
+    <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
+    <div class="overflow-x-auto mt3" v-if="has_result">
+      <h4 class="mt0">Output</h4>
+      <pre v-highlightjs="result"><code class="javascript"></code></pre>
+    </div>
+    <div class="mt3" v-else-if="is_loading">
+      <vue-simple-spinner class="dib v-mid" size="34" line-bg-color="#ddd"></vue-simple-spinner>
+      <span class="v-mid fw6 dark-gray ml1">Running...</span>
+    </div>
+    <div v-else-if="showRun">
+      <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" @click="run">Run</button>
+    </div>
+  </div>
+</div>
+`
+    })
+
+    // create a new Vue instance and mount it to our div element above with the id of app
+    var vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          inited: false,
+          version: Flexio.version(),
+          example_lists,
+          example_pipes
+        }
+      },
+      mounted() {
+        this.inited = true
+      }
+    })
+  </script>
+</body>
+</html>

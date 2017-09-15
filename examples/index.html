@@ -47,9 +47,13 @@
       box-shadow: inset 9999px 9999px rgba(0,0,0,0.20)
     }
 
-    /* match .bg-near-white */
+    /* match .bg-near-white box-shadow */
     .hljs {
       background-color: #f4f4f4;
+    }
+
+    .box-shadow {
+      box-shadow: 0 2px 4px -2px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -71,7 +75,7 @@
     <h2>Setup</h2>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Initialize Flex.io JS SDK with your API key</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.setup('YOUR API KEY GOES HERE')</code></pre>
       </div>
@@ -80,53 +84,53 @@
     <h2>List Examples</h2>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List connections (Console)</h4>
         <pre class="overflow-x-auto"><code class="js">var connections = Flexio.connections().load(function() {
   connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-console">Run</button>
       </div>
-      <div id="connections-console"></div>
+      <div class="overflow-x-auto" id="connections-console"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List connections (JSON)</h4>
         <pre class="overflow-x-auto"><code class="js">var connections = Flexio.connections().load(function() {
   connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
       </div>
-      <div id="connections-json"></div>
+      <div class="overflow-x-auto" id="connections-json"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List pipes (Console)</h4>
         <pre class="overflow-x-auto"><code class="js">var pipes = Flexio.pipes().load(function() {
   pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-console">Run</button>
       </div>
-      <div id="pipes-console"></div>
+      <div class="overflow-x-auto" id="pipes-console"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List pipes (JSON)</h4>
         <pre class="overflow-x-auto"><code class="js">var pipes = Flexio.pipes().load(function() {
   pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
       </div>
-      <div id="pipes-json"></div>
+      <div class="overflow-x-auto" id="pipes-json"></div>
     </div>
 
     <h2>Pipe Examples</h2>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Move a file from Google Drive to Dropbox (with modifications)</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
@@ -139,11 +143,11 @@
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-1">Run</button>
       </div>
-      <div id="run-pipe-1"></div>
+      <div class="overflow-x-auto" id="run-pipe-1"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Create a message in python and email it as an attachment</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .execute("\
@@ -158,11 +162,11 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-2">Run</button>
       </div>
-      <div id="run-pipe-2"></div>
+      <div class="overflow-x-auto" id="run-pipe-2"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Create a message from a remote python script and email it as an attachment</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
@@ -171,20 +175,20 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-3">Run</button>
       </div>
-      <div id="run-pipe-3"></div>
+      <div class="overflow-x-auto" id="run-pipe-3"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Run an existing pipe</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe().load('my-pipe-alias').run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-4">Run</button>
       </div>
-      <div id="run-pipe-4"></div>
+      <div class="overflow-x-auto" id="run-pipe-4"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">GET request with no parameters</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .request({
@@ -194,11 +198,11 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-5">Run</button>
       </div>
-      <div id="run-pipe-5"></div>
+      <div class="overflow-x-auto" id="run-pipe-5"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">GET request with parameters</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .request({
@@ -212,11 +216,11 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-6">Run</button>
       </div>
-      <div id="run-pipe-6"></div>
+      <div class="overflow-x-auto" id="run-pipe-6"></div>
     </div>
 
     <div class="mv3">
-      <div class="pa3 bg-near-white">
+      <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">POST request with data</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
   .request({
@@ -230,7 +234,7 @@ def flexio_handler(input, output):\n\
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-7">Run</button>
       </div>
-      <div id="run-pipe-7"></div>
+      <div class="overflow-x-auto" id="run-pipe-7"></div>
     </div>
   </div>
 
@@ -247,7 +251,7 @@ def flexio_handler(input, output):\n\
     $app.find('h1').text('Flex.io Javascript SDK Version: ' + Flexio.version())
 
     function listConnectionsConsole() {
-      var $div = $('#connections-console').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#connections-console').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var connections = Flexio.connections().load(function() {
@@ -261,7 +265,7 @@ def flexio_handler(input, output):\n\
     }
 
     function listConnectionsJson() {
-      var $div = $('#connections-json').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#connections-json').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var connections = Flexio.connections().load(function() {
@@ -279,7 +283,7 @@ def flexio_handler(input, output):\n\
     }
 
     function listPipesConsole() {
-      var $div = $('#pipes-console').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#pipes-console').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipes = Flexio.pipes().load(function() {
@@ -293,7 +297,7 @@ def flexio_handler(input, output):\n\
     }
 
     function listPipesJson() {
-      var $div = $('#pipes-json').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#pipes-json').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipes = Flexio.pipes().load(function() {
@@ -332,7 +336,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-1').click(function() {
-      var $div = $('#run-pipe-1').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-1').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -358,7 +362,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-2').click(function() {
-      var $div = $('#run-pipe-2').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-2').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -388,7 +392,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-3').click(function() {
-      var $div = $('#run-pipe-4').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-4').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -412,7 +416,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-4').click(function() {
-      var $div = $('#run-pipe-4').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-4').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -432,7 +436,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-5').click(function() {
-      var $div = $('#run-pipe-5').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-5').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -455,7 +459,7 @@ def flexio_handler(input, output):\n\
     })
 
     $('#btn-run-pipe-6').click(function() {
-      var $div = $('#run-pipe-6').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-6').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
@@ -483,7 +487,7 @@ def flexio_handler(input, output):\n\
 
 
     $('#btn-run-pipe-7').click(function() {
-      var $div = $('#run-pipe-7').addClass('pa3 pt0 bg-near-white')
+      var $div = $('#run-pipe-7').addClass('pa3 pt0 bg-near-white box-shadow')
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()

@@ -77,14 +77,14 @@ export default (auth_token) => {
           util.debug.call(this, 'Pipe Loaded.')
 
           if (typeof successCb == 'function')
-            successCb(response)
+            successCb.call(this, response)
         })
         .catch(error => {
           this.loading = false
           util.debug.call(this, 'Pipe Load Failed.')
 
           if (typeof errorCb == 'function')
-            errorCb(error)
+            errorCb.call(this, error)
         })
 
       return this
@@ -119,14 +119,14 @@ export default (auth_token) => {
           util.debug.call(this, 'Pipe Saved.')
 
           if (typeof successCb == 'function')
-            successCb(response)
+            successCb.call(this, response)
         })
         .catch(error => {
           this.saving = false
           util.debug.call(this, 'Pipe Save Failed.')
 
           if (typeof errorCb == 'function')
-            errorCb(error)
+            errorCb.call(this, error)
         })
 
       return this
@@ -167,14 +167,14 @@ export default (auth_token) => {
           this.running = false
 
           if (typeof successCb == 'function')
-            successCb(response)
+            successCb.call(this, response)
         })
         .catch(error => {
           util.debug.call(this, 'Process Failed.')
           this.running = false
 
           if (typeof errorCb == 'function')
-            errorCb(error)
+            errorCb.call(this, error)
         })
 
       return this
