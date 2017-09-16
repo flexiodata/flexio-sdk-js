@@ -1,10 +1,10 @@
-import pipe001 from './pipe-001'
-import pipe002 from './pipe-002'
-import pipe003 from './pipe-003'
-import pipe004 from './pipe-004'
-import pipe005 from './pipe-005'
-import pipe006 from './pipe-006'
-import pipe007 from './pipe-007'
+import pipe001 from './pipe001'
+import pipe002 from './pipe002'
+import pipe003 from './pipe003'
+import pipe004 from './pipe004'
+import pipe005 from './pipe005'
+import pipe006 from './pipe006'
+import pipe007 from './pipe007'
 
 export default {
   pipe001,
