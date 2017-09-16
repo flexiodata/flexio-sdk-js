@@ -1,6 +1,6 @@
 <template>
   <div class="mv3">
-    <div class="pa3 bg-near-white box-shadow">
+    <div class="pa3 bg-near-white br1 box-shadow">
       <h4 class="mt0">{{title}}</h4>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
       <div class="overflow-x-auto mt3" v-if="has_result">

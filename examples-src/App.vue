@@ -99,11 +99,11 @@
 
   .darken-10:hover,
   .darken-10:focus {
-    box-shadow: inset 9999px 9999px rgba(0,0,0,0.10)
+    box-shadow: inset 9999px 9999px rgba(0,0,0,0.10);
   }
 
   .darken-10:active {
-    box-shadow: inset 9999px 9999px rgba(0,0,0,0.20)
+    box-shadow: inset 9999px 9999px rgba(0,0,0,0.20);
   }
 
   .hljs {
@@ -112,6 +112,7 @@
   }
 
   .box-shadow {
-    box-shadow: 0 4px 6px -4px rgba(0,0,0,0.5);
+
+    box-shadow: 0 2px 4px -2px rgba(0,0,0,0.5);
   }
 </style>
