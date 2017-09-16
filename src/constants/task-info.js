@@ -145,7 +145,7 @@ const RENAME = {
 const REQUEST = {
   name: 'Request',
   type: types.TASK_TYPE_REQUEST,
-  icon: 'edit',
+  icon: 'http',
   bg_color: 'bg-task-blue'
 }
 
