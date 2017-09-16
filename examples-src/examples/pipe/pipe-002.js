@@ -10,7 +10,7 @@ def flexio_handler(input, output):\\n\\
 
 Flexio.pipe()
   .execute(inline_python_code)
-  .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
+  .email('flexio@mailinator.com', 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
   .run(function(err, process) {
     console.log(process)
   })`
@@ -27,7 +27,7 @@ def flexio_handler(input, output):\n\
 
 Flexio.pipe()
   .execute(inline_python_code)
-  .email('flexio@mailinator.com', 'Flex.io JS SDK Test - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
+  .email('flexio@mailinator.com', 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(), 'This is a test using inline Python code...', null, 'attachment')
   .run(callback)
 }
 

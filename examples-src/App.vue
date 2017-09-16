@@ -20,7 +20,7 @@
       :show-run="false"
     ></example>
 
-    <h2>Lists</h2>
+    <h2>Collections</h2>
 
     <example
       v-for="(example, index) in list_examples"
