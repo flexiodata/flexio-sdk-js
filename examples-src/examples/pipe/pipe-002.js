@@ -32,7 +32,7 @@ Flexio.pipe()
 }
 
 export default {
-  title: 'Create a message from a remote python script and email it as an attachment',
+  title: 'Create and execute an inline python script and email its result as an attachment',
   code,
   fn
 }
