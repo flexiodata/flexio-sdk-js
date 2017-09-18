@@ -27,8 +27,15 @@ const config = merge(base, {
     contentBase: options.paths.output.examples,
     host: 'localhost',
     historyApiFallback: true,
-    noInfo: true
-  }
+    noInfo: true,
+    proxy: {
+      '/api/**': {
+        target: 'https://localhost',
+        secure: false
+      }
+    }
+  },
+  devtool: '#eval-source-map'
 })
 
 // First item in module.rules array is Vue
