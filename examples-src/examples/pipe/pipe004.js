@@ -2,8 +2,8 @@
 const code = `
 Flexio.pipe()
   .load('example-pipe-alias')
-  .run(function(err, process) {
-    console.log(process)
+  .run(function(err, result) {
+    console.log(result)
   })`
 
 const fn = (Flexio, callback) => {
