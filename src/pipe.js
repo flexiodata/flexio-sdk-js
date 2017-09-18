@@ -165,12 +165,12 @@ export default (auth_token) => {
 
           flexio.http().post('/processes/'+process_eid+'/run')
             .then(response => {
-              var obj = _.get(response, 'data', {})
+              var obj2 = _.get(response, 'data', {})
               util.debug.call(this, 'Process Complete.')
               this.running = false
 
               if (typeof callback == 'function')
-                callback.call(this, null, obj)
+                callback.call(this, null, obj2)
             })
         })
         .catch(error => {
