@@ -4669,8 +4669,7 @@ exports.default = function (auth_token) {
 
       var args = Array.from(arguments);
       var identifier = (0, _get3.default)(args, '[0]');
-      var successCb = (0, _get3.default)(args, '[1]');
-      var errorCb = (0, _get3.default)(args, '[2]');
+      var callback = (0, _get3.default)(args, '[1]');
 
       if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -4685,16 +4684,17 @@ exports.default = function (auth_token) {
       _util2.default.debug.call(this, 'Loading Pipe `' + identifier + '`...');
 
       _flexio2.default.http().get('/pipes/' + identifier).then(function (response) {
-        (0, _assign3.default)(_this.pipe, (0, _get3.default)(response, 'data', {}));
+        var obj = (0, _get3.default)(response, 'data', {});
+        _this.pipe = (0, _assign3.default)({}, obj);
         _this.loading = false;
         _util2.default.debug.call(_this, 'Pipe Loaded.');
 
-        if (typeof successCb == 'function') successCb.call(_this, response);
+        if (typeof callback == 'function') callback.call(_this, null, obj);
       }).catch(function (error) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Pipe Load Failed.');
 
-        if (typeof errorCb == 'function') errorCb.call(_this, error);
+        if (typeof callback == 'function') callback.call(_this, error, null);
       });
 
       return this;
@@ -4705,8 +4705,7 @@ exports.default = function (auth_token) {
 
       var args = Array.from(arguments);
       var params = (0, _get3.default)(args, '[0]');
-      var successCb = (0, _get3.default)(args, '[0]');
-      var errorCb = (0, _get3.default)(args, '[1]');
+      var callback = (0, _get3.default)(args, '[0]');
 
       if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -4717,24 +4716,24 @@ exports.default = function (auth_token) {
 
       if ((0, _isObject3.default)(params)) {
         (0, _assign3.default)(this.pipe, (0, _pick3.default)(params, ['name', 'description', 'ename']));
-        successCb = (0, _get3.default)(args, '[1]');
-        errorCb = (0, _get3.default)(args, '[2]');
+        callback = (0, _get3.default)(args, '[1]');
       }
 
       this.saving = true;
       _util2.default.debug.call(this, 'Saving Pipe `' + (0, _get3.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
       _flexio2.default.http().post('/pipes', this.pipe).then(function (response) {
-        (0, _assign3.default)(_this2.pipe, (0, _get3.default)(response, 'data', {}));
+        var pipe = (0, _get3.default)(response, 'data', {});
+        _this2.pipe = (0, _assign3.default)({}, pipe);
         _this2.saving = false;
         _util2.default.debug.call(_this2, 'Pipe Saved.');
 
-        if (typeof successCb == 'function') successCb.call(_this2, response);
+        if (typeof callback == 'function') callback.call(_this2, null, obj);
       }).catch(function (error) {
         _this2.saving = false;
         _util2.default.debug.call(_this2, 'Pipe Save Failed.');
 
-        if (typeof errorCb == 'function') errorCb.call(_this2, error);
+        if (typeof callback == 'function') callback.call(_this2, error, null);
       });
 
       return this;
@@ -4744,8 +4743,7 @@ exports.default = function (auth_token) {
           _arguments3 = arguments;
 
       var args = Array.from(arguments);
-      var successCb = (0, _get3.default)(args, '[0]');
-      var errorCb = (0, _get3.default)(args, '[1]');
+      var callback = (0, _get3.default)(args, '[0]');
 
       if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -4763,22 +4761,27 @@ exports.default = function (auth_token) {
       if (parent_eid.length > 0) run_params = { parent_eid: parent_eid };
 
       (0, _assign3.default)(run_params, {
-        process_mode: 'R',
-        background: false,
-        run: true
+        process_mode: 'R'
       });
 
       _flexio2.default.http().post('/processes', run_params).then(function (response) {
-        _this3.processes.push((0, _get3.default)(response, 'data', {}));
-        _util2.default.debug.call(_this3, 'Process Running.');
-        _this3.running = false;
+        var obj = (0, _get3.default)(response, 'data', {});
+        var process_eid = (0, _get3.default)(obj, 'eid', '');
+        _this3.processes.push(obj);
+        _util2.default.debug.call(_this3, 'Created Process.');
 
-        if (typeof successCb == 'function') successCb.call(_this3, response);
+        _flexio2.default.http().post('/processes/' + process_eid + '/run').then(function (response) {
+          var obj2 = (0, _get3.default)(response, 'data', {});
+          _util2.default.debug.call(_this3, 'Process Complete.');
+          _this3.running = false;
+
+          if (typeof callback == 'function') callback.call(_this3, null, obj2);
+        });
       }).catch(function (error) {
-        _util2.default.debug.call(_this3, 'Process Failed.');
+        _util2.default.debug.call(_this3, 'Process Create Failed.');
         _this3.running = false;
 
-        if (typeof errorCb == 'function') errorCb.call(_this3, error);
+        if (typeof callback == 'function') callback.call(_this3, error, null);
       });
 
       return this;
@@ -8394,8 +8397,7 @@ exports.default = function (auth_token) {
           _arguments = arguments;
 
       var args = Array.from(arguments);
-      var successCb = (0, _get3.default)(args, '[0]');
-      var errorCb = (0, _get3.default)(args, '[1]');
+      var callback = (0, _get3.default)(args, '[0]');
 
       if (this.loading === true) {
         setTimeout(function () {
@@ -8408,16 +8410,17 @@ exports.default = function (auth_token) {
       _util2.default.debug.call(this, 'Requesting Pipes...');
 
       _flexio2.default.http().get('/pipes').then(function (response) {
-        _this.items = [].concat((0, _get3.default)(response, 'data', []));
+        var items = (0, _get3.default)(response, 'data', []);
+        _this.items = [].concat(items);
         _this.loading = false;
         _util2.default.debug.call(_this, 'Success!');
 
-        if (typeof successCb == 'function') successCb.call(_this, response);
+        if (typeof callback == 'function') callback.call(_this, null, items);
       }).catch(function (error) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Failed.');
 
-        if (typeof errorCb == 'function') errorCb.call(_this, error);
+        if (typeof callback == 'function') callback.call(_this, error, null);
       });
 
       return this;
@@ -8501,8 +8504,7 @@ exports.default = function (auth_token) {
           _arguments = arguments;
 
       var args = Array.from(arguments);
-      var successCb = (0, _get3.default)(args, '[0]');
-      var errorCb = (0, _get3.default)(args, '[1]');
+      var callback = (0, _get3.default)(args, '[0]');
 
       if (this.loading === true) {
         setTimeout(function () {
@@ -8515,16 +8517,17 @@ exports.default = function (auth_token) {
       _util2.default.debug.call(this, 'Requesting Connections...');
 
       _flexio2.default.http().get('/connections').then(function (response) {
-        _this.items = [].concat((0, _get3.default)(response, 'data', []));
+        var items = (0, _get3.default)(response, 'data', []);
+        _this.items = [].concat(items);
         _this.loading = false;
         _util2.default.debug.call(_this, 'Success!');
 
-        if (typeof successCb == 'function') successCb.call(_this, response);
+        if (typeof callback == 'function') callback.call(_this, null, items);
       }).catch(function (error) {
         _this.loading = false;
         _util2.default.debug.call(_this, 'Failed.');
 
-        if (typeof errorCb == 'function') errorCb.call(_this, error);
+        if (typeof callback == 'function') callback.call(_this, error, null);
       });
 
       return this;
