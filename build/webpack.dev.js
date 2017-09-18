@@ -25,7 +25,6 @@ const config = merge(base, {
 
   devServer: {
     contentBase: options.paths.output.examples,
-    host: 'localhost',
     historyApiFallback: true,
     noInfo: true,
     proxy: {
