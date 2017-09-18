@@ -151,25 +151,30 @@ export default (auth_token) => {
       if (parent_eid.length > 0)
         run_params = { parent_eid }
 
-      // set the process to run mode and auto-run it
+      // set the process to run mode
       _.assign(run_params, {
-        process_mode: 'R',
-        background: false,
-        run: true
+        process_mode: 'R'
       })
 
       flexio.http().post('/processes', run_params)
         .then(response => {
           var obj = _.get(response, 'data', {})
+          var process_eid = _.get(obj, 'eid', '')
           this.processes.push(obj)
-          util.debug.call(this, 'Process Running.')
-          this.running = false
+          util.debug.call(this, 'Created Process.')
 
-          if (typeof callback == 'function')
-            callback.call(this, null, obj)
+          flexio.http().post('/processes/'+process_eid+'/run')
+            .then(response => {
+              var obj = _.get(response, 'data', {})
+              util.debug.call(this, 'Process Complete.')
+              this.running = false
+
+              if (typeof callback == 'function')
+                callback.call(this, null, obj)
+            })
         })
         .catch(error => {
-          util.debug.call(this, 'Process Failed.')
+          util.debug.call(this, 'Process Create Failed.')
           this.running = false
 
           if (typeof callback == 'function')
