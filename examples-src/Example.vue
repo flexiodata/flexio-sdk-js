@@ -1,5 +1,5 @@
 <template>
-  <div class="mv3">
+  <div class="mv4">
     <div class="pa3 bg-near-white br1 box-shadow">
       <h4 class="mt0">{{title}}</h4>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
