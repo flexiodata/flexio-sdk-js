@@ -379,9 +379,13 @@ export default (auth_token) => {
       }
 
       // allow for flexible parameters
-      if (lang == 'python' || lang == 'javascript')
+      if (lang == 'python')
       {
-        code = _.get(args, '[1]', '')
+
+      }
+       else if (lang == 'javascript')
+      {
+        code = _.get(args, '[1]', function(input, output) {})
       }
        else
       {
@@ -393,12 +397,11 @@ export default (auth_token) => {
       {
         // first argument is a function; we're using javascript
         lang = 'javascript'
-        code = _.get(args, '[0]', function(input, output) {})
 
         // stringify the javascript function
         try {
           code = code.toString()
-        } catch(e) {
+        } catch (e) {
           code = 'function(input, output) {}'
         }
       }
