@@ -4943,8 +4943,8 @@ exports.default = function (auth_token) {
         params: {}
       };
 
-      if (lang == 'python' || lang == 'javascript') {
-        code = (0, _get3.default)(args, '[1]', '');
+      if (lang == 'python') {} else if (lang == 'javascript') {
+        code = (0, _get3.default)(args, '[1]', function (input, output) {});
       } else {
         lang = undefined;
         code = (0, _get3.default)(args, '[0]', '');
@@ -4952,7 +4952,6 @@ exports.default = function (auth_token) {
 
       if ((0, _isFunction3.default)(code)) {
         lang = 'javascript';
-        code = (0, _get3.default)(args, '[0]', function (input, output) {});
 
         try {
           code = code.toString();
