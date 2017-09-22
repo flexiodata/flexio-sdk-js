@@ -14,6 +14,60 @@ var fromBase64 = function(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
 }
 
+var getJsFunctionBody = function(f) {
+  var body
+
+  try {
+    // stringify the function
+    body = f.toString()
+
+    // remove the wrapper function and just return its body
+    body = body.substring(body.indexOf('{') + 1, body.lastIndexOf('}'))
+  } catch (e) {
+    body = ''
+  }
+
+  return body
+}
+
+var getJsExport = function(f) {
+  if (_.isString(f))
+    return f
+
+  if (_.isFunction(f))
+  {
+    var body
+
+    if (f.length == 0)
+    {
+      // function has no parameters, so just take body
+      body = getJsFunctionBody(f)
+      return 'exports.flexio_file_handler = function(input, output) ' + body
+    }
+     else
+    {
+      body = f.toString()
+      if (body.substring(0, 8) == 'function')
+      {
+        // remove `function` but keep the provided arguments
+        body = body.slice(8)
+      }
+       else
+      {
+        // handle arrow syntax
+        var arrow = body.indexOf('=>')
+        var brace = body.indexOf('{')
+
+        if (arrow >= 0 && arrow < brace)
+        {
+          body = body.replace('=>\s*{', '{')
+        }
+      }
+      return 'exports.flexio_file_handler = function' + body
+    }
+  }
+}
+
 export default (auth_token) => {
   return _.assign({}, {
     // -- state --
@@ -396,18 +450,7 @@ export default (auth_token) => {
         if (_.isNil(lang))
           lang = 'javascript'
 
-        try {
-          // stringify the function
-          code = code.toString()
-
-          // remove the wrapper function and just return its body
-          code = code.substring(code.indexOf('{') + 1, code.lastIndexOf('}'))
-
-          // trim outer whitespace ???
-          //code = code.trim()
-        } catch (e) {
-          code = ''
-        }
+        code = getJsFunctionBody(code)
       }
 
       // set the job's language
@@ -437,10 +480,12 @@ export default (auth_token) => {
       })
     },
 
-    // shorthand for .execute('javascript', ...)
+    // shorthand for .execute('javascript', ...
     javascript() {
       var args = Array.from(arguments)
-      return this.execute('javascript', _.get(args, '[0]', ''))
+      var code = _.get(args, '[0]', '')
+      code = getJsExport(code)
+      return this.execute('javascript', code)
     },
 
     limit(value) {
