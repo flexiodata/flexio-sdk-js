@@ -50,22 +50,32 @@
         })
         */
         .javascript(function(input, output) {
+          // Lodash on the Flex.io server :-)
           var _ = require('lodash')
-          var arr = input.read()
-          arr = JSON.parse(arr)
+
+          // read the input (which was output from the previous task)
+          var str = input.read()
+
+          // convert the string into an array of JSON objects
+          var arr = JSON.parse(str)
+
+          // massage the output for our purposes
           arr = _.map(arr, function(a) {
-            // trim down our response
+            //
             var retval = _.pick(a, ['date', 'block', 'description'])
 
-            // clean up location description key and
+            // trim down our response; clean up our strings and key values and
             // add position coordinates as an object for Google Maps to use
-            return _.assign(retval, {
-              loc_description: _.get(a, 'location description', ''),
+            return {
+              date: a.date,
+              title: _.startCase(_.lowerCase(a.block)),
+              desc: _.capitalize(a.description),
+              loc_desc: _.startCase(_.lowerCase(_.get(a, 'location description', ''))),
               position: {
-                lat: parseFloat(_.get(a, 'latitude', '0')),
-                lng: parseFloat(_.get(a, 'longitude', '0'))
+                lat: parseFloat(a.latitude),
+                lng: parseFloat(a.longitude)
               }
-            })
+            }
           })
           output.write(JSON.stringify(arr))
         })
