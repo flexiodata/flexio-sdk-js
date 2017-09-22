@@ -108,15 +108,18 @@
         }
         g_markers = []
 
+        // grab the year from them select dropdown
+        var year = $('.year-select').val()
+
         // run the following Flex.io pipe to get our result set
         Flexio.pipe()
           .input('https://raw.githubusercontent.com/flexiodata/examples/master/chicago-crime/chicago-homicides-2001-2016.csv')
           .convert('csv', 'table')
           .select('date', 'year', 'block', 'description', 'location description', 'latitude', 'longitude')
-          .filter("year = '2016'")
+          .filter("year = '"+year+"'")
           .convert('table', 'json')
           .javascript(function(input, output) {
-            // Lodash on the Flex.io server :-)
+            // use Lodash on the Flex.io server :-)
             var _ = require('lodash')
 
             // read the input (which was output from the previous task)
@@ -182,7 +185,7 @@
       /* ---- END FLEX.IO EXAMPLE ------------------------------------------ */
 
       // do a new submit when a new year is selected in the dropdown
-      $('form').on('submit', function (evt) {
+      $('form').on('submit', function(evt) {
         evt.preventDefault()
         doSubmit()
       })
