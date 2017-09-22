@@ -675,9 +675,8 @@ var auth_token = '';
 var http = undefined;
 
 exports.default = {
-  version: function version() {
-    return "1.5.8";
-  },
+  version: "1.5.8",
+
   setup: function setup(token) {
     auth_token = token;
     this._createHttp();

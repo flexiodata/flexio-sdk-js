@@ -1,6 +1,7 @@
 'use strict'
 
 const options = require('./options')
+const autoprefixer = require('autoprefixer')
 
 module.exports = {
   resolve: {
@@ -10,7 +11,8 @@ module.exports = {
     ],
 
     alias: {
-      src: 'src'
+      src: 'src',
+      vue$: 'vue/dist/vue.common.js'
     },
 
     extensions: ['.js', '.json']
@@ -18,6 +20,20 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            // configured in the script specific webpack configs
+          },
+          postcss: [
+            autoprefixer({
+              browsers: ['last 2 versions', 'ie > 9', 'Firefox ESR']
+            })
+          ]
+        }
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',

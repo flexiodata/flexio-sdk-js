@@ -8,10 +8,8 @@ var auth_token = ''
 var http = undefined
 
 export default {
-  version() {
-    // see `../build/webpack.dist.js`
-    return VERSION
-  },
+  // see `../build/webpack.dist.js`
+  version: VERSION,
 
   setup(token) {
     auth_token = token

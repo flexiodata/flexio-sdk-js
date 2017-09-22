@@ -84,7 +84,7 @@
     <h2>List Examples</h2>
 
     <example
-      v-for="(example, index) in example_lists"
+      v-for="(example, index) in list_examples"
       :title="example.title"
       :code="example.code"
       :fn="example.fn"
@@ -93,7 +93,7 @@
     <h2>Pipe Examples</h2>
 
     <example
-      v-for="(example, index) in example_pipes"
+      v-for="(example, index) in pipe_example"
       :title="example.title"
       :code="example.code"
       :fn="example.fn"
@@ -108,7 +108,7 @@
     Flexio.setup('crhxftrjzjdjcbfvdcqg')
     //Flexio.setBaseUrl('https://localhost/api/v1')
 
-    var example_lists = [
+    var list_examples = [
       {
         title: 'List connections (Console)',
         fn: (successCb, errorCb) => {
@@ -141,7 +141,7 @@ var connections = Flexio.connections().load(function() {
       }
     ]
 
-    var example_pipes = [
+    var pipe_example = [
       {
         title: 'Move a file from Google Drive to Dropbox (with modifications)',
         fn: (successCb, errorCb) => {
@@ -276,9 +276,9 @@ Flexio.pipe()
       data() {
         return {
           inited: false,
-          version: Flexio.version(),
-          example_lists,
-          example_pipes
+          version: Flexio.version,
+          list_examples,
+          pipe_example
         }
       },
       mounted() {
