@@ -403,8 +403,8 @@ export default (auth_token) => {
           // remove the wrapper function and just return its body
           code = code.substring(code.indexOf('{') + 1, code.lastIndexOf('}'))
 
-          // trim outer whitespace
-          code = code.trim()
+          // trim outer whitespace ???
+          //code = code.trim()
         } catch (e) {
           code = ''
         }
@@ -480,6 +480,11 @@ export default (auth_token) => {
     select() {
       var type = ttypes.TASK_TYPE_SELECT
       var columns = Array.from(arguments)
+
+      // handle the case where the user passed an array of items
+      // instead of just passing them as arguments
+      if (columns.length == 1 && _.isArray(_.get(columns, '[0]')))
+        columns = _.get(columns, '[0]', [])
 
       return this.addTask({
         type,
