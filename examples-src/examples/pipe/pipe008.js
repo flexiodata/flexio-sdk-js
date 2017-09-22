@@ -1,19 +1,19 @@
 
 const code = `
 Flexio.pipe()
-  .load('example-pipe-alias')
+  .javascript(function() { return 'Hello World!' })
   .run(function(err, result) {
     console.log(result)
   })`
 
 const fn = (Flexio, callback) => {
   Flexio.pipe()
-    .load('example-pipe-alias')
+    .javascript(function() { return 'Hello World!' })
     .run(callback)
 }
 
 export default {
-  title: 'Run an existing pipe',
+  title: 'Run a basic javascript script',
   code,
   fn
 }

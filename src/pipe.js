@@ -14,6 +14,60 @@ var fromBase64 = function(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
 }
 
+var getJsFunctionBody = function(f) {
+  var body
+
+  try {
+    // stringify the function
+    body = f.toString()
+
+    // remove the wrapper function and just return its body
+    body = body.substring(body.indexOf('{') + 1, body.lastIndexOf('}'))
+  } catch (e) {
+    body = ''
+  }
+
+  return body
+}
+
+var getJsExport = function(f) {
+  if (_.isString(f))
+    return f
+
+  if (_.isFunction(f))
+  {
+    var body
+
+    if (f.length == 0)
+    {
+      // function has no parameters, so just take body
+      body = getJsFunctionBody(f)
+      return 'exports.flexio_file_handler = function(input, output) ' + body
+    }
+     else
+    {
+      body = f.toString()
+      if (body.substring(0, 8) == 'function')
+      {
+        // remove `function` but keep the provided arguments
+        body = body.slice(8)
+      }
+       else
+      {
+        // handle arrow syntax
+        var arrow = body.indexOf('=>')
+        var brace = body.indexOf('{')
+
+        if (arrow >= 0 && arrow < brace)
+        {
+          body = body.replace('=>\s*{', '{')
+        }
+      }
+      return 'exports.flexio_file_handler = function' + body
+    }
+  }
+}
+
 export default (auth_token) => {
   return _.assign({}, {
     // -- state --
@@ -151,25 +205,30 @@ export default (auth_token) => {
       if (parent_eid.length > 0)
         run_params = { parent_eid }
 
-      // set the process to run mode and auto-run it
+      // set the process to run mode
       _.assign(run_params, {
-        process_mode: 'R',
-        background: false,
-        run: true
+        process_mode: 'R'
       })
 
       flexio.http().post('/processes', run_params)
         .then(response => {
           var obj = _.get(response, 'data', {})
+          var process_eid = _.get(obj, 'eid', '')
           this.processes.push(obj)
-          util.debug.call(this, 'Process Running.')
-          this.running = false
+          util.debug.call(this, 'Created Process.')
 
-          if (typeof callback == 'function')
-            callback.call(this, null, obj)
+          flexio.http().post('/processes/'+process_eid+'/run')
+            .then(response => {
+              var obj2 = _.get(response, 'data', {})
+              util.debug.call(this, 'Process Complete.')
+              this.running = false
+
+              if (typeof callback == 'function')
+                callback.call(this, null, obj2)
+            })
         })
         .catch(error => {
-          util.debug.call(this, 'Process Failed.')
+          util.debug.call(this, 'Process Create Failed.')
           this.running = false
 
           if (typeof callback == 'function')
@@ -380,28 +439,18 @@ export default (auth_token) => {
       }
        else
       {
-        lang = undefined
+        // default to javascript
+        lang = 'javascript'
         code = _.get(args, '[0]', '')
       }
 
       if (_.isFunction(code))
       {
         // first argument is a function; we're using javascript
-        lang = 'javascript'
-        code = _.get(args, '[0]', function(input, output) {})
+        if (_.isNil(lang))
+          lang = 'javascript'
 
-        // stringify the javascript function
-        try {
-          code = code.toString()
-        } catch(e) {
-          code = 'function(input, output) {}'
-        }
-      }
-
-      if (lang != 'python' && lang != 'javascript')
-      {
-        // default to python
-        lang = 'python'
+        code = getJsFunctionBody(code)
       }
 
       // set the job's language
@@ -431,10 +480,12 @@ export default (auth_token) => {
       })
     },
 
-    // shorthand for .execute('javascript', ...)
+    // shorthand for .execute('javascript', ...
     javascript() {
       var args = Array.from(arguments)
-      return this.execute('javascript', _.get(args, '[0]', ''))
+      var code = _.get(args, '[0]', '')
+      code = getJsExport(code)
+      return this.execute('javascript', code)
     },
 
     limit(value) {
@@ -474,6 +525,11 @@ export default (auth_token) => {
     select() {
       var type = ttypes.TASK_TYPE_SELECT
       var columns = Array.from(arguments)
+
+      // handle the case where the user passed an array of items
+      // instead of just passing them as arguments
+      if (columns.length == 1 && _.isArray(_.get(columns, '[0]')))
+        columns = _.get(columns, '[0]', [])
 
       return this.addTask({
         type,

@@ -48,8 +48,10 @@
   import list_examples from './examples/list'
   import pipe_examples from './examples/pipe'
 
+  Flexio.setBaseUrl('https://test.flex.io/api/v1')
+
   var version = Flexio.version
-  var api_key = 'crhxftrjzjdjcbfvdcqg'
+  var api_key = 'gnffbxwtrrqfkvxdmrjs'
 
   export default {
     name: 'app',

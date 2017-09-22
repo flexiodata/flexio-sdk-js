@@ -9,8 +9,8 @@ Flexio.pipe()
     null,
     'attachment'
   )
-  .run(function(err, process) {
-    console.log(process)
+  .run(function(err, result) {
+    console.log(result)
   })`
 
 const fn = (Flexio, callback) => {
