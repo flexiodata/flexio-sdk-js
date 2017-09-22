@@ -379,37 +379,35 @@ export default (auth_token) => {
       }
 
       // allow for flexible parameters
-      if (lang == 'python')
+      if (lang == 'python' || lang == 'javascript')
       {
-
-      }
-       else if (lang == 'javascript')
-      {
-        code = _.get(args, '[1]', function(input, output) {})
+        code = _.get(args, '[1]', '')
       }
        else
       {
-        lang = undefined
+        // default to javascript
+        lang = 'javascript'
         code = _.get(args, '[0]', '')
       }
 
       if (_.isFunction(code))
       {
         // first argument is a function; we're using javascript
-        lang = 'javascript'
+        if (_.isNil(lang))
+          lang = 'javascript'
 
-        // stringify the javascript function
         try {
+          // stringify the function
           code = code.toString()
-        } catch (e) {
-          code = 'function(input, output) {}'
-        }
-      }
 
-      if (lang != 'python' && lang != 'javascript')
-      {
-        // default to python
-        lang = 'python'
+          // remove the wrapper function and just return its body
+          code = code.substring(code.indexOf('{') + 1, code.lastIndexOf('}'))
+
+          // trim outer whitespace
+          code = code.trim()
+        } catch (e) {
+          code = ''
+        }
       }
 
       // set the job's language
