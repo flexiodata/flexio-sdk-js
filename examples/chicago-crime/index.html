@@ -35,19 +35,39 @@
       Flexio.pipe()
         .input('https://raw.githubusercontent.com/flexiodata/examples/master/chicago-crime/chicago-homicides-2001-2016.csv')
         .convert('csv', 'table')
-        .select('case number', 'date', 'block', 'description', 'location description', 'beat', 'year', 'latitude', 'longitude')
+        .select('date', 'year', 'block', 'description', 'location description', 'latitude', 'longitude')
         .filter("year = '2016'")
         .convert('table', 'json')
-        .javascript(function() {
+        /*
+        .execute('javascript', function() {
           var _ = require('lodash')
 
           exports.flexio_file_handler = function(input, output) {
-            var data = input.read()
-            data = JSON.parse(data)
-            data = _.first(data)
-            data = JSON.stringify(data)
-            output.write(data.toUpperCase())
+            var arr = input.read()
+            arr = JSON.parse(arr)
+            output.write(JSON.stringify(arr))
           }
+        })
+        */
+        .javascript(function(input, output) {
+          var _ = require('lodash')
+          var arr = input.read()
+          arr = JSON.parse(arr)
+          arr = _.map(arr, function(a) {
+            // trim down our response
+            var retval = _.pick(a, ['date', 'block', 'description'])
+
+            // clean up location description key and
+            // add position coordinates as an object for Google Maps to use
+            return _.assign(retval, {
+              loc_description: _.get(a, 'location description', ''),
+              position: {
+                lat: parseFloat(_.get(a, 'latitude', '0')),
+                lng: parseFloat(_.get(a, 'longitude', '0'))
+              }
+            })
+          })
+          output.write(JSON.stringify(arr))
         })
         .run(function(err, result) {
           $('#app').find('pre code').text(JSON.stringify(result, null, 2))
