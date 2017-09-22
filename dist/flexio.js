@@ -4943,25 +4943,23 @@ exports.default = function (auth_token) {
         params: {}
       };
 
-      if (lang == 'python') {} else if (lang == 'javascript') {
-        code = (0, _get3.default)(args, '[1]', function (input, output) {});
+      if (lang == 'python' || lang == 'javascript') {
+        code = (0, _get3.default)(args, '[1]', '');
       } else {
-        lang = undefined;
+        lang = 'javascript';
         code = (0, _get3.default)(args, '[0]', '');
       }
 
       if ((0, _isFunction3.default)(code)) {
-        lang = 'javascript';
+        if ((0, _isNil3.default)(lang)) lang = 'javascript';
 
         try {
           code = code.toString();
-        } catch (e) {
-          code = 'function(input, output) {}';
-        }
-      }
 
-      if (lang != 'python' && lang != 'javascript') {
-        lang = 'python';
+          code = code.substring(code.indexOf('{') + 1, code.lastIndexOf('}'));
+        } catch (e) {
+          code = '';
+        }
       }
 
       (0, _set3.default)(task, 'params.lang', lang);
@@ -5019,6 +5017,8 @@ exports.default = function (auth_token) {
     select: function select() {
       var type = ttypes.TASK_TYPE_SELECT;
       var columns = Array.from(arguments);
+
+      if (columns.length == 1 && (0, _isArray3.default)((0, _get3.default)(columns, '[0]'))) columns = (0, _get3.default)(columns, '[0]', []);
 
       return this.addTask({
         type: type,
