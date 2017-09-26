@@ -146,12 +146,12 @@ var connections = Flexio.connections().load(function() {
         title: 'Move a file from Google Drive to Dropbox (with modifications)',
         fn: (successCb, errorCb) => {
           var pipe = Flexio.pipe()
-            .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+            .input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
             .convert('delimited', 'table')
             .select('VEND_NAME', 'DUE_DATE')
             .limit(10)
             .convert('table', 'json')
-            .output('dropbox', 'fxtest103-dropbox', '/test_data')
+            .output('dropbox', 'flexio-dropbox', '/test_data')
             .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
             .run(function() {
                 var result = JSON.stringify(pipe.getLastProcess(), null, 2)
@@ -162,12 +162,12 @@ var connections = Flexio.connections().load(function() {
         },
         code: `
 Flexio.pipe()
-  .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+  .input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
   .convert('delimited', 'table')
   .select('VEND_NAME', 'DUE_DATE')
   .limit(10)
   .convert('table', 'json')
-  .output('dropbox', 'fxtest103-dropbox', '/test_data')
+  .output('dropbox', 'flexio-dropbox', '/test_data')
   .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
   .run()`,
       }
