@@ -67,7 +67,7 @@
   Flexio.setBaseUrl('https://test.flex.io/api/v1')
 
   var version = Flexio.version
-  var api_key = 'gnffbxwtrrqfkvxdmrjs'
+  var api_key = 'dwjgnfqrbjtqcvxtdcvc'
 
   export default {
     name: 'app',

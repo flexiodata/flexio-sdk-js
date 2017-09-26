@@ -15,7 +15,7 @@ const fn = (Flexio, callback) => {
 }
 
 export default {
-  title: 'CSV to JSON conversion in two lines of code',
+  title: 'Dead-simple CSV to JSON conversion in two lines of code',
   code,
   fn
 }
