@@ -133,12 +133,12 @@
       <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Move a file from Google Drive to Dropbox (with modifications)</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
-  .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+  .input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
   .convert('delimited', 'table')
   .select('VEND_NAME', 'DUE_DATE')
   .limit(10)
   .convert('table', 'json')
-  .output('dropbox', 'fxtest103-dropbox', '/test_data')
+  .output('dropbox', 'flexio-dropbox', '/test_data')
   .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
   .run()</code></pre>
       <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-run-pipe-1">Run</button>
@@ -340,12 +340,12 @@ def flexio_handler(input, output):\n\
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
-        .input('googledrive', 'fxtest103-google-drive', ['/test_data/data_payment.csv'])
+        .input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
         .convert('delimited', 'table')
         .select('VEND_NAME', 'DUE_DATE')
         .limit(10)
         .convert('table', 'json')
-        .output('dropbox', 'fxtest103-dropbox', '/test_data')
+        .output('dropbox', 'flexio-dropbox', '/test_data')
         .save({ name: 'Move a file from Google Drive to Dropbox (with modifications)' })
         .run(function() {
             $div.empty()
