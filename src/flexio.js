@@ -1,4 +1,5 @@
 import axios from 'axios'
+import * as task from './task'
 import pipe from './pipe'
 import pipes from './pipes'
 import connections from './connections'
@@ -10,6 +11,9 @@ var http = undefined
 export default {
   // see `../build/webpack.dist.js`
   version: VERSION,
+
+  // allow all tasks exports from `./task/index.js`
+  task,
 
   setup(token) {
     auth_token = token

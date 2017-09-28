@@ -53,6 +53,15 @@
           :fn="example.fn"
           :api-key="api_key"
         ></example>
+
+        <h2>Tasks</h2>
+
+        <example
+          v-for="(example, index) in task_examples"
+          :title="example.title"
+          :description="example.description"
+          :code="JSON.stringify(example.obj, null, 2)"
+        ></example>
       </div>
     </div>
   </div>
@@ -63,6 +72,24 @@
   import Example from './Example.vue'
   import list_examples from './examples/list'
   import pipe_examples from './examples/pipe'
+
+  const task_examples = [
+    {
+      title: 'Convert (best guess)',
+      description: 'Flexio.task.convert()',
+      obj: Flexio.task.convert()
+    },
+    {
+      title: 'Convert from CSV to JSON',
+      description: "Flexio.task.convert('csv', 'json')",
+      obj: Flexio.task.convert('csv', 'json')
+    },
+    {
+      title: 'Convert from CSV to table',
+      description: "Flexio.task.convert('csv', 'table')",
+      obj: Flexio.task.convert('csv', 'table')
+    }
+  ]
 
   Flexio.setBaseUrl('https://test.flex.io/api/v1')
 
@@ -79,7 +106,8 @@
         version,
         api_key,
         list_examples,
-        pipe_examples
+        pipe_examples,
+        task_examples
       }
     }
   }
