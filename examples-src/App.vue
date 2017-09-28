@@ -85,6 +85,11 @@
       obj: Flexio.task.input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
     },
     {
+      title: 'Output (Dropbox)',
+      description: "Flexio.task.output('dropbox', 'flexio-dropbox', '/test_data')",
+      obj: Flexio.task.output('dropbox', 'flexio-dropbox', '/test_data')
+    },
+    {
       title: 'Convert (best guess)',
       description: 'Flexio.task.convert()',
       obj: Flexio.task.convert()
