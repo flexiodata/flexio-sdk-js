@@ -141,7 +141,30 @@ def flexio_handler(input, output):\n\
       title: 'Limit',
       description: "Flexio.task.limit(10)",
       obj: Flexio.task.limit(10)
+    },
+    {
+      title: 'Request',
+      description: `
+Flexio.task.request({
+  method: 'GET',
+  url: 'https://httpbin.org/get',
+  params: {
+    foo: 'bar',
+    munch: 'rank'
+  }
+})`,
+      obj: Flexio.task.request({
+        method: 'GET',
+        url: 'https://httpbin.org/get',
+        params: {
+          foo: 'bar',
+          munch: 'rank'
+        }
+      })
     }
+
+
+
   ]
 
   Flexio.setBaseUrl('https://test.flex.io/api/v1')

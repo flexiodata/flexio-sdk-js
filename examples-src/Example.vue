@@ -2,12 +2,14 @@
   <div class="mv4">
     <div class="pa3 bg-near-white br1 box-shadow">
       <h4 class="mt0" v-if="title.length > 0">{{title}}</h4>
-      <p class="mt0">
-        <pre class="mt0" v-if="description.length > 0"><code>{{description}}</code></pre>
-      </p>
+      <div v-if="description.length > 0">
+        <pre><code class="db ph3">{{description}}</code></pre>
+        <div class="mv3 bb b--black-10"></div>
+      </div>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
       <div class="overflow-x-auto mt3" v-if="has_result">
-        <h4 class="mt0">Output</h4>
+        <div class="bb b--black-10"></div>
+        <h4>Output</h4>
         <pre v-highlightjs="result"><code class="javascript"></code></pre>
       </div>
       <div class="mt3" v-else-if="is_loading">
