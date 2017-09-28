@@ -1,4 +1,5 @@
 import _ from 'lodash'
+
 import { TASK_TYPE_CONVERT } from '../constants/task-type'
 
 // token delimiters; other types of delimiters are allowed as well
@@ -27,7 +28,7 @@ const SHORTHAND_CSV = 'csv'
 const SHORTHAND_TSV = 'tsv'
 
 // task definition function
-var convert = (input, output) => {
+var convert = function(input, output) {
   var type = TASK_TYPE_CONVERT
 
   var task = {

@@ -75,8 +75,23 @@
 
   const task_examples = [
     {
+      title: 'Input (HTTP)',
+      description: "Flexio.task.input('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')",
+      obj: Flexio.task.input('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')
+    },
+    {
+      title: 'Input (Google Drive)',
+      description: "Flexio.task.input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])",
+      obj: Flexio.task.input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
+    },
+    {
       title: 'Convert (best guess)',
       description: 'Flexio.task.convert()',
+      obj: Flexio.task.convert()
+    },
+    {
+      title: 'Convert from delimited to JSON',
+      description: "Flexio.task.convert('delimted', 'json')",
       obj: Flexio.task.convert()
     },
     {
