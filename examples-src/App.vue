@@ -131,6 +131,11 @@ def flexio_handler(input, output):\n\
       title: 'Execute Javascript (shorthand)',
       description: "Flexio.task.javascript(function(input, output) { output.write('Hello World!') })",
       obj: Flexio.task.javascript(function(input, output) { output.write('Hello World!') })
+    },
+    {
+      title: 'Filter',
+      description: "Flexio.task.filter(\"vend_no = '000042'\")",
+      obj: Flexio.task.filter("vend_no = '000042'")
     }
   ]
 
