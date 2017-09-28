@@ -129,8 +129,13 @@ def flexio_handler(input, output):\n\
     },
     {
       title: 'Execute Javascript (shorthand)',
-      description: "Flexio.task.javascript(function(input, output) { output.write('Hello World!') })",
-      obj: Flexio.task.javascript(function(input, output) { output.write('Hello World!') })
+      description: `
+Flexio.task.javascript(function(input, output) {
+  output.write('Hello World!')
+})`,
+      obj: Flexio.task.javascript(function(input, output) {
+        output.write('Hello World!')
+      })
     },
     {
       title: 'Filter',
@@ -161,10 +166,12 @@ Flexio.task.request({
           munch: 'rank'
         }
       })
+    },
+    {
+      title: 'Select',
+      description: "Flexio.task.select('vend_no', 'vend_name', 'amt_paid')",
+      obj: Flexio.task.select('vend_no', 'vend_name', 'amt_paid')
     }
-
-
-
   ]
 
   Flexio.setBaseUrl('https://test.flex.io/api/v1')

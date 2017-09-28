@@ -6,6 +6,7 @@ import * as executeFns from './execute'
 import filterFn from './filter'
 import limitFn from './limit'
 import requestFn from './request'
+import selectFn from './select'
 
 export const input      = inputFn
 export const output     = outputFn
@@ -17,3 +18,4 @@ export const javascript = executeFns.javascript
 export const limit      = limitFn
 export const python     = executeFns.python
 export const request    = requestFn
+export const select     = selectFn
