@@ -75,7 +75,7 @@
 
   const task_examples = [
     {
-      title: 'Input (HTTP)',
+      title: 'Input (Web Link)',
       description: "Flexio.task.input('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')",
       obj: Flexio.task.input('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')
     },
@@ -97,7 +97,7 @@
     {
       title: 'Convert from delimited to JSON',
       description: "Flexio.task.convert('delimted', 'json')",
-      obj: Flexio.task.convert()
+      obj: Flexio.task.convert('delimted', 'json')
     },
     {
       title: 'Convert from CSV to JSON',
@@ -108,6 +108,11 @@
       title: 'Convert from CSV to table',
       description: "Flexio.task.convert('csv', 'table')",
       obj: Flexio.task.convert('csv', 'table')
+    },
+    {
+      title: 'Email',
+      description: "Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')",
+      obj: Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')
     }
   ]
 

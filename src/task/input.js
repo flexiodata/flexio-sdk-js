@@ -1,9 +1,8 @@
 import _ from 'lodash'
+import util from '../util'
 
 import { TASK_TYPE_INPUT } from '../constants/task-type'
 import * as ctypes from '../constants/connection-type'
-
-import util from '../util'
 
 // task definition function
 var input = function() {

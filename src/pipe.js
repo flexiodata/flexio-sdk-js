@@ -1,10 +1,9 @@
 import _ from 'lodash'
+import util from './util'
+import flexio from './flexio'
 
 import * as ttypes from './constants/task-type'
 import * as ctypes from './constants/connection-type'
-
-import util from './util'
-import flexio from './flexio'
 
 var toBase64 = function(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
