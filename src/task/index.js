@@ -7,6 +7,7 @@ import filterFn from './filter'
 import limitFn from './limit'
 import requestFn from './request'
 import selectFn from './select'
+import sleepFn from './sleep'
 
 export const input      = inputFn
 export const output     = outputFn
@@ -19,3 +20,4 @@ export const limit      = limitFn
 export const python     = executeFns.python
 export const request    = requestFn
 export const select     = selectFn
+export const sleep      = sleepFn

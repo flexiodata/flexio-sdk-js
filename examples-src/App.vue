@@ -171,6 +171,11 @@ Flexio.task.request({
       title: 'Select',
       description: "Flexio.task.select('vend_no', 'vend_name', 'amt_paid')",
       obj: Flexio.task.select('vend_no', 'vend_name', 'amt_paid')
+    },
+    {
+      title: 'Sleep',
+      description: "Flexio.task.sleep(5)",
+      obj: Flexio.task.sleep(5)
     }
   ]
 
