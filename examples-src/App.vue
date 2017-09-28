@@ -136,6 +136,11 @@ def flexio_handler(input, output):\n\
       title: 'Filter',
       description: "Flexio.task.filter(\"vend_no = '000042'\")",
       obj: Flexio.task.filter("vend_no = '000042'")
+    },
+    {
+      title: 'Limit',
+      description: "Flexio.task.limit(10)",
+      obj: Flexio.task.limit(10)
     }
   ]
 
