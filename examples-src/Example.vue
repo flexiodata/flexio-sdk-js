@@ -2,7 +2,9 @@
   <div class="mv4">
     <div class="pa3 bg-near-white br1 box-shadow">
       <h4 class="mt0" v-if="title.length > 0">{{title}}</h4>
-      <p class="mt0 f6 code" v-if="description.length > 0">{{description}}</p>
+      <p class="mt0">
+        <pre class="mt0" v-if="description.length > 0"><code>{{description}}</code></pre>
+      </p>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
       <div class="overflow-x-auto mt3" v-if="has_result">
         <h4 class="mt0">Output</h4>

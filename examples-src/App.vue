@@ -73,6 +73,14 @@
   import list_examples from './examples/list'
   import pipe_examples from './examples/pipe'
 
+var inline_python_code = "\
+def flexio_handler(input, output):\n\
+    writer = output.create(name='Hello')\n\
+    if 'message' in input.env:\n\
+        writer.write(input.env['message'])\n\
+    else:\n\
+        writer.write('Hello, World!')"
+
   const task_examples = [
     {
       title: 'Input (Web Link)',
@@ -113,6 +121,16 @@
       title: 'Email',
       description: "Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')",
       obj: Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')
+    },
+    {
+      title: 'Execute a remote python script',
+      description: "Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')",
+      obj: Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+    },
+    {
+      title: 'Execute Javascript (shorthand)',
+      description: "Flexio.task.javascript(function(input, output) { output.write('Hello World!') })",
+      obj: Flexio.task.javascript(function(input, output) { output.write('Hello World!') })
     }
   ]
 

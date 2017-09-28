@@ -1,9 +1,13 @@
-import fn_input from './input'
-import fn_output from './output'
-import fn_convert from './convert'
-import fn_email from './email'
+import inputFn from './input'
+import outputFn from './output'
+import convertFn from './convert'
+import emailFn from './email'
+import * as executeFns from './execute'
 
-export const input = fn_input
-export const output = fn_output
-export const convert = fn_convert
-export const email = fn_email
+export const input      = inputFn
+export const output     = outputFn
+export const convert    = convertFn
+export const email      = emailFn
+export const execute    = executeFns.execute
+export const javascript = executeFns.javascript
+export const python     = executeFns.python
