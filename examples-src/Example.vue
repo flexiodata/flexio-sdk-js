@@ -10,7 +10,9 @@
       <div class="overflow-x-auto mt3" v-if="has_result">
         <div class="bb b--black-10"></div>
         <h4>Output</h4>
-        <pre v-highlightjs="result"><code class="javascript"></code></pre>
+        <div class="overflow-y-auto" style="max-height: 30rem">
+          <pre v-highlightjs="result"><code class="javascript"></code></pre>
+        </div>
       </div>
       <div class="mt3" v-else-if="is_loading">
         <vue-simple-spinner class="dib v-mid" size="34" line-bg-color="#ddd"></vue-simple-spinner>
@@ -37,10 +39,6 @@
         type: String,
         default: ''
       },
-      'api-key': {
-        type: String,
-        default: ''
-      },
       'code': {
         type: String,
         default: ''
@@ -59,11 +57,6 @@
     components: {
       VueSimpleSpinner
     },
-    watch: {
-      apiKey(val, old_val) {
-        Flexio.setup(val)
-      }
-    },
     data() {
       return {
         result: '',
@@ -77,9 +70,6 @@
       code_trimmed() {
         return this.code.trim()
       }
-    },
-    mounted() {
-      Flexio.setup(this.apiKey)
     },
     methods: {
       run() {

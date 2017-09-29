@@ -6,7 +6,6 @@ import connections from './connections'
 
 var base_url = 'https://www.flex.io/api/v1'
 var auth_token = ''
-var http = undefined
 
 export default {
   // see `../build/webpack.dist.js`

@@ -41,7 +41,6 @@
           :title="example.title"
           :code="example.code"
           :fn="example.fn"
-          :api-key="api_key"
         ></example>
 
         <h2>Pipes</h2>
@@ -51,7 +50,6 @@
           :title="example.title"
           :code="example.code"
           :fn="example.fn"
-          :api-key="api_key"
         ></example>
 
         <h2>Tasks</h2>
@@ -61,6 +59,7 @@
           :title="example.title"
           :description="example.description"
           :code="JSON.stringify(example.obj, null, 2)"
+          :show-run="false"
         ></example>
       </div>
     </div>
@@ -182,12 +181,18 @@ Flexio.task.request({
   Flexio.setBaseUrl('https://test.flex.io/api/v1')
 
   var version = Flexio.version
-  var api_key = 'dwjgnfqrbjtqcvxtdcvc'
+  var api_key = 'jfbtzztckjrhnwvwsnvv'
+  //var api_key = 'dwjgnfqrbjtqcvxtdcvc' // has this one expired???
 
   export default {
     name: 'app',
     components: {
       Example
+    },
+    watch: {
+      api_key(val, old_val) {
+        Flexio.setup(val)
+      }
     },
     data() {
       return {
@@ -197,6 +202,9 @@ Flexio.task.request({
         pipe_examples,
         task_examples
       }
+    },
+    mounted() {
+      Flexio.setup(api_key)
     }
   }
 </script>
