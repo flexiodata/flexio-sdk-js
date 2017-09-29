@@ -1,11 +1,18 @@
 <template>
   <div class="mv4">
     <div class="pa3 bg-near-white br1 box-shadow">
-      <h4 class="mt0">{{title}}</h4>
+      <h4 class="mt0" v-if="title.length > 0">{{title}}</h4>
+      <div v-if="description.length > 0">
+        <pre><code class="db ph3">{{description}}</code></pre>
+        <div class="mv3 bb b--black-10"></div>
+      </div>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
       <div class="overflow-x-auto mt3" v-if="has_result">
-        <h4 class="mt0">Output</h4>
-        <pre v-highlightjs="result"><code class="javascript"></code></pre>
+        <div class="bb b--black-10"></div>
+        <h4>Output</h4>
+        <div class="overflow-y-auto" style="max-height: 30rem">
+          <pre v-highlightjs="result"><code class="javascript"></code></pre>
+        </div>
       </div>
       <div class="mt3" v-else-if="is_loading">
         <vue-simple-spinner class="dib v-mid" size="34" line-bg-color="#ddd"></vue-simple-spinner>
@@ -26,9 +33,9 @@
     props: {
       'title': {
         type: String,
-        default: 'Example Title'
+        default: ''
       },
-      'api-key': {
+      'description': {
         type: String,
         default: ''
       },
@@ -50,11 +57,6 @@
     components: {
       VueSimpleSpinner
     },
-    watch: {
-      apiKey(val, old_val) {
-        Flexio.setup(val)
-      }
-    },
     data() {
       return {
         result: '',
@@ -68,9 +70,6 @@
       code_trimmed() {
         return this.code.trim()
       }
-    },
-    mounted() {
-      Flexio.setup(this.apiKey)
     },
     methods: {
       run() {

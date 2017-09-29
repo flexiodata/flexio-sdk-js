@@ -1,15 +1,18 @@
 import axios from 'axios'
+import * as task from './task'
 import pipe from './pipe'
 import pipes from './pipes'
 import connections from './connections'
 
 var base_url = 'https://www.flex.io/api/v1'
 var auth_token = ''
-var http = undefined
 
 export default {
   // see `../build/webpack.dist.js`
   version: VERSION,
+
+  // allow all tasks exports from `./task/index.js`
+  task,
 
   setup(token) {
     auth_token = token

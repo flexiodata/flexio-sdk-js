@@ -41,7 +41,6 @@
           :title="example.title"
           :code="example.code"
           :fn="example.fn"
-          :api-key="api_key"
         ></example>
 
         <h2>Pipes</h2>
@@ -51,7 +50,16 @@
           :title="example.title"
           :code="example.code"
           :fn="example.fn"
-          :api-key="api_key"
+        ></example>
+
+        <h2>Tasks</h2>
+
+        <example
+          v-for="(example, index) in task_examples"
+          :title="example.title"
+          :description="example.description"
+          :code="JSON.stringify(example.obj, null, 2)"
+          :show-run="false"
         ></example>
       </div>
     </div>
@@ -64,23 +72,139 @@
   import list_examples from './examples/list'
   import pipe_examples from './examples/pipe'
 
+var inline_python_code = "\
+def flexio_handler(input, output):\n\
+    writer = output.create(name='Hello')\n\
+    if 'message' in input.env:\n\
+        writer.write(input.env['message'])\n\
+    else:\n\
+        writer.write('Hello, World!')"
+
+  const task_examples = [
+    {
+      title: 'Input (Web Link)',
+      description: "Flexio.task.input('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')",
+      obj: Flexio.task.input('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')
+    },
+    {
+      title: 'Input (Google Drive)',
+      description: "Flexio.task.input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])",
+      obj: Flexio.task.input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
+    },
+    {
+      title: 'Output (Dropbox)',
+      description: "Flexio.task.output('dropbox', 'flexio-dropbox', '/test_data')",
+      obj: Flexio.task.output('dropbox', 'flexio-dropbox', '/test_data')
+    },
+    {
+      title: 'Convert (best guess)',
+      description: 'Flexio.task.convert()',
+      obj: Flexio.task.convert()
+    },
+    {
+      title: 'Convert from delimited to JSON',
+      description: "Flexio.task.convert('delimted', 'json')",
+      obj: Flexio.task.convert('delimted', 'json')
+    },
+    {
+      title: 'Convert from CSV to JSON',
+      description: "Flexio.task.convert('csv', 'json')",
+      obj: Flexio.task.convert('csv', 'json')
+    },
+    {
+      title: 'Convert from CSV to table',
+      description: "Flexio.task.convert('csv', 'table')",
+      obj: Flexio.task.convert('csv', 'table')
+    },
+    {
+      title: 'Email',
+      description: "Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')",
+      obj: Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')
+    },
+    {
+      title: 'Execute a remote python script',
+      description: "Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')",
+      obj: Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+    },
+    {
+      title: 'Execute Javascript (shorthand)',
+      description: `
+Flexio.task.javascript(function(input, output) {
+  output.write('Hello World!')
+})`,
+      obj: Flexio.task.javascript(function(input, output) {
+        output.write('Hello World!')
+      })
+    },
+    {
+      title: 'Filter',
+      description: "Flexio.task.filter(\"vend_no = '000042'\")",
+      obj: Flexio.task.filter("vend_no = '000042'")
+    },
+    {
+      title: 'Limit',
+      description: "Flexio.task.limit(10)",
+      obj: Flexio.task.limit(10)
+    },
+    {
+      title: 'Request',
+      description: `
+Flexio.task.request({
+  method: 'GET',
+  url: 'https://httpbin.org/get',
+  params: {
+    foo: 'bar',
+    munch: 'rank'
+  }
+})`,
+      obj: Flexio.task.request({
+        method: 'GET',
+        url: 'https://httpbin.org/get',
+        params: {
+          foo: 'bar',
+          munch: 'rank'
+        }
+      })
+    },
+    {
+      title: 'Select',
+      description: "Flexio.task.select('vend_no', 'vend_name', 'amt_paid')",
+      obj: Flexio.task.select('vend_no', 'vend_name', 'amt_paid')
+    },
+    {
+      title: 'Sleep',
+      description: "Flexio.task.sleep(5)",
+      obj: Flexio.task.sleep(5)
+    }
+  ]
+
   Flexio.setBaseUrl('https://test.flex.io/api/v1')
 
   var version = Flexio.version
-  var api_key = 'dwjgnfqrbjtqcvxtdcvc'
+  var api_key = 'jfbtzztckjrhnwvwsnvv'
+  //var api_key = 'dwjgnfqrbjtqcvxtdcvc' // has this one expired???
 
   export default {
     name: 'app',
     components: {
       Example
     },
+    watch: {
+      api_key(val, old_val) {
+        Flexio.setup(val)
+      }
+    },
     data() {
       return {
         version,
         api_key,
         list_examples,
-        pipe_examples
+        pipe_examples,
+        task_examples
       }
+    },
+    mounted() {
+      Flexio.setup(api_key)
     }
   }
 </script>
