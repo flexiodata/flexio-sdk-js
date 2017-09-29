@@ -2,7 +2,7 @@ import _ from 'lodash'
 import util from './util'
 import Flexio from './flexio'
 
-export default (auth_token) => {
+export default () => {
   return _.assign({}, {
     // -- state --
 

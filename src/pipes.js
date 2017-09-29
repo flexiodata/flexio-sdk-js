@@ -4,7 +4,7 @@ import consoleList from 'console-list'
 import util from './util'
 import flexio from './flexio'
 
-export default (auth_token) => {
+export default () => {
   return _.assign({}, {
     // -- state --
 
