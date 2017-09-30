@@ -178,11 +178,10 @@ Flexio.task.request({
     }
   ]
 
-  Flexio.setBaseUrl('https://test.flex.io/api/v1')
-
   var version = Flexio.version
   var api_key = 'jfbtzztckjrhnwvwsnvv'
-  //var api_key = 'dwjgnfqrbjtqcvxtdcvc' // has this one expired???
+  var baseUrl = 'https://test.flex.io/api/v1'
+  var debug = true
 
   export default {
     name: 'app',
@@ -191,7 +190,7 @@ Flexio.task.request({
     },
     watch: {
       api_key(val, old_val) {
-        Flexio.setup(val)
+        Flexio.setup(val, { baseUrl, debug })
       }
     },
     data() {
@@ -204,7 +203,7 @@ Flexio.task.request({
       }
     },
     mounted() {
-      Flexio.setup(api_key)
+      Flexio.setup(api_key, { baseUrl, debug })
     }
   }
 </script>

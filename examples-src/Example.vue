@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import util from '../src/util'
   import Flexio from '../src/flexio'
   import VueSimpleSpinner from 'vue-simple-spinner'
 
@@ -80,7 +81,7 @@
           this.fn.call(this, Flexio, (err, result) => {
             this.is_loading = false
             this.result = JSON.stringify(result, null, 2)
-            console.log(this.result)
+            util.debug.call(this, this.result)
           }, (result) => {
             this.is_loading = false
           })
