@@ -3,7 +3,7 @@ import util from './util'
 import Flexio from './flexio'
 
 export default () => {
-  return _.assign({}, {
+  var retval = _.assign({}, {
     // -- state --
 
     pipe: {
@@ -170,21 +170,31 @@ export default () => {
         })
 
       return this
-    },
+    }
+  })
 
-    // -- tasks (simply add the JSON object created by the split-out task functions) --
+  /*
+    iterate through each of the task functions on the `Flexio` object and
+    create a function which will add that task's JSON to the pipe when called --
+    this will auto-generate these functions and eliminate the need for us
+    to keep this list of functions updated every time we add a new task;
+    see `./task/*.js` for the list of tasks that are available for use
+
+    so we do this...
+  */
+
+  _.each(Flexio.task, function(taskFn, task_name) {
+    retval[task_name] = function() { return retval.addTask(taskFn.apply(retval /* scope */, arguments)) }
+  })
+
+  /*
+    instead of this...
 
     input()      { return this.addTask(Flexio.task.input.apply(this, arguments))      },
     output()     { return this.addTask(Flexio.task.output.apply(this, arguments))     },
     convert()    { return this.addTask(Flexio.task.convert.apply(this, arguments))    },
-    email()      { return this.addTask(Flexio.task.email.apply(this, arguments))      },
-    execute()    { return this.addTask(Flexio.task.execute.apply(this, arguments))    },
-    filter()     { return this.addTask(Flexio.task.filter.apply(this, arguments))     },
-    javascript() { return this.addTask(Flexio.task.javascript.apply(this, arguments)) }, // shorthand for .execute('javascript', ...)
-    limit()      { return this.addTask(Flexio.task.limit.apply(this, arguments))      },
-    python()     { return this.addTask(Flexio.task.python.apply(this, arguments))     }, // shorthand for .execute('python', ...)
-    request()    { return this.addTask(Flexio.task.request.apply(this, arguments))    },
-    select()     { return this.addTask(Flexio.task.select.apply(this, arguments))     },
-    sleep()      { return this.addTask(Flexio.task.sleep.apply(this, arguments))      }
-  })
+    etc...
+  */
+
+  return retval
 }

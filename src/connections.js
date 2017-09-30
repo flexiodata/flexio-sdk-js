@@ -1,8 +1,6 @@
 import _ from 'lodash'
-import consoleList from 'console-list'
-
 import util from './util'
-import flexio from './flexio'
+import Flexio from './flexio'
 
 export default () => {
   return _.assign({}, {
@@ -23,20 +21,6 @@ export default () => {
       })
     },
 
-    list(cfg) {
-      var cfg = _.assign({
-        format: 'json',
-        keys: undefined,
-        show_header: true,
-        spacing: _.get(cfg, 'format', 'json') == 'list' ? 1 : 2
-      }, cfg)
-
-      if (cfg.format == 'list')
-        return consoleList(this.getJSON(cfg.keys), cfg)
-
-      return JSON.stringify(this.getJSON(cfg.keys), null, cfg.spacing)
-    },
-
     load() {
       var args = Array.from(arguments)
       var callback = _.get(args, '[0]')
@@ -50,7 +34,7 @@ export default () => {
       this.loading = true
       util.debug.call(this, 'Requesting Connections...')
 
-      flexio.http().get('/connections')
+      Flexio.http().get('/connections')
         .then(response => {
           var items = _.get(response, 'data', [])
           this.items = [].concat(items)
