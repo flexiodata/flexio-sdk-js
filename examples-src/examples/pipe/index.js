@@ -1,3 +1,4 @@
+
 import pipe001 from './pipe001'
 import pipe002 from './pipe002'
 import pipe003 from './pipe003'
@@ -9,6 +10,8 @@ import pipe008 from './pipe008'
 import pipe009 from './pipe009'
 import pipe010 from './pipe010'
 import pipe011 from './pipe011'
+import pipe012 from './pipe012'
+
 
 export default {
   pipe009,
@@ -21,5 +24,6 @@ export default {
   pipe005,
   pipe006,
   pipe007,
-  pipe008
+  pipe008,
+  pipe012
 }
