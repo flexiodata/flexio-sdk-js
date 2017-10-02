@@ -39,7 +39,7 @@ var getJsExport = function(f) {
     {
       // function has no parameters, so just take body
       body = getJsFunctionBody(f)
-      return 'exports.flexio_file_handler = function(input, output) ' + body
+      return 'exports.flexio_handler = function(input, output) ' + body
     }
      else
     {
@@ -60,7 +60,7 @@ var getJsExport = function(f) {
           body = body.replace('=>\s*{', '{')
         }
       }
-      return 'exports.flexio_file_handler = function' + body
+      return 'exports.flexio_handler = function' + body
     }
   }
 }
