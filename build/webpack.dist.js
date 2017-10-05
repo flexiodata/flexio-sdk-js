@@ -9,6 +9,11 @@ const base = require('./webpack.base.js')
 const config = merge(base, {
   entry: options.paths.resolve('src/main.js'),
 
+  target: 'node',
+  node: {
+    process: false
+  },
+
   output: {
     filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
     path: options.paths.output.main,
@@ -41,7 +46,8 @@ if (options.isProduction) {
   config.plugins = config.plugins.concat([
     // Set the production environment
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      //'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.build': JSON.stringify('production')
     }),
 
     // Minify with dead-code elimination

@@ -5,9 +5,9 @@
   "author": "David Z. Williams <dave@flex.io>",
   "main": "dist/flexio.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot",
-    "build:debug": "cross-env NODE_ENV=debug webpack --config build/webpack.dist.js",
-    "build:release": "cross-env NODE_ENV=production webpack --config build/webpack.dist.js",
+    "dev": "cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot",
+    "build:debug": "cross-env build=debug webpack --config build/webpack.dist.js",
+    "build:release": "cross-env build=production webpack --config build/webpack.dist.js",
     "build:examples": "webpack --config build/webpack.examples.js",
     "build": "npm run build:debug && npm run build:release && npm run build:examples",
     "test": "echo \"Error: no test specified\" && exit 1"
