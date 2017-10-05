@@ -74,8 +74,12 @@
   import task_examples from './examples/task'
 
   var version = Flexio.version
+/*
   var api_key = 'jfbtzztckjrhnwvwsnvv'
   var baseUrl = 'https://test.flex.io/api/v1'
+*/
+  var api_key = 'kgbdzygkqfnyzkfjgxyd'
+  var baseUrl = 'https://localhost:8080/api/v1'
   var debug = true
 
   export default {
