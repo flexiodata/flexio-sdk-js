@@ -116,6 +116,38 @@ module.exports = isArray;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _flexio = __webpack_require__(10);
+
+var _flexio2 = _interopRequireDefault(_flexio);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  debug: function debug(msg) {
+    var cfg = _flexio2.default.getConfig();
+
+    if (cfg.debug !== true) return;
+
+    if (!window) return;
+
+    var msg = 'flexio-sdk-js: ' + msg;
+    window.console ? console.log(msg) : alert(msg);
+
+    return this;
+  }
+};
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var bind = __webpack_require__(48);
 var isBuffer = __webpack_require__(100);
 
@@ -420,38 +452,6 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _flexio = __webpack_require__(10);
-
-var _flexio2 = _interopRequireDefault(_flexio);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  debug: function debug(msg) {
-    var cfg = _flexio2.default.getConfig();
-
-    if (cfg.debug !== true) return;
-
-    if (!window) return;
-
-    var msg = 'flexio-sdk-js: ' + msg;
-    window.console ? console.log(msg) : alert(msg);
-
-    return this;
-  }
-};
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -475,6 +475,7 @@ var TASK_TYPE_FILTER = exports.TASK_TYPE_FILTER = 'flexio.filter';
 var TASK_TYPE_GROUP = exports.TASK_TYPE_GROUP = 'flexio.group';
 var TASK_TYPE_INPUT = exports.TASK_TYPE_INPUT = 'flexio.input';
 var TASK_TYPE_LIMIT = exports.TASK_TYPE_LIMIT = 'flexio.limit';
+var TASK_TYPE_LIST = exports.TASK_TYPE_LIST = 'flexio.list';
 var TASK_TYPE_MERGE = exports.TASK_TYPE_MERGE = 'flexio.merge';
 var TASK_TYPE_NOP = exports.TASK_TYPE_NOP = 'flexio.nop';
 var TASK_TYPE_OUTPUT = exports.TASK_TYPE_OUTPUT = 'flexio.output';
@@ -694,15 +695,15 @@ var _task = __webpack_require__(128);
 
 var task = _interopRequireWildcard(_task);
 
-var _pipe2 = __webpack_require__(202);
+var _pipe2 = __webpack_require__(203);
 
 var _pipe3 = _interopRequireDefault(_pipe2);
 
-var _pipes2 = __webpack_require__(214);
+var _pipes2 = __webpack_require__(215);
 
 var _pipes3 = _interopRequireDefault(_pipes2);
 
-var _connections2 = __webpack_require__(215);
+var _connections2 = __webpack_require__(216);
 
 var _connections3 = _interopRequireDefault(_connections2);
 
@@ -715,6 +716,7 @@ var base_url = 'https://www.flex.io/api/v1';
 var cfg = {
   token: '',
   baseUrl: 'https://www.flex.io/api/v1',
+  insecure: false,
   debug: false
 };
 
@@ -746,10 +748,20 @@ exports.default = {
     return (0, _connections3.default)();
   },
   _createHttp: function _createHttp() {
-    this._http = _axios2.default.create({
+    var axios_opts = {
       baseURL: cfg.baseUrl,
       headers: { 'Authorization': 'Bearer ' + cfg.token }
-    });
+    };
+
+    if (cfg.insecure === true) {
+      (0, _assign3.default)(axios_opts, {
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      });
+    }
+
+    this._http = _axios2.default.create(axios_opts);
   }
 };
 
@@ -1362,7 +1374,7 @@ module.exports = isArguments;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var normalizeHeaderName = __webpack_require__(102);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -1693,8 +1705,8 @@ module.exports = isSymbol;
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var basePick = __webpack_require__(207),
-    flatRest = __webpack_require__(209);
+var basePick = __webpack_require__(208),
+    flatRest = __webpack_require__(210);
 
 /**
  * Creates an object composed of the picked `object` properties.
@@ -2088,7 +2100,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -3986,7 +3998,7 @@ module.exports = __webpack_require__(99);
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var bind = __webpack_require__(48);
 var Axios = __webpack_require__(101);
 var defaults = __webpack_require__(29);
@@ -4073,7 +4085,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(29);
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(121);
 var dispatchRequest = __webpack_require__(122);
 var isAbsoluteURL = __webpack_require__(124);
@@ -4165,7 +4177,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -4184,7 +4196,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var settle = __webpack_require__(49);
 var buildURL = __webpack_require__(51);
 var parseHeaders = __webpack_require__(104);
@@ -4371,7 +4383,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Parse headers into an object
@@ -4415,7 +4427,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -4533,7 +4545,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -4593,7 +4605,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var settle = __webpack_require__(49);
 var buildURL = __webpack_require__(51);
 var http = __webpack_require__(52);
@@ -5496,7 +5508,7 @@ module.exports = {"name":"axios","version":"0.16.2","description":"Promise based
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -5555,7 +5567,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var transformData = __webpack_require__(123);
 var isCancel = __webpack_require__(57);
 var defaults = __webpack_require__(29);
@@ -5641,7 +5653,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Transform the data for a request or a response
@@ -5811,7 +5823,7 @@ module.exports = function spread(callback) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sleep = exports.select = exports.request = exports.python = exports.limit = exports.javascript = exports.filter = exports.execute = exports.email = exports.convert = exports.output = exports.input = undefined;
+exports.sleep = exports.select = exports.request = exports.python = exports.list = exports.limit = exports.javascript = exports.filter = exports.execute = exports.email = exports.convert = exports.output = exports.input = undefined;
 
 var _input = __webpack_require__(129);
 
@@ -5841,15 +5853,19 @@ var _limit = __webpack_require__(198);
 
 var _limit2 = _interopRequireDefault(_limit);
 
-var _request = __webpack_require__(199);
+var _list = __webpack_require__(199);
+
+var _list2 = _interopRequireDefault(_list);
+
+var _request = __webpack_require__(200);
 
 var _request2 = _interopRequireDefault(_request);
 
-var _select = __webpack_require__(200);
+var _select = __webpack_require__(201);
 
 var _select2 = _interopRequireDefault(_select);
 
-var _sleep = __webpack_require__(201);
+var _sleep = __webpack_require__(202);
 
 var _sleep2 = _interopRequireDefault(_sleep);
 
@@ -5865,6 +5881,7 @@ var execute = exports.execute = executeFns.execute;
 var filter = exports.filter = _filter2.default;
 var javascript = exports.javascript = executeFns.javascript;
 var limit = exports.limit = _limit2.default;
+var list = exports.list = _list2.default;
 var python = exports.python = executeFns.python;
 var request = exports.request = _request2.default;
 var select = exports.select = _select2.default;
@@ -5889,7 +5906,7 @@ var _get2 = __webpack_require__(5);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8011,7 +8028,7 @@ var _get2 = __webpack_require__(5);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8086,7 +8103,7 @@ var _isString2 = __webpack_require__(71);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8173,7 +8190,7 @@ var _isNil2 = __webpack_require__(24);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8242,7 +8259,7 @@ var _isString2 = __webpack_require__(71);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8371,7 +8388,7 @@ var _isNil2 = __webpack_require__(24);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8409,7 +8426,7 @@ var _defaultTo2 = __webpack_require__(72);
 
 var _defaultTo3 = _interopRequireDefault(_defaultTo2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8442,6 +8459,38 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _util = __webpack_require__(1);
+
+var _util2 = _interopRequireDefault(_util);
+
+var _taskType = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var list = function list(path) {
+  var type = _taskType.TASK_TYPE_LIST;
+
+  return {
+    type: type,
+    params: {
+      path: path
+    }
+  };
+};
+
+exports.default = list;
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _assign2 = __webpack_require__(11);
 
 var _assign3 = _interopRequireDefault(_assign2);
@@ -8450,7 +8499,7 @@ var _get2 = __webpack_require__(5);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8476,7 +8525,7 @@ var request = function request() {
 exports.default = request;
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8494,7 +8543,7 @@ var _isArray2 = __webpack_require__(0);
 
 var _isArray3 = _interopRequireDefault(_isArray2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8519,7 +8568,7 @@ var select = function select() {
 exports.default = select;
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8533,7 +8582,7 @@ var _defaultTo2 = __webpack_require__(72);
 
 var _defaultTo3 = _interopRequireDefault(_defaultTo2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8556,7 +8605,7 @@ var sleep = function sleep(value) {
 exports.default = sleep;
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8566,7 +8615,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _each2 = __webpack_require__(203);
+var _each2 = __webpack_require__(204);
 
 var _each3 = _interopRequireDefault(_each2);
 
@@ -8586,7 +8635,7 @@ var _get2 = __webpack_require__(5);
 
 var _get3 = _interopRequireDefault(_get2);
 
-var _last2 = __webpack_require__(213);
+var _last2 = __webpack_require__(214);
 
 var _last3 = _interopRequireDefault(_last2);
 
@@ -8594,7 +8643,7 @@ var _assign2 = __webpack_require__(11);
 
 var _assign3 = _interopRequireDefault(_assign2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -8769,19 +8818,19 @@ exports.default = function () {
 };
 
 /***/ }),
-/* 203 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(204);
-
-
-/***/ }),
 /* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayEach = __webpack_require__(205),
+module.exports = __webpack_require__(205);
+
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayEach = __webpack_require__(206),
     baseEach = __webpack_require__(67),
-    castFunction = __webpack_require__(206),
+    castFunction = __webpack_require__(207),
     isArray = __webpack_require__(0);
 
 /**
@@ -8823,7 +8872,7 @@ module.exports = forEach;
 
 
 /***/ }),
-/* 205 */
+/* 206 */
 /***/ (function(module, exports) {
 
 /**
@@ -8851,7 +8900,7 @@ module.exports = arrayEach;
 
 
 /***/ }),
-/* 206 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var identity = __webpack_require__(16);
@@ -8871,10 +8920,10 @@ module.exports = castFunction;
 
 
 /***/ }),
-/* 207 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var basePickBy = __webpack_require__(208),
+var basePickBy = __webpack_require__(209),
     hasIn = __webpack_require__(66);
 
 /**
@@ -8896,7 +8945,7 @@ module.exports = basePick;
 
 
 /***/ }),
-/* 208 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGet = __webpack_require__(34),
@@ -8932,10 +8981,10 @@ module.exports = basePickBy;
 
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var flatten = __webpack_require__(210),
+var flatten = __webpack_require__(211),
     overRest = __webpack_require__(42),
     setToString = __webpack_require__(43);
 
@@ -8954,10 +9003,10 @@ module.exports = flatRest;
 
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFlatten = __webpack_require__(211);
+var baseFlatten = __webpack_require__(212);
 
 /**
  * Flattens `array` a single level deep.
@@ -8982,11 +9031,11 @@ module.exports = flatten;
 
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayPush = __webpack_require__(63),
-    isFlattenable = __webpack_require__(212);
+    isFlattenable = __webpack_require__(213);
 
 /**
  * The base implementation of `_.flatten` with support for restricting flattening.
@@ -9026,7 +9075,7 @@ module.exports = baseFlatten;
 
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(12),
@@ -9052,7 +9101,7 @@ module.exports = isFlattenable;
 
 
 /***/ }),
-/* 213 */
+/* 214 */
 /***/ (function(module, exports) {
 
 /**
@@ -9078,7 +9127,7 @@ module.exports = last;
 
 
 /***/ }),
-/* 214 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9108,7 +9157,7 @@ var _assign2 = __webpack_require__(11);
 
 var _assign3 = _interopRequireDefault(_assign2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
@@ -9169,7 +9218,7 @@ exports.default = function () {
 };
 
 /***/ }),
-/* 215 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9199,7 +9248,7 @@ var _assign2 = __webpack_require__(11);
 
 var _assign3 = _interopRequireDefault(_assign2);
 
-var _util = __webpack_require__(2);
+var _util = __webpack_require__(1);
 
 var _util2 = _interopRequireDefault(_util);
 
