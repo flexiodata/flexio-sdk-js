@@ -5,6 +5,7 @@ import emailFn from './email'
 import * as executeFns from './execute'
 import filterFn from './filter'
 import limitFn from './limit'
+import listFn from './list'
 import requestFn from './request'
 import selectFn from './select'
 import sleepFn from './sleep'
@@ -17,6 +18,7 @@ export const execute    = executeFns.execute
 export const filter     = filterFn
 export const javascript = executeFns.javascript
 export const limit      = limitFn
+export const list       = listFn
 export const python     = executeFns.python
 export const request    = requestFn
 export const select     = selectFn

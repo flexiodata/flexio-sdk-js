@@ -100,6 +100,13 @@ const LIMIT = {
   bg_color: 'bg-task-green'
 }
 
+const LIST = {
+  name: 'List',
+  type: types.TASK_TYPE_LIST,
+  icon: 'play_for_work',
+  bg_color: 'bg-task-green'
+}
+
 const MERGE = {
   name: 'Merge',
   type: types.TASK_TYPE_MERGE,
