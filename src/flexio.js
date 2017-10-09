@@ -10,6 +10,7 @@ var base_url = 'https://www.flex.io/api/v1'
 var cfg = {
   token: '',
   baseUrl: 'https://www.flex.io/api/v1',
+  insecure: false,
   debug: false
 }
 
@@ -42,10 +43,22 @@ export default {
   connections() { return connections() },
 
   _createHttp() {
-    // axios instance with base url and auth token factored into it
-    this._http = axios.create({
+    // axios instance options with base url and auth token
+    var axios_opts = {
       baseURL: cfg.baseUrl,
       headers: { 'Authorization': 'Bearer ' + cfg.token }
-    })
+    }
+
+    // if the `insecure` flag is set, allow unauthorized HTTPS calls
+    if (cfg.insecure === true)
+    {
+      _.assign(axios_opts, {
+        httpsAgent: new https.Agent({
+          rejectUnauthorized: false
+        })
+      })
+    }
+
+    this._http = axios.create(axios_opts)
   }
 }
