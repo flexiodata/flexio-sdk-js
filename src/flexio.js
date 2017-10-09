@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import https from 'https'
 import axios from 'axios'
 import * as task from './task'
 import pipe from './pipe'
@@ -51,15 +50,11 @@ export default {
       headers: { 'Authorization': 'Bearer ' + cfg.token }
     }
 
+    // TODO: try to figure out a better way to do this...
+
     // if the `insecure` flag is set, allow unauthorized HTTPS calls
     if (cfg.insecure === true)
-    {
-      _.assign(axios_opts, {
-        httpsAgent: new https.Agent({
-          rejectUnauthorized: false
-        })
-      })
-    }
+      process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
     this._http = axios.create(axios_opts)
   }
