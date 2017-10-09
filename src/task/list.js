@@ -7,14 +7,11 @@ import { TASK_TYPE_LIST } from '../constants/task-type'
 var list = function(path) {
   var type = TASK_TYPE_LIST
 
-  var res = {
+  return {
     type,
     params: {
+      path
     }
-  }
-
-  if (path !== undefined) {
-    res['params']['path'] = path
   }
 }
 
