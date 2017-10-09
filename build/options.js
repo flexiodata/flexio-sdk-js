@@ -13,7 +13,7 @@ module.exports = {
   banner,
   version,
 
-  isProduction: process.env.NODE_ENV === 'production',
+  isProduction: process.env.build === 'production',
 
   paths: {
     root: path.join(__dirname, '..'),
