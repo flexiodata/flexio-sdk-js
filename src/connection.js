@@ -21,6 +21,39 @@ export default () => {
       return _.assign({}, this.connection)
     },
 
+    headers() {
+      var args = Array.from(arguments)
+      var headers = _.get(args, '[0]')
+
+      if (!_.isObject(headers))
+        return this
+
+      var existing_headers = _.get(this.connection, 'connection_info.headers', {})
+      headers = _.assign({}, existing_headers, headers)
+
+      _.set(this.connection, 'connection_info.headers', headers)
+      return this
+    },
+
+    removeHeaders() {
+      var args = Array.from(arguments)
+      var keys = _.get(args, '[0]')
+
+      if (!_.isArray(keys))
+        return this
+
+      var existing_headers = _.get(this.connection, 'connection_info.headers', {})
+      var headers = _.omit(existing_headers, keys)
+
+      _.set(this.connection, 'connection_info.headers', headers)
+      return this
+    },
+
+    clearHeaders() {
+      _.set(this.connection, 'connection_info.headers', {})
+      return this
+    },
+
     load() {
       var args = Array.from(arguments)
       var identifier = _.get(args, '[0]')
