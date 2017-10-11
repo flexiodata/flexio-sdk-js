@@ -106,7 +106,7 @@ export default () => {
           util.debug.call(this, 'Pipe Saved.')
 
           if (typeof callback == 'function')
-            callback.call(this, null, obj)
+            callback.call(this, null, this.pipe)
         })
         .catch(error => {
           this.saving = false
