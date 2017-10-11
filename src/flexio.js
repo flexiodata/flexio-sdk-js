@@ -3,6 +3,7 @@ import axios from 'axios'
 import * as task from './task'
 import pipe from './pipe'
 import pipes from './pipes'
+import connection from './connection'
 import connections from './connections'
 
 
@@ -39,9 +40,10 @@ export default {
     return this._http
   },
 
+  connection()  { return connection()  },
+  connections() { return connections() },
   pipe()        { return pipe()        },
   pipes()       { return pipes()       },
-  connections() { return connections() },
 
   _createHttp() {
     // axios instance options with base url and auth token

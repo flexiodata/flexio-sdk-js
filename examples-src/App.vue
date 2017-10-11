@@ -43,6 +43,15 @@
           :fn="example.fn"
         ></example>
 
+        <h2>Connections</h2>
+
+        <example
+          v-for="(example, index) in connection_examples"
+          :title="example.title"
+          :code="example.code"
+          :fn="example.fn"
+        ></example>
+
         <h2>Pipes</h2>
 
         <example
@@ -70,6 +79,7 @@
   import Flexio from '../src/flexio'
   import Example from './Example.vue'
   import list_examples from './examples/list'
+  import connection_examples from './examples/connection'
   import pipe_examples from './examples/pipe'
   import task_examples from './examples/task'
 
@@ -97,6 +107,7 @@
         version,
         api_key,
         list_examples,
+        connection_examples,
         pipe_examples,
         task_examples
       }
