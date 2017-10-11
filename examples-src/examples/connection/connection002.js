@@ -1,29 +1,31 @@
 
 const code = `
 Flexio.connection()
+  .url('https://api.example.com')
   .headers({
-    'Authorization': 'Bearer test123'
+    'Authorization': 'Bearer customtoken',
+    'MyCustom': 'HeaderValue'
   })
   .save({
-    name: 'test',
-    description: 'test123'
+    name: 'Custom Headers'
   }, function(err, result) {
     console.log(result)
   })`
 
 const fn = (Flexio, callback) => {
   Flexio.connection()
+    .url('https://api.example.com')
     .headers({
-      'Authorization': 'Bearer test123'
+      'Authorization': 'Bearer customtoken',
+      'MyCustom': 'HeaderValue'
     })
     .save({
-      name: 'test',
-      description: 'test123'
+      name: 'Custom Headers'
     }, callback)
 }
 
 export default {
-  title: 'Create a connection',
+  title: 'Create a connection with custom headers',
   code,
   fn
 }

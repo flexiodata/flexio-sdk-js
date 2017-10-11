@@ -2,13 +2,7 @@
 const code = `
 Flexio.connection()
   .save({
-    name: 'test',
-    description: 'test123',
-    connection_info: {
-      headers: {
-        'Authorization': 'Bearer test123'
-      }
-    }
+    name: 'My Connection'
   }, function(err, result) {
     console.log(result)
   })`
@@ -16,13 +10,7 @@ Flexio.connection()
 const fn = (Flexio, callback) => {
   Flexio.connection()
     .save({
-      name: 'test',
-      description: 'test123',
-      connection_info: {
-        headers: {
-          'Authorization': 'Bearer test123'
-        }
-      }
+      name: 'My Connection'
     }, callback)
 }
 
