@@ -199,7 +199,7 @@ export default () => {
         return this
       }
 
-      if (_.isObject(params))
+      if (_.isObject(params) && !_.isFunction(params))
       {
         _.assign(this.connection, _.pick(params, ['name', 'description', 'ename']))
         callback = _.get(args, '[1]')
