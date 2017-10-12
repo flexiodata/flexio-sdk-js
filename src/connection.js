@@ -166,16 +166,16 @@ export default () => {
 
       Flexio.http().get('/connections/' + identifier)
         .then(response => {
-          var obj = _.get(response, 'data', {})
-          this.connection = _.assign({}, obj)
+          var connection = _.get(response, 'data', {})
+          this.connection = _.assign({}, connection)
           this.loading = false
           util.debug.call(this, 'Connection Loaded.')
 
-          // sync the config with the result
+          // sync our internal config with the result
           this._updateConfig()
 
           if (typeof callback == 'function')
-            callback.call(this, null, obj)
+            callback.call(this, null, connection)
         })
         .catch(error => {
           this.loading = false
@@ -251,7 +251,61 @@ export default () => {
     },
 
     _updateConfig() {
-      return this
+      var info = _.get(this.connection, 'connection_info', {})
+      info = _.pick(info, ['url', 'auth', 'headers'])
+
+      var url = _.get(info, 'url', '')
+      var auth = _.get(info, 'auth', '')
+      var headers = _.get(info, 'headers', '')
+      var username = ''
+      var password = ''
+      var token = ''
+
+      switch (auth)
+      {
+        case 'bearer':
+        case 'oauth2':
+          var auth_header = _.get(info, 'headers.Authorization', '')
+
+          if (auth_header.length > 0)
+          {
+            var keypair = auth_header.split(' ', 2)
+            if (keypair.length == 2)
+              token = keypair[1]
+          }
+          break
+
+        case 'basic':
+          var auth_header = _.get(info, 'headers.Authorization', '')
+
+          if (auth_header.length > 0)
+          {
+            auth_header = fromBase64(auth_header)
+
+            var keypair = auth_header.split(':', 2)
+            if (keypair.length == 2)
+            {
+              username = keypair[0]
+              password = keypair[1]
+            }
+          }
+          break
+      }
+
+      // remove the authorization header from the headers object since
+      // it is automatically built up based on the config settings
+      headers = _.omit(headers, ['Authorization'])
+
+      cfg = _.assign({}, {
+        url,
+        auth,
+        headers,
+        username,
+        password,
+        token
+      })
+
+      return this._updateConnectionInfo()
     }
   })
 
