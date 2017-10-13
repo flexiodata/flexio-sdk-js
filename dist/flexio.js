@@ -8893,6 +8893,7 @@ var request = function request() {
     var method = 'GET';
     var connection = undefined;
     var url = undefined;
+    var formdata = {};
     var headers = {};
 
     var arg = (0, _get3.default)(args, '[0]');
@@ -8906,11 +8907,13 @@ var request = function request() {
     if ((0, _isString3.default)(arg)) {
       if (arg.match(http_regex)) {
         url = arg;
-        headers = (0, _get3.default)(args, '[1]', {});
+        formdata = (0, _get3.default)(args, '[1]', {});
+        headers = (0, _get3.default)(args, '[2]', {});
       } else {
         connection = arg;
         url = (0, _get3.default)(args, '[1]');
-        headers = (0, _get3.default)(args, '[2]', {});
+        formdata = (0, _get3.default)(args, '[2]', {});
+        headers = (0, _get3.default)(args, '[3]', {});
       }
     }
 
@@ -8918,6 +8921,7 @@ var request = function request() {
       method: method,
       connection: connection,
       url: url,
+      formdata: formdata,
       headers: headers
     };
   }
