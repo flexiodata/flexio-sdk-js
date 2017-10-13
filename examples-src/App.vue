@@ -76,11 +76,12 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import Flexio from '../src/flexio'
   import Example from './Example.vue'
   import list_examples from './examples/list'
   import connection_examples from './examples/connection'
-  import pipe_examples from './examples/pipe'
+  import pipe from './examples/pipe'
   import task_examples from './examples/task'
 
   var version = Flexio.version
@@ -91,6 +92,22 @@
   var api_key = 'kgbdzygkqfnyzkfjgxyd'
   var baseUrl = 'https://localhost:8080/api/v1'
   var debug = true
+
+  var processExamples = function(examples) {
+    var res = []
+
+    _.each(examples, (example, idx) => {
+      var items = _.get(example, 'items')
+      if (_.isArray(items))
+        res = res.concat(items)
+         else
+        res.push(example)
+    })
+
+    return res
+  }
+
+  var pipe_examples = processExamples(pipe)
 
   export default {
     name: 'app',
