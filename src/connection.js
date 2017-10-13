@@ -54,8 +54,7 @@ export default () => {
       if (!_.isString(url))
         return this
 
-      this._setInfo('url', url)
-      return this
+      return this._setInfo('url', url)
     },
 
     auth() {
@@ -71,8 +70,7 @@ export default () => {
       if (auth == 'none')
         auth = ''
 
-      this._setInfo('auth', auth)
-      return this
+      return this._setInfo('auth', auth)
     },
 
     // `basic auth` only
@@ -83,8 +81,7 @@ export default () => {
       if (!_.isString(username))
         return this
 
-      this._setInfo('username', username)
-      return this
+      return this._setInfo('username', username)
     },
 
     // `basic auth` only
@@ -95,8 +92,7 @@ export default () => {
       if (!_.isString(password))
         return this
 
-      this._setInfo('password', password)
-      return this
+      return this._setInfo('password', password)
     },
 
     // `bearer token` only
@@ -107,8 +103,7 @@ export default () => {
       if (!_.isString(token))
         return this
 
-      this._setInfo('token', token)
-      return this
+      return this._setInfo('token', token)
     },
 
     // `oauth2` only
@@ -119,8 +114,7 @@ export default () => {
       if (!_.isString(token))
         return this
 
-      this._setInfo('access_token', token)
-      return this
+      return this._setInfo('access_token', token)
     },
 
     // `oauth2` only
@@ -131,8 +125,7 @@ export default () => {
       if (!_.isString(token))
         return this
 
-      this._setInfo('refresh_token', token)
-      return this
+      return this._setInfo('refresh_token', token)
     },
 
     // `oauth2` only
@@ -147,8 +140,7 @@ export default () => {
       if (!_.isString(expires))
         return this
 
-      this._setInfo('expires', expires)
-      return this
+      return this._setInfo('expires', expires)
     },
 
     formData() {
@@ -161,8 +153,7 @@ export default () => {
       var existing_formdata = this._getInfo('formdata', {})
       formdata = _.assign({}, existing_formdata, formdata)
 
-      this._setInfo('formdata', formdata)
-      return this
+      return this._setInfo('formdata', formdata)
     },
 
     clearFormData() {
@@ -170,11 +161,7 @@ export default () => {
 
       // no arguments; clear all headers
       if (keys.length == 0)
-      {
-        this._setInfo('formdata', {})
-        return this
-
-      }
+        return this._setInfo('formdata', {})
 
       // handle the case where the user passed an array of items
       // instead of just passing them as arguments
@@ -184,8 +171,7 @@ export default () => {
       var existing_formdata = this._getInfo('formdata', {})
       var formdata = _.omit(existing_formdata, keys)
 
-      this._setInfo('formdata', formdata)
-      return this
+      return this._setInfo('formdata', formdata)
     },
 
     headers() {
@@ -198,8 +184,7 @@ export default () => {
       var existing_headers = this._getInfo('headers', {})
       headers = _.assign({}, existing_headers, headers)
 
-      this._setInfo('headers', headers)
-      return this
+      return this._setInfo('headers', headers)
     },
 
     clearHeaders() {
@@ -207,11 +192,7 @@ export default () => {
 
       // no arguments; clear all headers
       if (keys.length == 0)
-      {
-        this._setInfo('headers', {})
-        return this
-
-      }
+        return this._setInfo('headers', {})
 
       // handle the case where the user passed an array of items
       // instead of just passing them as arguments
@@ -221,8 +202,7 @@ export default () => {
       var existing_headers = this._getInfo('headers', {})
       var headers = _.omit(existing_headers, keys)
 
-      this._setInfo('headers', headers)
-      return this
+      return this._setInfo('headers', headers)
     },
 
     load() {
