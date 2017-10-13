@@ -33,7 +33,8 @@ export default () => {
         access_token: '',  // `oauth2` only
         refresh_token: '', // `oauth2` only
         expires: '',       // `oauth2` only
-        headers: {}        // custom request headers
+        headers: {},       // custom request headers
+        formdata: {}       // form data for POST
       }
     },
     loading: false,
@@ -150,6 +151,43 @@ export default () => {
       return this
     },
 
+    formData() {
+      var args = Array.from(arguments)
+      var formdata = _.get(args, '[0]')
+
+      if (!_.isPlainObject(formdata))
+        return this
+
+      var existing_formdata = this._getInfo('formdata', {})
+      formdata = _.assign({}, existing_formdata, formdata)
+
+      this._setInfo('formdata', formdata)
+      return this
+    },
+
+    clearFormData() {
+      var keys = Array.from(arguments)
+
+      // no arguments; clear all headers
+      if (keys.length == 0)
+      {
+        this._setInfo('formdata', {})
+        return this
+
+      }
+
+      // handle the case where the user passed an array of items
+      // instead of just passing them as arguments
+      if (keys.length == 1 && _.isArray(_.get(keys, '[0]')))
+        keys = _.get(keys, '[0]', [])
+
+      var existing_formdata = this._getInfo('formdata', {})
+      var formdata = _.omit(existing_formdata, keys)
+
+      this._setInfo('formdata', formdata)
+      return this
+    },
+
     headers() {
       var args = Array.from(arguments)
       var headers = _.get(args, '[0]')
@@ -164,8 +202,16 @@ export default () => {
       return this
     },
 
-    removeHeaders() {
+    clearHeaders() {
       var keys = Array.from(arguments)
+
+      // no arguments; clear all headers
+      if (keys.length == 0)
+      {
+        this._setInfo('headers', {})
+        return this
+
+      }
 
       // handle the case where the user passed an array of items
       // instead of just passing them as arguments
@@ -176,11 +222,6 @@ export default () => {
       var headers = _.omit(existing_headers, keys)
 
       this._setInfo('headers', headers)
-      return this
-    },
-
-    clearHeaders() {
-      this._setInfo('headers', {})
       return this
     },
 
