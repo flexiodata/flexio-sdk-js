@@ -584,29 +584,6 @@ module.exports = isObject;
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(96),
-    getValue = __webpack_require__(101);
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var Symbol = __webpack_require__(14),
     getRawTag = __webpack_require__(97),
     objectToString = __webpack_require__(98);
@@ -638,7 +615,65 @@ module.exports = baseGetTag;
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
 /* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseIsNative = __webpack_require__(96),
+    getValue = __webpack_require__(101);
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(34),
@@ -677,12 +712,12 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayLikeKeys = __webpack_require__(57),
     baseKeys = __webpack_require__(115),
-    isArrayLike = __webpack_require__(9);
+    isArrayLike = __webpack_require__(10);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -720,41 +755,6 @@ module.exports = keys;
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -789,7 +789,7 @@ var _connection2 = __webpack_require__(233);
 
 var _connection3 = _interopRequireDefault(_connection2);
 
-var _connections2 = __webpack_require__(260);
+var _connections2 = __webpack_require__(261);
 
 var _connections3 = _interopRequireDefault(_connections2);
 
@@ -855,9 +855,9 @@ exports.default = {
 var assignValue = __webpack_require__(21),
     copyObject = __webpack_require__(15),
     createAssigner = __webpack_require__(102),
-    isArrayLike = __webpack_require__(9),
+    isArrayLike = __webpack_require__(10),
     isPrototype = __webpack_require__(25),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1028,9 +1028,9 @@ module.exports = toKey;
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(8),
+var baseGetTag = __webpack_require__(7),
     getPrototype = __webpack_require__(48),
-    isObjectLike = __webpack_require__(11);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var objectTag = '[object Object]';
@@ -1096,9 +1096,9 @@ module.exports = isPlainObject;
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(8),
+var baseGetTag = __webpack_require__(7),
     isArray = __webpack_require__(0),
-    isObjectLike = __webpack_require__(11);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var stringTag = '[object String]';
@@ -1411,7 +1411,7 @@ module.exports = assocIndexOf;
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7);
+var getNative = __webpack_require__(9);
 
 /* Built-in method references that are verified to be native. */
 var nativeCreate = getNative(Object, 'create');
@@ -1477,8 +1477,8 @@ module.exports = baseGet;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(8),
-    isObjectLike = __webpack_require__(11);
+var baseGetTag = __webpack_require__(7),
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -1543,7 +1543,7 @@ module.exports = pick;
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(8),
+var baseGetTag = __webpack_require__(7),
     isObject = __webpack_require__(6);
 
 /** `Object#toString` result references. */
@@ -1628,7 +1628,7 @@ module.exports = isLength;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsArguments = __webpack_require__(110),
-    isObjectLike = __webpack_require__(11);
+    isObjectLike = __webpack_require__(8);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1958,7 +1958,7 @@ module.exports = Stack;
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7),
+var getNative = __webpack_require__(9),
     root = __webpack_require__(4);
 
 /* Built-in method references that are verified to be native. */
@@ -2212,7 +2212,7 @@ module.exports = baseAssignValue;
 /* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7);
+var getNative = __webpack_require__(9);
 
 var defineProperty = (function() {
   try {
@@ -3106,7 +3106,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIsEqualDeep = __webpack_require__(174),
-    isObjectLike = __webpack_require__(11);
+    isObjectLike = __webpack_require__(8);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -3290,7 +3290,7 @@ module.exports = setToArray;
 
 var baseGetAllKeys = __webpack_require__(77),
     getSymbols = __webpack_require__(46),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -3370,7 +3370,7 @@ var DataView = __webpack_require__(183),
     Promise = __webpack_require__(184),
     Set = __webpack_require__(185),
     WeakMap = __webpack_require__(186),
-    baseGetTag = __webpack_require__(8),
+    baseGetTag = __webpack_require__(7),
     toSource = __webpack_require__(54);
 
 /** `Object#toString` result references. */
@@ -3652,7 +3652,7 @@ module.exports = defaultTo;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseIndexOf = __webpack_require__(212),
-    isArrayLike = __webpack_require__(9),
+    isArrayLike = __webpack_require__(10),
     isString = __webpack_require__(19),
     toInteger = __webpack_require__(216),
     values = __webpack_require__(219);
@@ -3788,7 +3788,7 @@ module.exports = last;
 
 var arrayLikeKeys = __webpack_require__(57),
     baseKeysIn = __webpack_require__(238),
-    isArrayLike = __webpack_require__(9);
+    isArrayLike = __webpack_require__(10);
 
 /**
  * Creates an array of the own and inherited enumerable property names of `object`.
@@ -4316,7 +4316,7 @@ module.exports = shortOut;
 /***/ (function(module, exports, __webpack_require__) {
 
 var eq = __webpack_require__(22),
-    isArrayLike = __webpack_require__(9),
+    isArrayLike = __webpack_require__(10),
     isIndex = __webpack_require__(24),
     isObject = __webpack_require__(6);
 
@@ -4377,8 +4377,8 @@ module.exports = baseTimes;
 /* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(8),
-    isObjectLike = __webpack_require__(11);
+var baseGetTag = __webpack_require__(7),
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -4425,9 +4425,9 @@ module.exports = stubFalse;
 /* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(8),
+var baseGetTag = __webpack_require__(7),
     isLength = __webpack_require__(35),
-    isObjectLike = __webpack_require__(11);
+    isObjectLike = __webpack_require__(8);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -7751,7 +7751,7 @@ module.exports = arrayFilter;
 /* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7),
+var getNative = __webpack_require__(9),
     root = __webpack_require__(4);
 
 /* Built-in method references that are verified to be native. */
@@ -7764,7 +7764,7 @@ module.exports = DataView;
 /* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7),
+var getNative = __webpack_require__(9),
     root = __webpack_require__(4);
 
 /* Built-in method references that are verified to be native. */
@@ -7777,7 +7777,7 @@ module.exports = Promise;
 /* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7),
+var getNative = __webpack_require__(9),
     root = __webpack_require__(4);
 
 /* Built-in method references that are verified to be native. */
@@ -7790,7 +7790,7 @@ module.exports = Set;
 /* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(7),
+var getNative = __webpack_require__(9),
     root = __webpack_require__(4);
 
 /* Built-in method references that are verified to be native. */
@@ -7804,7 +7804,7 @@ module.exports = WeakMap;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isStrictComparable = __webpack_require__(80),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -8239,7 +8239,7 @@ module.exports = basePropertyDeep;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseEach = __webpack_require__(83),
-    isArrayLike = __webpack_require__(9);
+    isArrayLike = __webpack_require__(10);
 
 /**
  * The base implementation of `_.map` without support for iteratee shorthands.
@@ -8267,7 +8267,7 @@ module.exports = baseMap;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseFor = __webpack_require__(201),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -8341,7 +8341,7 @@ module.exports = createBaseFor;
 /* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArrayLike = __webpack_require__(9);
+var isArrayLike = __webpack_require__(10);
 
 /**
  * Creates a `baseEach` or `baseEachRight` function.
@@ -9202,7 +9202,7 @@ module.exports = toNumber;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseValues = __webpack_require__(220),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /**
  * Creates an array of the own enumerable string keyed property values of `object`.
@@ -9890,6 +9890,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _set2 = __webpack_require__(49);
+
+var _set3 = _interopRequireDefault(_set2);
+
 var _pick2 = __webpack_require__(33);
 
 var _pick3 = _interopRequireDefault(_pick2);
@@ -9910,13 +9914,13 @@ var _isPlainObject2 = __webpack_require__(18);
 
 var _isPlainObject3 = _interopRequireDefault(_isPlainObject2);
 
+var _isNumber2 = __webpack_require__(260);
+
+var _isNumber3 = _interopRequireDefault(_isNumber2);
+
 var _includes2 = __webpack_require__(87);
 
 var _includes3 = _interopRequireDefault(_includes2);
-
-var _set2 = __webpack_require__(49);
-
-var _set3 = _interopRequireDefault(_set2);
 
 var _isString2 = __webpack_require__(19);
 
@@ -9959,14 +9963,6 @@ function fromBase64(str) {
 exports.default = function () {
   var allowed_auth = ['', 'basic', 'bearer', 'oauth2'];
 
-  var cfg = {
-    url: '',
-    auth: '',
-    headers: {},
-    username: '',
-    password: '',
-    token: '' };
-
   var retval = (0, _assign3.default)({}, {
 
     connection: {
@@ -9975,8 +9971,13 @@ exports.default = function () {
       connection_info: {
         url: '',
         auth: '',
-        headers: {}
-      }
+        username: '',
+        password: '',
+        token: '',
+        access_token: '',
+        refresh_token: '',
+        expires: '',
+        headers: {} }
     },
     loading: false,
     saving: false,
@@ -9991,8 +9992,8 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(url)) return this;
 
-      (0, _set3.default)(cfg, 'url', url);
-      return this._updateConnectionInfo();
+      this._setInfo('url', url);
+      return this;
     },
     auth: function auth() {
       var args = Array.from(arguments);
@@ -10004,8 +10005,8 @@ exports.default = function () {
 
       if (auth == 'none') auth = '';
 
-      (0, _set3.default)(cfg, 'auth', auth);
-      return this._updateConnectionInfo();
+      this._setInfo('auth', auth);
+      return this;
     },
     username: function username() {
       var args = Array.from(arguments);
@@ -10013,8 +10014,8 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(username)) return this;
 
-      (0, _set3.default)(cfg, 'username', username);
-      return this._updateConnectionInfo();
+      this._setInfo('username', username);
+      return this;
     },
     password: function password() {
       var args = Array.from(arguments);
@@ -10022,8 +10023,8 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(password)) return this;
 
-      (0, _set3.default)(cfg, 'password', password);
-      return this._updateConnectionInfo();
+      this._setInfo('password', password);
+      return this;
     },
     token: function token() {
       var args = Array.from(arguments);
@@ -10031,8 +10032,37 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(token)) return this;
 
-      (0, _set3.default)(cfg, 'token', token);
-      return this._updateConnectionInfo();
+      this._setInfo('token', token);
+      return this;
+    },
+    accessToken: function accessToken() {
+      var args = Array.from(arguments);
+      var token = (0, _get3.default)(args, '[0]');
+
+      if (!(0, _isString3.default)(token)) return this;
+
+      this._setInfo('access_token', token);
+      return this;
+    },
+    refreshToken: function refreshToken() {
+      var args = Array.from(arguments);
+      var token = (0, _get3.default)(args, '[0]');
+
+      if (!(0, _isString3.default)(token)) return this;
+
+      this._setInfo('refresh_token', token);
+      return this;
+    },
+    expires: function expires() {
+      var args = Array.from(arguments);
+      var expires = (0, _get3.default)(args, '[0]');
+
+      if ((0, _isNumber3.default)(expires)) expires = '' + expires;
+
+      if (!(0, _isString3.default)(expires)) return this;
+
+      this._setInfo('expires', expires);
+      return this;
     },
     headers: function headers() {
       var args = Array.from(arguments);
@@ -10040,26 +10070,26 @@ exports.default = function () {
 
       if (!(0, _isPlainObject3.default)(headers)) return this;
 
-      var existing_headers = (0, _get3.default)(cfg, 'headers', {});
+      var existing_headers = this._getInfo('headers', {});
       headers = (0, _assign3.default)({}, existing_headers, headers);
 
-      (0, _set3.default)(cfg, 'headers', headers);
-      return this._updateConnectionInfo();
+      this._setInfo('headers', headers);
+      return this;
     },
     removeHeaders: function removeHeaders() {
       var keys = Array.from(arguments);
 
       if (keys.length == 1 && (0, _isArray3.default)((0, _get3.default)(keys, '[0]'))) keys = (0, _get3.default)(keys, '[0]', []);
 
-      var existing_headers = (0, _get3.default)(cfg, 'headers', {});
+      var existing_headers = this._getInfo('headers', {});
       var headers = (0, _omit3.default)(existing_headers, keys);
 
-      (0, _set3.default)(cfg, 'headers', headers);
-      return this._updateConnectionInfo();
+      this._setInfo('headers', headers);
+      return this;
     },
     clearHeaders: function clearHeaders() {
-      (0, _set3.default)(cfg, 'headers', {});
-      return this._updateConnectionInfo();
+      this._setInfo('headers', {});
+      return this;
     },
     load: function load() {
       var _this = this,
@@ -10086,8 +10116,6 @@ exports.default = function () {
         _this.connection = (0, _assign3.default)({}, connection);
         _this.loading = false;
         _util2.default.debug.call(_this, 'Connection Loaded.');
-
-        _this._updateConfig();
 
         if (typeof callback == 'function') callback.call(_this, null, connection);
       }).catch(function (error) {
@@ -10138,73 +10166,12 @@ exports.default = function () {
 
       return this;
     },
-    _updateConnectionInfo: function _updateConnectionInfo() {
-      var info = (0, _pick3.default)(cfg, ['url', 'auth', 'headers']);
-
-      switch (cfg.auth) {
-        case 'bearer':
-        case 'oauth2':
-          (0, _set3.default)(info, 'headers.Authorization', 'Bearer ' + cfg.token);
-          break;
-
-        case 'basic':
-          var token = toBase64(cfg.username + ':' + cfg.password);
-          (0, _set3.default)(info, 'headers.Authorization', 'Basic ' + token);
-          break;
-      }
-
-      (0, _set3.default)(this.connection, 'connection_info', info);
-      return this;
+    _getInfo: function _getInfo(key, default_val) {
+      return (0, _get3.default)(this.connection, 'connection_info.' + key, default_val);
     },
-    _updateConfig: function _updateConfig() {
-      var info = (0, _get3.default)(this.connection, 'connection_info', {});
-      info = (0, _pick3.default)(info, ['url', 'auth', 'headers']);
-
-      var url = (0, _get3.default)(info, 'url', '');
-      var auth = (0, _get3.default)(info, 'auth', '');
-      var headers = (0, _get3.default)(info, 'headers', '');
-      var username = '';
-      var password = '';
-      var token = '';
-
-      switch (auth) {
-        case 'bearer':
-        case 'oauth2':
-          var auth_header = (0, _get3.default)(info, 'headers.Authorization', '');
-
-          if (auth_header.length > 0) {
-            var keypair = auth_header.split(' ', 2);
-            if (keypair.length == 2) token = keypair[1];
-          }
-          break;
-
-        case 'basic':
-          var auth_header = (0, _get3.default)(info, 'headers.Authorization', '');
-
-          if (auth_header.length > 0) {
-            auth_header = fromBase64(auth_header);
-
-            var keypair = auth_header.split(':', 2);
-            if (keypair.length == 2) {
-              username = keypair[0];
-              password = keypair[1];
-            }
-          }
-          break;
-      }
-
-      headers = (0, _omit3.default)(headers, ['Authorization']);
-
-      cfg = (0, _assign3.default)({}, {
-        url: url,
-        auth: auth,
-        headers: headers,
-        username: username,
-        password: password,
-        token: token
-      });
-
-      return this._updateConnectionInfo();
+    _setInfo: function _setInfo(key, val) {
+      (0, _set3.default)(this.connection, 'connection_info.' + key, val);
+      return this;
     }
   });
 
@@ -10296,7 +10263,7 @@ var Stack = __webpack_require__(42),
     isArray = __webpack_require__(0),
     isBuffer = __webpack_require__(37),
     isObject = __webpack_require__(6),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /** Used to compose bitmasks for cloning. */
 var CLONE_DEEP_FLAG = 1,
@@ -10438,7 +10405,7 @@ module.exports = baseClone;
 /***/ (function(module, exports, __webpack_require__) {
 
 var copyObject = __webpack_require__(15),
-    keys = __webpack_require__(10);
+    keys = __webpack_require__(11);
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -11132,6 +11099,50 @@ module.exports = customOmitClone;
 
 /***/ }),
 /* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(7),
+    isObjectLike = __webpack_require__(8);
+
+/** `Object#toString` result references. */
+var numberTag = '[object Number]';
+
+/**
+ * Checks if `value` is classified as a `Number` primitive or object.
+ *
+ * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+ * classified as numbers, use the `_.isFinite` method.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a number, else `false`.
+ * @example
+ *
+ * _.isNumber(3);
+ * // => true
+ *
+ * _.isNumber(Number.MIN_VALUE);
+ * // => true
+ *
+ * _.isNumber(Infinity);
+ * // => true
+ *
+ * _.isNumber('3');
+ * // => false
+ */
+function isNumber(value) {
+  return typeof value == 'number' ||
+    (isObjectLike(value) && baseGetTag(value) == numberTag);
+}
+
+module.exports = isNumber;
+
+
+/***/ }),
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
