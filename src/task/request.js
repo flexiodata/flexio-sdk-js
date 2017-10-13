@@ -16,8 +16,8 @@ var request = function() {
   // and we can skip all of the parameterization checks below
   if (!_.isPlainObject(params))
   {
-    var connection = undefined
     var method = 'GET'
+    var connection = undefined
     var url = undefined
     var headers = {}
 
@@ -54,7 +54,7 @@ var request = function() {
       connection,
       url,
       headers
-    })
+    }
   }
 
   // default to `GET` method (this will also ensure that `params` is an object)
