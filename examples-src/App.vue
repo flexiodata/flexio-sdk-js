@@ -14,9 +14,9 @@
       </div>
 
       <div class="flex-fill relative center ph4" style="padding-top: 6rem; padding-bottom: 6rem; max-width: 1152px">
-        <h1 class="mt0 pb2 bb b--black-10">Flex.io Javascript SDK v{{version}}</h1>
+        <h1 class="mt0">Flex.io Javascript SDK v{{version}}</h1>
 
-        <h2>API Key</h2>
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">API Key</h2>
 
         <p class="lh-copy">Flexio SDK calls require an API key. A default API key is provided to test the following calls. Feel free to <a href="https://www.flex.io/app/signup" target="_blank">sign up for Flex.io</a> to use your own API key in order to test these calls with your Flex.io account:</p class="lh-copy">
         <form>
@@ -26,42 +26,45 @@
           </div>
         </form>
 
-        <h2>Setup</h2>
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">Setup</h2>
 
         <example
           title="Initialize Flex.io JS SDK with your API key"
           code="Flexio.setup('YOUR API KEY GOES HERE')"
           :show-run="false"
-        ></example>
+        />
 
-        <h2>Collections</h2>
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">Collections</h2>
 
         <example
           v-for="(example, index) in list_examples"
           :title="example.title"
           :code="example.code"
           :fn="example.fn"
-        ></example>
+        />
 
-        <h2>Connections</h2>
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">Connections</h2>
 
         <example
           v-for="(example, index) in connection_examples"
           :title="example.title"
           :code="example.code"
           :fn="example.fn"
-        ></example>
+        />
 
-        <h2>Pipes</h2>
+        <h2 class="mt5 nb4 pb2 bb b--light-gray">Pipes</h2>
 
-        <example
-          v-for="(example, index) in pipe_examples"
-          :title="example.title"
-          :code="example.code"
-          :fn="example.fn"
-        ></example>
+        <div v-for="(category, index) in pipe_examples">
+          <h3 class="mt5 moon-gray">{{category.title}}</h3>
+          <example
+            v-for="(example, index) in category.items"
+            :title="example.title"
+            :code="example.code"
+            :fn="example.fn"
+          />
+        </div>
 
-        <h2>Tasks</h2>
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">Tasks</h2>
 
         <example
           v-for="(example, index) in task_examples"
@@ -69,7 +72,7 @@
           :description="example.description"
           :code="JSON.stringify(example.obj, null, 2)"
           :show-run="false"
-        ></example>
+        />
       </div>
     </div>
   </div>
@@ -81,7 +84,7 @@
   import Example from './Example.vue'
   import list_examples from './examples/list'
   import connection_examples from './examples/connection'
-  import pipe from './examples/pipe'
+  import pipe_examples from './examples/pipe'
   import task_examples from './examples/task'
 
   var version = Flexio.version
@@ -92,22 +95,6 @@
   var api_key = 'kgbdzygkqfnyzkfjgxyd'
   var baseUrl = 'https://localhost:8080/api/v1'
   var debug = true
-
-  var processExamples = function(examples) {
-    var res = []
-
-    _.each(examples, (example, idx) => {
-      var items = _.get(example, 'items')
-      if (_.isArray(items))
-        res = res.concat(items)
-         else
-        res.push(example)
-    })
-
-    return res
-  }
-
-  var pipe_examples = processExamples(pipe)
 
   export default {
     name: 'app',
