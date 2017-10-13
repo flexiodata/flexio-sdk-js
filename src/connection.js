@@ -18,15 +18,6 @@ export default () => {
     'oauth2'
   ]
 
-  var cfg = {
-    url: '',
-    auth: '', // ``, `basic`, `bearer`, `oauth2`
-    headers: {},
-    username: '', // `basic auth` only
-    password: '', // `basic auth` only
-    token: '' // `bearer token` and `oauth2` only
-  }
-
   var retval = _.assign({}, {
     // -- state --
 
@@ -34,9 +25,15 @@ export default () => {
       name: 'Javascript SDK Connection',
       description: 'This connection was created using the Flex.io Javascript SDK',
       connection_info: {
-        url: '',
-        auth: '',
-        headers: {}
+        url: '',           // base url for all calls that will use this connection
+        auth: '',          // ``, `basic`, `bearer`, `oauth2`
+        username: '',      // `basic auth` only
+        password: '',      // `basic auth` only
+        token: '',         // `bearer token` only
+        access_token: '',  // `oauth2` only
+        refresh_token: '', // `oauth2` only
+        expires: '',       // `oauth2` only
+        headers: {}        // custom request headers
       }
     },
     loading: false,
@@ -56,8 +53,8 @@ export default () => {
       if (!_.isString(url))
         return this
 
-      _.set(cfg, 'url', url)
-      return this._updateConnectionInfo()
+      this._setInfo('url', url)
+      return this
     },
 
     auth() {
@@ -73,8 +70,8 @@ export default () => {
       if (auth == 'none')
         auth = ''
 
-      _.set(cfg, 'auth', auth)
-      return this._updateConnectionInfo()
+      this._setInfo('auth', auth)
+      return this
     },
 
     // `basic auth` only
@@ -85,8 +82,8 @@ export default () => {
       if (!_.isString(username))
         return this
 
-      _.set(cfg, 'username', username)
-      return this._updateConnectionInfo()
+      this._setInfo('username', username)
+      return this
     },
 
     // `basic auth` only
@@ -97,11 +94,11 @@ export default () => {
       if (!_.isString(password))
         return this
 
-      _.set(cfg, 'password', password)
-      return this._updateConnectionInfo()
+      this._setInfo('password', password)
+      return this
     },
 
-    // `bearer token` and `oauth2` only
+    // `bearer token` only
     token() {
       var args = Array.from(arguments)
       var token = _.get(args, '[0]')
@@ -109,8 +106,48 @@ export default () => {
       if (!_.isString(token))
         return this
 
-      _.set(cfg, 'token', token)
-      return this._updateConnectionInfo()
+      this._setInfo('token', token)
+      return this
+    },
+
+    // `oauth2` only
+    accessToken() {
+      var args = Array.from(arguments)
+      var token = _.get(args, '[0]')
+
+      if (!_.isString(token))
+        return this
+
+      this._setInfo('access_token', token)
+      return this
+    },
+
+    // `oauth2` only
+    refreshToken() {
+      var args = Array.from(arguments)
+      var token = _.get(args, '[0]')
+
+      if (!_.isString(token))
+        return this
+
+      this._setInfo('refresh_token', token)
+      return this
+    },
+
+    // `oauth2` only
+    expires() {
+      var args = Array.from(arguments)
+      var expires = _.get(args, '[0]')
+
+      // cast numbers to a string
+      if (_.isNumber(expires))
+        expires = '' + expires
+
+      if (!_.isString(expires))
+        return this
+
+      this._setInfo('expires', expires)
+      return this
     },
 
     headers() {
@@ -120,11 +157,11 @@ export default () => {
       if (!_.isPlainObject(headers))
         return this
 
-      var existing_headers = _.get(cfg, 'headers', {})
+      var existing_headers = this._getInfo('headers', {})
       headers = _.assign({}, existing_headers, headers)
 
-      _.set(cfg, 'headers', headers)
-      return this._updateConnectionInfo()
+      this._setInfo('headers', headers)
+      return this
     },
 
     removeHeaders() {
@@ -135,16 +172,16 @@ export default () => {
       if (keys.length == 1 && _.isArray(_.get(keys, '[0]')))
         keys = _.get(keys, '[0]', [])
 
-      var existing_headers = _.get(cfg, 'headers', {})
+      var existing_headers = this._getInfo('headers', {})
       var headers = _.omit(existing_headers, keys)
 
-      _.set(cfg, 'headers', headers)
-      return this._updateConnectionInfo()
+      this._setInfo('headers', headers)
+      return this
     },
 
     clearHeaders() {
-      _.set(cfg, 'headers', {})
-      return this._updateConnectionInfo()
+      this._setInfo('headers', {})
+      return this
     },
 
     load() {
@@ -170,9 +207,6 @@ export default () => {
           this.connection = _.assign({}, connection)
           this.loading = false
           util.debug.call(this, 'Connection Loaded.')
-
-          // sync our internal config with the result
-          this._updateConfig()
 
           if (typeof callback == 'function')
             callback.call(this, null, connection)
@@ -229,6 +263,16 @@ export default () => {
       return this
     },
 
+    _getInfo(key, default_val) {
+      return _.get(this.connection, 'connection_info.'+key, default_val)
+    },
+
+    _setInfo(key, val) {
+      _.set(this.connection, 'connection_info.'+key, val)
+      return this
+    }
+
+    /*
     _updateConnectionInfo() {
       var info = _.pick(cfg, ['url', 'auth', 'headers'])
 
@@ -305,8 +349,9 @@ export default () => {
         token
       })
 
-      return this._updateConnectionInfo()
+      return this
     }
+    */
   })
 
   return retval
