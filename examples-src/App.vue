@@ -55,7 +55,7 @@
         <h2 class="mt5 nb4 pb2 bb b--light-gray">Pipes</h2>
 
         <div v-for="(category, index) in pipe_examples">
-          <h3 class="mt5 moon-gray">{{category.title}}</h3>
+          <h3 class="mt5 light-silver">{{category.title}}</h3>
           <example
             v-for="(example, index) in category.items"
             :title="example.title"
