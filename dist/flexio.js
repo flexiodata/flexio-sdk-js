@@ -9977,7 +9977,8 @@ exports.default = function () {
         access_token: '',
         refresh_token: '',
         expires: '',
-        headers: {} }
+        headers: {},
+        formdata: {} }
     },
     loading: false,
     saving: false,
@@ -9992,8 +9993,7 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(url)) return this;
 
-      this._setInfo('url', url);
-      return this;
+      return this._setInfo('url', url);
     },
     auth: function auth() {
       var args = Array.from(arguments);
@@ -10005,8 +10005,7 @@ exports.default = function () {
 
       if (auth == 'none') auth = '';
 
-      this._setInfo('auth', auth);
-      return this;
+      return this._setInfo('auth', auth);
     },
     username: function username() {
       var args = Array.from(arguments);
@@ -10014,8 +10013,7 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(username)) return this;
 
-      this._setInfo('username', username);
-      return this;
+      return this._setInfo('username', username);
     },
     password: function password() {
       var args = Array.from(arguments);
@@ -10023,8 +10021,7 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(password)) return this;
 
-      this._setInfo('password', password);
-      return this;
+      return this._setInfo('password', password);
     },
     token: function token() {
       var args = Array.from(arguments);
@@ -10032,8 +10029,7 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(token)) return this;
 
-      this._setInfo('token', token);
-      return this;
+      return this._setInfo('token', token);
     },
     accessToken: function accessToken() {
       var args = Array.from(arguments);
@@ -10041,8 +10037,7 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(token)) return this;
 
-      this._setInfo('access_token', token);
-      return this;
+      return this._setInfo('access_token', token);
     },
     refreshToken: function refreshToken() {
       var args = Array.from(arguments);
@@ -10050,8 +10045,7 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(token)) return this;
 
-      this._setInfo('refresh_token', token);
-      return this;
+      return this._setInfo('refresh_token', token);
     },
     expires: function expires() {
       var args = Array.from(arguments);
@@ -10061,8 +10055,30 @@ exports.default = function () {
 
       if (!(0, _isString3.default)(expires)) return this;
 
-      this._setInfo('expires', expires);
-      return this;
+      return this._setInfo('expires', expires);
+    },
+    formData: function formData() {
+      var args = Array.from(arguments);
+      var formdata = (0, _get3.default)(args, '[0]');
+
+      if (!(0, _isPlainObject3.default)(formdata)) return this;
+
+      var existing_formdata = this._getInfo('formdata', {});
+      formdata = (0, _assign3.default)({}, existing_formdata, formdata);
+
+      return this._setInfo('formdata', formdata);
+    },
+    clearFormData: function clearFormData() {
+      var keys = Array.from(arguments);
+
+      if (keys.length == 0) return this._setInfo('formdata', {});
+
+      if (keys.length == 1 && (0, _isArray3.default)((0, _get3.default)(keys, '[0]'))) keys = (0, _get3.default)(keys, '[0]', []);
+
+      var existing_formdata = this._getInfo('formdata', {});
+      var formdata = (0, _omit3.default)(existing_formdata, keys);
+
+      return this._setInfo('formdata', formdata);
     },
     headers: function headers() {
       var args = Array.from(arguments);
@@ -10073,23 +10089,19 @@ exports.default = function () {
       var existing_headers = this._getInfo('headers', {});
       headers = (0, _assign3.default)({}, existing_headers, headers);
 
-      this._setInfo('headers', headers);
-      return this;
+      return this._setInfo('headers', headers);
     },
-    removeHeaders: function removeHeaders() {
+    clearHeaders: function clearHeaders() {
       var keys = Array.from(arguments);
+
+      if (keys.length == 0) return this._setInfo('headers', {});
 
       if (keys.length == 1 && (0, _isArray3.default)((0, _get3.default)(keys, '[0]'))) keys = (0, _get3.default)(keys, '[0]', []);
 
       var existing_headers = this._getInfo('headers', {});
       var headers = (0, _omit3.default)(existing_headers, keys);
 
-      this._setInfo('headers', headers);
-      return this;
-    },
-    clearHeaders: function clearHeaders() {
-      this._setInfo('headers', {});
-      return this;
+      return this._setInfo('headers', headers);
     },
     load: function load() {
       var _this = this,
