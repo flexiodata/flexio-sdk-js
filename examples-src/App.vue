@@ -21,8 +21,14 @@
         <p class="lh-copy">Flexio SDK calls require an API key. A default API key is provided to test the following calls. Feel free to <a href="https://www.flex.io/app/signup" target="_blank">sign up for Flex.io</a> to use your own API key in order to test these calls with your Flex.io account:</p class="lh-copy">
         <form>
           <div class="flex flex-row items-center mt2">
-            <label class="mr2">Use this API key:</label>
-            <input type="text" class="border-box ttl ba b--black-20 f6 pa2 w5 code" v-model="api_key">
+            <div class="flex flex-row items-center w-60 mr3">
+              <label class="flex-none mr2">Server:</label>
+              <input type="text" class="flex-fill border-box ttl ba b--black-10 f6 pa2 w5 code" v-model="base_url">
+            </div>
+            <div class="flex flex-row items-center w-40">
+              <label class="flex-none mr2">API Key:</label>
+              <input type="text" class="flex-fill border-box ttl ba b--black-10 f6 pa2 w5 code" v-model="api_key">
+            </div>
           </div>
         </form>
 
@@ -88,12 +94,9 @@
   import task_examples from './examples/task'
 
   var version = Flexio.version
-/*
-  var api_key = 'jfbtzztckjrhnwvwsnvv'
-  var baseUrl = 'https://test.flex.io/api/v1'
-*/
+
+  var base_url = 'https://localhost:8080/api/v1'
   var api_key = 'kgbdzygkqfnyzkfjgxyd'
-  var baseUrl = 'https://localhost:8080/api/v1'
   var debug = true
 
   export default {
@@ -103,13 +106,17 @@
     },
     watch: {
       api_key(val, old_val) {
-        Flexio.setup(val, { baseUrl, debug })
+        Flexio.setup(val, { baseUrl: this.base_url, debug })
+      },
+      base_url(val, old_val) {
+        Flexio.setup(this.api_key, { baseUrl: val, debug })
       }
     },
     data() {
       return {
         version,
         api_key,
+        base_url,
         list_examples,
         connection_examples,
         pipe_examples,
@@ -117,7 +124,7 @@
       }
     },
     mounted() {
-      Flexio.setup(api_key, { baseUrl, debug })
+      Flexio.setup(api_key, { baseUrl: base_url, debug })
     }
   }
 </script>
