@@ -159,7 +159,7 @@ export default () => {
     clearFormData() {
       var keys = Array.from(arguments)
 
-      // no arguments; clear all headers
+      // no arguments; clear all form data
       if (keys.length == 0)
         return this._setInfo('formdata', {})
 
