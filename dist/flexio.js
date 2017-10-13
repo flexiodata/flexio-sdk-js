@@ -9948,6 +9948,8 @@ var _flexio2 = _interopRequireDefault(_flexio);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS'];
+
 function toBase64(str) {
   try {
     return btoa(unescape(encodeURIComponent(str)));
@@ -9973,6 +9975,7 @@ exports.default = function () {
       name: 'Javascript SDK Connection',
       description: 'This connection was created using the Flex.io Javascript SDK',
       connection_info: {
+        method: 'GET',
         url: '',
         auth: '',
         username: '',
@@ -9990,6 +9993,16 @@ exports.default = function () {
 
     getJSON: function getJSON() {
       return (0, _assign3.default)({}, this.connection);
+    },
+    method: function method() {
+      var args = Array.from(arguments);
+      var method = (0, _get3.default)(args, '[0]');
+
+      if (!(0, _isString3.default)(method)) return this;
+
+      if (!(0, _includes3.default)(method_types, method)) return this;
+
+      return this._setInfo('method', method);
     },
     url: function url() {
       var args = Array.from(arguments);
