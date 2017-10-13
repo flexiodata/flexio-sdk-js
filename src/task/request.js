@@ -19,6 +19,7 @@ var request = function() {
     var method = 'GET'
     var connection = undefined
     var url = undefined
+    var formdata = {}
     var headers = {}
 
     var arg = _.get(args, '[0]')
@@ -35,16 +36,18 @@ var request = function() {
     {
       if (arg.match(http_regex))
       {
-        // parameter is a URL; allow for .request([method], url, headers) syntax
+        // parameter is a URL; allow for .request([method], url, formdata, headers) syntax
         url = arg
-        headers = _.get(args, '[1]', {})
+        formdata = _.get(args, '[1]', {})
+        headers = _.get(args, '[2]', {})
       }
        else
       {
-        // parameter is a connection identifier; allow for .request([method], connection, url, headers) syntax
+        // parameter is a connection identifier; allow for .request([method], connection, url, formdata, headers) syntax
         connection = arg
         url = _.get(args, '[1]')
-        headers = _.get(args, '[2]', {})
+        formdata = _.get(args, '[2]', {})
+        headers = _.get(args, '[3]', {})
       }
     }
 
@@ -53,6 +56,7 @@ var request = function() {
       method,
       connection,
       url,
+      formdata,
       headers
     }
   }
