@@ -2,6 +2,8 @@ import _ from 'lodash'
 import util from './util'
 import Flexio from './flexio'
 
+var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS']
+
 function toBase64(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return '' }
 }
@@ -25,6 +27,7 @@ export default () => {
       name: 'Javascript SDK Connection',
       description: 'This connection was created using the Flex.io Javascript SDK',
       connection_info: {
+        method: 'GET',     // request method
         url: '',           // base url for all calls that will use this connection
         auth: '',          // ``, `basic`, `bearer`, `oauth2`
         username: '',      // `basic auth` only
@@ -45,6 +48,19 @@ export default () => {
 
     getJSON() {
       return _.assign({}, this.connection)
+    },
+
+    method() {
+      var args = Array.from(arguments)
+      var method = _.get(args, '[0]')
+
+      if (!_.isString(method))
+        return this
+
+      if (!_.includes(method_types, method))
+        return this
+
+      return this._setInfo('method', method)
     },
 
     url() {
