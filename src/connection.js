@@ -117,7 +117,7 @@ export default () => {
       var args = Array.from(arguments)
       var headers = _.get(args, '[0]')
 
-      if (!_.isObject(headers))
+      if (!_.isPlainObject(headers))
         return this
 
       var existing_headers = _.get(cfg, 'headers', {})
@@ -199,7 +199,7 @@ export default () => {
         return this
       }
 
-      if (_.isObject(params) && !_.isFunction(params))
+      if (_.isPlainObject(params))
       {
         _.assign(this.connection, _.pick(params, ['name', 'description', 'ename']))
         callback = _.get(args, '[1]')

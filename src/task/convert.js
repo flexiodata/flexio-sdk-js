@@ -62,7 +62,7 @@ var convert = function(input, output) {
        else
       _.set(task, 'params.input.format', input)
   }
-   else if (_.isObject(input))
+   else if (_.isPlainObject(input))
   {
     _.set(task, 'params.input', input)
   }
@@ -78,7 +78,7 @@ var convert = function(input, output) {
        else
       _.set(task, 'params.output.format', output)
   }
-   else if (_.isObject(output))
+   else if (_.isPlainObject(output))
   {
     _.set(task, 'params.output', output)
   }

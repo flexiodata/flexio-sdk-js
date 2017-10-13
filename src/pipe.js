@@ -89,7 +89,7 @@ export default () => {
         return this
       }
 
-      if (_.isObject(params) && !_.isFunction(params))
+      if (_.isPlainObject(params))
       {
         _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']))
         callback = _.get(args, '[1]')
