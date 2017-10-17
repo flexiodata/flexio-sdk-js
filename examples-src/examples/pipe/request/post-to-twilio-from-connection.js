@@ -2,13 +2,13 @@
 const code = `
 Flexio.connection()
   .auth('basic')
-  .url('https://api.twilio.com/2010-04-01/Accounts/AC2d49f28df410d5072bea29896af1168d/Messages.json')
-  .username('AC2d49f28df410d5072bea29896af1168d')
-  .password('13820312b157c75e64239f599147eae2')
-  .formData({ 'From': '+16147686186' })
+  .url('https://api.twilio.com/2010-04-01/Accounts/YOUR_ACCOUNT_ID/Messages.json')
+  .username('YOUR_ACCOUNT_ID')
+  .password('YOUR_PASSWORD')
+  .formData({ 'From': 'YOUR_SENDING_PHONE_NUMBER' })
   .save(function(err, connection) {
     Flexio.pipe()
-      .request('POST', connection.eid, null, { 'To': '+16308868205', 'Body': 'Hi there! This message is sent from Flex.io' })
+      .request('POST', connection.eid, null, { 'To': 'YOUR_RECEIVING_PHONE_NUMBER', 'Body': 'Hi there! This message is sent from Flex.io' })
       .run(function(err, result) {
         console.log(result)
       })
@@ -18,13 +18,13 @@ Flexio.connection()
 const fn = (Flexio, callback) => {
   Flexio.connection()
     .auth('basic')
-    .url('https://api.twilio.com/2010-04-01/Accounts/AC2d49f28df410d5072bea29896af1168d/Messages.json')
-    .username('AC2d49f28df410d5072bea29896af1168d')
-    .password('13820312b157c75e64239f599147eae2')
-    .formData({ 'From': '+16147686186' })
+    .url('https://api.twilio.com/2010-04-01/Accounts/YOUR_ACCOUNT_ID/Messages.json')
+    .username('YOUR_ACCOUNT_ID')
+    .password('YOUR_PASSWORD')
+    .formData({ 'From': 'YOUR_SENDING_PHONE_NUMBER' })
     .save(function(err, connection) {
       Flexio.pipe()
-        .request('POST', connection.eid, null, { 'To': '+16308868205', 'Body': 'Hi there! This message is sent from Flex.io' })
+        .request('POST', connection.eid, null, { 'To': 'YOUR_RECEIVING_PHONE_NUMBER', 'Body': 'Hi there! This message is sent from Flex.io' })
         .run(callback)
     })
 }
