@@ -1,6 +1,7 @@
 import inputFn from './input'
 import outputFn from './output'
 import convertFn from './convert'
+import echoFn from './echo'
 import emailFn from './email'
 import * as executeFns from './execute'
 import filterFn from './filter'
@@ -13,6 +14,7 @@ import sleepFn from './sleep'
 export const input      = inputFn
 export const output     = outputFn
 export const convert    = convertFn
+export const echo       = echoFn
 export const email      = emailFn
 export const execute    = executeFns.execute
 export const filter     = filterFn
