@@ -9,6 +9,7 @@ import listFn from './list'
 import requestFn from './request'
 import selectFn from './select'
 import sleepFn from './sleep'
+import transformFn from './transform'
 
 export const input      = inputFn
 export const output     = outputFn
@@ -23,3 +24,4 @@ export const python     = executeFns.python
 export const request    = requestFn
 export const select     = selectFn
 export const sleep      = sleepFn
+export const transform  = transformFn

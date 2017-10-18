@@ -116,4 +116,22 @@ tasks.push({
   obj: Flexio.task.sleep(5)
 })
 
+tasks.push({
+  title: 'Transform',
+  description: "Flexio.task.transform({ 'operation': 'case', 'case': 'upper' })",
+  obj: Flexio.task.transform({ 'operation': 'case', 'case': 'upper' })
+})
+
+tasks.push({
+  title: 'Transform',
+  description: `Flexio.task.transform({
+  columns: ['vend_no', 'vend_name'],
+  operations: [{ operation: 'case', case: 'upper' }]
+})`,
+  obj: Flexio.task.transform({
+    columns: ['vend_no', 'vend_name'],
+    operations: [{ operation: 'case', case: 'upper' }]
+  })
+})
+
 export default tasks
