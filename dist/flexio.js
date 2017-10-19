@@ -5949,7 +5949,9 @@ function useColors() {
 exports.formatters.o = function(v) {
   this.inspectOpts.colors = this.useColors;
   return util.inspect(v, this.inspectOpts)
-    .replace(/\s*\n\s*/g, ' ');
+    .split('\n').map(function(str) {
+      return str.trim()
+    }).join(' ');
 };
 
 /**
@@ -6144,7 +6146,7 @@ module.exports = require("zlib");
 /* 140 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"axios","version":"0.16.2","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"},"repository":{"type":"git","url":"https://github.com/mzabriskie/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/mzabriskie/axios/issues"},"homepage":"https://github.com/mzabriskie/axios","devDependencies":{"coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-phantomjs-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","phantomjs-prebuilt":"^2.1.7","sinon":"^1.17.4","webpack":"^1.13.1","webpack-dev-server":"^1.14.1","url-search-params":"^0.6.1","typescript":"^2.0.3"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.2.3","is-buffer":"^1.1.5"}}
+module.exports = {"_from":"axios@^0.16.2","_id":"axios@0.16.2","_inBundle":false,"_integrity":"sha1-uk+S8XFn37q0CYN4VFS5rBScPG0=","_location":"/axios","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"axios@^0.16.2","name":"axios","escapedName":"axios","rawSpec":"^0.16.2","saveSpec":null,"fetchSpec":"^0.16.2"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.16.2.tgz","_shasum":"ba4f92f17167dfbab40983785454b9ac149c3c6d","_spec":"axios@^0.16.2","_where":"C:\\src\\flexio-sdk-js","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/mzabriskie/axios/issues"},"bundleDependencies":false,"dependencies":{"follow-redirects":"^1.2.3","is-buffer":"^1.1.5"},"deprecated":false,"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-phantomjs-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","phantomjs-prebuilt":"^2.1.7","sinon":"^1.17.4","typescript":"^2.0.3","url-search-params":"^0.6.1","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"},"homepage":"https://github.com/mzabriskie/axios","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/mzabriskie/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","version":"0.16.2"}
 
 /***/ }),
 /* 141 */
@@ -8672,9 +8674,17 @@ var _taskType = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var isNodeJs = function isNodeJs() {
+  return typeof process !== 'undefined';
+};
+
 var toBase64 = function toBase64(str) {
   try {
-    return btoa(unescape(encodeURIComponent(str)));
+    if (isNodeJs()) {
+      return Buffer(str, 'utf8').toString('base64');
+    } else {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
   } catch (e) {
     return e;
   }
@@ -8682,7 +8692,11 @@ var toBase64 = function toBase64(str) {
 
 var fromBase64 = function fromBase64(str) {
   try {
-    return decodeURIComponent(escape(atob(str)));
+    if (isNodeJs()) {
+      return Buffer.from(str, 'base64').toString('utf8');
+    } else {
+      return decodeURIComponent(escape(atob(str)));
+    }
   } catch (e) {
     return e;
   }
