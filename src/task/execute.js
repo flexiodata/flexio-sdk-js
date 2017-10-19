@@ -3,12 +3,34 @@ import util from '../util'
 
 import { TASK_TYPE_EXECUTE } from '../constants/task-type'
 
+var isNodeJs = function() {
+  return (typeof process !== 'undefined')
+}
+
 var toBase64 = function(str) {
-  try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return e }
+  try {
+    if (isNodeJs()) {
+      return Buffer(str,'utf8').toString('base64')
+    } else {
+      return btoa(unescape(encodeURIComponent(str)))
+    }
+  }
+  catch(e) {
+    return e
+  }
 }
 
 var fromBase64 = function(str) {
-  try { return decodeURIComponent(escape(atob(str))) } catch(e) { return e }
+  try { 
+    if (isNodeJs()) {
+      return Buffer.from(str, 'base64').toString('utf8')
+    } else {
+      return decodeURIComponent(escape(atob(str))) 
+    }
+  }
+  catch(e) { 
+    return e
+  }
 }
 
 var getJsFunctionBody = function(f) {
