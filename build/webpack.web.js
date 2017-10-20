@@ -10,7 +10,7 @@ const config = merge(base, {
   entry: options.paths.resolve('src/main.js'),
 
   output: {
-    filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
+    filename: options.isProduction ? 'flexio-web.min.js' : 'flexio-web.js',
     path: options.paths.output.main,
     library: 'Flexio',
     libraryExport: 'default',
@@ -23,13 +23,7 @@ const config = merge(base, {
       raw: true,
       entryOnly: true
     })
-  ],
-
-  // this is necessary for the Axios lib to work in a Node.js environment
-  target: 'node',
-  node: {
-    process: false
-  }
+  ]
 })
 
 // debug and production
