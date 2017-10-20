@@ -9,10 +9,15 @@ const base = require('./webpack.base.js')
 const config = merge(base, {
   entry: options.paths.resolve('src/main.js'),
 
+  // NOTE: doing the following allows this JS SDK to work in a node environment (Flex.io CLI), but causes
+  // the `fs` module to be include with webpack (which is a known bug documented all over the place), so
+  // let's just leave this out until we need to figure this out for the CLI
+  /*
   target: 'node',
   node: {
     process: false
   },
+  */
 
   output: {
     filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
