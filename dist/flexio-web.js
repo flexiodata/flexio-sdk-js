@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.7.4 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.7.5 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -872,7 +872,7 @@ var cfg = {
 };
 
 exports.default = {
-  version: "1.7.4",
+  version: "1.7.5",
 
   task: task,
 
