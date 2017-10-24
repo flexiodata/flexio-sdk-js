@@ -9,27 +9,13 @@ const base = require('./webpack.base.js')
 const config = merge(base, {
   entry: options.paths.resolve('src/main.js'),
 
-  output: {
-    filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
-    path: options.paths.output.main,
-    library: 'Flexio',
-    libraryExport: 'default',
-    libraryTarget: 'umd'
-  },
-
   plugins: [
     new webpack.BannerPlugin({
       banner: options.banner,
       raw: true,
       entryOnly: true
     })
-  ],
-
-  // this is necessary for the Axios lib to work in a Node.js environment
-  target: 'node',
-  node: {
-    process: false
-  }
+  ]
 })
 
 // debug and production
@@ -60,4 +46,27 @@ if (options.isProduction) {
   ])
 }
 
-module.exports = config
+const clientConfig = merge({
+  output: {
+    filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
+    path: options.paths.output.main,
+    library: 'Flexio',
+    libraryExport: 'default',
+    libraryTarget: 'umd'
+  },
+}, config)
+
+const serverConfig = merge({
+  // this is necessary for the Axios lib to work in a Node.js environment
+  target: 'node',
+
+  output: {
+    filename: options.isProduction ? 'flexio-node.min.js' : 'flexio-node.js',
+    path: options.paths.output.main,
+    library: 'Flexio',
+    libraryExport: 'default',
+    libraryTarget: 'umd'
+  }
+}, config)
+
+module.exports = [clientConfig, serverConfig]
