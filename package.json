@@ -8,10 +8,8 @@
     "dev": "cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot",
     "build:debug": "cross-env build=debug webpack --config build/webpack.dist.js",
     "build:release": "cross-env build=production webpack --config build/webpack.dist.js",
-    "build:web:debug": "cross-env build=debug webpack --config build/webpack.web.js",
-    "build:web:release": "cross-env build=production webpack --config build/webpack.web.js",
     "build:examples": "webpack --config build/webpack.examples.js",
-    "build": "npm run build:debug && npm run build:web:debug && npm run build:release && npm run build:web:release && npm run build:examples",
+    "build": "npm run build:debug && npm run build:release && npm run build:examples",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
