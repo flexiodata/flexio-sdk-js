@@ -12,7 +12,7 @@ export default () => {
       task: []
     },
     processes: [],
-    params: {},
+    _params: {}, // avoid collision with `params` method name
     loading: false,
     saving: false,
     running: false,
@@ -174,21 +174,21 @@ export default () => {
     },
 
     params(params) {
-      this.params = _.assign({}, this.params, params)
+      this._params = _.assign({}, this.getParams(), params)
       return this
     },
 
     clearParams(keys /* array */) {
       if (_.isArray(keys))
-        this.params = _.omit(this.params, keys)
+        this._params = _.omit(this._params, keys)
          else if (_.isNil(keys))
-        this.params = {}
+        this._params = {}
 
       return this
     },
 
     getParams() {
-      return _.assign({}, this.params)
+      return _.assign({}, this._params)
     }
   }) /* end assign */
 
