@@ -12,6 +12,7 @@ export default () => {
       task: []
     },
     processes: [],
+    params: {},
     loading: false,
     saving: false,
     running: false,
@@ -151,7 +152,7 @@ export default () => {
           this.processes.push(obj)
           util.debug.call(this, 'Created Process.')
 
-          Flexio.http().post('/processes/'+process_eid+'/run')
+          Flexio.http().post('/processes/'+process_eid+'/run', this.getParams())
             .then(response => {
               var obj2 = _.get(response, 'data', {})
               util.debug.call(this, 'Process Complete.')
@@ -170,8 +171,26 @@ export default () => {
         })
 
       return this
+    },
+
+    params(params) {
+      this.params = _.assign({}, this.params, params)
+      return this
+    },
+
+    clearParams(keys /* array */) {
+      if (_.isArray(keys))
+        this.params = _.omit(this.params, keys)
+         else if (_.isNil(keys))
+        this.params = {}
+
+      return this
+    },
+
+    getParams() {
+      return _.assign({}, this.params)
     }
-  })
+  }) /* end assign */
 
   /*
     iterate through each of the task functions on the `Flexio` object and
