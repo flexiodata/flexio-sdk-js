@@ -6,7 +6,7 @@
         <pre><code class="db ph3">{{description}}</code></pre>
         <div class="mv3 bb b--black-10"></div>
       </div>
-      <textarea class="w-100 h5 pa1 ba b--black-10 code" style="font-size: 13px" v-model="editable_code" v-if="isEditable"></textarea>
+      <textarea class="w-100 h5 pa1 ba b--black-10 code" style="font-size: 13px" spellcheck="false" v-model="editable_code" v-if="isEditable"></textarea>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed" v-else><code class="javascript"></code></pre>
       <div v-if="showRun">
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" @click="run">Run</button>
