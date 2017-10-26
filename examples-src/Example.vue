@@ -6,7 +6,7 @@
         <pre><code class="db ph3">{{description}}</code></pre>
         <div class="mv3 bb b--black-10"></div>
       </div>
-      <textarea class="w-100 h5 pa1 ba b--black-10 code" style="font-size: 13px" spellcheck="false" v-model="editable_code" v-if="isEditable"></textarea>
+      <textarea class="w-100 h5 pa1 ba b--black-10 code" style="font-size: 13px; outline: none" spellcheck="false" v-model="editable_code" v-if="isEditable"></textarea>
       <pre class="overflow-x-auto" v-highlightjs="code_trimmed" v-else><code class="javascript"></code></pre>
       <div v-if="showRun">
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" @click="run">Run</button>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import util from '../src/util'
   import Flexio from '../src/flexio'
   import VueSimpleSpinner from 'vue-simple-spinner'
@@ -104,7 +105,12 @@
 
           fn.call(this, Flexio, (err, result) => {
             this.is_loading = false
-            this.result = JSON.stringify(result, null, 2)
+
+            if (_.isObject(result))
+              this.result = JSON.stringify(result, null, 2)
+               else
+              this.result = ''+result
+
             util.debug.call(this, this.result)
           }, (result) => {
             this.is_loading = false
