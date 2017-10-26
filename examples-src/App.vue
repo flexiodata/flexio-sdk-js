@@ -79,6 +79,13 @@
           :code="JSON.stringify(example.obj, null, 2)"
           :show-run="false"
         />
+
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">Live Editor</h2>
+
+        <example
+          :title="'Create Your Own...'"
+          :is-editable="true"
+        />
       </div>
     </div>
   </div>
