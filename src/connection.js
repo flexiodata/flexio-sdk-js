@@ -21,7 +21,7 @@ export default () => {
       name: 'Javascript SDK Connection',
       description: 'This connection was created using the Flex.io Javascript SDK',
       connection_info: {
-        method: 'GET',     // request method
+        method: '',        // request method
         url: '',           // base url for all calls that will use this connection
         auth: '',          // ``, `basic`, `bearer`, `oauth2`
         username: '',      // `basic auth` only
@@ -30,7 +30,7 @@ export default () => {
         access_token: '',  // `oauth2` only
         refresh_token: '', // `oauth2` only
         expires: '',       // `oauth2` only
-        formdata: {},      // form data for POST
+        data: {},          // form data for POST
         headers: {}        // custom request headers
       }
     },
@@ -153,35 +153,35 @@ export default () => {
       return this._setInfo('expires', expires)
     },
 
-    formData() {
+    data() {
       var args = Array.from(arguments)
-      var formdata = _.get(args, '[0]')
+      var data = _.get(args, '[0]')
 
-      if (!_.isPlainObject(formdata))
+      if (!_.isPlainObject(data))
         return this
 
-      var existing_formdata = this._getInfo('formdata', {})
-      formdata = _.assign({}, existing_formdata, formdata)
+      var existing_data = this._getInfo('data', {})
+      data = _.assign({}, existing_data, data)
 
-      return this._setInfo('formdata', formdata)
+      return this._setInfo('data', data)
     },
 
-    clearFormData() {
+    clearData() {
       var keys = Array.from(arguments)
 
       // no arguments; clear all form data
       if (keys.length == 0)
-        return this._setInfo('formdata', {})
+        return this._setInfo('data', {})
 
       // handle the case where the user passed an array of items
       // instead of just passing them as arguments
       if (keys.length == 1 && _.isArray(_.get(keys, '[0]')))
         keys = _.get(keys, '[0]', [])
 
-      var existing_formdata = this._getInfo('formdata', {})
-      var formdata = _.omit(existing_formdata, keys)
+      var existing_data = this._getInfo('data', {})
+      var data = _.omit(existing_data, keys)
 
-      return this._setInfo('formdata', formdata)
+      return this._setInfo('data', data)
     },
 
     headers() {
