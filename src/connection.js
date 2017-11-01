@@ -3,6 +3,7 @@ import util from './util'
 import Flexio from './flexio'
 
 var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS']
+var allowed_auth = ['', 'basic', 'bearer', 'oauth2']
 
 function toBase64(str) {
   try { return btoa(unescape(encodeURIComponent(str))) } catch(e) { return '' }
@@ -13,13 +14,6 @@ function fromBase64(str) {
 }
 
 export default () => {
-  var allowed_auth = [
-    '',
-    'basic',
-    'bearer',
-    'oauth2'
-  ]
-
   var retval = _.assign({}, {
     // -- state --
 
@@ -36,8 +30,8 @@ export default () => {
         access_token: '',  // `oauth2` only
         refresh_token: '', // `oauth2` only
         expires: '',       // `oauth2` only
-        headers: {},       // custom request headers
-        formdata: {}       // form data for POST
+        formdata: {},      // form data for POST
+        headers: {}        // custom request headers
       }
     },
     loading: false,

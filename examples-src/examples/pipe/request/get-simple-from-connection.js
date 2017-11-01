@@ -22,7 +22,7 @@ const fn = (Flexio, callback) => {
 }
 
 export default {
-  title: 'Pipe request using a connection',
+  title: 'Request using a connection',
   code,
   fn
 }

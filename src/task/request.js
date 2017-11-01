@@ -6,62 +6,59 @@ import { TASK_TYPE_REQUEST } from '../constants/task-type'
 var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS']
 var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 
+/*
+  syntax: request(url|connection[, config])
+
+  json: {
+    "type": "flexio.request",
+    "params": {
+      "method": "",
+      "connection": "",
+      "url": "",
+      "username": "",
+      "password": "",
+      "params": {},
+      "data": {},
+      "headers": {}
+    }
+  }
+*/
+
 // task definition function
 var request = function() {
   var type = TASK_TYPE_REQUEST
   var args = Array.from(arguments)
-  var params = _.get(args, '[0]', {})
+  var url = _.get(args, '[0]', '')
+  var params = _.get(args, '[1]', {})
+  var connection = undefined
 
   // if we specify all of the options as a param object, we're basically done
   // and we can skip all of the parameterization checks below
-  if (!_.isPlainObject(params))
+  if (_.isPlainObject(_.get(args, '[0]', {})))
   {
-    var method = 'GET'
-    var connection = undefined
-    var url = undefined
-    var formdata = {}
-    var headers = {}
+    params = _.get(args, '[0]', {})
+  }
+   else
+  {
+    if (!_.isString(url))
+      return util.debug.call(this, "The first parameter is required and must be a string representing the `url` or `connection` identifier.")
 
-    var arg = _.get(args, '[0]')
-
-    // `method` is our first parameter
-    if (_.includes(method_types, arg))
+    if (url.match(http_regex))
     {
-      method = _.get(args, '[0]')
-      args = args.slice(1)
-      arg = _.get(args, '[0]')
+      // first parameter is a URL; we're done
     }
-
-    if (_.isString(arg))
+     else
     {
-      if (arg.match(http_regex))
-      {
-        // parameter is a URL; allow for .request([method], url, formdata, headers) syntax
-        url = arg
-        formdata = _.get(args, '[1]', {})
-        headers = _.get(args, '[2]', {})
-      }
-       else
-      {
-        // parameter is a connection identifier; allow for .request([method], connection, url, formdata, headers) syntax
-        connection = arg
-        url = _.get(args, '[1]')
-        formdata = _.get(args, '[2]', {})
-        headers = _.get(args, '[3]', {})
-      }
+      // first parameter is a connection identifier
+      connection = url
+      url = undefined
     }
 
-    // fill out `params` based on the specified arguments
-    params = {
-      method,
-      connection,
-      url,
-      formdata,
-      headers
-    }
+    // default to `GET` method
+    params = _.assign({}, { url, connection }, params)
   }
 
-  // default to `GET` method (this will also ensure that `params` is an object)
+  // default to `GET` method
   params = _.assign({ method: 'GET' }, params)
 
   return {
