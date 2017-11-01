@@ -24,6 +24,7 @@
         <div class="overflow-y-auto" style="max-height: 30rem">
           <pre v-highlightjs="result"><code class="javascript"></code></pre>
         </div>
+        <img :src="img_src" />
       </div>
     </div>
   </div>
@@ -76,6 +77,7 @@
     data() {
       return {
         result: '',
+        img_src: '',
         editable_code,
         is_loading: false
       }
@@ -104,6 +106,11 @@
           }
 
           fn.call(this, Flexio, (err, result) => {
+            /*
+            var url_creator = window.URL || window.webkitURL
+            this.img_src = url_creator.createObjectURL(result)
+            */
+
             this.is_loading = false
 
             if (_.isObject(result))

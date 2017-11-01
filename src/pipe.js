@@ -152,7 +152,14 @@ export default () => {
           this.processes.push(obj)
           util.debug.call(this, 'Created Process.')
 
-          Flexio.http().post('/processes/'+process_eid+'/run', this.getParams())
+          // TODO: we need to figure out how we can allow the
+          //       user to specify their own response options
+          // config to pass to Axios
+          var config = {
+            //responseType: 'blob'
+          }
+
+          Flexio.http().post('/processes/'+process_eid+'/run', this.getParams(), config)
             .then(response => {
               var obj2 = _.get(response, 'data', {})
               util.debug.call(this, 'Process Complete.')
