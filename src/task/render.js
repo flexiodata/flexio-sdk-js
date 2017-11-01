@@ -14,6 +14,9 @@ var render = function(url, format, options) {
     scrollbars: false
   }
 
+  if (_.isNil(format))
+    format = 'png'
+
   if (_.isNil(url))
     return util.debug.call(this, 'The `url` parameter is required')
 

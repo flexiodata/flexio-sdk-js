@@ -7,6 +7,7 @@ import * as executeFns from './execute'
 import filterFn from './filter'
 import limitFn from './limit'
 import listFn from './list'
+import renderFn from './render'
 import requestFn from './request'
 import selectFn from './select'
 import sleepFn from './sleep'
@@ -23,6 +24,7 @@ export const javascript = executeFns.javascript
 export const limit      = limitFn
 export const list       = listFn
 export const python     = executeFns.python
+export const render     = renderFn
 export const request    = requestFn
 export const select     = selectFn
 export const sleep      = sleepFn
