@@ -2,7 +2,7 @@ import _ from 'lodash'
 import util from './util'
 import Flexio from './flexio'
 
-var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS']
+var method_types = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 var allowed_auth = ['', 'basic', 'bearer', 'oauth2']
 
 function toBase64(str) {
