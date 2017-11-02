@@ -8,8 +8,8 @@ Flexio.pipe()
     var data = input.read()
     output.write(data.toUpperCase())
   })
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.text)
   })`
 
 const fn = (Flexio, callback) => {

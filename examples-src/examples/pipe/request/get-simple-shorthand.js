@@ -2,8 +2,8 @@
 const code = `
 Flexio.pipe()
   .request('https://now.httpbin.org')
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.data)
   })`
 
 const fn = (Flexio, callback) => {

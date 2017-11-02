@@ -3,8 +3,8 @@ const code = `
 Flexio.pipe()
   .request('https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv')
   .convert('delimited', 'json')
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.data)
   })`
 
 const fn = (Flexio, callback) => {

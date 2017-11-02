@@ -3,8 +3,8 @@ const code = `
 Flexio.pipe()
   .input('dropbox', 'flexio-dropbox', ['/test_data/names-and-ip-addresses.csv'])
   .convert('delimited', 'json')
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.data)
   })`
 
 const fn = (Flexio, callback) => {

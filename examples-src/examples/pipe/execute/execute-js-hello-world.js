@@ -4,8 +4,8 @@ Flexio.pipe()
   .javascript(function(input, output) {
     output.write('Hello World!')
   })
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.text)
   })`
 
 const fn = (Flexio, callback) => {

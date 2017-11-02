@@ -9,8 +9,8 @@ Flexio.pipe()
       munch: 'rank'
     }
   })
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.data)
   })`
 
 const fn = (Flexio, callback) => {

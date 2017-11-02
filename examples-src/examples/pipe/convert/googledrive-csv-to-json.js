@@ -3,8 +3,8 @@ const code = `
 Flexio.pipe()
   .input('googledrive', 'flexio-google-drive', ['/test_data/data_payment.csv'])
   .convert('delimited', 'json')
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.data)
   })`
 
 const fn = (Flexio, callback) => {

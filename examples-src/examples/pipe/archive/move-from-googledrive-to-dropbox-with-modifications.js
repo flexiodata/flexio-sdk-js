@@ -7,8 +7,8 @@ Flexio.pipe()
   .limit(10)
   .convert('table', 'json')
   .output('dropbox', 'flexio-dropbox', '/test_data')
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.data)
   })`
 
 const fn = (Flexio, callback) => {

@@ -6,8 +6,8 @@ Flexio.pipe()
     last_name: 'Smith'
   })
   .echo('Hello \$\{first_name\} \$\{last_name\}!')
-  .run(function(err, result) {
-    console.log(result)
+  .run(function(err, response) {
+    console.log(response.text)
   })`
 
 const fn = (Flexio, callback) => {

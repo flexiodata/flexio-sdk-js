@@ -10,7 +10,7 @@ Flexio.connection()
     Flexio.pipe()
       .request('POST', connection.eid, null, { 'To': 'YOUR_RECEIVING_PHONE_NUMBER', 'Body': 'Hi there! This message is sent from Flex.io' })
       .run(function(err, result) {
-        console.log(result)
+        console.log(result.data)
       })
   })
 `
