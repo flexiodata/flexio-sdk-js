@@ -156,17 +156,45 @@ export default () => {
           //       user to specify their own response options
           // config to pass to Axios
           var config = {
-            //responseType: 'blob'
+            responseType: 'arraybuffer'
           }
+
 
           Flexio.http().post('/processes/'+process_eid+'/run', this.getParams(), config)
             .then(response => {
+
+              this.running = false
+              util.debug.call(this, 'Process Complete.')
+
+              var arraybuffer = response.data
+              var content_type =  _.get(response, 'headers.content-type', 'text/plain')
+
+              var response_object = {
+                contentType: content_type,
+                buffer: arraybuffer,
+                get blob() {
+                  return new Blob([this.buffer])
+                },
+                get text() {
+                  return util.arrayBufferToString(this.buffer)
+                },
+                get data() {
+                  return JSON.stringify(util.arrayBufferToString(this.buffer))
+                }
+              }
+
+              if (typeof callback == 'function')
+                callback.call(this, null, response_object)
+
+              /*
               var obj2 = _.get(response, 'data', {})
               util.debug.call(this, 'Process Complete.')
               this.running = false
 
               if (typeof callback == 'function')
                 callback.call(this, null, obj2)
+              */
+
             })
         })
         .catch(error => {

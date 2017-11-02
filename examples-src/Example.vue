@@ -18,13 +18,13 @@
           <span class="v-mid fw6 dark-gray ml1">Running...</span>
         </div>
       </div>
-      <div class="mt3" v-else-if="has_result">
+      <div class="mt3" v-else-if="has_text_result || has_image_result">
         <div class="bb b--black-10"></div>
         <h4>Output</h4>
-        <div class="overflow-y-auto" style="max-height: 30rem">
+        <div class="overflow-y-auto" style="max-height: 30rem" v-if="has_text_result">
           <pre v-highlightjs="result"><code class="javascript"></code></pre>
         </div>
-        <img :src="img_src" />
+        <img :src="img_src" v-if="has_image_result" />
       </div>
     </div>
   </div>
@@ -83,7 +83,10 @@
       }
     },
     computed: {
-      has_result() {
+      has_image_result() {
+        return this.img_src.length > 0
+      },
+      has_text_result() {
         return this.result.length > 0
       },
       code_trimmed() {
@@ -106,19 +109,22 @@
           }
 
           fn.call(this, Flexio, (err, result) => {
-            /*
-            var url_creator = window.URL || window.webkitURL
-            this.img_src = url_creator.createObjectURL(result)
-            */
+
+            this.result = ''
+            this.img_src = ''
+            
+            if (result.contentType.substr(0,6) == 'image/') {
+              var url_creator = window.URL || window.webkitURL
+              this.img_src = url_creator.createObjectURL(result.blob)
+            } else if (result.contentType == 'application/json') {
+              this.result = JSON.stringify(result.data, null, 2)
+            } else {
+              this.result = result.text
+            }
 
             this.is_loading = false
-
-            if (_.isObject(result))
-              this.result = JSON.stringify(result, null, 2)
-               else
-              this.result = ''+result
-
-            util.debug.call(this, this.result)
+            //util.debug.call(this, this.result)
+            
           }, (result) => {
             this.is_loading = false
           })
