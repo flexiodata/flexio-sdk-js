@@ -179,7 +179,12 @@ export default () => {
                   return util.arrayBufferToString(this.buffer)
                 },
                 get data() {
-                  return JSON.stringify(util.arrayBufferToString(this.buffer))
+                  try {
+                    return JSON.parse(util.arrayBufferToString(this.buffer))
+                  }
+                  catch (e) {
+                    return null
+                  }
                 }
               }
 
