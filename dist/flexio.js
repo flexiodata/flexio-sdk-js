@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.7.9 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.7.10 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -898,7 +898,7 @@ var cfg = {
 };
 
 exports.default = {
-  version: "1.7.9",
+  version: "1.7.10",
 
   task: task,
 
@@ -10513,7 +10513,7 @@ exports.default = function () {
             contentType: content_type,
             buffer: arraybuffer,
             get blob() {
-              return new Blob([this.buffer]);
+              return new Blob([this.buffer], { "type": content_type });
             },
             get text() {
               return _util2.default.arrayBufferToString(this.buffer);
