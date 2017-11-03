@@ -103,7 +103,7 @@
   var version = Flexio.version
 
   var base_url = 'https://localhost:8080/api/v1'
-  var api_key = 'kgbdzygkqfnyzkfjgxyd'
+  var api_key = 'xtdkxpcjwzkpgkhkcmhx'
   var debug = true
 
   export default {

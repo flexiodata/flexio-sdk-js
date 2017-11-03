@@ -173,7 +173,7 @@ export default () => {
                 contentType: content_type,
                 buffer: arraybuffer,
                 get blob() {
-                  return new Blob([this.buffer])
+                  return new Blob([this.buffer], {"type":content_type})
                 },
                 get text() {
                   return util.arrayBufferToString(this.buffer)
