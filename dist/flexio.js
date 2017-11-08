@@ -10498,46 +10498,52 @@ exports.default = function () {
         process_mode: 'R'
       });
 
-      _flexio2.default.http().post('/processes', create_params).then(function (response) {
-        var obj = (0, _get3.default)(response, 'data', {});
-        var process_eid = (0, _get3.default)(obj, 'eid', '');
-        _this3.processes.push(obj);
-        _util2.default.debug.call(_this3, 'Created Process.');
+      var pipe_eid = (0, _get3.default)(this.pipe, 'eid', '');
 
-        var config = {
-          responseType: 'arraybuffer'
+      var http_config = {
+        method: 'post',
+        url: '/pipes/' + pipe_eid + '/run',
+        responseType: 'arraybuffer',
+        data: '',
+        headers: { 'Content-Type': 'text/plain' }
+      };
+
+      if (run_params.hasOwnProperty('data')) {
+        http_config.data = run_params.data;
+      }
+
+      var http = _flexio2.default.http();
+
+      http(http_config).then(function (response) {
+
+        _this3.running = false;
+        _util2.default.debug.call(_this3, 'Process Complete.');
+
+        var arraybuffer = response.data;
+        var content_type = (0, _get3.default)(response, 'headers.content-type', 'text/plain');
+
+        var response_object = {
+          contentType: content_type,
+          buffer: arraybuffer,
+          get blob() {
+            return new Blob([this.buffer], { "type": content_type });
+          },
+          get text() {
+            return _util2.default.arrayBufferToString(this.buffer);
+          },
+          get data() {
+            try {
+              return JSON.parse(_util2.default.arrayBufferToString(this.buffer));
+            } catch (e) {
+              return null;
+            }
+          }
         };
 
-        _flexio2.default.http().post('/processes/' + process_eid + '/run', run_params, config).then(function (response) {
-
-          _this3.running = false;
-          _util2.default.debug.call(_this3, 'Process Complete.');
-
-          var arraybuffer = response.data;
-          var content_type = (0, _get3.default)(response, 'headers.content-type', 'text/plain');
-
-          var response_object = {
-            contentType: content_type,
-            buffer: arraybuffer,
-            get blob() {
-              return new Blob([this.buffer], { "type": content_type });
-            },
-            get text() {
-              return _util2.default.arrayBufferToString(this.buffer);
-            },
-            get data() {
-              try {
-                return JSON.parse(_util2.default.arrayBufferToString(this.buffer));
-              } catch (e) {
-                return null;
-              }
-            }
-          };
-
-          if (typeof callback == 'function') callback.call(_this3, null, response_object);
-        });
+        if (typeof callback == 'function') callback.call(_this3, null, response_object);
       }).catch(function (error) {
-        _util2.default.debug.call(_this3, 'Process Create Failed.');
+
+        _util2.default.debug.call(_this3, 'Pipe Run Call Failed.');
         _this3.running = false;
 
         if (typeof callback == 'function') callback.call(_this3, error, null);
