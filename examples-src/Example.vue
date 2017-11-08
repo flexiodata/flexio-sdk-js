@@ -123,7 +123,7 @@
               if (content_type.length > 0 && _.has(result, 'buffer'))
                 this.result = result.text
                  else
-                this.result = result
+                this.result = JSON.stringify(result, null, 2)
             }
 
             this.is_loading = false
