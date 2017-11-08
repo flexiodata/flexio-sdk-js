@@ -119,11 +119,12 @@
               this.img_src = url_creator.createObjectURL(result.blob)
             } else if (content_type == 'application/json') {
               this.result = JSON.stringify(result.data, null, 2)
+            } else if (content_type.length > 0 && _.has(result, 'buffer')) {
+              // result is a pipe response, including blob, buffer, etc.
+              this.result = result.text
             } else {
-              if (content_type.length > 0 && _.has(result, 'buffer'))
-                this.result = result.text
-                 else
-                this.result = JSON.stringify(result, null, 2)
+              // result is JSON
+              this.result = JSON.stringify(result, null, 2)
             }
 
             this.is_loading = false
