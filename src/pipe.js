@@ -260,8 +260,7 @@ export default () => {
       var http_config = {
         method: 'post',
         url: '/pipes/'+pipe_eid+'/run',
-        responseType: 'arraybuffer',
-        data: ''
+        responseType: 'arraybuffer'
       }
 
       if (run_params.hasOwnProperty('data')) {
@@ -270,6 +269,18 @@ export default () => {
 
       if (run_params.hasOwnProperty('contentType')) {
         http_config.headers = { 'Content-Type': run_params.contentType }
+      } else {
+        // no content type specified; choose a sensible one unless
+        // axios can detect it
+        if (http_config.hasOwnProperty('data')) {
+          if (_.isPlainObject(http_config.data)) {
+            // axios can figure it out
+          } else if (_.isString(http_config.data)) {
+            http_config.headers = { 'Content-Type': 'text/plain' }
+          } else {
+            http_config.headers = { 'Content-Type': 'application/octet-stream' }
+          }
+        }
       }
 
       console.log(http_config);
