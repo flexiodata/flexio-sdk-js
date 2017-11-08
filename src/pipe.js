@@ -283,7 +283,7 @@ export default () => {
         }
       }
 
-      console.log(http_config);
+      //console.log(http_config);
 
       var http = Flexio.http()
 

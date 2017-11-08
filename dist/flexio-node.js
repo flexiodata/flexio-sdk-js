@@ -1120,37 +1120,6 @@ module.exports = isPlainObject;
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is `null` or `undefined`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
- * @example
- *
- * _.isNil(null);
- * // => true
- *
- * _.isNil(void 0);
- * // => true
- *
- * _.isNil(NaN);
- * // => false
- */
-function isNil(value) {
-  return value == null;
-}
-
-module.exports = isNil;
-
-
-/***/ }),
-/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(8),
@@ -1183,6 +1152,37 @@ function isString(value) {
 }
 
 module.exports = isString;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is `null` or `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is nullish, else `false`.
+ * @example
+ *
+ * _.isNil(null);
+ * // => true
+ *
+ * _.isNil(void 0);
+ * // => true
+ *
+ * _.isNil(NaN);
+ * // => false
+ */
+function isNil(value) {
+  return value == null;
+}
+
+module.exports = isNil;
 
 
 /***/ }),
@@ -8508,7 +8508,7 @@ var _set2 = __webpack_require__(49);
 
 var _set3 = _interopRequireDefault(_set2);
 
-var _isString2 = __webpack_require__(20);
+var _isString2 = __webpack_require__(19);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -8627,7 +8627,7 @@ var _isArray2 = __webpack_require__(0);
 
 var _isArray3 = _interopRequireDefault(_isArray2);
 
-var _isNil2 = __webpack_require__(19);
+var _isNil2 = __webpack_require__(20);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
@@ -8684,7 +8684,7 @@ var _set2 = __webpack_require__(49);
 
 var _set3 = _interopRequireDefault(_set2);
 
-var _isNil2 = __webpack_require__(19);
+var _isNil2 = __webpack_require__(20);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
@@ -8696,7 +8696,7 @@ var _isFunction2 = __webpack_require__(34);
 
 var _isFunction3 = _interopRequireDefault(_isFunction2);
 
-var _isString2 = __webpack_require__(20);
+var _isString2 = __webpack_require__(19);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -8837,7 +8837,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _isNil2 = __webpack_require__(19);
+var _isNil2 = __webpack_require__(20);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
@@ -8948,7 +8948,7 @@ var _assign2 = __webpack_require__(7);
 
 var _assign3 = _interopRequireDefault(_assign2);
 
-var _isNil2 = __webpack_require__(19);
+var _isNil2 = __webpack_require__(20);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
@@ -9002,7 +9002,7 @@ var _assign2 = __webpack_require__(7);
 
 var _assign3 = _interopRequireDefault(_assign2);
 
-var _isString2 = __webpack_require__(20);
+var _isString2 = __webpack_require__(19);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -9459,6 +9459,10 @@ var _isArray2 = __webpack_require__(0);
 
 var _isArray3 = _interopRequireDefault(_isArray2);
 
+var _isString2 = __webpack_require__(19);
+
+var _isString3 = _interopRequireDefault(_isString2);
+
 var _pick2 = __webpack_require__(21);
 
 var _pick3 = _interopRequireDefault(_pick2);
@@ -9467,7 +9471,7 @@ var _isPlainObject2 = __webpack_require__(18);
 
 var _isPlainObject3 = _interopRequireDefault(_isPlainObject2);
 
-var _isNil2 = __webpack_require__(19);
+var _isNil2 = __webpack_require__(20);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
@@ -9637,8 +9641,7 @@ exports.default = function () {
       var http_config = {
         method: 'post',
         url: '/pipes/' + pipe_eid + '/run',
-        responseType: 'arraybuffer',
-        data: ''
+        responseType: 'arraybuffer'
       };
 
       if (run_params.hasOwnProperty('data')) {
@@ -9647,9 +9650,15 @@ exports.default = function () {
 
       if (run_params.hasOwnProperty('contentType')) {
         http_config.headers = { 'Content-Type': run_params.contentType };
+      } else {
+        if (http_config.hasOwnProperty('data')) {
+          if ((0, _isPlainObject3.default)(http_config.data)) {} else if ((0, _isString3.default)(http_config.data)) {
+            http_config.headers = { 'Content-Type': 'text/plain' };
+          } else {
+            http_config.headers = { 'Content-Type': 'application/octet-stream' };
+          }
+        }
       }
-
-      console.log(http_config);
 
       var http = _flexio2.default.http();
 
@@ -10753,7 +10762,7 @@ var _pick2 = __webpack_require__(21);
 
 var _pick3 = _interopRequireDefault(_pick2);
 
-var _isNil2 = __webpack_require__(19);
+var _isNil2 = __webpack_require__(20);
 
 var _isNil3 = _interopRequireDefault(_isNil2);
 
@@ -10777,7 +10786,7 @@ var _includes2 = __webpack_require__(256);
 
 var _includes3 = _interopRequireDefault(_includes2);
 
-var _isString2 = __webpack_require__(20);
+var _isString2 = __webpack_require__(19);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -11107,7 +11116,7 @@ module.exports = isNumber;
 
 var baseIndexOf = __webpack_require__(257),
     isArrayLike = __webpack_require__(11),
-    isString = __webpack_require__(20),
+    isString = __webpack_require__(19),
     toInteger = __webpack_require__(261),
     values = __webpack_require__(264);
 
