@@ -245,17 +245,13 @@ export default () => {
 
       var create_params = _.assign({}, this.pipe)
 
-      // if we have saved this pipe, use the pipe's eid as the parent eid
-      var parent_eid = _.get(this.pipe, 'eid', '')
-      if (parent_eid.length > 0)
-        create_params = { parent_eid }
 
-      // set the process to run mode
-      _.assign(create_params, {
-        process_mode: 'R'
-      })
 
       var pipe_eid = _.get(this.pipe, 'eid', '')
+
+    
+
+
 
       var http_config = {
         method: 'post',
@@ -263,33 +259,91 @@ export default () => {
         responseType: 'arraybuffer'
       }
 
-      if (run_params.hasOwnProperty('data')) {
-        http_config.data = run_params.data
-      }
 
-      if (run_params.hasOwnProperty('contentType')) {
-        http_config.headers = { 'Content-Type': run_params.contentType }
-      } else {
-        // no content type specified; choose a sensible one unless
-        // axios can detect it
-        if (http_config.hasOwnProperty('data')) {
-          if (_.isPlainObject(http_config.data)) {
-            // axios can figure it out
-          } else if (_.isString(http_config.data)) {
-            http_config.headers = { 'Content-Type': 'text/plain' }
-          } else {
-            http_config.headers = { 'Content-Type': 'application/octet-stream' }
+
+      if (pipe_eid.length == 0) {
+        var create_params = _.assign({}, this.pipe)
+        // set the process to run mode
+        _.assign(create_params, {
+          process_mode: 'R'
+        })
+  
+        Flexio.http().post('/processes', create_params)
+          .then(response => {
+            var obj = _.get(response, 'data', {})
+            var process_eid = _.get(obj, 'eid', '')
+            this.processes.push(obj)
+            util.debug.call(this, 'Created Process.')
+  
+            var config = {
+              responseType: 'arraybuffer'
+            }
+  
+            Flexio.http().post('/processes/'+process_eid+'/run', run_params, config)
+              .then(response => {
+  
+                this.running = false
+                util.debug.call(this, 'Process Complete.')
+  
+                var arraybuffer = response.data
+                var content_type =  _.get(response, 'headers.content-type', 'text/plain')
+  
+                var response_object = {
+                  contentType: content_type,
+                  buffer: arraybuffer,
+                  get blob() {
+                    return new Blob([this.buffer], {"type":content_type})
+                  },
+                  get text() {
+                    return util.arrayBufferToString(this.buffer)
+                  },
+                  get data() {
+                    try {
+                      return JSON.parse(util.arrayBufferToString(this.buffer))
+                    }
+                    catch (e) {
+                      return null
+                    }
+                  }
+                }
+  
+                if (typeof callback == 'function')
+                  callback.call(this, null, response_object)
+              })
+          })
+          .catch(error => {
+            util.debug.call(this, 'Process Create Failed.')
+            this.running = false
+  
+            if (typeof callback == 'function')
+              callback.call(this, error, null)
+          })
+      }
+       else {
+        // execute existant pipe
+        
+        if (run_params.hasOwnProperty('data')) {
+          http_config.data = run_params.data
+        }
+
+        if (run_params.hasOwnProperty('contentType')) {
+          http_config.headers = { 'Content-Type': run_params.contentType }
+        } else {
+          // no content type specified; choose a sensible one unless
+          // axios can detect it
+          if (http_config.hasOwnProperty('data')) {
+            if (_.isPlainObject(http_config.data)) {
+              // axios can figure it out
+            } else if (_.isString(http_config.data)) {
+              http_config.headers = { 'Content-Type': 'text/plain' }
+            } else {
+              http_config.headers = { 'Content-Type': 'application/octet-stream' }
+            }
           }
         }
-      }
 
-      //console.log(http_config);
-
-      var http = Flexio.http()
-
-      http(http_config)
-        .then(response => {
-
+        var http = Flexio.http()
+        http(http_config).then(response => {
           this.running = false
           util.debug.call(this, 'Process Complete.')
 
@@ -326,6 +380,8 @@ export default () => {
           if (typeof callback == 'function')
             callback.call(this, error, null)
         })
+      }
+
 
       return this
     },
