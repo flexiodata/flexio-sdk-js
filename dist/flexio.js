@@ -10470,7 +10470,9 @@ exports.default = function () {
           _arguments3 = arguments;
 
       var args = Array.from(arguments);
+      var params = (0, _get3.default)(args, '[0]');
       var callback = (0, _get3.default)(args, '[0]');
+      var run_params = (0, _assign3.default)({}, this.getParams());
 
       if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -10479,19 +10481,24 @@ exports.default = function () {
         return this;
       }
 
+      if ((0, _isPlainObject3.default)(params)) {
+        run_params = (0, _assign3.default)({}, run_params, params);
+        callback = (0, _get3.default)(args, '[1]');
+      }
+
       this.running = true;
       _util2.default.debug.call(this, 'Running Pipe `' + (0, _get3.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
-      var run_params = (0, _assign3.default)({}, this.pipe);
+      var create_params = (0, _assign3.default)({}, this.pipe);
 
       var parent_eid = (0, _get3.default)(this.pipe, 'eid', '');
-      if (parent_eid.length > 0) run_params = { parent_eid: parent_eid };
+      if (parent_eid.length > 0) create_params = { parent_eid: parent_eid };
 
-      (0, _assign3.default)(run_params, {
+      (0, _assign3.default)(create_params, {
         process_mode: 'R'
       });
 
-      _flexio2.default.http().post('/processes', run_params).then(function (response) {
+      _flexio2.default.http().post('/processes', create_params).then(function (response) {
         var obj = (0, _get3.default)(response, 'data', {});
         var process_eid = (0, _get3.default)(obj, 'eid', '');
         _this3.processes.push(obj);
@@ -10501,7 +10508,7 @@ exports.default = function () {
           responseType: 'arraybuffer'
         };
 
-        _flexio2.default.http().post('/processes/' + process_eid + '/run', _this3.getParams(), config).then(function (response) {
+        _flexio2.default.http().post('/processes/' + process_eid + '/run', run_params, config).then(function (response) {
 
           _this3.running = false;
           _util2.default.debug.call(_this3, 'Process Complete.');
