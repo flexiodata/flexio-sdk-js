@@ -261,15 +261,18 @@ export default () => {
         method: 'post',
         url: '/pipes/'+pipe_eid+'/run',
         responseType: 'arraybuffer',
-        data: '',
-        headers: { 'Content-Type': 'text/plain' }          
+        data: ''
       }
 
       if (run_params.hasOwnProperty('data')) {
         http_config.data = run_params.data
       }
 
-      //console.log(http_config);
+      if (run_params.hasOwnProperty('contentType')) {
+        http_config.headers = { 'Content-Type': run_params.contentType }
+      }
+
+      console.log(http_config);
 
       var http = Flexio.http()
 
