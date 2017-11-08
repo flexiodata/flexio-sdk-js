@@ -120,6 +120,7 @@ export default () => {
       return this
     },
 
+    /*
     run() {
       var args = Array.from(arguments)
       var params = _.get(args, '[0]')
@@ -197,15 +198,15 @@ export default () => {
 
               if (typeof callback == 'function')
                 callback.call(this, null, response_object)
-
-              /*
-              var obj2 = _.get(response, 'data', {})
-              util.debug.call(this, 'Process Complete.')
-              this.running = false
-
-              if (typeof callback == 'function')
-                callback.call(this, null, obj2)
-              */
+              //
+              //
+              //var obj2 = _.get(response, 'data', {})
+              //util.debug.call(this, 'Process Complete.')
+              //this.running = false
+              //
+              //if (typeof callback == 'function')
+              //  callback.call(this, null, obj2)
+              
             })
         })
         .catch(error => {
@@ -218,6 +219,103 @@ export default () => {
 
       return this
     },
+*/
+
+
+    run() {
+      var args = Array.from(arguments)
+      var params = _.get(args, '[0]')
+      var callback = _.get(args, '[0]')
+      var run_params = _.assign({}, this.getParams())
+
+      if (this.loading === true || this.saving === true || this.running === true)
+      {
+        setTimeout(() => { this.run.apply(this, arguments) }, 50)
+        return this
+      }
+
+      if (_.isPlainObject(params))
+      {
+        run_params = _.assign({}, run_params, params)
+        callback = _.get(args, '[1]')
+      }
+
+      this.running = true
+      util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+
+      var create_params = _.assign({}, this.pipe)
+
+      // if we have saved this pipe, use the pipe's eid as the parent eid
+      var parent_eid = _.get(this.pipe, 'eid', '')
+      if (parent_eid.length > 0)
+        create_params = { parent_eid }
+
+      // set the process to run mode
+      _.assign(create_params, {
+        process_mode: 'R'
+      })
+
+      var pipe_eid = _.get(this.pipe, 'eid', '')
+
+      var http_config = {
+        method: 'post',
+        url: '/pipes/'+pipe_eid+'/run',
+        responseType: 'arraybuffer',
+        data: '',
+        headers: { 'Content-Type': 'text/plain' }          
+      }
+
+      if (run_params.hasOwnProperty('data')) {
+        http_config.data = run_params.data
+      }
+
+      //console.log(http_config);
+
+      var http = Flexio.http()
+
+      http(http_config)
+        .then(response => {
+
+          this.running = false
+          util.debug.call(this, 'Process Complete.')
+
+          var arraybuffer = response.data
+          var content_type =  _.get(response, 'headers.content-type', 'text/plain')
+
+          var response_object = {
+            contentType: content_type,
+            buffer: arraybuffer,
+            get blob() {
+              return new Blob([this.buffer], {"type":content_type})
+            },
+            get text() {
+              return util.arrayBufferToString(this.buffer)
+            },
+            get data() {
+              try {
+                return JSON.parse(util.arrayBufferToString(this.buffer))
+              }
+              catch (e) {
+                return null
+              }
+            }
+          }
+          
+          if (typeof callback == 'function')
+            callback.call(this, null, response_object)
+        })
+        .catch(error => {
+
+          util.debug.call(this, 'Pipe Run Call Failed.')
+          this.running = false
+
+          if (typeof callback == 'function')
+            callback.call(this, error, null)
+        })
+
+      return this
+    },
+
 
     params(params) {
       this._params = _.assign({}, this.getParams(), params)
