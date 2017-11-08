@@ -9638,13 +9638,18 @@ exports.default = function () {
         method: 'post',
         url: '/pipes/' + pipe_eid + '/run',
         responseType: 'arraybuffer',
-        data: '',
-        headers: { 'Content-Type': 'text/plain' }
+        data: ''
       };
 
       if (run_params.hasOwnProperty('data')) {
         http_config.data = run_params.data;
       }
+
+      if (run_params.hasOwnProperty('contentType')) {
+        http_config.headers = { 'Content-Type': run_params.contentType };
+      }
+
+      console.log(http_config);
 
       var http = _flexio2.default.http();
 
