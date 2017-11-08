@@ -109,22 +109,26 @@
           }
 
           fn.call(this, Flexio, (err, result) => {
-
             this.result = ''
             this.img_src = ''
-            
-            if (result.contentType.substr(0,6) == 'image/') {
+
+            var content_type = _.get(result, 'contentType', '')
+
+            if (content_type.substr(0,6) == 'image/') {
               var url_creator = window.URL || window.webkitURL
               this.img_src = url_creator.createObjectURL(result.blob)
-            } else if (result.contentType == 'application/json') {
+            } else if (content_type == 'application/json') {
               this.result = JSON.stringify(result.data, null, 2)
             } else {
-              this.result = result.text
+              if (content_type.length > 0 && _.has(result, 'buffer'))
+                this.result = result.text
+                 else
+                this.result = result
             }
 
             this.is_loading = false
             //util.debug.call(this, this.result)
-            
+
           }, (result) => {
             this.is_loading = false
           })
