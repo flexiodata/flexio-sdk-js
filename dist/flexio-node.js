@@ -9611,6 +9611,7 @@ exports.default = function () {
       var params = (0, _get3.default)(args, '[0]');
       var callback = (0, _get3.default)(args, '[0]');
       var run_params = (0, _assign3.default)({}, this.getParams());
+      var pipe_eid = (0, _get3.default)(this.pipe, 'eid', '');
 
       if (this.loading === true || this.saving === true || this.running === true) {
         setTimeout(function () {
@@ -9627,17 +9628,8 @@ exports.default = function () {
       this.running = true;
       _util2.default.debug.call(this, 'Running Pipe `' + (0, _get3.default)(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
-      var create_params = (0, _assign3.default)({}, this.pipe);
-
-      var pipe_eid = (0, _get3.default)(this.pipe, 'eid', '');
-
-      var http_config = {
-        method: 'post',
-        url: '/pipes/' + pipe_eid + '/run',
-        responseType: 'arraybuffer'
-      };
-
       if (pipe_eid.length == 0) {
+
         var create_params = (0, _assign3.default)({}, this.pipe);
 
         (0, _assign3.default)(create_params, {
@@ -9689,6 +9681,12 @@ exports.default = function () {
           if (typeof callback == 'function') callback.call(_this3, error, null);
         });
       } else {
+
+        var http_config = {
+          method: 'post',
+          url: '/pipes/' + pipe_eid + '/run',
+          responseType: 'arraybuffer'
+        };
 
         if (run_params.hasOwnProperty('data')) {
           http_config.data = run_params.data;

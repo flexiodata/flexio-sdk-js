@@ -227,7 +227,8 @@ export default () => {
       var params = _.get(args, '[0]')
       var callback = _.get(args, '[0]')
       var run_params = _.assign({}, this.getParams())
-
+      var pipe_eid = _.get(this.pipe, 'eid', '')
+      
       if (this.loading === true || this.saving === true || this.running === true)
       {
         setTimeout(() => { this.run.apply(this, arguments) }, 50)
@@ -243,25 +244,9 @@ export default () => {
       this.running = true
       util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
-      var create_params = _.assign({}, this.pipe)
-
-
-
-      var pipe_eid = _.get(this.pipe, 'eid', '')
-
-    
-
-
-
-      var http_config = {
-        method: 'post',
-        url: '/pipes/'+pipe_eid+'/run',
-        responseType: 'arraybuffer'
-      }
-
-
-
       if (pipe_eid.length == 0) {
+        // execute ephemeral pipe (as process)
+
         var create_params = _.assign({}, this.pipe)
         // set the process to run mode
         _.assign(create_params, {
@@ -321,7 +306,13 @@ export default () => {
       }
        else {
         // execute existant pipe
-        
+
+        var http_config = {
+          method: 'post',
+          url: '/pipes/'+pipe_eid+'/run',
+          responseType: 'arraybuffer'
+        }
+      
         if (run_params.hasOwnProperty('data')) {
           http_config.data = run_params.data
         }
