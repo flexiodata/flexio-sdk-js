@@ -122,7 +122,9 @@ export default () => {
 
     run() {
       var args = Array.from(arguments)
+      var params = _.get(args, '[0]')
       var callback = _.get(args, '[0]')
+      var run_params = _.assign({}, this.getParams())
 
       if (this.loading === true || this.saving === true || this.running === true)
       {
@@ -130,22 +132,28 @@ export default () => {
         return this
       }
 
+      if (_.isPlainObject(params))
+      {
+        run_params = _.assign({}, run_params, params)
+        callback = _.get(args, '[1]')
+      }
+
       this.running = true
       util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
-      var run_params = _.assign({}, this.pipe)
+      var create_params = _.assign({}, this.pipe)
 
       // if we have saved this pipe, use the pipe's eid as the parent eid
       var parent_eid = _.get(this.pipe, 'eid', '')
       if (parent_eid.length > 0)
-        run_params = { parent_eid }
+        create_params = { parent_eid }
 
       // set the process to run mode
-      _.assign(run_params, {
+      _.assign(create_params, {
         process_mode: 'R'
       })
 
-      Flexio.http().post('/processes', run_params)
+      Flexio.http().post('/processes', create_params)
         .then(response => {
           var obj = _.get(response, 'data', {})
           var process_eid = _.get(obj, 'eid', '')
@@ -159,8 +167,7 @@ export default () => {
             responseType: 'arraybuffer'
           }
 
-
-          Flexio.http().post('/processes/'+process_eid+'/run', this.getParams(), config)
+          Flexio.http().post('/processes/'+process_eid+'/run', run_params, config)
             .then(response => {
 
               this.running = false
@@ -199,7 +206,6 @@ export default () => {
               if (typeof callback == 'function')
                 callback.call(this, null, obj2)
               */
-
             })
         })
         .catch(error => {
