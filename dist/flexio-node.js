@@ -9629,13 +9629,6 @@ exports.default = function () {
 
       var create_params = (0, _assign3.default)({}, this.pipe);
 
-      var parent_eid = (0, _get3.default)(this.pipe, 'eid', '');
-      if (parent_eid.length > 0) create_params = { parent_eid: parent_eid };
-
-      (0, _assign3.default)(create_params, {
-        process_mode: 'R'
-      });
-
       var pipe_eid = (0, _get3.default)(this.pipe, 'eid', '');
 
       var http_config = {
@@ -9644,58 +9637,110 @@ exports.default = function () {
         responseType: 'arraybuffer'
       };
 
-      if (run_params.hasOwnProperty('data')) {
-        http_config.data = run_params.data;
-      }
+      if (pipe_eid.length == 0) {
+        var create_params = (0, _assign3.default)({}, this.pipe);
 
-      if (run_params.hasOwnProperty('contentType')) {
-        http_config.headers = { 'Content-Type': run_params.contentType };
+        (0, _assign3.default)(create_params, {
+          process_mode: 'R'
+        });
+
+        _flexio2.default.http().post('/processes', create_params).then(function (response) {
+          var obj = (0, _get3.default)(response, 'data', {});
+          var process_eid = (0, _get3.default)(obj, 'eid', '');
+          _this3.processes.push(obj);
+          _util2.default.debug.call(_this3, 'Created Process.');
+
+          var config = {
+            responseType: 'arraybuffer'
+          };
+
+          _flexio2.default.http().post('/processes/' + process_eid + '/run', run_params, config).then(function (response) {
+
+            _this3.running = false;
+            _util2.default.debug.call(_this3, 'Process Complete.');
+
+            var arraybuffer = response.data;
+            var content_type = (0, _get3.default)(response, 'headers.content-type', 'text/plain');
+
+            var response_object = {
+              contentType: content_type,
+              buffer: arraybuffer,
+              get blob() {
+                return new Blob([this.buffer], { "type": content_type });
+              },
+              get text() {
+                return _util2.default.arrayBufferToString(this.buffer);
+              },
+              get data() {
+                try {
+                  return JSON.parse(_util2.default.arrayBufferToString(this.buffer));
+                } catch (e) {
+                  return null;
+                }
+              }
+            };
+
+            if (typeof callback == 'function') callback.call(_this3, null, response_object);
+          });
+        }).catch(function (error) {
+          _util2.default.debug.call(_this3, 'Process Create Failed.');
+          _this3.running = false;
+
+          if (typeof callback == 'function') callback.call(_this3, error, null);
+        });
       } else {
-        if (http_config.hasOwnProperty('data')) {
-          if ((0, _isPlainObject3.default)(http_config.data)) {} else if ((0, _isString3.default)(http_config.data)) {
-            http_config.headers = { 'Content-Type': 'text/plain' };
-          } else {
-            http_config.headers = { 'Content-Type': 'application/octet-stream' };
-          }
+
+        if (run_params.hasOwnProperty('data')) {
+          http_config.data = run_params.data;
         }
-      }
 
-      var http = _flexio2.default.http();
-
-      http(http_config).then(function (response) {
-
-        _this3.running = false;
-        _util2.default.debug.call(_this3, 'Process Complete.');
-
-        var arraybuffer = response.data;
-        var content_type = (0, _get3.default)(response, 'headers.content-type', 'text/plain');
-
-        var response_object = {
-          contentType: content_type,
-          buffer: arraybuffer,
-          get blob() {
-            return new Blob([this.buffer], { "type": content_type });
-          },
-          get text() {
-            return _util2.default.arrayBufferToString(this.buffer);
-          },
-          get data() {
-            try {
-              return JSON.parse(_util2.default.arrayBufferToString(this.buffer));
-            } catch (e) {
-              return null;
+        if (run_params.hasOwnProperty('contentType')) {
+          http_config.headers = { 'Content-Type': run_params.contentType };
+        } else {
+          if (http_config.hasOwnProperty('data')) {
+            if ((0, _isPlainObject3.default)(http_config.data)) {} else if ((0, _isString3.default)(http_config.data)) {
+              http_config.headers = { 'Content-Type': 'text/plain' };
+            } else {
+              http_config.headers = { 'Content-Type': 'application/octet-stream' };
             }
           }
-        };
+        }
 
-        if (typeof callback == 'function') callback.call(_this3, null, response_object);
-      }).catch(function (error) {
+        var http = _flexio2.default.http();
+        http(http_config).then(function (response) {
+          _this3.running = false;
+          _util2.default.debug.call(_this3, 'Process Complete.');
 
-        _util2.default.debug.call(_this3, 'Pipe Run Call Failed.');
-        _this3.running = false;
+          var arraybuffer = response.data;
+          var content_type = (0, _get3.default)(response, 'headers.content-type', 'text/plain');
 
-        if (typeof callback == 'function') callback.call(_this3, error, null);
-      });
+          var response_object = {
+            contentType: content_type,
+            buffer: arraybuffer,
+            get blob() {
+              return new Blob([this.buffer], { "type": content_type });
+            },
+            get text() {
+              return _util2.default.arrayBufferToString(this.buffer);
+            },
+            get data() {
+              try {
+                return JSON.parse(_util2.default.arrayBufferToString(this.buffer));
+              } catch (e) {
+                return null;
+              }
+            }
+          };
+
+          if (typeof callback == 'function') callback.call(_this3, null, response_object);
+        }).catch(function (error) {
+
+          _util2.default.debug.call(_this3, 'Pipe Run Call Failed.');
+          _this3.running = false;
+
+          if (typeof callback == 'function') callback.call(_this3, error, null);
+        });
+      }
 
       return this;
     },
