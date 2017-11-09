@@ -43,7 +43,7 @@ export default {
   connection()  { return connection()  },
   connections,
   pipe()        { return pipe()        },
-  pipes()       { return pipes()       },
+  pipes,
 
   _createHttp() {
     // axios instance options with base url and auth token

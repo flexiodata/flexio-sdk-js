@@ -1,8 +1,12 @@
 import _ from 'lodash'
 import util from './util'
 import Flexio from './flexio'
+import connection from './connection'
+
 
 export default {
+
+  create() { return connection() },
 
   list(callback) {
     var args = Array.from(arguments)
