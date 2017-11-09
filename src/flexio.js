@@ -41,7 +41,7 @@ export default {
   },
 
   connection()  { return connection()  },
-  connections() { return connections() },
+  connections,
   pipe()        { return pipe()        },
   pipes()       { return pipes()       },
 

@@ -1,11 +1,11 @@
 
 const code = `
-Flexio.connections().load(function(err, connections) {
+Flexio.connections.list(function(err, connections) {
   console.log(connections)
 })`
 
 const fn = (Flexio, callback) => {
-  Flexio.connections().load(callback)
+  Flexio.connections.list(callback)
 }
 
 export default {
