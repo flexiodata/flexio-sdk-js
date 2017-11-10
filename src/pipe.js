@@ -3,7 +3,12 @@ import util from './util'
 import Flexio from './flexio'
 
 export default () => {
-  var retval = _.assign({}, {
+
+  if (!(this instanceof Flexio.pipe)) {
+    return new Flexio.pipe
+
+
+  var retval = _.assign(this, {
     // -- state --
 
     pipe: {

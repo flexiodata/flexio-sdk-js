@@ -14,7 +14,12 @@ function fromBase64(str) {
 }
 
 export default () => {
-  var retval = _.assign({}, {
+
+  if (!(this instanceof Flexio.connection)) {
+    return new Flexio.connection
+
+
+  var retval = _.assign(this, {
     // -- state --
 
     connection: {
