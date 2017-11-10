@@ -2,10 +2,10 @@ import _ from 'lodash'
 import util from './util'
 import Flexio from './flexio'
 
-export default () => {
+function pipe() {
 
   if (!(this instanceof Flexio.pipe)) {
-    return new Flexio.pipe
+    return new Flexio.pipe()
   }
 
   var retval = _.assign(this, {
@@ -427,3 +427,6 @@ export default () => {
 
   return retval
 }
+
+
+export default pipe

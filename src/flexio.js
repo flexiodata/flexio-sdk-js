@@ -42,7 +42,7 @@ export default {
 
   connection()  { return connection()  },
   connections,
-  pipe()        { return pipe()        },
+  pipe,
   pipes,
 
   _createHttp() {

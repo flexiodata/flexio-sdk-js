@@ -13,7 +13,7 @@ function fromBase64(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return '' }
 }
 
-export default () => {
+function connection() {
 
   if (!(this instanceof Flexio.connection)) {
     return new Flexio.connection
@@ -311,3 +311,6 @@ export default () => {
 
   return retval
 }
+
+
+export default connection
