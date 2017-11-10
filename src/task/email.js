@@ -4,37 +4,33 @@ import util from '../util'
 import { TASK_TYPE_EMAIL_SEND } from '../constants/task-type'
 
 // task definition function
-var email = function(to, subject, body_text, body_html, data) {
+var email = function(params) {
   var type = TASK_TYPE_EMAIL_SEND
 
-  if (_.isNil(to))
+  if (!_.isPlainObject(params))
+    return util.debug.call(this, 'The first function parameter must be an object')
+
+  if (!_.has(params, 'to'))
     return util.debug.call(this, 'The `to` parameter is required')
 
-  if (_.isNil(subject))
-    return util.debug.call(this, 'The `subject` parameter is required')
-
-  if (_.isNil(body_text))
+  if (!_.has(params, 'body_text'))
     return util.debug.call(this, 'The `body_text` parameter is required')
 
-  // `to` parameter must be an array
-  if (!_.isArray(to))
-    to = [to]
+  // cast `to` parameter to array, if it already isn't one
+  if (!_.isArray(params.to))
+    params.to = [params.to]
 
-  if (_.isNil(body_html))
-    body_html = body_text
+  if (!_.has(params, 'body_html'))
+    params.body_html = params.body_text
 
+  var data = _.get(params, 'data', '')
   if (data != 'body' && data != 'attachment')
-    data = 'none'
+    params.data = 'none'
 
+    console.log(params)
   return {
     type,
-    params: {
-      to,
-      subject,
-      body_text,
-      body_html,
-      data
-    }
+    params
   }
 }
 
