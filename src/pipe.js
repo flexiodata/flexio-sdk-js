@@ -6,7 +6,7 @@ export default () => {
 
   if (!(this instanceof Flexio.pipe)) {
     return new Flexio.pipe
-
+  }
 
   var retval = _.assign(this, {
     // -- state --

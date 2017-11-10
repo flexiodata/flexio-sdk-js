@@ -17,7 +17,7 @@ export default () => {
 
   if (!(this instanceof Flexio.connection)) {
     return new Flexio.connection
-
+  }
 
   var retval = _.assign(this, {
     // -- state --
