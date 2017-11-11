@@ -57,15 +57,15 @@ tasks.push({
 })
 
 var description = `
-Flexio.task.javascript(function(input, output) {
-  output.write('Hello World!')
+Flexio.task.javascript(function(context) {
+  context.output.write('Hello World!')
 })`
 
 tasks.push({
   title: 'Execute Javascript (shorthand)',
   description,
-  obj: Flexio.task.javascript(function(input, output) {
-    output.write('Hello World!')
+  obj: Flexio.task.javascript(function(context) {
+    context.output.write('Hello World!')
   })
 })
 

@@ -37,8 +37,8 @@
   import VueSimpleSpinner from 'vue-simple-spinner'
 
   var editable_code = `Flexio.pipe()
-    .javascript(function(input, output) {
-      output.write('Hello World!')
+    .javascript(function(context) {
+      context.output.write('Hello World!')
     })
     .run(callback)`
 

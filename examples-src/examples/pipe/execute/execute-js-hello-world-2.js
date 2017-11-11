@@ -1,25 +1,25 @@
 
 const code = `
-Flexio.pipe()
-  .javascript((input,output) => {
-    output.write("Hello, world.")
-  })
-  .javascript((input,output) => {
-    var data = input.read()
-    output.write(data.toUpperCase())
-  })
+  Flexio.pipe()
+    .javascript((context) => {
+      context.output.write("Hello, world.")
+    })
+    .javascript((context) => {
+      var data = context.input.read()
+      context.output.write(data.toUpperCase())
+    })
   .run(function(err, response) {
     console.log(response.text)
   })`
 
 const fn = (Flexio, callback) => {
   Flexio.pipe()
-    .javascript((input,output) => {
-      output.write("Hello, world.")
+    .javascript((context) => {
+      context.output.write("Hello, world.")
     })
-    .javascript((input,output) => {
-      var data = input.read()
-      output.write(data.toUpperCase())
+    .javascript((context) => {
+      var data = context.input.read()
+      context.output.write(data.toUpperCase())
     })
     .run(callback)
 }

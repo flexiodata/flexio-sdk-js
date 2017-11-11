@@ -118,12 +118,12 @@
           .select('date', 'year', 'block', 'description', 'location description', 'latitude', 'longitude')
           .filter("year = '"+year+"'")
           .convert('table', 'json')
-          .javascript(function(input, output) {
+          .javascript(function(context) {
             // use Lodash on the Flex.io server :-)
             var _ = require('lodash')
 
             // read the input (which was output from the previous task)
-            var str = input.read()
+            var str = context.input.read()
 
             // convert the string into an array of JSON objects
             var arr = JSON.parse(str)
@@ -145,7 +145,7 @@
             })
 
             // output the result to the next task
-            output.write(JSON.stringify(arr))
+            context.output.write(JSON.stringify(arr))
           })
           .run(function(err, result) {
             if (err)

@@ -1,8 +1,8 @@
 
 const code = `
 Flexio.pipe()
-  .javascript(function(input, output) {
-    output.write('Hello World!')
+  .javascript(function(context) {
+    context.output.write('Hello World!')
   })
   .run(function(err, response) {
     console.log(response.text)
@@ -10,8 +10,8 @@ Flexio.pipe()
 
 const fn = (Flexio, callback) => {
   Flexio.pipe()
-    .javascript(function(input, output) {
-      output.write('Hello World!')
+    .javascript(function(context) {
+      context.output.write('Hello World!')
     })
     .run(callback)
 }

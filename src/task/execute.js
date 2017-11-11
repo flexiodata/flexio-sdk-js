@@ -21,14 +21,14 @@ var toBase64 = function(str) {
 }
 
 var fromBase64 = function(str) {
-  try { 
+  try {
     if (isNodeJs()) {
       return Buffer.from(str, 'base64').toString('utf8')
     } else {
-      return decodeURIComponent(escape(atob(str))) 
+      return decodeURIComponent(escape(atob(str)))
     }
   }
-  catch(e) { 
+  catch(e) {
     return e
   }
 }
@@ -61,7 +61,7 @@ var getJsExport = function(f) {
     {
       // function has no parameters, so just take body
       body = getJsFunctionBody(f)
-      return 'exports.flexio_handler = function(input, output) ' + body
+      return 'exports.flexio_handler = function(context) ' + body
     }
      else
     {
