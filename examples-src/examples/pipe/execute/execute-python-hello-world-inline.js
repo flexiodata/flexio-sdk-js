@@ -1,10 +1,10 @@
 
 const code = `
 var inline_python_code = "\\
-def flexio_handler(input, output):\\n\\
-    writer = output.create(name='Hello')\\n\\
-    if 'message' in input.env:\\n\\
-        writer.write(input.env['message'])\\n\\
+def flexio_handler(context):\\n\\
+    writer = context.output.create(name='Hello')\\n\\
+    if 'message' in context.input.env:\\n\\
+        writer.write(context.input.env['message'])\\n\\
     else:\\n\\
         writer.write('Hello, World!')"
 
@@ -23,10 +23,10 @@ Flexio.pipe()
 
 const fn = (Flexio, callback) => {
   var inline_python_code = "\
-def flexio_handler(input, output):\n\
-    writer = output.create(name='Hello')\n\
-    if 'message' in input.env:\n\
-        writer.write(input.env['message'])\n\
+def flexio_handler(context):\n\
+    writer = context.output.create(name='Hello')\n\
+    if 'message' in context.input.env:\n\
+        writer.write(context.input.env['message'])\n\
     else:\n\
         writer.write('Hello, World!')"
 
