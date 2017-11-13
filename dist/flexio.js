@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.7.12 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.7.13 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -902,7 +902,7 @@ var cfg = {
 };
 
 exports.default = {
-  version: "1.7.12",
+  version: "1.7.13",
 
   task: task,
 
@@ -5528,12 +5528,22 @@ function pipe() {
           _this3.processes.push(obj);
           _util2.default.debug.call(_this3, 'Created Process.');
 
-          var config = {
+          var http_config = {
+            method: 'post',
+            url: '/processes/' + process_eid + '/run',
             responseType: 'arraybuffer'
           };
 
-          _flexio2.default.http().post('/processes/' + process_eid + '/run', run_params, config).then(function (response) {
+          if (run_params.hasOwnProperty('data')) {
+            http_config.data = run_params.data;
+          }
 
+          if (run_params.hasOwnProperty('query')) {
+            http_config.params = run_params.query;
+          }
+
+          var http = _flexio2.default.http();
+          http(http_config).then(function (response) {
             _this3.running = false;
             _util2.default.debug.call(_this3, 'Process Complete.');
 
@@ -5576,6 +5586,10 @@ function pipe() {
 
         if (run_params.hasOwnProperty('data')) {
           http_config.data = run_params.data;
+        }
+
+        if (run_params.hasOwnProperty('query')) {
+          http_config.params = run_params.query;
         }
 
         if (run_params.hasOwnProperty('contentType')) {
