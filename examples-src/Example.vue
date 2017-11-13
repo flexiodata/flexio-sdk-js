@@ -128,7 +128,7 @@
             }
 
             this.is_loading = false
-            //util.debug.call(this, this.result)
+            //util.debug(this.result)
 
           }, (result) => {
             this.is_loading = false

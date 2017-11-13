@@ -61,24 +61,24 @@ return function() {
       }
 
       if (_.isNil(identifier))
-        return util.debug.call(this, "The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
+        return util.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
 
       this.loading = true
-      util.debug.call(this, 'Loading Pipe `' + identifier + '`...')
+      util.debug('Loading Pipe `' + identifier + '`...')
 
       Flexio.http().get('/pipes/' + identifier)
         .then(response => {
           var obj = _.get(response, 'data', {})
           this.pipe = _.assign({}, obj)
           this.loading = false
-          util.debug.call(this, 'Pipe Loaded.')
+          util.debug('Pipe Loaded.')
 
           if (typeof callback == 'function')
             callback.call(this, null, obj)
         })
         .catch(error => {
           this.loading = false
-          util.debug.call(this, 'Pipe Load Failed.')
+          util.debug('Pipe Load Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)
@@ -105,21 +105,21 @@ return function() {
       }
 
       this.saving = true
-      util.debug.call(this, 'Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       Flexio.http().post('/pipes', this.pipe)
         .then(response => {
           var pipe = _.get(response, 'data', {})
           this.pipe = _.assign({}, pipe)
           this.saving = false
-          util.debug.call(this, 'Pipe Saved.')
+          util.debug('Pipe Saved.')
 
           if (typeof callback == 'function')
             callback.call(this, null, this.pipe)
         })
         .catch(error => {
           this.saving = false
-          util.debug.call(this, 'Pipe Save Failed.')
+          util.debug('Pipe Save Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)
@@ -148,7 +148,7 @@ return function() {
       }
 
       this.running = true
-      util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       var create_params = _.assign({}, this.pipe)
 
@@ -167,7 +167,7 @@ return function() {
           var obj = _.get(response, 'data', {})
           var process_eid = _.get(obj, 'eid', '')
           this.processes.push(obj)
-          util.debug.call(this, 'Created Process.')
+          util.debug('Created Process.')
 
           // TODO: we need to figure out how we can allow the
           //       user to specify their own response options
@@ -180,7 +180,7 @@ return function() {
             .then(response => {
 
               this.running = false
-              util.debug.call(this, 'Process Complete.')
+              util.debug('Process Complete.')
 
               var arraybuffer = response.data
               var content_type =  _.get(response, 'headers.content-type', 'text/plain')
@@ -209,7 +209,7 @@ return function() {
               //
               //
               //var obj2 = _.get(response, 'data', {})
-              //util.debug.call(this, 'Process Complete.')
+              //util.debug('Process Complete.')
               //this.running = false
               //
               //if (typeof callback == 'function')
@@ -218,7 +218,7 @@ return function() {
             })
         })
         .catch(error => {
-          util.debug.call(this, 'Process Create Failed.')
+          util.debug('Process Create Failed.')
           this.running = false
 
           if (typeof callback == 'function')
@@ -250,7 +250,7 @@ return function() {
       }
 
       this.running = true
-      util.debug.call(this, 'Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      util.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       if (pipe_eid.length == 0) {
         // execute ephemeral pipe (as process)
@@ -266,7 +266,7 @@ return function() {
             var obj = _.get(response, 'data', {})
             var process_eid = _.get(obj, 'eid', '')
             this.processes.push(obj)
-            util.debug.call(this, 'Created Process.')
+            util.debug('Created Process.')
   
             var http_config = {
               method: 'post',
@@ -285,7 +285,7 @@ return function() {
             var http = Flexio.http()
             http(http_config).then(response => {
                 this.running = false
-                util.debug.call(this, 'Process Complete.')
+                util.debug('Process Complete.')
   
                 var arraybuffer = response.data
                 var content_type =  _.get(response, 'headers.content-type', 'text/plain')
@@ -314,7 +314,7 @@ return function() {
               })
           })
           .catch(error => {
-            util.debug.call(this, 'Process Create Failed.')
+            util.debug('Process Create Failed.')
             this.running = false
   
             if (typeof callback == 'function')
@@ -357,7 +357,7 @@ return function() {
         var http = Flexio.http()
         http(http_config).then(response => {
           this.running = false
-          util.debug.call(this, 'Process Complete.')
+          util.debug('Process Complete.')
 
           var arraybuffer = response.data
           var content_type =  _.get(response, 'headers.content-type', 'text/plain')
@@ -386,7 +386,7 @@ return function() {
         })
         .catch(error => {
 
-          util.debug.call(this, 'Pipe Run Call Failed.')
+          util.debug('Pipe Run Call Failed.')
           this.running = false
 
           if (typeof callback == 'function')

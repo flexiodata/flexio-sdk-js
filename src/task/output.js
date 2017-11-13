@@ -12,7 +12,7 @@ var output = function() {
   var location = undefined
 
   if (args.length == 0)
-    return util.debug.call(this, 'The output task requires at least 1 parameter')
+    return util.debug('The output task requires at least 1 parameter')
 
   switch (connection_type)
   {

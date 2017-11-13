@@ -21,21 +21,21 @@ module.exports.getPipesObject = function(Flexio) {
       }
 
       this.loading = true
-      util.debug.call(this, 'Requesting Pipes...')
+      util.debug('Requesting Pipes...')
 
       Flexio.http().get('/pipes')
         .then(response => {
           var items = _.get(response, 'data', [])
           this.items = [].concat(items)
           this.loading = false
-          util.debug.call(this, 'Success!')
+          util.debug('Success!')
 
           if (typeof callback == 'function')
             callback.call(this, null, items)
         })
         .catch(error => {
           this.loading = false
-          util.debug.call(this, 'Failed.')
+          util.debug('Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)

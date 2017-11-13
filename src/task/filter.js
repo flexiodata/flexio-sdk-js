@@ -6,7 +6,7 @@ var taskTypes = require('../constants/task-type')       // import * as taskTypes
 var filter = function(where) {
 
   if (_.isNil(where))
-    return util.debug.call(this, 'The `filter` parameter is required')
+    return util.debug('The `filter` parameter is required')
 
   return {
     type: taskTypes.TASK_TYPE_FILTER,

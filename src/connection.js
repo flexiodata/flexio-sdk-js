@@ -235,24 +235,24 @@ return function() {
       }
 
       if (_.isNil(identifier))
-        return util.debug.call(this, "The `identifier` parameter is required. Either the connection's eid or connection's alias may be used.")
+        return util.debug("The `identifier` parameter is required. Either the connection's eid or connection's alias may be used.")
 
       this.loading = true
-      util.debug.call(this, 'Loading Connection `' + identifier + '`...')
+      util.debug('Loading Connection `' + identifier + '`...')
 
       Flexio.http().get('/connections/' + identifier)
         .then(response => {
           var connection = _.get(response, 'data', {})
           this.connection = _.assign({}, connection)
           this.loading = false
-          util.debug.call(this, 'Connection Loaded.')
+          util.debug('Connection Loaded.')
 
           if (typeof callback == 'function')
             callback.call(this, null, connection)
         })
         .catch(error => {
           this.loading = false
-          util.debug.call(this, 'Connection Load Failed.')
+          util.debug('Connection Load Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)
@@ -279,21 +279,21 @@ return function() {
       }
 
       this.saving = true
-      util.debug.call(this, 'Saving Connection `' + _.get(this.connection, 'name', 'Untitled Connection') + '`...')
+      util.debug('Saving Connection `' + _.get(this.connection, 'name', 'Untitled Connection') + '`...')
 
       Flexio.http().post('/connections', this.connection)
         .then(response => {
           var connection = _.get(response, 'data', {})
           this.connection = _.assign({}, connection)
           this.saving = false
-          util.debug.call(this, 'Connection Saved.')
+          util.debug('Connection Saved.')
 
           if (typeof callback == 'function')
             callback.call(this, null, this.connection)
         })
         .catch(error => {
           this.saving = false
-          util.debug.call(this, 'Connection Save Failed.')
+          util.debug('Connection Save Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)

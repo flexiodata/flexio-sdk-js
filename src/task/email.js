@@ -6,13 +6,13 @@ var taskTypes = require('../constants/task-type')       // import * as taskTypes
 var email = function(params) {
 
   if (!_.isPlainObject(params))
-    return util.debug.call(this, 'The first function parameter must be an object')
+    return util.debug('The first function parameter must be an object')
 
   if (!_.has(params, 'to'))
-    return util.debug.call(this, 'The `to` parameter is required')
+    return util.debug('The `to` parameter is required')
 
   if (!_.has(params, 'body_text'))
-    return util.debug.call(this, 'The `body_text` parameter is required')
+    return util.debug('The `body_text` parameter is required')
 
   // cast `to` parameter to array, if it already isn't one
   if (!_.isArray(params.to))

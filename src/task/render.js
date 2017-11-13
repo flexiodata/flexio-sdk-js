@@ -16,7 +16,7 @@ var render = function(url, options) {
   }
 
   if (_.isNil(url))
-    return util.debug.call(this, 'The `url` parameter is required')
+    return util.debug('The `url` parameter is required')
 
   if (_.isPlainObject(_.get(args, '[0]', {})))
   {
