@@ -20,7 +20,7 @@ module.exports.getUtilObject = function(Flexio) {
     this.arrayBufferToString = function(buf) {
 
       if (this.isNodeJs()) {
-        return Buffer.from(buf).toString('utf-8')
+        return buf.toString('utf-8')
       } else {
 
         if ("TextDecoder" in window) {
