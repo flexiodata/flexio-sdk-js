@@ -265,13 +265,22 @@ function pipe() {
             this.processes.push(obj)
             util.debug.call(this, 'Created Process.')
   
-            var config = {
+            var http_config = {
+              method: 'post',
+              url: '/processes/'+process_eid+'/run',
               responseType: 'arraybuffer'
             }
-  
-            Flexio.http().post('/processes/'+process_eid+'/run', run_params, config)
-              .then(response => {
-  
+
+            if (run_params.hasOwnProperty('data')) {
+              http_config.data = run_params.data
+            }
+
+            if (run_params.hasOwnProperty('query')) {
+              http_config.params = run_params.query
+            }
+      
+            var http = Flexio.http()
+            http(http_config).then(response => {
                 this.running = false
                 util.debug.call(this, 'Process Complete.')
   
@@ -322,6 +331,10 @@ function pipe() {
           http_config.data = run_params.data
         }
 
+        if (run_params.hasOwnProperty('query')) {
+          http_config.params = run_params.query
+        }
+        
         if (run_params.hasOwnProperty('contentType')) {
           http_config.headers = { 'Content-Type': run_params.contentType }
         } else {
