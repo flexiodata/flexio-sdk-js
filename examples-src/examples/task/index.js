@@ -46,8 +46,8 @@ tasks.push({
 
 tasks.push({
   title: 'Email',
-  description: "Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')",
-  obj: Flexio.task.email('fxtest101@mailinator', 'Subject of email', 'This is the body text')
+  description: "Flexio.task.email({ to: 'fxtest101@mailinator', subject: 'Subject of email', body_text: 'This is the body text' })",
+  obj: Flexio.task.email({ to: 'fxtest101@mailinator', subject: 'Subject of email', body_text: 'This is the body text' })
 })
 
 tasks.push({
