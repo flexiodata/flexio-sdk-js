@@ -7,7 +7,7 @@ const options = require('./options')
 const base = require('./webpack.base.js')
 
 const config = merge(base, {
-  entry: options.paths.resolve('src/main.js'),
+  entry: options.paths.resolve('src/main-webpack.js'),
 
   plugins: [
     new webpack.BannerPlugin({
