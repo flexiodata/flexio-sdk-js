@@ -1,8 +1,7 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_OUTPUT } from '../constants/task-type'
-import * as ctypes from '../constants/connection-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var connTypes = require('../constants/connection-type') // import * as connTypes from '../constants/connection-type'
 
 // task definition function
 var output = function() {
@@ -17,24 +16,24 @@ var output = function() {
 
   switch (connection_type)
   {
-    case ctypes.CONNECTION_TYPE_AMAZONS3:
-    case ctypes.CONNECTION_TYPE_ELASTICSEARCH:
-    case ctypes.CONNECTION_TYPE_GOOGLESHEETS:
-    case ctypes.CONNECTION_TYPE_MYSQL:
-    case ctypes.CONNECTION_TYPE_POSTGRES:
+    case connTypes.CONNECTION_TYPE_AMAZONS3:
+    case connTypes.CONNECTION_TYPE_ELASTICSEARCH:
+    case connTypes.CONNECTION_TYPE_GOOGLESHEETS:
+    case connTypes.CONNECTION_TYPE_MYSQL:
+    case connTypes.CONNECTION_TYPE_POSTGRES:
       connection = _.get(args, '[1]', '')
       break
 
-    case ctypes.CONNECTION_TYPE_DROPBOX:
-    case ctypes.CONNECTION_TYPE_GOOGLEDRIVE:
-    case ctypes.CONNECTION_TYPE_SFTP:
+    case connTypes.CONNECTION_TYPE_DROPBOX:
+    case connTypes.CONNECTION_TYPE_GOOGLEDRIVE:
+    case connTypes.CONNECTION_TYPE_SFTP:
       connection = _.get(args, '[1]', '')
       location = _.get(args, '[2]', '/')
       break
   }
 
   return {
-    type,
+    type: taskTypes.TASK_TYPE_OUTPUT,
     metadata: { connection_type },
     params: {
       connection,
@@ -43,4 +42,4 @@ var output = function() {
   }
 }
 
-export default output
+module.exports = output   // export default output

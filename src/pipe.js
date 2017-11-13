@@ -1,8 +1,11 @@
-import _ from 'lodash'
-import util from './util'
-import Flexio from './flexio'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('./util')                            // import util from './util'
 
-function pipe() {
+
+module.exports = {}
+module.exports.getPipeConstructor = function(Flexio) {
+
+return function() {
 
   if (!(this instanceof Flexio.pipe)) {
     return new Flexio.pipe()
@@ -442,4 +445,5 @@ function pipe() {
 }
 
 
-export default pipe
+} // module.exports.getPipeConstructor
+

@@ -1,6 +1,5 @@
-import _ from 'lodash'
-import util from './util'
-import Flexio from './flexio'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('./util')                            // import util from './util'
 
 var method_types = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 var allowed_auth = ['', 'basic', 'bearer', 'oauth2']
@@ -13,7 +12,11 @@ function fromBase64(str) {
   try { return decodeURIComponent(escape(atob(str))) } catch(e) { return '' }
 }
 
-function connection() {
+
+module.exports = {}
+module.exports.getConnectionConstructor = function(Flexio) {
+
+return function() {
 
   if (!(this instanceof Flexio.connection)) {
     return new Flexio.connection
@@ -313,4 +316,4 @@ function connection() {
 }
 
 
-export default connection
+} // module.exports.getConnectionConstructor

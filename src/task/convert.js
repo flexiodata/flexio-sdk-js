@@ -1,7 +1,6 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_CONVERT } from '../constants/task-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // token delimiters; other types of delimiters are allowed as well
 const DELIMITER_NONE              = '{none}'
@@ -30,10 +29,9 @@ const SHORTHAND_TSV = 'tsv'
 
 // task definition function
 var convert = function(input, output) {
-  var type = TASK_TYPE_CONVERT
 
   var task = {
-    type,
+    type: taskTypes.TASK_TYPE_CONVERT,
     params: {}
   }
 
@@ -86,4 +84,4 @@ var convert = function(input, output) {
   return task
 }
 
-export default convert
+module.exports = convert  // export default convert

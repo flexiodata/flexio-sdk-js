@@ -3,7 +3,8 @@
   "version": "1.7.12",
   "description": "Javascript SDK for managing Flex.io resources and services",
   "author": "David Z. Williams <dave@flex.io>",
-  "main": "dist/flexio-node.js",
+  "--main": "dist/flexio-node.js",
+  "main": "src/main.js",
   "browser": "dist/flexio.min.js",
   "scripts": {
     "dev": "cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot",

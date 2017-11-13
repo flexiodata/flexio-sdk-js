@@ -1,11 +1,9 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_EMAIL_SEND } from '../constants/task-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // task definition function
 var email = function(params) {
-  var type = TASK_TYPE_EMAIL_SEND
 
   if (!_.isPlainObject(params))
     return util.debug.call(this, 'The first function parameter must be an object')
@@ -29,9 +27,9 @@ var email = function(params) {
 
     console.log(params)
   return {
-    type,
+    type: taskTypes.TASK_TYPE_EMAIL,
     params
   }
 }
 
-export default email
+module.exports = email // export default email

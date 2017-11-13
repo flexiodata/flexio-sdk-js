@@ -1,7 +1,6 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_REQUEST } from '../constants/task-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS']
 var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
@@ -26,7 +25,6 @@ var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9
 
 // task definition function
 var request = function() {
-  var type = TASK_TYPE_REQUEST
   var args = Array.from(arguments)
   var url = _.get(args, '[0]', '')
   var params = _.get(args, '[1]', {})
@@ -62,9 +60,9 @@ var request = function() {
   params = _.assign({ method: 'GET' }, params)
 
   return {
-    type,
+    type: taskTypes.TASK_TYPE_REQUEST,
     params
   }
 }
 
-export default request
+module.exports = request // export default request

@@ -1,3 +1,26 @@
+var executeFunctions = require('./execute.js')
+
+module.exports = {
+    input:  require('./input.js'),
+    output: require('./input.js'),
+    convert: require('./convert.js'),
+    echo: require('./echo.js'),
+    email: require('./email.js'),
+    execute: executeFunctions.execute,
+    filter: require('./filter.js'),
+    javascript: executeFunctions.javascript,
+    limit: require('./limit.js'),
+    list: require('./list.js'),
+    python: executeFunctions.python,
+    render: require('./render.js'),
+    request: require('./request.js'),
+    select: require('./select.js'),
+    sleep: require('./sleep.js'),
+    transform: require('./transform.js'),
+}
+
+
+/*
 import inputFn from './input'
 import outputFn from './output'
 import convertFn from './convert'
@@ -29,3 +52,4 @@ export const request    = requestFn
 export const select     = selectFn
 export const sleep      = sleepFn
 export const transform  = transformFn
+*/

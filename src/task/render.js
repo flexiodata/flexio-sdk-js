@@ -1,11 +1,9 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_RENDER } from '../constants/task-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // task definition function
 var render = function(url, options) {
-  var type = TASK_TYPE_RENDER
   var args = Array.from(arguments)
   var url = _.get(args, '[0]', '')
   var params = _.get(args, '[1]', {})
@@ -32,9 +30,9 @@ var render = function(url, options) {
   console.log(params)
   
   return {
-    type,
+    type: taskTypes.TASK_TYPE_RENDER,
     params
   }
 }
 
-export default render
+module.exports = render   // export default render

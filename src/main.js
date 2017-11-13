@@ -1,3 +1,7 @@
-import Flexio from './flexio'
+//import Flexio from './flexio'
+//export default Flexio
 
-export default Flexio
+var Flexio = require('./flexio')
+
+module.exports = Flexio
+

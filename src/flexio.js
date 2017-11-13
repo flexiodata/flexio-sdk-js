@@ -1,11 +1,6 @@
-import _ from 'lodash'
-import axios from 'axios'
-import * as task from './task'
-import pipe from './pipe'
-import pipes from './pipes'
-import connection from './connection'
-import connections from './connections'
-
+var _ = require('lodash')                  // import _ from 'lodash'
+var axios = require('axios')               // import axios from 'axios'
+var task = require('./task')               // import * as task from './task'
 
 var base_url = 'https://www.flex.io/api/v1'
 
@@ -16,12 +11,20 @@ var cfg = {
   debug: false
 }
 
-export default {
+var Flexio = {
   // see `../build/webpack.dist.js`
-  version: VERSION,
+  version: require('../package.json').version,
 
-  // allow all tasks exports from `./task/index.js`
-  task,
+  _init() {
+    this.connections = require('./connections').getConnectionsObject(this)
+    this.pipes = require('./pipes').getPipesObject(this)
+
+    var getPipeConstructor = require('./pipe').getPipeConstructor
+    this.pipe = getPipeConstructor(this)
+
+    var getConnectionConstructor = require('./connection').getConnectionConstructor
+    this.connection = getConnectionConstructor(this)
+  },
 
   setup(token, params) {
     cfg = _.assign({}, { token }, params)
@@ -40,10 +43,7 @@ export default {
     return this._http
   },
 
-  connection()  { return connection()  },
-  connections,
-  pipe,
-  pipes,
+  task,
 
   _createHttp() {
     // axios instance options with base url and auth token
@@ -61,3 +61,8 @@ export default {
     this._http = axios.create(axios_opts)
   }
 }
+
+
+Flexio._init()
+
+module.exports = Flexio

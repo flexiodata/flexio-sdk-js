@@ -1,11 +1,13 @@
-import Flexio from './flexio'
 
-export default {
+module.exports = {
   debug(msg) {
-    var cfg = Flexio.getConfig()
+    return
 
+/*
+    var cfg = Flexio.getConfig()
     if (cfg.debug !== true)
       return
+*/
 
     if (!window)
       return

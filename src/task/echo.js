@@ -1,18 +1,16 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_ECHO } from '../constants/task-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // task definition function
 var echo = function(msg) {
-  var type = TASK_TYPE_ECHO
 
   return {
-    type,
+    type: taskTypes.TASK_TYPE_ECHO,
     params: {
       msg
     }
   }
 }
 
-export default echo
+module.exports = echo

@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import util from '../util'
+var _ = require('lodash')     // import _ from 'lodash'
+var util = require('../util') // import util from '../util'
+var taskTypes = require('../constants/task-type')
 
-import { TASK_TYPE_EXECUTE } from '../constants/task-type'
 
 var isNodeJs = function() {
   return (typeof process !== 'undefined')
@@ -89,13 +89,12 @@ var getJsExport = function(f) {
 
 // task definition function
 var executeFn = function() {
-  var type = TASK_TYPE_EXECUTE
   var args = Array.from(arguments)
   var lang = _.get(args, '[0]', '')
   var code = undefined
 
   var task = {
-    type,
+    type: taskTypes.TASK_TYPE_EXECUTE,
     params: {}
   }
 
@@ -147,8 +146,15 @@ var pythonFn = function() {
   return executeFn('python', _.get(args, '[0]', ''))
 }
 
+/*
 export const execute    = executeFn
 export const javascript = javascriptFn
 export const python     = pythonFn
-
 export default executeFn
+*/
+
+module.exports = {
+  execute: executeFn,
+  javascript: javascriptFn,
+  python: pythonFn
+}

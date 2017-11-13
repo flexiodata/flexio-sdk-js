@@ -1,11 +1,9 @@
-import _ from 'lodash'
-import util from '../util'
-
-import { TASK_TYPE_TRANSFORM } from '../constants/task-type'
+var _ = require('lodash')                               // import _ from 'lodash'
+var util = require('../util')                           // import util from '../util'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // task definition function
 var transform = function(value) {
-  var type = TASK_TYPE_TRANSFORM
   var args = Array.from(arguments)
 
   var default_params = { operations: [] }
@@ -33,13 +31,13 @@ var transform = function(value) {
     }
 
     return {
-      type,
+      type: taskTypes.TASK_TYPE_TRANSFORM,
       params
     }
   }
 
   return {
-    type,
+    type: taskTypes.TASK_TYPE_TRANSFORM,
     params: {
       columns,
       operations,
@@ -47,4 +45,4 @@ var transform = function(value) {
   }
 }
 
-export default transform
+module.exports = transform   // export default transform
