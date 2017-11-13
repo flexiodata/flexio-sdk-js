@@ -1,5 +1,4 @@
 var _ = require('lodash')                               // import _ from 'lodash'
-var util = require('./util')                            // import util from './util'
 
 
 module.exports = {}
@@ -154,6 +153,7 @@ return function() {
         // execute ephemeral pipe (as process)
 
         var create_params = _.assign({}, this.pipe)
+
         // set the process to run mode
         _.assign(create_params, {
           process_mode: 'R'
@@ -164,7 +164,7 @@ return function() {
             var obj = _.get(response, 'data', {})
             var process_eid = _.get(obj, 'eid', '')
             this.processes.push(obj)
-            util.debug('Created Process.')
+            Flexio.util.debug('Created Process.')
   
             var http_config = {
               method: 'post',
@@ -212,7 +212,7 @@ return function() {
               })
           })
           .catch(error => {
-            util.debug('Process Create Failed.')
+            Flexio.util.debug('Process Create Failed.')
             this.running = false
   
             if (typeof callback == 'function')
