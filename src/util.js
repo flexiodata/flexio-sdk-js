@@ -11,7 +11,8 @@ module.exports.getUtilObject = function(Flexio) {
       var cfg = Flexio.getConfig()
       if (cfg.debug) {
         var msg = 'flexio-sdk-js: ' + msg
-        this.isNodeJs() ? console.log(msg) : alert(msg)
+        //this.isNodeJs() ? console.log(msg) : alert(msg)
+        console.log(msg)
       }
       
       return this
