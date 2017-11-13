@@ -12,7 +12,7 @@ var input = function() {
   var items = undefined
 
   if (args.length == 0)
-    return util.debug('The input task requires at least 1 parameter')
+    throw 'The input task requires at least 1 parameter'
 
   switch (connection_type)
   {

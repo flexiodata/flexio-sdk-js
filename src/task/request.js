@@ -39,7 +39,7 @@ var request = function() {
    else
   {
     if (!_.isString(url))
-      return util.debug("The first parameter is required and must be a string representing the `url` or `connection` identifier.")
+      throw 'The first parameter is required and must be a string representing the `url` or `connection` identifier.'
 
     if (url.match(http_regex))
     {

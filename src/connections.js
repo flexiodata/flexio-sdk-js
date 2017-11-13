@@ -19,21 +19,21 @@ module.exports.getConnectionsObject = function(Flexio) {
       }
 
       this.loading = true
-      util.debug('Requesting Connections...')
+      Flexio.util.debug('Requesting Connections...')
 
       Flexio.http().get('/connections')
         .then(response => {
           var items = _.get(response, 'data', [])
           this.items = [].concat(items)
           this.loading = false
-          util.debug('Success!')
+          Flexio.util.debug('Success!')
 
           if (typeof callback == 'function')
             callback.call(this, null, items)
         })
         .catch(error => {
           this.loading = false
-          util.debug('Failed.')
+          Flexio.util.debug('Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)

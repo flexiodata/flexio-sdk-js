@@ -250,7 +250,7 @@ return function() {
       }
 
       this.running = true
-      util.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      Flexio.util.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       if (pipe_eid.length == 0) {
         // execute ephemeral pipe (as process)

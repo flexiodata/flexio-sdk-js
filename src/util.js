@@ -1,46 +1,40 @@
 
-module.exports = {
-  debug(msg) {
-    return
+module.exports = {}
+module.exports.getUtilObject = function(Flexio) {
 
-/*
-    var cfg = Flexio.getConfig()
-    if (cfg.debug !== true)
-      return
-*/
+  return new function() {
+    this.isNodeJs = function() {
+      return (Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]')
+    }
 
-    if (!window)
-      return
+    this.debug = function(msg) {
+      var cfg = Flexio.getConfig()
+      if (cfg.debug) {
+        var msg = 'flexio-sdk-js: ' + msg
+        this.isNodeJs() ? console.log(msg) : alert(msg)
+      }
+      
+      return this
+    }
 
-    var msg = 'flexio-sdk-js: ' + msg
-    window.console ? console.log(msg) : alert(msg)
+    this.arrayBufferToString = function(buf) {
 
-    return this
-  },
-
-  isNodeJs() {
-    return false
-    return (typeof process !== 'undefined')
-  },
-
-  arrayBufferToString(buf) {
-
-    if (this.isNodeJs()) {
-      return Buffer.from(buf).toString('utf-8')
-    } else {
-
-      if ("TextDecoder" in window) {
-        return (new TextDecoder('utf-8')).decode(buf)
+      if (this.isNodeJs()) {
+        return Buffer.from(buf).toString('utf-8')
       } else {
-        var uint8arr = new Uint8Array(buf)
-        var utf8str = ''
-        var i, len = uint8arr.length
-        for (i = 0; i < len; ++i) {
-          utf8str += String.fromCharCode(uint8arr[i]);
+
+        if ("TextDecoder" in window) {
+          return (new TextDecoder('utf-8')).decode(buf)
+        } else {
+          var uint8arr = new Uint8Array(buf)
+          var utf8str = ''
+          var i, len = uint8arr.length
+          for (i = 0; i < len; ++i) {
+            utf8str += String.fromCharCode(uint8arr[i]);
+          }
+          return decodeURIComponent(escape(utf8str));
         }
-        return decodeURIComponent(escape(utf8str));
       }
     }
   }
-  
 }

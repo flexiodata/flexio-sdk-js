@@ -18,7 +18,8 @@ var Flexio = {
   _init() {
     this.connections = require('./connections').getConnectionsObject(this)
     this.pipes = require('./pipes').getPipesObject(this)
-
+    this.util = require('./util').getUtilObject(this)
+    
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
 
