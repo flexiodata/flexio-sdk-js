@@ -60,24 +60,24 @@ return function() {
       }
 
       if (_.isNil(identifier))
-        return util.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
+        return Flexio.util.debug("The `identifier` parameter is required. Either the pipe's eid or pipe's alias may be used.")
 
       this.loading = true
-      util.debug('Loading Pipe `' + identifier + '`...')
+      Flexio.util.debug('Loading Pipe `' + identifier + '`...')
 
       Flexio.http().get('/pipes/' + identifier)
         .then(response => {
           var obj = _.get(response, 'data', {})
           this.pipe = _.assign({}, obj)
           this.loading = false
-          util.debug('Pipe Loaded.')
+          Flexio.util.debug('Pipe Loaded.')
 
           if (typeof callback == 'function')
             callback.call(this, null, obj)
         })
         .catch(error => {
           this.loading = false
-          util.debug('Pipe Load Failed.')
+          Flexio.util.debug('Pipe Load Failed. ')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)
@@ -104,21 +104,21 @@ return function() {
       }
 
       this.saving = true
-      util.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
+      Flexio.util.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
       Flexio.http().post('/pipes', this.pipe)
         .then(response => {
           var pipe = _.get(response, 'data', {})
           this.pipe = _.assign({}, pipe)
           this.saving = false
-          util.debug('Pipe Saved.')
+          Flexio.util.debug('Pipe Saved.')
 
           if (typeof callback == 'function')
             callback.call(this, null, this.pipe)
         })
         .catch(error => {
           this.saving = false
-          util.debug('Pipe Save Failed.')
+          Flexio.util.debug('Pipe Save Failed.')
 
           if (typeof callback == 'function')
             callback.call(this, error, null)
@@ -183,7 +183,7 @@ return function() {
             var http = Flexio.http()
             http(http_config).then(response => {
                 this.running = false
-                util.debug('Process Complete.')
+                Flexio.util.debug('Process Complete.')
   
                 var arraybuffer = response.data
                 var content_type =  _.get(response, 'headers.content-type', 'text/plain')
@@ -195,24 +195,24 @@ return function() {
                     return new Blob([this.buffer], {"type":content_type})
                   },
                   get text() {
-                    return util.arrayBufferToString(this.buffer)
+                    return Flexio.util.arrayBufferToString(this.buffer)
                   },
                   get data() {
                     try {
-                      return JSON.parse(util.arrayBufferToString(this.buffer))
+                      return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
                     }
                     catch (e) {
                       return null
                     }
                   }
                 }
-  
+
                 if (typeof callback == 'function')
                   callback.call(this, null, response_object)
               })
           })
           .catch(error => {
-            Flexio.util.debug('Process Create Failed.')
+            Flexio.util.debug('Process Create Failed. ')
             this.running = false
   
             if (typeof callback == 'function')
@@ -255,7 +255,7 @@ return function() {
         var http = Flexio.http()
         http(http_config).then(response => {
           this.running = false
-          util.debug('Process Complete.')
+          Flexio.util.debug('Process Complete.')
 
           var arraybuffer = response.data
           var content_type =  _.get(response, 'headers.content-type', 'text/plain')
@@ -267,11 +267,11 @@ return function() {
               return new Blob([this.buffer], {"type":content_type})
             },
             get text() {
-              return util.arrayBufferToString(this.buffer)
+              return Flexio.util.arrayBufferToString(this.buffer)
             },
             get data() {
               try {
-                return JSON.parse(util.arrayBufferToString(this.buffer))
+                return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
               }
               catch (e) {
                 return null
@@ -284,7 +284,7 @@ return function() {
         })
         .catch(error => {
 
-          util.debug('Pipe Run Call Failed.')
+          Flexio.util.debug('Pipe Run Call Failed.')
           this.running = false
 
           if (typeof callback == 'function')

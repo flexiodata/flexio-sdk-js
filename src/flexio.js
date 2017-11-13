@@ -29,6 +29,7 @@ var Flexio = {
 
   setup(token, params) {
     cfg = _.assign({}, { token }, params)
+    this._http = null
     this._createHttp()
     return this
   },
