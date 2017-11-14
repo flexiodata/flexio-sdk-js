@@ -105,7 +105,10 @@ var executeFn = function() {
   if (param0 == 'python' || param0 == 'javascript')
   {
     lang = param0
-    code = '' + (param1 ? param1:'')
+    code = param1
+    if (code === null || code === undefined) {
+      code = ''
+    }
     check = param2
   }
    else
