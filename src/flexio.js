@@ -19,6 +19,7 @@ var Flexio = {
     this.connections = require('./connections').getConnectionsObject(this)
     this.pipes = require('./pipes').getPipesObject(this)
     this.util = require('./util').getUtilObject(this)
+    this._http = null
     
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
@@ -28,7 +29,7 @@ var Flexio = {
   },
 
   setup(token, params) {
-    cfg = _.assign({}, { token }, params)
+    cfg = _.assign(cfg, { token }, params)
     this._http = null
     this._createHttp()
     return this
