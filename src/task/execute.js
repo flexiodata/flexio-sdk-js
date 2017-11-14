@@ -90,8 +90,11 @@ var getJsExport = function(f) {
 // task definition function
 var executeFn = function() {
   var args = Array.from(arguments)
-  var lang = _.get(args, '[0]', '')
-  var code = undefined
+  var param0 = _.get(args, '[0]', null)
+  var param1 = _.get(args, '[1]', null)
+  var param2 = _.get(args, '[2]', null)
+  var lang, code, check
+
 
   var task = {
     type: taskTypes.TASK_TYPE_EXECUTE,
@@ -99,24 +102,22 @@ var executeFn = function() {
   }
 
   // allow for flexible parameters
-  if (lang == 'python' || lang == 'javascript')
+  if (param0 == 'python' || param0 == 'javascript')
   {
-    code = _.get(args, '[1]', '')
+    lang = param0
+    code = '' + (param1 ? param1:'')
+    check = param2
   }
    else
   {
     // default to javascript
     lang = 'javascript'
-    code = _.get(args, '[0]', '')
+    code = param0
+    check = param1
   }
 
-  if (_.isFunction(code))
-  {
-    // first argument is a function; we're using javascript
-    if (_.isNil(lang))
-      lang = 'javascript'
-
-    code = getJsFunctionBody(code)
+  if (lang == 'javascript') {
+    code = getJsExport(code)
   }
 
   // set the job's language
@@ -125,9 +126,17 @@ var executeFn = function() {
   // handle files or code snippets
   var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
   if (code.match(http_regex))
-    _.set(task, 'params.file', code)
-     else
+  {
+    _.set(task, 'params.path', code)
+  }
+  else
+  {
     _.set(task, 'params.code', toBase64(code))
+  }
+
+  if (check !== null) {
+    _.set(task, 'params.integrity', check)
+  }
 
   return task
 }
@@ -135,16 +144,18 @@ var executeFn = function() {
 // shorthand for .execute('javascript', ...)
 var javascriptFn = function() {
   var args = Array.from(arguments)
-  var code = _.get(args, '[0]', '')
-  code = getJsExport(code)
-  return executeFn('javascript', code)
+  args.unshift('javascript')
+  return executeFn.apply(this, args)
 }
 
 // shorthand for .execute('python', ...)
 var pythonFn = function() {
   var args = Array.from(arguments)
-  return executeFn('python', _.get(args, '[0]', ''))
+  args.unshift('python')
+  return executeFn.apply(this, args)
 }
+
+
 
 /*
 export const execute    = executeFn
