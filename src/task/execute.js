@@ -107,11 +107,7 @@ var executeFn = function() {
     lang = param0
     code = param1
     if (code === null || code === undefined) {
-<<<<<<< HEAD
      code = ''
-=======
-      code = ''
->>>>>>> e8e6b07727d9e3f7764f637dce2d9091b6561643
     }
     check = param2
   }
