@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.8.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.8.2 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -18259,6 +18259,7 @@ var Flexio = {
     this.connections = __webpack_require__(54).getConnectionsObject(this);
     this.pipes = __webpack_require__(55).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
+    this._http = null;
 
     var getPipeConstructor = __webpack_require__(56).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -18267,7 +18268,7 @@ var Flexio = {
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
-    cfg = _.assign({}, { token: token }, params);
+    cfg = _.assign(cfg, { token: token }, params);
     this._http = null;
     this._createHttp();
     return this;
@@ -19312,45 +19313,56 @@ var getJsExport = function getJsExport(f) {
 
 var executeFn = function executeFn() {
   var args = Array.from(arguments);
-  var lang = _.get(args, '[0]', '');
-  var code = undefined;
+  var param0 = _.get(args, '[0]', null);
+  var param1 = _.get(args, '[1]', null);
+  var param2 = _.get(args, '[2]', null);
+  var lang, code, check;
 
   var task = {
     type: taskTypes.TASK_TYPE_EXECUTE,
     params: {}
   };
 
-  if (lang == 'python' || lang == 'javascript') {
-    code = _.get(args, '[1]', '');
+  if (param0 == 'python' || param0 == 'javascript') {
+    lang = param0;
+    code = '' + (param1 ? param1 : '');
+    check = param2;
   } else {
     lang = 'javascript';
-    code = _.get(args, '[0]', '');
+    code = param0;
+    check = param1;
   }
 
-  if (_.isFunction(code)) {
-    if (_.isNil(lang)) lang = 'javascript';
-
-    code = getJsFunctionBody(code);
+  if (lang == 'javascript') {
+    code = getJsExport(code);
   }
 
   _.set(task, 'params.lang', lang);
 
   var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-  if (code.match(http_regex)) _.set(task, 'params.file', code);else _.set(task, 'params.code', toBase64(code));
+  if (code.match(http_regex)) {
+    _.set(task, 'params.path', code);
+  } else {
+    _.set(task, 'params.code', toBase64(code));
+  }
+
+  if (check !== null) {
+    _.set(task, 'params.integrity', check);
+  }
 
   return task;
 };
 
 var javascriptFn = function javascriptFn() {
   var args = Array.from(arguments);
-  var code = _.get(args, '[0]', '');
-  code = getJsExport(code);
-  return executeFn('javascript', code);
+  args.unshift('javascript');
+  return executeFn.apply(this, args);
 };
 
 var pythonFn = function pythonFn() {
   var args = Array.from(arguments);
-  return executeFn('python', _.get(args, '[0]', ''));
+  args.unshift('python');
+  return executeFn.apply(this, args);
 };
 
 module.exports = {
@@ -21783,7 +21795,7 @@ module.exports = transform;
 /* 53 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.8.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.8.2","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
 /* 54 */
