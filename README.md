@@ -7,11 +7,15 @@ The Flex.io SDK for Javascript is intended for developers who want to integrate 
 
 ### In Node.js
 
-The preferred way of installing the Flex.io SDK For Node.js is to use the [npm](http://npmjs.org) package manager.  Simply type in the following command at the command prompt:
+The preferred way of installing the Flex.io SDK For Node.js is to use the [npm](http://npmjs.org) package manager. At a command prompt, simply go to your project directory and type in the following command
 
 ```sh
 npm install flexio-sdk-js
 ```
+
+## Documentation
+
+Full documentation for the Flex.io Javascript SDK can be found [here](https://www.flex.io/docs/javascript-sdk)
 
 ## License
 
