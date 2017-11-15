@@ -4,10 +4,10 @@ var _ = require('lodash')                               // import _ from 'lodash
 module.exports = {}
 module.exports.getPipeConstructor = function(Flexio) {
 
-return function() {
+return function(identifier) {
 
   if (!(this instanceof Flexio.pipe)) {
-    return new Flexio.pipe()
+    return new Flexio.pipe(identifier)
   }
 
   var retval = _.assign(this, {
@@ -177,6 +177,11 @@ return function() {
     etc...
   */
 
+
+  if (identifier !== undefined) {
+    retval.pipe.eid = identifier
+  }
+  
   return retval
 }
 
