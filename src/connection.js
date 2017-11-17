@@ -27,6 +27,7 @@ return function() {
     connection: {
       name: 'Untitled',
       description: '',
+      connection_type: "http", // defaults to http
       connection_info: {
         method: '',        // request method
         url: '',           // base url for all calls that will use this connection
