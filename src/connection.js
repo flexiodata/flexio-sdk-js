@@ -54,10 +54,12 @@ return function() {
 
     name(value) {
       this.connection.name = value
+      return this
     },
 
     description(value) {
       this.connection.description = value
+      return this
     },
 
     method() {
