@@ -25,8 +25,8 @@ return function() {
     // -- state --
 
     connection: {
-      name: 'Javascript SDK Connection',
-      description: 'This connection was created using the Flex.io Javascript SDK',
+      name: 'Untitled',
+      description: '',
       connection_info: {
         method: '',        // request method
         url: '',           // base url for all calls that will use this connection
@@ -49,6 +49,14 @@ return function() {
 
     getJSON() {
       return _.assign({}, this.connection)
+    },
+
+    name(value) {
+      this.connection.name = value
+    },
+
+    description(value) {
+      this.connection.description = value
     },
 
     method() {

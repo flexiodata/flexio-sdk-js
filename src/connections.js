@@ -7,7 +7,29 @@ module.exports.getConnectionsObject = function(Flexio) {
 
   return new function() {
 
-    this.create = function() { return Flexio.connection() }
+    this.create = function(conn, callback) {
+
+      var data;
+      if (_.isPlainObject(conn)) {
+        data = conn
+      } else if (conn instanceof Flexio.connection) {
+        data = conn.connection
+      } else {
+        throw "Unknown connection object type"
+      }
+
+
+      Flexio.http().post('/connections', data)
+      .then(response => {
+        if (typeof callback == 'function')
+          callback.call(null, null, response.data)
+      })
+      .catch(error => {
+        Flexio.util.debug('Flexio.connection.create(): Failed.')
+        if (typeof callback == 'function')
+          callback.call(this, error, null)
+      })
+    }
 
     this.list = function(callback) {
       var args = Array.from(arguments)
