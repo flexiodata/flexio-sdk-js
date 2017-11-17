@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.8.3 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.9.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -21798,7 +21798,7 @@ module.exports = transform;
 /* 53 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.8.3","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.9.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
 /* 54 */
@@ -21815,12 +21815,28 @@ module.exports.getConnectionsObject = function (Flexio) {
 
   return new function () {
 
-    this.create = function () {
-      return Flexio.connection();
+    this.create = function (conn, callback) {
+      var _this = this;
+
+      var data;
+      if (_.isPlainObject(conn)) {
+        data = conn;
+      } else if (conn instanceof Flexio.connection) {
+        data = conn.connection;
+      } else {
+        throw "Unknown connection object type";
+      }
+
+      Flexio.http().post('/connections', data).then(function (response) {
+        if (typeof callback == 'function') callback.call(null, null, response.data);
+      }).catch(function (error) {
+        Flexio.util.debug('Flexio.connection.create(): Failed.');
+        if (typeof callback == 'function') callback.call(_this, error, null);
+      });
     };
 
     this.list = function (callback) {
-      var _this = this,
+      var _this2 = this,
           _arguments = arguments;
 
       var args = Array.from(arguments);
@@ -21828,7 +21844,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 
       if (this.loading === true) {
         setTimeout(function () {
-          _this.load.apply(_this, _arguments);
+          _this2.load.apply(_this2, _arguments);
         }, 50);
         return this;
       }
@@ -21838,16 +21854,16 @@ module.exports.getConnectionsObject = function (Flexio) {
 
       Flexio.http().get('/connections').then(function (response) {
         var items = _.get(response, 'data', []);
-        _this.items = [].concat(items);
-        _this.loading = false;
+        _this2.items = [].concat(items);
+        _this2.loading = false;
         Flexio.util.debug('Success!');
 
-        if (typeof callback == 'function') callback.call(_this, null, items);
+        if (typeof callback == 'function') callback.call(_this2, null, items);
       }).catch(function (error) {
-        _this.loading = false;
+        _this2.loading = false;
         Flexio.util.debug('Failed.');
 
-        if (typeof callback == 'function') callback.call(_this, error, null);
+        if (typeof callback == 'function') callback.call(_this2, error, null);
       });
 
       return this;
@@ -21904,6 +21920,170 @@ module.exports.getPipesObject = function (Flexio) {
 
       return this;
     };
+
+    this.run = function () {
+      var _this2 = this;
+
+      var args = Array.from(arguments);
+      args.push(null, null, null);
+
+      var run_params = {};
+      var callback;
+      var pipe_identifier;
+      var tasks_array = null;
+
+      if (args[0] instanceof Flexio.pipe) {
+        pipe_identifier = _.get(args[0], 'pipe.eid', '');
+        tasks_array = _.get(args[0], 'pipe.task', '');
+      } else if (Array.isArray(args[0])) {
+        pipe_identifier = '';
+        tasks_array = args[0];
+      } else {
+        pipe_identifier = args[0];
+      }
+
+      if (_.isPlainObject(args[1])) {
+        run_params = args[1];
+      }
+
+      if (_.isFunction(args[1])) {
+        callback = args[1];
+      } else if (_.isFunction(args[2])) {
+        callback = args[2];
+      } else {
+        callback = null;
+      }
+
+      Flexio.util.debug('Running Pipe `' + (pipe_identifier.length == 0 ? '[Pipe Object/Task Array]' : pipe_identifier) + '`...');
+
+      if (pipe_identifier.length == 0) {
+
+        var create_params = {
+          name: 'SDK Pipe',
+          description: 'SDK Pipe',
+          task: tasks_array,
+
+          process_mode: 'R'
+        };
+
+        Flexio.http().post('/processes', create_params).then(function (response) {
+          var obj = _.get(response, 'data', {});
+          var process_eid = _.get(obj, 'eid', '');
+          Flexio.util.debug('Created Process.');
+
+          var http_config = {
+            method: 'post',
+            url: '/processes/' + process_eid + '/run',
+            responseType: 'arraybuffer'
+          };
+
+          if (run_params.hasOwnProperty('data')) {
+            http_config.data = run_params.data;
+          }
+
+          if (run_params.hasOwnProperty('query')) {
+            http_config.params = run_params.query;
+          }
+
+          var http = Flexio.http();
+          http(http_config).then(function (response) {
+            Flexio.util.debug('Process Complete.');
+
+            var arraybuffer = response.data;
+            var content_type = _.get(response, 'headers.content-type', 'text/plain');
+
+            var response_object = {
+              contentType: content_type,
+              buffer: arraybuffer,
+              get blob() {
+                return new Blob([this.buffer], { "type": content_type });
+              },
+              get text() {
+                return Flexio.util.arrayBufferToString(this.buffer);
+              },
+              get data() {
+                try {
+                  return JSON.parse(Flexio.util.arrayBufferToString(this.buffer));
+                } catch (e) {
+                  return null;
+                }
+              }
+            };
+
+            if (typeof callback == 'function') callback.call(_this2, null, response_object);
+          });
+        }).catch(function (error) {
+          Flexio.util.debug('Process Create Failed. ' + error);
+          _this2.running = false;
+
+          if (typeof callback == 'function') callback.call(_this2, error, null);
+        });
+      } else {
+
+        var http_config = {
+          method: 'post',
+          url: '/pipes/' + pipe_identifier + '/run',
+          responseType: 'arraybuffer'
+        };
+
+        if (run_params.hasOwnProperty('data')) {
+          http_config.data = run_params.data;
+        }
+
+        if (run_params.hasOwnProperty('query')) {
+          http_config.params = run_params.query;
+        }
+
+        if (run_params.hasOwnProperty('contentType')) {
+          http_config.headers = { 'Content-Type': run_params.contentType };
+        } else {
+          if (http_config.hasOwnProperty('data')) {
+            if (_.isPlainObject(http_config.data)) {} else if (_.isString(http_config.data)) {
+              http_config.headers = { 'Content-Type': 'text/plain' };
+            } else {
+              http_config.headers = { 'Content-Type': 'application/octet-stream' };
+            }
+          }
+        }
+
+        var http = Flexio.http();
+        http(http_config).then(function (response) {
+          _this2.running = false;
+          Flexio.util.debug('Process Complete.');
+
+          var arraybuffer = response.data;
+          var content_type = _.get(response, 'headers.content-type', 'text/plain');
+
+          var response_object = {
+            contentType: content_type,
+            buffer: arraybuffer,
+            get blob() {
+              return new Blob([this.buffer], { "type": content_type });
+            },
+            get text() {
+              return Flexio.util.arrayBufferToString(this.buffer);
+            },
+            get data() {
+              try {
+                return JSON.parse(Flexio.util.arrayBufferToString(this.buffer));
+              } catch (e) {
+                return null;
+              }
+            }
+          };
+
+          if (typeof callback == 'function') callback.call(_this2, null, response_object);
+        }).catch(function (error) {
+
+          Flexio.util.debug('Pipe Run Call Failed.');
+          _this2.running = false;
+
+          if (typeof callback == 'function') callback.call(_this2, error, null);
+        });
+      }
+
+      return this;
+    };
   }();
 };
 
@@ -21919,10 +22099,10 @@ var _ = __webpack_require__(0);
 module.exports = {};
 module.exports.getPipeConstructor = function (Flexio) {
 
-  return function () {
+  return function (identifier) {
 
     if (!(this instanceof Flexio.pipe)) {
-      return new Flexio.pipe();
+      return new Flexio.pipe(identifier);
     }
 
     var retval = _.assign(this, {
@@ -22031,156 +22211,9 @@ module.exports.getPipeConstructor = function (Flexio) {
         return this;
       },
       run: function run() {
-        var _this3 = this,
-            _arguments3 = arguments;
-
         var args = Array.from(arguments);
-        var params = _.get(args, '[0]');
-        var callback = _.get(args, '[0]');
-        var run_params = _.assign({}, this.getParams());
-        var pipe_eid = _.get(this.pipe, 'eid', '');
-
-        if (this.loading === true || this.saving === true || this.running === true) {
-          setTimeout(function () {
-            _this3.run.apply(_this3, _arguments3);
-          }, 50);
-          return this;
-        }
-
-        if (_.isPlainObject(params)) {
-          run_params = _.assign({}, run_params, params);
-          callback = _.get(args, '[1]');
-        }
-
-        this.running = true;
-        Flexio.util.debug('Running Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
-
-        if (pipe_eid.length == 0) {
-
-          var create_params = _.assign({}, this.pipe);
-
-          _.assign(create_params, {
-            process_mode: 'R'
-          });
-
-          Flexio.http().post('/processes', create_params).then(function (response) {
-            var obj = _.get(response, 'data', {});
-            var process_eid = _.get(obj, 'eid', '');
-            _this3.processes.push(obj);
-            Flexio.util.debug('Created Process.');
-
-            var http_config = {
-              method: 'post',
-              url: '/processes/' + process_eid + '/run',
-              responseType: 'arraybuffer'
-            };
-
-            if (run_params.hasOwnProperty('data')) {
-              http_config.data = run_params.data;
-            }
-
-            if (run_params.hasOwnProperty('query')) {
-              http_config.params = run_params.query;
-            }
-
-            var http = Flexio.http();
-            http(http_config).then(function (response) {
-              _this3.running = false;
-              Flexio.util.debug('Process Complete.');
-
-              var arraybuffer = response.data;
-              var content_type = _.get(response, 'headers.content-type', 'text/plain');
-
-              var response_object = {
-                contentType: content_type,
-                buffer: arraybuffer,
-                get blob() {
-                  return new Blob([this.buffer], { "type": content_type });
-                },
-                get text() {
-                  return Flexio.util.arrayBufferToString(this.buffer);
-                },
-                get data() {
-                  try {
-                    return JSON.parse(Flexio.util.arrayBufferToString(this.buffer));
-                  } catch (e) {
-                    return null;
-                  }
-                }
-              };
-
-              if (typeof callback == 'function') callback.call(_this3, null, response_object);
-            });
-          }).catch(function (error) {
-            Flexio.util.debug('Process Create Failed. ');
-            _this3.running = false;
-
-            if (typeof callback == 'function') callback.call(_this3, error, null);
-          });
-        } else {
-
-          var http_config = {
-            method: 'post',
-            url: '/pipes/' + pipe_eid + '/run',
-            responseType: 'arraybuffer'
-          };
-
-          if (run_params.hasOwnProperty('data')) {
-            http_config.data = run_params.data;
-          }
-
-          if (run_params.hasOwnProperty('query')) {
-            http_config.params = run_params.query;
-          }
-
-          if (run_params.hasOwnProperty('contentType')) {
-            http_config.headers = { 'Content-Type': run_params.contentType };
-          } else {
-            if (http_config.hasOwnProperty('data')) {
-              if (_.isPlainObject(http_config.data)) {} else if (_.isString(http_config.data)) {
-                http_config.headers = { 'Content-Type': 'text/plain' };
-              } else {
-                http_config.headers = { 'Content-Type': 'application/octet-stream' };
-              }
-            }
-          }
-
-          var http = Flexio.http();
-          http(http_config).then(function (response) {
-            _this3.running = false;
-            Flexio.util.debug('Process Complete.');
-
-            var arraybuffer = response.data;
-            var content_type = _.get(response, 'headers.content-type', 'text/plain');
-
-            var response_object = {
-              contentType: content_type,
-              buffer: arraybuffer,
-              get blob() {
-                return new Blob([this.buffer], { "type": content_type });
-              },
-              get text() {
-                return Flexio.util.arrayBufferToString(this.buffer);
-              },
-              get data() {
-                try {
-                  return JSON.parse(Flexio.util.arrayBufferToString(this.buffer));
-                } catch (e) {
-                  return null;
-                }
-              }
-            };
-
-            if (typeof callback == 'function') callback.call(_this3, null, response_object);
-          }).catch(function (error) {
-
-            Flexio.util.debug('Pipe Run Call Failed.');
-            _this3.running = false;
-
-            if (typeof callback == 'function') callback.call(_this3, error, null);
-          });
-        }
-
+        args.unshift(this);
+        Flexio.pipes.run.apply(null, args);
         return this;
       },
       params: function params(_params) {
@@ -22202,6 +22235,10 @@ module.exports.getPipeConstructor = function (Flexio) {
         return retval.addTask(taskFn.apply(retval, arguments));
       };
     });
+
+    if (identifier !== undefined) {
+      retval.pipe.eid = identifier;
+    }
 
     return retval;
   };
@@ -22247,8 +22284,9 @@ module.exports.getConnectionConstructor = function (Flexio) {
     var retval = _.assign(this, {
 
       connection: {
-        name: 'Javascript SDK Connection',
-        description: 'This connection was created using the Flex.io Javascript SDK',
+        name: 'Untitled',
+        description: '',
+        connection_type: "http",
         connection_info: {
           method: '',
           url: '',
@@ -22268,6 +22306,12 @@ module.exports.getConnectionConstructor = function (Flexio) {
 
       getJSON: function getJSON() {
         return _.assign({}, this.connection);
+      },
+      name: function name(value) {
+        this.connection.name = value;
+      },
+      description: function description(value) {
+        this.connection.description = value;
       },
       method: function method() {
         var args = Array.from(arguments);
