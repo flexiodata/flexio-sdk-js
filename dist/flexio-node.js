@@ -20963,7 +20963,7 @@ module.exports.getConnectionsObject = function (Flexio) {
       Flexio.http().post('/connections', data).then(function (response) {
         if (typeof callback == 'function') callback.call(null, null, response.data);
       }).catch(function (error) {
-        Flexio.util.debug('Flexio.connection.create(): Failed.');
+        Flexio.util.debug('Flexio.connections.create(): Failed.');
         if (typeof callback == 'function') callback.call(_this, error, null);
       });
     };
@@ -21018,10 +21018,28 @@ module.exports.getPipesObject = function (Flexio) {
 
   return new function () {
 
-    this.create = function () {
-      return Flexio.pipe();
-    }, this.list = function (callback) {
-      var _this = this,
+    this.create = function (pipe, callback) {
+      var _this = this;
+
+      var data;
+      if (_.isPlainObject(pipe)) {
+        data = pipe;
+      } else if (pipe instanceof Flexio.pipe) {
+        data = pipe.pipe;
+      } else {
+        throw "Unknown pipe object type";
+      }
+
+      Flexio.http().post('/pipes', data).then(function (response) {
+        if (typeof callback == 'function') callback.call(null, null, response.data);
+      }).catch(function (error) {
+        Flexio.util.debug('Flexio.pipes.create(): Failed.');
+        if (typeof callback == 'function') callback.call(_this, error, null);
+      });
+    };
+
+    this.list = function (callback) {
+      var _this2 = this,
           _arguments = arguments;
 
       var args = Array.from(arguments);
@@ -21029,7 +21047,7 @@ module.exports.getPipesObject = function (Flexio) {
 
       if (this.loading === true) {
         setTimeout(function () {
-          _this.load.apply(_this, _arguments);
+          _this2.load.apply(_this2, _arguments);
         }, 50);
         return this;
       }
@@ -21039,23 +21057,23 @@ module.exports.getPipesObject = function (Flexio) {
 
       Flexio.http().get('/pipes').then(function (response) {
         var items = _.get(response, 'data', []);
-        _this.items = [].concat(items);
-        _this.loading = false;
+        _this2.items = [].concat(items);
+        _this2.loading = false;
         Flexio.util.debug('Success!');
 
-        if (typeof callback == 'function') callback.call(_this, null, items);
+        if (typeof callback == 'function') callback.call(_this2, null, items);
       }).catch(function (error) {
-        _this.loading = false;
+        _this2.loading = false;
         Flexio.util.debug('Failed.');
 
-        if (typeof callback == 'function') callback.call(_this, error, null);
+        if (typeof callback == 'function') callback.call(_this2, error, null);
       });
 
       return this;
     };
 
     this.run = function () {
-      var _this2 = this;
+      var _this3 = this;
 
       var args = Array.from(arguments);
       args.push(null, null, null);
@@ -21143,13 +21161,13 @@ module.exports.getPipesObject = function (Flexio) {
               }
             };
 
-            if (typeof callback == 'function') callback.call(_this2, null, response_object);
+            if (typeof callback == 'function') callback.call(_this3, null, response_object);
           });
         }).catch(function (error) {
           Flexio.util.debug('Process Create Failed. ' + error);
-          _this2.running = false;
+          _this3.running = false;
 
-          if (typeof callback == 'function') callback.call(_this2, error, null);
+          if (typeof callback == 'function') callback.call(_this3, error, null);
         });
       } else {
 
@@ -21181,7 +21199,7 @@ module.exports.getPipesObject = function (Flexio) {
 
         var http = Flexio.http();
         http(http_config).then(function (response) {
-          _this2.running = false;
+          _this3.running = false;
           Flexio.util.debug('Process Complete.');
 
           var arraybuffer = response.data;
@@ -21205,13 +21223,13 @@ module.exports.getPipesObject = function (Flexio) {
             }
           };
 
-          if (typeof callback == 'function') callback.call(_this2, null, response_object);
+          if (typeof callback == 'function') callback.call(_this3, null, response_object);
         }).catch(function (error) {
 
           Flexio.util.debug('Pipe Run Call Failed.');
-          _this2.running = false;
+          _this3.running = false;
 
-          if (typeof callback == 'function') callback.call(_this2, error, null);
+          if (typeof callback == 'function') callback.call(_this3, error, null);
         });
       }
 
@@ -21241,8 +21259,8 @@ module.exports.getPipeConstructor = function (Flexio) {
     var retval = _.assign(this, {
 
       pipe: {
-        name: 'Javascript SDK Pipe',
-        description: 'This pipe was created using the Flex.io Javascript SDK',
+        name: 'Untitled',
+        description: '',
         task: []
       },
       processes: [],
@@ -21442,9 +21460,11 @@ module.exports.getConnectionConstructor = function (Flexio) {
       },
       name: function name(value) {
         this.connection.name = value;
+        return this;
       },
       description: function description(value) {
         this.connection.description = value;
+        return this;
       },
       method: function method() {
         var args = Array.from(arguments);
