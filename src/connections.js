@@ -25,7 +25,7 @@ module.exports.getConnectionsObject = function(Flexio) {
           callback.call(null, null, response.data)
       })
       .catch(error => {
-        Flexio.util.debug('Flexio.connection.create(): Failed.')
+        Flexio.util.debug('Flexio.connections.create(): Failed.')
         if (typeof callback == 'function')
           callback.call(this, error, null)
       })

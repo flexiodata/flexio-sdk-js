@@ -6,7 +6,29 @@ module.exports.getPipesObject = function(Flexio) {
 
   return new function() {
 
-    this.create = function() { return Flexio.pipe() },
+    this.create = function(pipe, callback) {
+      
+      var data;
+      if (_.isPlainObject(pipe)) {
+        data = pipe
+      } else if (pipe instanceof Flexio.pipe) {
+        data = pipe.pipe
+      } else {
+        throw "Unknown pipe object type"
+      }
+
+
+      Flexio.http().post('/pipes', data)
+      .then(response => {
+        if (typeof callback == 'function')
+          callback.call(null, null, response.data)
+      })
+      .catch(error => {
+        Flexio.util.debug('Flexio.pipes.create(): Failed.')
+        if (typeof callback == 'function')
+          callback.call(this, error, null)
+      })
+    }
 
     this.list = function(callback) {
       var args = Array.from(arguments)

@@ -14,8 +14,8 @@ return function(identifier) {
     // -- state --
 
     pipe: {
-      name: 'Javascript SDK Pipe',
-      description: 'This pipe was created using the Flex.io Javascript SDK',
+      name: 'Untitled',
+      description: '',
       task: []
     },
     processes: [],
