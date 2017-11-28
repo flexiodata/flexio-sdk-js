@@ -16,6 +16,7 @@ module.exports = {
     request: require('./request.js'),
     select: require('./select.js'),
     sleep: require('./sleep.js'),
+    task: require('./task.js'),
     transform: require('./transform.js'),
 }
 
@@ -34,6 +35,7 @@ import renderFn from './render'
 import requestFn from './request'
 import selectFn from './select'
 import sleepFn from './sleep'
+import transformFn from './task'
 import transformFn from './transform'
 
 export const input      = inputFn
@@ -51,5 +53,6 @@ export const render     = renderFn
 export const request    = requestFn
 export const select     = selectFn
 export const sleep      = sleepFn
+export const transform  = taskFn
 export const transform  = transformFn
 */
