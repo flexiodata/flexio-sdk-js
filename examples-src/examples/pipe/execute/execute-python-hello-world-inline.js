@@ -1,12 +1,13 @@
 
 const code = `
-var inline_python_code = "\\
-def flexio_handler(context):\\n\\
-    writer = context.output.create(name='Hello')\\n\\
-    if 'message' in context.input.env:\\n\\
-        writer.write(context.input.env['message'])\\n\\
-    else:\\n\\
-        writer.write('Hello, World!')"
+var inline_python_code = \`
+def flexio_handler(context):
+    writer = context.output.create(name='Hello')
+    if 'message' in context.input.env:
+        writer.write(context.input.env['message'])
+    else:
+        writer.write('Hello, World!')
+\`
 
 Flexio.pipe()
   .execute(inline_python_code)
@@ -22,14 +23,14 @@ Flexio.pipe()
   })`
 
 const fn = (Flexio, callback) => {
-  var inline_python_code = "\
-def flexio_handler(context):\n\
-    writer = context.output.create(name='Hello')\n\
-    if 'message' in context.input.env:\n\
-        writer.write(context.input.env['message'])\n\
-    else:\n\
-        writer.write('Hello, World!')"
-
+  var inline_python_code = `
+def flexio_handler(context):
+    writer = context.output.create(name='Hello')
+    if 'message' in context.input.env:
+        writer.write(context.input.env['message'])
+    else:
+        writer.write('Hello, World!')
+`
   Flexio.pipe()
     .execute(inline_python_code)
     .email(
