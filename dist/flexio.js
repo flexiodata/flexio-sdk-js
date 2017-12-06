@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.10.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.11.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -17248,6 +17248,7 @@ module.exports = {
     TASK_TYPE_OUTPUT: 'flexio.output',
     TASK_TYPE_PROMPT: 'flexio.prompt',
     TASK_TYPE_R: 'flexio.r',
+    TASK_TYPE_READ: 'flexio.read',
     TASK_TYPE_RENAME: 'flexio.rename',
     TASK_TYPE_RENDER: 'flexio.render',
     TASK_TYPE_REQUEST: 'flexio.request',
@@ -18253,18 +18254,18 @@ var cfg = {
 };
 
 var Flexio = {
-  version: __webpack_require__(54).version,
+  version: __webpack_require__(55).version,
 
   _init: function _init() {
-    this.connections = __webpack_require__(55).getConnectionsObject(this);
-    this.pipes = __webpack_require__(56).getPipesObject(this);
+    this.connections = __webpack_require__(56).getConnectionsObject(this);
+    this.pipes = __webpack_require__(57).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(57).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(58).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
 
-    var getConnectionConstructor = __webpack_require__(58).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(59).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -19225,12 +19226,13 @@ module.exports = {
     limit: __webpack_require__(46),
     list: __webpack_require__(47),
     python: executeFunctions.python,
-    render: __webpack_require__(48),
-    request: __webpack_require__(49),
-    select: __webpack_require__(50),
-    sleep: __webpack_require__(51),
-    task: __webpack_require__(52),
-    transform: __webpack_require__(53)
+    read: __webpack_require__(48),
+    render: __webpack_require__(49),
+    request: __webpack_require__(50),
+    select: __webpack_require__(51),
+    sleep: __webpack_require__(52),
+    task: __webpack_require__(53),
+    transform: __webpack_require__(54)
 };
 
 /***/ }),
@@ -21628,6 +21630,27 @@ module.exports = list;
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 var taskTypes = __webpack_require__(2);
+var read = function read(path) {
+  return {
+    type: taskTypes.TASK_TYPE_READ,
+    params: {
+      path: path
+    }
+  };
+};
+
+module.exports = read;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
 var render = function render(url, options) {
   var args = Array.from(arguments);
   var url = _.get(args, '[0]', '');
@@ -21659,7 +21682,7 @@ var render = function render(url, options) {
 module.exports = render;
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21702,7 +21725,7 @@ var request = function request() {
 module.exports = request;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21727,7 +21750,7 @@ var select = function select() {
 module.exports = select;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21750,7 +21773,7 @@ var sleep = function sleep(value) {
 module.exports = sleep;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21765,7 +21788,7 @@ var task = function task(json) {
 module.exports = task;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21811,13 +21834,13 @@ var transform = function transform(value) {
 module.exports = transform;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.10.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.11.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21888,7 +21911,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22122,7 +22145,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22279,7 +22302,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

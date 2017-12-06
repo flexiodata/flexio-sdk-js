@@ -142,6 +142,13 @@ const R = {
   bg_color: 'bg-task-purple'
 }
 
+const READ = {
+  name: 'Rename',
+  type: types.TASK_TYPE_READ,
+  icon: 'input',
+  bg_color: 'bg-task-orange'
+}
+
 const RENAME = {
   name: 'Rename',
   type: types.TASK_TYPE_RENAME,
@@ -191,6 +198,13 @@ const TRANSFORM = {
   bg_color: 'bg-task-orange'
 }
 
+const WRITE = {
+  name: 'Rename',
+  type: types.TASK_TYPE_WRITE,
+  icon: 'input',
+  bg_color: 'bg-task-orange'
+}
+
 /* exports */
 
 //export const TASK_INFO_CALC_FIELD    = CALC_FIELD
@@ -212,6 +226,7 @@ export const TASK_INFO_LIMIT         = LIMIT
 export const TASK_INFO_OUTPUT        = OUTPUT
 //export const TASK_INFO_PROMPT        = PROMPT
 //export const TASK_INFO_R             = R
+export const TASK_INFO_READ          = READ
 //export const TASK_INFO_RENAME        = RENAME
 export const TASK_INFO_RENDER        = RENDER
 export const TASK_INFO_REQUEST       = REQUEST
@@ -219,3 +234,4 @@ export const TASK_INFO_REQUEST       = REQUEST
 //export const TASK_INFO_SELECT        = SELECT
 //export const TASK_INFO_SORT          = SORT
 //export const TASK_INFO_TRANSFORM     = TRANSFORM
+export const TASK_INFO_WRITE         = WRITE

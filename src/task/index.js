@@ -19,6 +19,7 @@ module.exports = {
     sleep: require('./sleep.js'),
     task: require('./task.js'),
     transform: require('./transform.js'),
+    write: require('./write.js')
 }
 
 
@@ -39,6 +40,7 @@ import selectFn from './select'
 import sleepFn from './sleep'
 import transformFn from './task'
 import transformFn from './transform'
+import writeFn from './write'
 
 export const input      = inputFn
 export const output     = outputFn
@@ -58,4 +60,5 @@ export const select     = selectFn
 export const sleep      = sleepFn
 export const transform  = taskFn
 export const transform  = transformFn
+export const write      = writeFn
 */

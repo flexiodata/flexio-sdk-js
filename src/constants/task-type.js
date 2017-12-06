@@ -29,7 +29,8 @@ module.exports = {
     TASK_TYPE_SELECT: 'flexio.select',
     TASK_TYPE_SLEEP: 'flexio.sleep',
     TASK_TYPE_SORT: 'flexio.sort',
-    TASK_TYPE_TRANSFORM: 'flexio.transform'
+    TASK_TYPE_TRANSFORM: 'flexio.transform',
+    TASK_TYPE_WRITE: 'flexio.write'
 }
 
 /*
@@ -63,4 +64,5 @@ export const TASK_TYPE_SELECT        = 'flexio.select'
 export const TASK_TYPE_SLEEP         = 'flexio.sleep'
 export const TASK_TYPE_SORT          = 'flexio.sort'
 export const TASK_TYPE_TRANSFORM     = 'flexio.transform'
+export const TASK_TYPE_WRITE         = 'flexio.write'
 */

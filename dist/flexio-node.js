@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.10.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.11.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -17225,6 +17225,46 @@ module.exports.getUtilObject = function (Flexio) {
 "use strict";
 
 
+module.exports = {
+    TASK_TYPE_CALC: 'flexio.calc',
+    TASK_TYPE_COMMENT: 'flexio.comment',
+    TASK_TYPE_CONVERT: 'flexio.convert',
+    TASK_TYPE_COPY: 'flexio.copy',
+    TASK_TYPE_CUSTOM: 'flexio.custom',
+    TASK_TYPE_DISTINCT: 'flexio.distinct',
+    TASK_TYPE_DUPLICATE: 'flexio.duplicate',
+    TASK_TYPE_ECHO: 'flexio.echo',
+    TASK_TYPE_EMAIL_SEND: 'flexio.email',
+    TASK_TYPE_EXECUTE: 'flexio.execute',
+    TASK_TYPE_FIND_REPLACE: 'flexio.replace',
+    TASK_TYPE_FILTER: 'flexio.filter',
+    TASK_TYPE_GROUP: 'flexio.group',
+    TASK_TYPE_INPUT: 'flexio.input',
+    TASK_TYPE_LIMIT: 'flexio.limit',
+    TASK_TYPE_LIST: 'flexio.list',
+    TASK_TYPE_MERGE: 'flexio.merge',
+    TASK_TYPE_NOP: 'flexio.nop',
+    TASK_TYPE_OUTPUT: 'flexio.output',
+    TASK_TYPE_PROMPT: 'flexio.prompt',
+    TASK_TYPE_R: 'flexio.r',
+    TASK_TYPE_READ: 'flexio.read',
+    TASK_TYPE_RENAME: 'flexio.rename',
+    TASK_TYPE_RENDER: 'flexio.render',
+    TASK_TYPE_REQUEST: 'flexio.request',
+    TASK_TYPE_SEARCH: 'flexio.search',
+    TASK_TYPE_SELECT: 'flexio.select',
+    TASK_TYPE_SLEEP: 'flexio.sleep',
+    TASK_TYPE_SORT: 'flexio.sort',
+    TASK_TYPE_TRANSFORM: 'flexio.transform'
+};
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var bind = __webpack_require__(6);
 var isBuffer = __webpack_require__(23);
 
@@ -17529,52 +17569,13 @@ module.exports = {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = {
-    TASK_TYPE_CALC: 'flexio.calc',
-    TASK_TYPE_COMMENT: 'flexio.comment',
-    TASK_TYPE_CONVERT: 'flexio.convert',
-    TASK_TYPE_COPY: 'flexio.copy',
-    TASK_TYPE_CUSTOM: 'flexio.custom',
-    TASK_TYPE_DISTINCT: 'flexio.distinct',
-    TASK_TYPE_DUPLICATE: 'flexio.duplicate',
-    TASK_TYPE_ECHO: 'flexio.echo',
-    TASK_TYPE_EMAIL_SEND: 'flexio.email',
-    TASK_TYPE_EXECUTE: 'flexio.execute',
-    TASK_TYPE_FIND_REPLACE: 'flexio.replace',
-    TASK_TYPE_FILTER: 'flexio.filter',
-    TASK_TYPE_GROUP: 'flexio.group',
-    TASK_TYPE_INPUT: 'flexio.input',
-    TASK_TYPE_LIMIT: 'flexio.limit',
-    TASK_TYPE_LIST: 'flexio.list',
-    TASK_TYPE_MERGE: 'flexio.merge',
-    TASK_TYPE_NOP: 'flexio.nop',
-    TASK_TYPE_OUTPUT: 'flexio.output',
-    TASK_TYPE_PROMPT: 'flexio.prompt',
-    TASK_TYPE_R: 'flexio.r',
-    TASK_TYPE_RENAME: 'flexio.rename',
-    TASK_TYPE_RENDER: 'flexio.render',
-    TASK_TYPE_REQUEST: 'flexio.request',
-    TASK_TYPE_SEARCH: 'flexio.search',
-    TASK_TYPE_SELECT: 'flexio.select',
-    TASK_TYPE_SLEEP: 'flexio.sleep',
-    TASK_TYPE_SORT: 'flexio.sort',
-    TASK_TYPE_TRANSFORM: 'flexio.transform'
-};
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var normalizeHeaderName = __webpack_require__(25);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -17777,7 +17778,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -18362,7 +18363,7 @@ module.exports = Cancel;
 
 
 var _ = __webpack_require__(0);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var connTypes = __webpack_require__(53);
 var util = __webpack_require__(1);
 var input = function input() {
@@ -18453,18 +18454,18 @@ var cfg = {
 };
 
 var Flexio = {
-  version: __webpack_require__(66).version,
+  version: __webpack_require__(67).version,
 
   _init: function _init() {
-    this.connections = __webpack_require__(67).getConnectionsObject(this);
-    this.pipes = __webpack_require__(68).getPipesObject(this);
+    this.connections = __webpack_require__(68).getConnectionsObject(this);
+    this.pipes = __webpack_require__(69).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(69).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(70).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
 
-    var getConnectionConstructor = __webpack_require__(70).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(71).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -18542,7 +18543,7 @@ module.exports = __webpack_require__(22);
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var bind = __webpack_require__(6);
 var Axios = __webpack_require__(24);
 var defaults = __webpack_require__(4);
@@ -18629,7 +18630,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(4);
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var InterceptorManager = __webpack_require__(44);
 var dispatchRequest = __webpack_require__(45);
 var isAbsoluteURL = __webpack_require__(47);
@@ -18721,7 +18722,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -18740,7 +18741,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var settle = __webpack_require__(7);
 var buildURL = __webpack_require__(9);
 var parseHeaders = __webpack_require__(27);
@@ -18927,7 +18928,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 /**
  * Parse headers into an object
@@ -18971,7 +18972,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -19089,7 +19090,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -19149,7 +19150,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var settle = __webpack_require__(7);
 var buildURL = __webpack_require__(9);
 var http = __webpack_require__(10);
@@ -20052,7 +20053,7 @@ module.exports = {"name":"axios","version":"0.16.2","description":"Promise based
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -20111,7 +20112,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 var transformData = __webpack_require__(46);
 var isCancel = __webpack_require__(15);
 var defaults = __webpack_require__(4);
@@ -20197,7 +20198,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(2);
+var utils = __webpack_require__(3);
 
 /**
  * Transform the data for a request or a response
@@ -20378,12 +20379,13 @@ module.exports = {
     limit: __webpack_require__(58),
     list: __webpack_require__(59),
     python: executeFunctions.python,
-    render: __webpack_require__(60),
-    request: __webpack_require__(61),
-    select: __webpack_require__(62),
-    sleep: __webpack_require__(63),
-    task: __webpack_require__(64),
-    transform: __webpack_require__(65)
+    read: __webpack_require__(60),
+    render: __webpack_require__(61),
+    request: __webpack_require__(62),
+    select: __webpack_require__(63),
+    sleep: __webpack_require__(64),
+    task: __webpack_require__(65),
+    transform: __webpack_require__(66)
 };
 
 /***/ }),
@@ -20395,7 +20397,7 @@ module.exports = {
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 
 var isNodeJs = function isNodeJs() {
   return typeof process !== 'undefined';
@@ -20567,7 +20569,7 @@ module.exports = {
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var DELIMITER_NONE = '{none}';
 var DELIMITER_COMMA = '{comma}';
 var DELIMITER_SEMICOLON = '{semicolon}';
@@ -20636,7 +20638,7 @@ module.exports = convert;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var echo = function echo(msg) {
 
   return {
@@ -20658,7 +20660,7 @@ module.exports = echo;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var email = function email(params) {
 
   if (!_.isPlainObject(params)) throw 'The first function parameter must be an object';
@@ -20692,7 +20694,7 @@ module.exports = email;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var filter = function filter(where) {
 
   if (_.isNil(where)) throw 'The `filter` parameter is required';
@@ -20716,7 +20718,7 @@ module.exports = filter;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var limit = function limit(value) {
   value = _.defaultTo(value, 10);
 
@@ -20739,7 +20741,7 @@ module.exports = limit;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var list = function list(path) {
   return {
     type: taskTypes.TASK_TYPE_LIST,
@@ -20760,7 +20762,28 @@ module.exports = list;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
+var read = function read(path) {
+  return {
+    type: taskTypes.TASK_TYPE_READ,
+    params: {
+      path: path
+    }
+  };
+};
+
+module.exports = read;
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
 var render = function render(url, options) {
   var args = Array.from(arguments);
   var url = _.get(args, '[0]', '');
@@ -20792,7 +20815,7 @@ var render = function render(url, options) {
 module.exports = render;
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20800,7 +20823,7 @@ module.exports = render;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 
 var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS'];
 var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
@@ -20835,7 +20858,7 @@ var request = function request() {
 module.exports = request;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20843,7 +20866,7 @@ module.exports = request;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var select = function select() {
   var columns = Array.from(arguments);
 
@@ -20860,7 +20883,7 @@ var select = function select() {
 module.exports = select;
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20868,7 +20891,7 @@ module.exports = select;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var sleep = function sleep(value) {
   value = _.defaultTo(value, 10);
 
@@ -20883,7 +20906,7 @@ var sleep = function sleep(value) {
 module.exports = sleep;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20898,7 +20921,7 @@ var task = function task(json) {
 module.exports = task;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20906,7 +20929,7 @@ module.exports = task;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(3);
+var taskTypes = __webpack_require__(2);
 var transform = function transform(value) {
   var args = Array.from(arguments);
 
@@ -20944,13 +20967,13 @@ var transform = function transform(value) {
 module.exports = transform;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.10.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.11.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21021,7 +21044,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21255,7 +21278,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21412,7 +21435,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
