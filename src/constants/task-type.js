@@ -21,6 +21,7 @@ module.exports = {
     TASK_TYPE_OUTPUT: 'flexio.output',
     TASK_TYPE_PROMPT: 'flexio.prompt',
     TASK_TYPE_R: 'flexio.r',
+    TASK_TYPE_READ: 'flexio.read',
     TASK_TYPE_RENAME: 'flexio.rename',
     TASK_TYPE_RENDER: 'flexio.render',
     TASK_TYPE_REQUEST: 'flexio.request',
@@ -53,6 +54,7 @@ export const TASK_TYPE_NOP           = 'flexio.nop'
 export const TASK_TYPE_OUTPUT        = 'flexio.output'
 export const TASK_TYPE_PROMPT        = 'flexio.prompt'
 export const TASK_TYPE_R             = 'flexio.r'
+export const TASK_TYPE_READ          = 'flexio.read'
 export const TASK_TYPE_RENAME        = 'flexio.rename'
 export const TASK_TYPE_RENDER        = 'flexio.render'
 export const TASK_TYPE_REQUEST       = 'flexio.request'

@@ -12,6 +12,7 @@ module.exports = {
     limit: require('./limit.js'),
     list: require('./list.js'),
     python: executeFunctions.python,
+    read: require('./read.js'),
     render: require('./render.js'),
     request: require('./request.js'),
     select: require('./select.js'),
@@ -31,6 +32,7 @@ import * as executeFns from './execute'
 import filterFn from './filter'
 import limitFn from './limit'
 import listFn from './list'
+import readFn from './read'
 import renderFn from './render'
 import requestFn from './request'
 import selectFn from './select'
@@ -49,6 +51,7 @@ export const javascript = executeFns.javascript
 export const limit      = limitFn
 export const list       = listFn
 export const python     = executeFns.python
+export const read       = readFn
 export const render     = renderFn
 export const request    = requestFn
 export const select     = selectFn
