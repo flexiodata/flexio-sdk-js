@@ -14,7 +14,7 @@ var echo = function(msg) {
 
 echo.fromJSON = function(json) {
   var params = _.get(json, 'params', {})
-  return "echo(" + JSON.stringify(''+params.msg) + ")"
+  return 'echo(' + JSON.stringify(''+params.msg) + ')'
 }
 
 module.exports = echo

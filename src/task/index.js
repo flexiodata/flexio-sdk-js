@@ -26,7 +26,8 @@ var fromJSON = function(json) {
     default:
       return ''
 
-    case taskTypes.TASK_TYPE_ECHO: return echoFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_ECHO:       return echoFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_LIMIT:      return limitFn.fromJSON(json)
   }
 }
 
