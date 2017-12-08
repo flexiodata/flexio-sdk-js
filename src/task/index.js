@@ -31,6 +31,7 @@ var fromJSON = function(json) {
     case taskTypes.TASK_TYPE_LIMIT:      return limitFn.fromJSON(json)
     case taskTypes.TASK_TYPE_SELECT:     return selectFn.fromJSON(json)
     case taskTypes.TASK_TYPE_SLEEP:      return sleepFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_REQUEST:    return requestFn.fromJSON(json)
   }
 }
 

@@ -65,4 +65,9 @@ var request = function() {
   }
 }
 
+request.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  return 'request(' + JSON.stringify(params, null, 2) + ')'
+}
+
 module.exports = request // export default request
