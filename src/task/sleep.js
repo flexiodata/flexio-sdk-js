@@ -14,4 +14,9 @@ var sleep = function(value) {
   }
 }
 
+sleep.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  return 'sleep(' + JSON.stringify(params.value) + ')'
+}
+
 module.exports = sleep   // export default sleep
