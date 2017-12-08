@@ -16,7 +16,8 @@ var limit = function(value) {
 
 limit.fromJSON = function(json) {
   var params = _.get(json, 'params', {})
-  return 'limit(' + JSON.stringify(params.value) + ')'
+  var val = JSON.stringify(params.value) || ''
+  return 'limit(' + val + ')'
 }
 
 module.exports = limit  // export default limit
