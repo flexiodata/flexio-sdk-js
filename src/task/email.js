@@ -4,7 +4,6 @@ var taskTypes = require('../constants/task-type')       // import * as taskTypes
 
 // task definition function
 var email = function(params) {
-
   if (!_.isPlainObject(params))
     throw 'The first function parameter must be an object'
 
@@ -25,11 +24,15 @@ var email = function(params) {
   if (data != 'body' && data != 'attachment')
     params.data = 'none'
 
-    console.log(params)
   return {
-    type: taskTypes.TASK_TYPE_EMAIL,
+    type: taskTypes.TASK_TYPE_EMAIL_SEND,
     params
   }
+}
+
+email.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  return 'email(' + JSON.stringify(params, null, 2) + ')'
 }
 
 module.exports = email // export default email
