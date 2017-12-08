@@ -1,27 +1,59 @@
-var executeFunctions = require('./execute.js')
+var _ = require('lodash')                               // import _ from 'lodash'
+var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
-module.exports = {
-    input:  require('./input.js'),
-    output: require('./input.js'),
-    convert: require('./convert.js'),
-    echo: require('./echo.js'),
-    email: require('./email.js'),
-    execute: executeFunctions.execute,
-    filter: require('./filter.js'),
-    javascript: executeFunctions.javascript,
-    limit: require('./limit.js'),
-    list: require('./list.js'),
-    python: executeFunctions.python,
-    read: require('./read.js'),
-    render: require('./render.js'),
-    request: require('./request.js'),
-    select: require('./select.js'),
-    sleep: require('./sleep.js'),
-    task: require('./task.js'),
-    transform: require('./transform.js'),
-    write: require('./write.js')
+var inputFn     = require('./input.js')
+var outputFn    = require('./output.js')
+var convertFn   = require('./convert.js')
+var echoFn      = require('./echo.js')
+var emailFn     = require('./email.js')
+var filterFn     = require('./filter.js')
+var executeFn   = require('./execute.js')
+var limitFn     = require('./limit.js')
+var listFn      = require('./list.js')
+var readFn      = require('./read.js')
+var renderFn    = require('./render.js')
+var requestFn   = require('./request.js')
+var selectFn    = require('./select.js')
+var sleepFn     = require('./sleep.js')
+var taskFn      = require('./task.js')
+var transformFn = require('./transform.js')
+var writeFn     = require('./write.js')
+
+var fromJSON = function(json) {
+  var type = _.get(json, 'type', '')
+
+  switch (type) {
+    default:
+      return ''
+
+    case taskTypes.TASK_TYPE_ECHO: return echoFn.fromJSON(json)
+  }
 }
 
+module.exports = {
+  input:      inputFn,
+  output:     outputFn,
+  convert:    convertFn,
+  echo:       echoFn,
+  email:      emailFn,
+  execute:    executeFn.execute,
+  filter:     filterFn,
+  javascript: executeFn.javascript,
+  limit:      limitFn,
+  list:       listFn,
+  python:     executeFn.python,
+  read:       readFn,
+  render:     renderFn,
+  request:    requestFn,
+  select:     selectFn,
+  sleep:      sleepFn,
+  task:       taskFn,
+  transform:  transformFn,
+  write:      writeFn,
+
+  // expose all task 'fromJSON' calls into a single function
+  fromJSON:   fromJSON
+}
 
 /*
 import inputFn from './input'

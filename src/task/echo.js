@@ -4,13 +4,17 @@ var taskTypes = require('../constants/task-type')       // import * as taskTypes
 
 // task definition function
 var echo = function(msg) {
-
   return {
     type: taskTypes.TASK_TYPE_ECHO,
     params: {
       msg
     }
   }
+}
+
+echo.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  return "echo('" + params.msg + "')"
 }
 
 module.exports = echo
