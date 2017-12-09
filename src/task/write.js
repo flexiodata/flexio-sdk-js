@@ -3,7 +3,7 @@ var util = require('../util')                           // import util from '../
 var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // task definition function
-var writer = function(path) {
+var write = function(path) {
   return {
     type: taskTypes.TASK_TYPE_WRITE,
     params: {
@@ -18,4 +18,4 @@ write.fromJSON = function(json) {
   return 'write(' + path + ')'
 }
 
-module.exports = writer   // export default list
+module.exports = write   // export default list
