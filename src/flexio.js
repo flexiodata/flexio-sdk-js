@@ -20,7 +20,7 @@ var Flexio = {
     this.pipes = require('./pipes').getPipesObject(this)
     this.util = require('./util').getUtilObject(this)
     this._http = null
-    
+
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
 
@@ -47,6 +47,19 @@ var Flexio = {
   },
 
   task,
+
+  fromJSON(task_arr) {
+    // create JS task strings from JSON
+    var retval = _.map(task_arr, function(t) {
+      return Flexio.task.fromJSON(t)
+    })
+
+    // prepend the start of the JS code
+    var retval = ['Flexio.pipe()'].concat(retval)
+
+    // indent tasks and add dot notation
+    return retval.join('\n  .')
+  },
 
   _createHttp() {
     // axios instance options with base url and auth token
