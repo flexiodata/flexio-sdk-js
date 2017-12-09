@@ -7,4 +7,8 @@ var task = function(json) {
   return json
 }
 
+task.fromJSON = function(json) {
+  return 'task(' + JSON.stringify(json, null, 2) + ')'
+}
+
 module.exports = task   // export default list

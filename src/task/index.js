@@ -24,7 +24,7 @@ var fromJSON = function(json) {
 
   switch (type) {
     default:
-      return ''
+      return taskFn.fromJSON(json)
 
     case taskTypes.TASK_TYPE_CONVERT:    return convertFn.fromJSON(json)
     case taskTypes.TASK_TYPE_ECHO:       return echoFn.fromJSON(json)
