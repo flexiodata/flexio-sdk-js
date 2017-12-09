@@ -26,6 +26,7 @@ var fromJSON = function(json) {
     default:
       return ''
 
+    case taskTypes.TASK_TYPE_CONVERT:    return convertFn.fromJSON(json)
     case taskTypes.TASK_TYPE_ECHO:       return echoFn.fromJSON(json)
     case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.fromJSON(json)
     case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.fromJSON(json)

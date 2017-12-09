@@ -27,6 +27,20 @@ const FORMAT_TABLE          = 'table'
 const SHORTHAND_CSV = 'csv'
 const SHORTHAND_TSV = 'tsv'
 
+const FORMAT_CSV = {
+  format: FORMAT_DELIMITED_TEXT,
+  delimiter: DELIMITER_COMMA,
+  header: true,
+  qualifier: TEXT_QUALIFIER_DOUBLE_QUOTE
+}
+
+const FORMAT_TSV = {
+  format: FORMAT_DELIMITED_TEXT,
+  delimiter: DELIMITER_TAB,
+  header: true,
+  qualifier: TEXT_QUALIFIER_NONE
+}
+
 // task definition function
 var convert = function(input, output) {
 
@@ -35,28 +49,14 @@ var convert = function(input, output) {
     params: {}
   }
 
-  var csv_format = {
-    format: FORMAT_DELIMITED_TEXT,
-    delimiter: DELIMITER_COMMA,
-    header: true,
-    qualifier: TEXT_QUALIFIER_DOUBLE_QUOTE
-  }
-
-  var tsv_format = {
-    format: FORMAT_DELIMITED_TEXT,
-    delimiter: DELIMITER_TAB,
-    header: true,
-    qualifier: TEXT_QUALIFIER_NONE
-  }
-
   // convert input
 
   if (_.isString(input))
   {
     if (input == SHORTHAND_CSV)
-      _.set(task, 'params.input', csv_format)
+      _.set(task, 'params.input', FORMAT_CSV)
        else if (input == SHORTHAND_TSV)
-      _.set(task, 'params.input', tsv_format)
+      _.set(task, 'params.input', FORMAT_TSV)
        else
       _.set(task, 'params.input.format', input)
   }
@@ -70,9 +70,9 @@ var convert = function(input, output) {
   if (_.isString(output))
   {
     if (output == SHORTHAND_CSV)
-      _.set(task, 'params.output', csv_format)
+      _.set(task, 'params.output', FORMAT_CSV)
        else if (output == SHORTHAND_TSV)
-      _.set(task, 'params.output', tsv_format)
+      _.set(task, 'params.output', FORMAT_TSV)
        else
       _.set(task, 'params.output.format', output)
   }
@@ -82,6 +82,41 @@ var convert = function(input, output) {
   }
 
   return task
+}
+
+convert.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  var input = _.get(params, 'input', {})
+  var output = _.get(params, 'output', {})
+
+  var p1
+  var p2
+
+  // we can use the 'csv' shorthand string as the parameter
+  if (_.isEqual(input, FORMAT_CSV))
+    p1 = SHORTHAND_CSV
+  if (_.isEqual(output, FORMAT_CSV))
+    p2 = SHORTHAND_CSV
+
+  // we can use the 'tsv' shorthand string as the parameter
+  if (_.isEqual(input, FORMAT_TSV))
+    p1 = SHORTHAND_TSV
+  if (_.isEqual(output, FORMAT_TSV))
+    p2 = SHORTHAND_TSV
+
+  // we can use the format string as the parameter
+  if (_.isEmpty(_.omit(input, ['format'])))
+    p1 = _.get(input, 'format', '')
+  if (_.isEmpty(_.omit(output, ['format'])))
+    p2 = _.get(output, 'format', '')
+
+  // use the raw object as a fallback
+  if (!p1)
+    p1 = input
+  if (!p2)
+    p2 = output
+
+  return 'convert(' + JSON.stringify(p1) + ', ' + JSON.stringify(p2) + ')'
 }
 
 module.exports = convert  // export default convert

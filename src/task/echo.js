@@ -14,7 +14,7 @@ var echo = function(msg) {
 
 echo.fromJSON = function(json) {
   var params = _.get(json, 'params', {})
-  var msg = JSON.stringify(params.msg) || ''
+  var msg = JSON.stringify(params.msg) || '""'
   return 'echo(' + msg + ')'
 }
 
