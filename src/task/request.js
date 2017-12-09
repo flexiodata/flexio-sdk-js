@@ -67,7 +67,15 @@ var request = function() {
 
 request.fromJSON = function(json) {
   var params = _.get(json, 'params', {})
-  return 'request(' + JSON.stringify(params, null, 2) + ')'
+  var url = _.get(params, 'url', '')
+  var opts = _.omit(params, ['url'])
+  if (_.get(opts, 'method', '') == 'GET')
+    opts = _.omit(opts, ['method'])
+
+  if (_.isEmpty(opts))
+    return 'request(' + JSON.stringify(url) + ')'
+     else
+    return 'request(' + JSON.stringify(url) + ', ' + JSON.stringify(opts, null, 2) + ')'
 }
 
 module.exports = request // export default request
