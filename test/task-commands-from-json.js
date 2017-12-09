@@ -4,7 +4,11 @@ var Flexio = require('../src/main.js')
 //Flexio.setup('nbnxsyjzwzmtsbwnzgmy', { debug: true })
 Flexio.setup('nbnxsyjzwzmtsbwnzgmy', { baseUrl: 'https://localhost/api/v1', debug: true, insecure: true })
 
-var cmd = Flexio.task.fromJSON({
+var echoCommand = function(json) {
+  console.log(Flexio.task.fromJSON(json) + '\n----------')
+}
+
+var json = {
   type: 'flexio.convert',
   params: {
     input: {
@@ -17,11 +21,11 @@ var cmd = Flexio.task.fromJSON({
       format: 'json'
     }
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.convert',
   params: {
     input: {
@@ -31,78 +35,78 @@ var cmd = Flexio.task.fromJSON({
       format: 'pdf'
     }
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.echo',
   params: {
     msg: 'test123'
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.email',
   params: {
     to: ['test@email.com'],
     body_text: 'This is my message',
     subject: 'This is my subject'
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.execute',
   params: {
     "lang": "python",
     "code": "ZGVmIGZsZXhpb19oYW5kbGVyKGNvbnRleHQpOg0KICAgIGNvbnRleHQub3V0cHV0LmNvbnRlbnRfdHlwZSA9ICJ0ZXh0L3BsYWluIg0KICAgIGNvbnRleHQub3V0cHV0LndyaXRlKCdIZWxsbyBXb3JsZCEnKQ=="
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.execute',
   params: {
     "lang": "javascript",
     "code": "ZXhwb3J0cy5mbGV4aW9faGFuZGxlciA9IGZ1bmN0aW9uKGNvbnRleHQpIHsNCiAgICBjb250ZXh0Lm91dHB1dC5jb250ZW50X3R5cGUgPSAidGV4dC9wbGFpbiINCiAgICBjb250ZXh0Lm91dHB1dC53cml0ZSgnSGVsbG8sIFdvcmxkIScpDQp9"
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.filter',
   params: {
     where: "vend_name = 'BOISE FIELDS'"
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.limit',
   params: {
     value: 10
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.read',
   params: {
     path: '/msq8162lp5rw/mulch123.csv'
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.render',
   params: {
     url: 'https://www.flex.io',
@@ -111,57 +115,57 @@ var cmd = Flexio.task.fromJSON({
     height: 600,
     scrollbars: false
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.request',
   params: {
     method: 'GET',
     url: 'https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv'
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.select',
   params: {
     columns: ['test','test2','test3']
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.select',
   params: {
     columns: ['test']
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.sleep',
   params: {
     value: 10
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.write',
   params: {
     path: '/msq8162lp5rw/bwilliams/mulch124.csv'
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
 
-var cmd = Flexio.task.fromJSON({
+var json = {
   type: 'flexio.unknown',
   params: {
     p1: 'test',
@@ -171,6 +175,6 @@ var cmd = Flexio.task.fromJSON({
       p5: 'test4'
     }
   }
-})
+}
 
-console.log(cmd)
+echoCommand(json)
