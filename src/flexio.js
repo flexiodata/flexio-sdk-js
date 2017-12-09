@@ -51,7 +51,17 @@ var Flexio = {
   fromJSON(task_arr) {
     // create JS task strings from JSON
     var retval = _.map(task_arr, function(t) {
-      return Flexio.task.fromJSON(t)
+      var cmd_str = Flexio.task.fromJSON(t)
+
+      // TODO: review this; it makes the code that is output very nice and tidy,
+      //       however, if we don't like it we can yank it
+
+      // increase indent of all lines of the commands (except the Python execute task which cares about indents)
+      // other than the first line (which will be indented below)
+      if (_.get(t, 'params.lang', '') != 'python')
+        cmd_str = cmd_str.replace(/\n/g, '\n  ')
+
+      return cmd_str
     })
 
     // prepend the start of the JS code
