@@ -12,4 +12,10 @@ var writer = function(path) {
   }
 }
 
+write.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  var path = JSON.stringify(params.path) || '""'
+  return 'write(' + path + ')'
+}
+
 module.exports = writer   // export default list

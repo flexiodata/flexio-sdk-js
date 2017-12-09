@@ -18,5 +18,4 @@ read.fromJSON = function(json) {
   return 'read(' + path + ')'
 }
 
-
 module.exports = read   // export default list
