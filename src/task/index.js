@@ -32,6 +32,7 @@ var fromJSON = function(json) {
     case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.fromJSON(json)
     case taskTypes.TASK_TYPE_FILTER:     return filterFn.fromJSON(json)
     case taskTypes.TASK_TYPE_LIMIT:      return limitFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_READ:       return readFn.fromJSON(json)
     case taskTypes.TASK_TYPE_RENDER:     return renderFn.fromJSON(json)
     case taskTypes.TASK_TYPE_REQUEST:    return requestFn.fromJSON(json)
     case taskTypes.TASK_TYPE_SELECT:     return selectFn.fromJSON(json)

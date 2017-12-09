@@ -12,4 +12,11 @@ var read = function(path) {
   }
 }
 
+read.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  var path = JSON.stringify(params.path) || '""'
+  return 'read(' + path + ')'
+}
+
+
 module.exports = read   // export default list
