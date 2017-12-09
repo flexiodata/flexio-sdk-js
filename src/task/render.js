@@ -27,12 +27,17 @@ var render = function(url, options) {
     var params = _.assign({}, defaults, options, { url })
   }
 
-  console.log(params)
-  
   return {
     type: taskTypes.TASK_TYPE_RENDER,
     params
   }
+}
+
+render.fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  var url = JSON.stringify(params.url) || ''
+  var opts = _.omit(params)
+  return 'render(' + url + ', ' + JSON.stringify(opts, null, 2) + ')'
 }
 
 module.exports = render   // export default render

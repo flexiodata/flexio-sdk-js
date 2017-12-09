@@ -172,7 +172,7 @@ var fromJSON = function(json) {
     case 'python':
       return 'python(`\n' + code + '\n`)'
     default:
-      return "execute('" + lang + "', `\n" + code + "\n`)"
+      return 'execute(' + JSON.stringify(lang) + ', `\n' + code + '\n`)'
   }
 }
 

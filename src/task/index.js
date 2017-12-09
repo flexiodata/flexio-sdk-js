@@ -26,13 +26,14 @@ var fromJSON = function(json) {
     default:
       return ''
 
-    case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.fromJSON(json)
     case taskTypes.TASK_TYPE_ECHO:       return echoFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.fromJSON(json)
     case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.fromJSON(json)
     case taskTypes.TASK_TYPE_LIMIT:      return limitFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_RENDER:     return renderFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_REQUEST:    return requestFn.fromJSON(json)
     case taskTypes.TASK_TYPE_SELECT:     return selectFn.fromJSON(json)
     case taskTypes.TASK_TYPE_SLEEP:      return sleepFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_REQUEST:    return requestFn.fromJSON(json)
   }
 }
 
