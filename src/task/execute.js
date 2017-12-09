@@ -88,7 +88,7 @@ var getJsExport = function(f) {
 }
 
 // task definition function
-var executeFn = function() {
+var execute = function() {
   var args = Array.from(arguments)
   var param0 = _.get(args, '[0]', null)
   var param1 = _.get(args, '[1]', null)
@@ -145,20 +145,36 @@ var executeFn = function() {
 }
 
 // shorthand for .execute('javascript', ...)
-var javascriptFn = function() {
+var javascript = function() {
   var args = Array.from(arguments)
   args.unshift('javascript')
-  return executeFn.apply(this, args)
+  return execute.apply(this, args)
 }
 
 // shorthand for .execute('python', ...)
-var pythonFn = function() {
+var python = function() {
   var args = Array.from(arguments)
   args.unshift('python')
-  return executeFn.apply(this, args)
+  return execute.apply(this, args)
 }
 
+var fromJSON = function(json) {
+  var params = _.get(json, 'params', {})
+  var lang = params.lang || ''
+  var code = fromBase64(params.code || '')
 
+  // TODO: we nee to handle 'path' and 'integrity'
+  switch (lang)
+  {
+    case 'javascript':
+      code = code.replace('exports.flexio_handler =', '')
+      return 'javascript(' + code.trim() + ')'
+    case 'python':
+      return 'python(`\n' + code + '\n`)'
+    default:
+      return "execute('" + lang + "', `\n" + code + "\n`)"
+  }
+}
 
 /*
 export const execute    = executeFn
@@ -168,7 +184,8 @@ export default executeFn
 */
 
 module.exports = {
-  execute: executeFn,
-  javascript: javascriptFn,
-  python: pythonFn
+  execute: execute,
+  javascript: javascript,
+  python: python,
+  fromJSON: fromJSON
 }
