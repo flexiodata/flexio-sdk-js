@@ -11,6 +11,29 @@ var cfg = {
   debug: false
 }
 
+var pipeToCode = function(task_arr) {
+  // create JS task strings from JSON
+  var retval = _.map(task_arr, function(t) {
+    var cmd_str = Flexio.task.fromJSON(t)
+
+    // TODO: review this; it makes the code that is output very nice and tidy,
+    //       however, if we don't like it we can yank it
+
+    // increase indent of all lines of the commands (except the Python execute task which cares about indents)
+    // other than the first line (which will be indented below)
+    if (_.get(t, 'params.lang', '') != 'python')
+      cmd_str = cmd_str.replace(/\n/g, '\n  ')
+
+    return cmd_str
+  })
+
+  // prepend the start of the JS code
+  var retval = ['Flexio.pipe()'].concat(retval)
+
+  // indent tasks and add dot notation
+  return retval.join('\n  .')
+}
+
 var Flexio = {
   // see `../build/webpack.dist.js`
   version: require('../package.json').version,
@@ -23,6 +46,7 @@ var Flexio = {
 
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
+    this.pipe.fromJSON = pipeToCode
 
     var getConnectionConstructor = require('./connection').getConnectionConstructor
     this.connection = getConnectionConstructor(this)
@@ -47,29 +71,6 @@ var Flexio = {
   },
 
   task,
-
-  fromJSON(task_arr) {
-    // create JS task strings from JSON
-    var retval = _.map(task_arr, function(t) {
-      var cmd_str = Flexio.task.fromJSON(t)
-
-      // TODO: review this; it makes the code that is output very nice and tidy,
-      //       however, if we don't like it we can yank it
-
-      // increase indent of all lines of the commands (except the Python execute task which cares about indents)
-      // other than the first line (which will be indented below)
-      if (_.get(t, 'params.lang', '') != 'python')
-        cmd_str = cmd_str.replace(/\n/g, '\n  ')
-
-      return cmd_str
-    })
-
-    // prepend the start of the JS code
-    var retval = ['Flexio.pipe()'].concat(retval)
-
-    // indent tasks and add dot notation
-    return retval.join('\n  .')
-  },
 
   _createHttp() {
     // axios instance options with base url and auth token
