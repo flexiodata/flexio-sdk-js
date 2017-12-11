@@ -4,6 +4,8 @@ module.exports = {
     TASK_TYPE_COMMENT: 'flexio.comment',
     TASK_TYPE_CONVERT: 'flexio.convert',
     TASK_TYPE_COPY: 'flexio.copy',
+    TASK_TYPE_CREATE: 'flexio.create',
+    TASK_TYPE_CUSTOM: 'flexio.create',
     TASK_TYPE_CUSTOM: 'flexio.custom',
     TASK_TYPE_DISTINCT: 'flexio.distinct',
     TASK_TYPE_DUPLICATE: 'flexio.duplicate',
@@ -38,6 +40,7 @@ export const TASK_TYPE_CALC          = 'flexio.calc'
 export const TASK_TYPE_COMMENT       = 'flexio.comment'
 export const TASK_TYPE_CONVERT       = 'flexio.convert'
 export const TASK_TYPE_COPY          = 'flexio.copy'
+export const TASK_TYPE_CREATE        = 'flexio.create'
 export const TASK_TYPE_CUSTOM        = 'flexio.custom'
 export const TASK_TYPE_DISTINCT      = 'flexio.distinct'
 export const TASK_TYPE_DUPLICATE     = 'flexio.duplicate'
