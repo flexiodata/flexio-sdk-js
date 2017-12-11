@@ -20,26 +20,26 @@ var taskFn      = require('./task.js')
 var transformFn = require('./transform.js')
 var writeFn     = require('./write.js')
 
-var fromJSON = function(json) {
+var toCode = function(json) {
   var type = _.get(json, 'type', '')
 
   switch (type) {
     default:
-      return taskFn.fromJSON(json)
+      return taskFn.toCode(json)
 
-    case taskTypes.TASK_TYPE_CREATE:     return createFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_CONVERT:    return convertFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_ECHO:       return echoFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_FILTER:     return filterFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_LIMIT:      return limitFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_READ:       return readFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_RENDER:     return renderFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_REQUEST:    return requestFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_SELECT:     return selectFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_SLEEP:      return sleepFn.fromJSON(json)
-    case taskTypes.TASK_TYPE_WRITE:      return writeFn.fromJSON(json)
+    case taskTypes.TASK_TYPE_CREATE:     return createFn.toCode(json)
+    case taskTypes.TASK_TYPE_CONVERT:    return convertFn.toCode(json)
+    case taskTypes.TASK_TYPE_ECHO:       return echoFn.toCode(json)
+    case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.toCode(json)
+    case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.toCode(json)
+    case taskTypes.TASK_TYPE_FILTER:     return filterFn.toCode(json)
+    case taskTypes.TASK_TYPE_LIMIT:      return limitFn.toCode(json)
+    case taskTypes.TASK_TYPE_READ:       return readFn.toCode(json)
+    case taskTypes.TASK_TYPE_RENDER:     return renderFn.toCode(json)
+    case taskTypes.TASK_TYPE_REQUEST:    return requestFn.toCode(json)
+    case taskTypes.TASK_TYPE_SELECT:     return selectFn.toCode(json)
+    case taskTypes.TASK_TYPE_SLEEP:      return sleepFn.toCode(json)
+    case taskTypes.TASK_TYPE_WRITE:      return writeFn.toCode(json)
   }
 }
 
@@ -65,8 +65,8 @@ module.exports = {
   transform:  transformFn,
   write:      writeFn,
 
-  // expose all task 'fromJSON' calls into a single function
-  fromJSON:   fromJSON
+  // expose all task 'toCode' calls as a single function
+  toCode:     toCode
 }
 
 /*

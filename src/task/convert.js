@@ -84,7 +84,7 @@ var convert = function(input, output) {
   return task
 }
 
-convert.fromJSON = function(json) {
+convert.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var input = _.get(params, 'input', {})
   var output = _.get(params, 'output', {})

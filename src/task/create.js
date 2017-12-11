@@ -41,7 +41,7 @@ var create = function(p0, p1) {
   }
 }
 
-create.fromJSON = function(json) {
+create.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var path = JSON.stringify(params.path) || undefined
   var content_type = JSON.stringify(params.content_type) || undefined

@@ -7,7 +7,7 @@ var task = function(json) {
   return json
 }
 
-task.fromJSON = function(json) {
+task.toCode = function(json) {
   return 'task(' + JSON.stringify(json, null, 2) + ')'
 }
 

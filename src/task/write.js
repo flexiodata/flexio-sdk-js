@@ -12,7 +12,7 @@ var write = function(path) {
   }
 }
 
-write.fromJSON = function(json) {
+write.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var path = JSON.stringify(params.path) || '""'
   return 'write(' + path + ')'

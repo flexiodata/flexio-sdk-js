@@ -16,7 +16,7 @@ var filter = function(where) {
   }
 }
 
-filter.fromJSON = function(json) {
+filter.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var where = JSON.stringify(params.where) || '""'
   return 'filter(' + where + ')'

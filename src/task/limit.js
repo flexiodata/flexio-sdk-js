@@ -14,7 +14,7 @@ var limit = function(value) {
   }
 }
 
-limit.fromJSON = function(json) {
+limit.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var val = JSON.stringify(params.value) || ''
   return 'limit(' + val + ')'

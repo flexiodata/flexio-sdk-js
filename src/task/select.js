@@ -19,7 +19,7 @@ var select = function() {
   }
 }
 
-select.fromJSON = function(json) {
+select.toCode = function(json) {
   var params = _.get(json, 'params', {})
   debugger
   var cols = JSON.stringify(params.columns) || ''

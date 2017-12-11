@@ -30,7 +30,7 @@ var email = function(params) {
   }
 }
 
-email.fromJSON = function(json) {
+email.toCode = function(json) {
   var params = _.get(json, 'params', {})
   return 'email(' + JSON.stringify(params, null, 2) + ')'
 }

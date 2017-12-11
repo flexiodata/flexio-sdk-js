@@ -12,7 +12,7 @@ var read = function(path) {
   }
 }
 
-read.fromJSON = function(json) {
+read.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var path = JSON.stringify(params.path) || '""'
   return 'read(' + path + ')'

@@ -158,7 +158,7 @@ var python = function() {
   return execute.apply(this, args)
 }
 
-var fromJSON = function(json) {
+var toCode = function(json) {
   var params = _.get(json, 'params', {})
   var lang = params.lang || ''
   var code = fromBase64(params.code || '')
@@ -187,5 +187,5 @@ module.exports = {
   execute: execute,
   javascript: javascript,
   python: python,
-  fromJSON: fromJSON
+  toCode: toCode
 }

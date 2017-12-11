@@ -14,7 +14,7 @@ var sleep = function(value) {
   }
 }
 
-sleep.fromJSON = function(json) {
+sleep.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var val = JSON.stringify(params.value) || ''
   return 'sleep(' + val + ')'

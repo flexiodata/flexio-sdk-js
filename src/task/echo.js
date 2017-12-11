@@ -12,7 +12,7 @@ var echo = function(msg) {
   }
 }
 
-echo.fromJSON = function(json) {
+echo.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var msg = JSON.stringify(params.msg) || '""'
   return 'echo(' + msg + ')'

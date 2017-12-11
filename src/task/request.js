@@ -65,7 +65,7 @@ var request = function() {
   }
 }
 
-request.fromJSON = function(json) {
+request.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var url = _.get(params, 'url', '')
   var opts = _.omit(params, ['url'])

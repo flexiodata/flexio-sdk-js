@@ -14,7 +14,7 @@ var cfg = {
 var pipeToCode = function(task_arr) {
   // create JS task strings from JSON
   var retval = _.map(task_arr, function(t) {
-    var cmd_str = Flexio.task.fromJSON(t)
+    var cmd_str = Flexio.task.toCode(t)
 
     // TODO: review this; it makes the code that is output very nice and tidy,
     //       however, if we don't like it we can yank it
@@ -46,7 +46,7 @@ var Flexio = {
 
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
-    this.pipe.fromJSON = pipeToCode
+    this.pipe.toCode = pipeToCode
 
     var getConnectionConstructor = require('./connection').getConnectionConstructor
     this.connection = getConnectionConstructor(this)

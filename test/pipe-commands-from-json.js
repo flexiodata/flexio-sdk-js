@@ -4,7 +4,7 @@ var Flexio = require('../src/main.js')
 //Flexio.setup('nbnxsyjzwzmtsbwnzgmy', { debug: true })
 Flexio.setup('nbnxsyjzwzmtsbwnzgmy', { baseUrl: 'https://localhost/api/v1', debug: true, insecure: true })
 
-var cmd = Flexio.pipe.fromJSON(
+var cmd = Flexio.pipe.toCode(
   [{
     type: 'flexio.convert',
     params: {

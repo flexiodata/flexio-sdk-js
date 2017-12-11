@@ -5,7 +5,7 @@ var Flexio = require('../src/main.js')
 Flexio.setup('nbnxsyjzwzmtsbwnzgmy', { baseUrl: 'https://localhost/api/v1', debug: true, insecure: true })
 
 var echoCommand = function(json) {
-  console.log(Flexio.task.fromJSON(json) + '\n----------')
+  console.log(Flexio.task.toCode(json) + '\n----------')
 }
 
 var json = {
