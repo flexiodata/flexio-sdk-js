@@ -30,6 +30,13 @@ const COPY = {
   bg_color: 'bg-task-orange'
 }
 
+const CREATE = {
+  name: 'Copy',
+  type: types.TASK_TYPE_CREATE,
+  icon: 'content_copy',
+  bg_color: 'bg-task-orange'
+}
+
 const CUSTOM = {
   name: 'Custom',
   type: types.TASK_TYPE_CUSTOM,
@@ -211,6 +218,7 @@ const WRITE = {
 export const TASK_INFO_COMMENT       = COMMENT
 export const TASK_INFO_CONVERT       = CONVERT
 //export const TASK_INFO_COPY          = COPY
+export const TASK_INFO_CREATE        = CREATE
 //export const TASK_INFO_CUSTOM        = CUSTOM
 //export const TASK_INFO_DISTINCT      = DISTINCT
 //export const TASK_INFO_DUPLICATE     = DUPLICATE

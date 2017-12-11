@@ -1,15 +1,16 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
-var inputFn     = require('./input.js')
-var outputFn    = require('./output.js')
+var createFn    = require('./create.js')
 var convertFn   = require('./convert.js')
 var echoFn      = require('./echo.js')
 var emailFn     = require('./email.js')
-var filterFn    = require('./filter.js')
 var executeFn   = require('./execute.js')
+var filterFn    = require('./filter.js')
+var inputFn     = require('./input.js')
 var limitFn     = require('./limit.js')
 var listFn      = require('./list.js')
+var outputFn    = require('./output.js')
 var readFn      = require('./read.js')
 var renderFn    = require('./render.js')
 var requestFn   = require('./request.js')
@@ -26,6 +27,7 @@ var fromJSON = function(json) {
     default:
       return taskFn.fromJSON(json)
 
+    case taskTypes.TASK_TYPE_CREATE:     return createFn.fromJSON(json)
     case taskTypes.TASK_TYPE_CONVERT:    return convertFn.fromJSON(json)
     case taskTypes.TASK_TYPE_ECHO:       return echoFn.fromJSON(json)
     case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.fromJSON(json)
@@ -42,16 +44,17 @@ var fromJSON = function(json) {
 }
 
 module.exports = {
-  input:      inputFn,
-  output:     outputFn,
+  create:     createFn,
   convert:    convertFn,
   echo:       echoFn,
   email:      emailFn,
   execute:    executeFn.execute,
+  input:      inputFn,
   filter:     filterFn,
   javascript: executeFn.javascript,
   limit:      limitFn,
   list:       listFn,
+  output:     outputFn,
   python:     executeFn.python,
   read:       readFn,
   render:     renderFn,
