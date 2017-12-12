@@ -163,7 +163,7 @@ var toCode = function(json) {
   var lang = params.lang || ''
   var code = fromBase64(params.code || '')
 
-  // TODO: we nee to handle 'path' and 'integrity'
+  // TODO: we need to handle 'path' and 'integrity'
   switch (lang)
   {
     case 'javascript':
