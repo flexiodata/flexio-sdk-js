@@ -161,6 +161,7 @@ module.exports.getPipesObject = function(Flexio) {
                   callback.call(this, null, response_object)
               })
               .catch(error => {
+                //console.log(Flexio.util.arrayBufferToString(error.response.data));
                 Flexio.util.debug('Process Run Failed. ' + error)
                 this.running = false
     

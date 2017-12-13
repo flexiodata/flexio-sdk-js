@@ -16,6 +16,7 @@ module.exports = {
     TASK_TYPE_FILTER: 'flexio.filter',
     TASK_TYPE_GROUP: 'flexio.group',
     TASK_TYPE_INPUT: 'flexio.input',
+    TASK_TYPE_INSERT: 'flexio.insert',
     TASK_TYPE_LIMIT: 'flexio.limit',
     TASK_TYPE_LIST: 'flexio.list',
     TASK_TYPE_MERGE: 'flexio.merge',
