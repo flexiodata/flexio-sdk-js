@@ -8,6 +8,7 @@ var emailFn     = require('./email.js')
 var executeFn   = require('./execute.js')
 var filterFn    = require('./filter.js')
 var inputFn     = require('./input.js')
+var insertFn    = require('./insert.js')
 var limitFn     = require('./limit.js')
 var listFn      = require('./list.js')
 var outputFn    = require('./output.js')
@@ -33,6 +34,7 @@ var toCode = function(json) {
     case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.toCode(json)
     case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.toCode(json)
     case taskTypes.TASK_TYPE_FILTER:     return filterFn.toCode(json)
+    case taskTypes.TASK_TYPE_INSERT:     return insertFn.toCode(json)
     case taskTypes.TASK_TYPE_LIMIT:      return limitFn.toCode(json)
     case taskTypes.TASK_TYPE_READ:       return readFn.toCode(json)
     case taskTypes.TASK_TYPE_RENDER:     return renderFn.toCode(json)
@@ -50,6 +52,7 @@ module.exports = {
   email:      emailFn,
   execute:    executeFn.execute,
   input:      inputFn,
+  insert:     insertFn,
   filter:     filterFn,
   javascript: executeFn.javascript,
   limit:      limitFn,

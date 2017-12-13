@@ -100,6 +100,13 @@ const INPUT = {
   bg_color: 'bg-task-blue'
 }
 
+const INSERT = {
+  name: 'Input',
+  type: types.TASK_TYPE_INSERT,
+  icon: 'input',
+  bg_color: 'bg-task-blue'
+}
+
 const LIMIT = {
   name: 'Limit',
   type: types.TASK_TYPE_LIMIT,
@@ -228,6 +235,7 @@ export const TASK_INFO_EXECUTE       = EXECUTE
 //export const TASK_INFO_FILTER        = FILTER
 //export const TASK_INFO_GROUP         = GROUP
 export const TASK_INFO_INPUT         = INPUT
+export const TASK_INFO_INSERT        = INSERT
 export const TASK_INFO_LIMIT         = LIMIT
 //export const TASK_INFO_MERGE         = MERGE
 //export const TASK_INFO_NOP           = NOP
