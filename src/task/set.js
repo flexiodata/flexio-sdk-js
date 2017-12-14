@@ -3,20 +3,21 @@ var util = require('../util')                           // import util from '../
 var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
 
 // task definition function
-var set = function(path) {
+var set = function(variable, value) {
   return {
     type: taskTypes.TASK_TYPE_SET,
     params: {
-      path
+      "var": variable,
+      "value": value
     }
   }
 }
 
 write.toCode = function(json) {
   var params = _.get(json, 'params', {})
-  var name = JSON.stringify(params.name) || '""'
+  var variable = JSON.stringify(params.variable) || '""'
   var value = JSON.stringify(params.value) || '""'
-  return 'set(' + name + ', ' + value + ')'
+  return 'set(' + variable + ', ' + value + ')'
 }
 
 module.exports = set   // export default set
