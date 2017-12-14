@@ -30,6 +30,7 @@ module.exports = {
     TASK_TYPE_REQUEST: 'flexio.request',
     TASK_TYPE_SEARCH: 'flexio.search',
     TASK_TYPE_SELECT: 'flexio.select',
+    TASK_TYPE_SET: 'flexio.set',
     TASK_TYPE_SLEEP: 'flexio.sleep',
     TASK_TYPE_SORT: 'flexio.sort',
     TASK_TYPE_TRANSFORM: 'flexio.transform',

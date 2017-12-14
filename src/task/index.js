@@ -16,6 +16,7 @@ var readFn      = require('./read.js')
 var renderFn    = require('./render.js')
 var requestFn   = require('./request.js')
 var selectFn    = require('./select.js')
+var setFn       = require('./set.js')
 var sleepFn     = require('./sleep.js')
 var taskFn      = require('./task.js')
 var transformFn = require('./transform.js')
@@ -40,6 +41,7 @@ var toCode = function(json) {
     case taskTypes.TASK_TYPE_RENDER:     return renderFn.toCode(json)
     case taskTypes.TASK_TYPE_REQUEST:    return requestFn.toCode(json)
     case taskTypes.TASK_TYPE_SELECT:     return selectFn.toCode(json)
+    case taskTypes.TASK_TYPE_SET:        return setFn.toCode(json)
     case taskTypes.TASK_TYPE_SLEEP:      return sleepFn.toCode(json)
     case taskTypes.TASK_TYPE_WRITE:      return writeFn.toCode(json)
   }
@@ -63,6 +65,7 @@ module.exports = {
   render:     renderFn,
   request:    requestFn,
   select:     selectFn,
+  set:        setFn,
   sleep:      sleepFn,
   task:       taskFn,
   transform:  transformFn,
@@ -86,6 +89,7 @@ import readFn from './read'
 import renderFn from './render'
 import requestFn from './request'
 import selectFn from './select'
+import setFn from './set'
 import sleepFn from './sleep'
 import transformFn from './task'
 import transformFn from './transform'
@@ -106,6 +110,7 @@ export const read       = readFn
 export const render     = renderFn
 export const request    = requestFn
 export const select     = selectFn
+export const set        = setFn
 export const sleep      = sleepFn
 export const transform  = taskFn
 export const transform  = transformFn

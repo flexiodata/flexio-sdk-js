@@ -198,6 +198,13 @@ const SELECT = {
   bg_color: 'bg-task-orange'
 }
 
+const SET = {
+  name: 'Select',
+  type: types.TASK_TYPE_SET,
+  icon: 'view_carousel',
+  bg_color: 'bg-task-orange'
+}
+
 const SORT = {
   name: 'Sort',
   type: types.TASK_TYPE_SORT,
@@ -248,6 +255,7 @@ export const TASK_INFO_RENDER        = RENDER
 export const TASK_INFO_REQUEST       = REQUEST
 //export const TASK_INFO_SEARCH        = SEARCH
 //export const TASK_INFO_SELECT        = SELECT
+export const TASK_INFO_SET           = SET
 //export const TASK_INFO_SORT          = SORT
 //export const TASK_INFO_TRANSFORM     = TRANSFORM
 export const TASK_INFO_WRITE         = WRITE
