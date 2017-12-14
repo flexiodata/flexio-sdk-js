@@ -13,7 +13,7 @@ var set = function(variable, value) {
   }
 }
 
-write.toCode = function(json) {
+set.toCode = function(json) {
   var params = _.get(json, 'params', {})
   var variable = JSON.stringify(params.variable) || '""'
   var value = JSON.stringify(params.value) || '""'
