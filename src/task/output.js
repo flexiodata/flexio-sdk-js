@@ -5,7 +5,7 @@ var connTypes = require('../constants/connection-type') // import * as connTypes
 
 // task definition function
 var output = function() {
-  var type = TASK_TYPE_OUTPUT
+  var type = taskTypes.TASK_TYPE_OUTPUT
   var args = Array.from(arguments)
   var connection_type = _.get(args, '[0]', '')
   var connection = undefined
