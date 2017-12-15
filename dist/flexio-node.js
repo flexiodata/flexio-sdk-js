@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.12.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.13.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -17225,39 +17225,18 @@ module.exports.getUtilObject = function (Flexio) {
 "use strict";
 
 
-module.exports = {
+var _module$exports;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+module.exports = (_module$exports = {
     TASK_TYPE_CALC: 'flexio.calc',
     TASK_TYPE_COMMENT: 'flexio.comment',
     TASK_TYPE_CONVERT: 'flexio.convert',
     TASK_TYPE_COPY: 'flexio.copy',
-    TASK_TYPE_CUSTOM: 'flexio.custom',
-    TASK_TYPE_DISTINCT: 'flexio.distinct',
-    TASK_TYPE_DUPLICATE: 'flexio.duplicate',
-    TASK_TYPE_ECHO: 'flexio.echo',
-    TASK_TYPE_EMAIL_SEND: 'flexio.email',
-    TASK_TYPE_EXECUTE: 'flexio.execute',
-    TASK_TYPE_FIND_REPLACE: 'flexio.replace',
-    TASK_TYPE_FILTER: 'flexio.filter',
-    TASK_TYPE_GROUP: 'flexio.group',
-    TASK_TYPE_INPUT: 'flexio.input',
-    TASK_TYPE_LIMIT: 'flexio.limit',
-    TASK_TYPE_LIST: 'flexio.list',
-    TASK_TYPE_MERGE: 'flexio.merge',
-    TASK_TYPE_NOP: 'flexio.nop',
-    TASK_TYPE_OUTPUT: 'flexio.output',
-    TASK_TYPE_PROMPT: 'flexio.prompt',
-    TASK_TYPE_R: 'flexio.r',
-    TASK_TYPE_READ: 'flexio.read',
-    TASK_TYPE_RENAME: 'flexio.rename',
-    TASK_TYPE_RENDER: 'flexio.render',
-    TASK_TYPE_REQUEST: 'flexio.request',
-    TASK_TYPE_SEARCH: 'flexio.search',
-    TASK_TYPE_SELECT: 'flexio.select',
-    TASK_TYPE_SLEEP: 'flexio.sleep',
-    TASK_TYPE_SORT: 'flexio.sort',
-    TASK_TYPE_TRANSFORM: 'flexio.transform',
-    TASK_TYPE_WRITE: 'flexio.write'
-};
+    TASK_TYPE_CREATE: 'flexio.create',
+    TASK_TYPE_CUSTOM: 'flexio.create'
+}, _defineProperty(_module$exports, 'TASK_TYPE_CUSTOM', 'flexio.custom'), _defineProperty(_module$exports, 'TASK_TYPE_DISTINCT', 'flexio.distinct'), _defineProperty(_module$exports, 'TASK_TYPE_DUPLICATE', 'flexio.duplicate'), _defineProperty(_module$exports, 'TASK_TYPE_ECHO', 'flexio.echo'), _defineProperty(_module$exports, 'TASK_TYPE_EMAIL_SEND', 'flexio.email'), _defineProperty(_module$exports, 'TASK_TYPE_EXECUTE', 'flexio.execute'), _defineProperty(_module$exports, 'TASK_TYPE_FIND_REPLACE', 'flexio.replace'), _defineProperty(_module$exports, 'TASK_TYPE_FILTER', 'flexio.filter'), _defineProperty(_module$exports, 'TASK_TYPE_GROUP', 'flexio.group'), _defineProperty(_module$exports, 'TASK_TYPE_INPUT', 'flexio.input'), _defineProperty(_module$exports, 'TASK_TYPE_INSERT', 'flexio.insert'), _defineProperty(_module$exports, 'TASK_TYPE_LIMIT', 'flexio.limit'), _defineProperty(_module$exports, 'TASK_TYPE_LIST', 'flexio.list'), _defineProperty(_module$exports, 'TASK_TYPE_MERGE', 'flexio.merge'), _defineProperty(_module$exports, 'TASK_TYPE_NOP', 'flexio.nop'), _defineProperty(_module$exports, 'TASK_TYPE_OUTPUT', 'flexio.output'), _defineProperty(_module$exports, 'TASK_TYPE_PROMPT', 'flexio.prompt'), _defineProperty(_module$exports, 'TASK_TYPE_R', 'flexio.r'), _defineProperty(_module$exports, 'TASK_TYPE_READ', 'flexio.read'), _defineProperty(_module$exports, 'TASK_TYPE_RENAME', 'flexio.rename'), _defineProperty(_module$exports, 'TASK_TYPE_RENDER', 'flexio.render'), _defineProperty(_module$exports, 'TASK_TYPE_REQUEST', 'flexio.request'), _defineProperty(_module$exports, 'TASK_TYPE_SEARCH', 'flexio.search'), _defineProperty(_module$exports, 'TASK_TYPE_SELECT', 'flexio.select'), _defineProperty(_module$exports, 'TASK_TYPE_SET', 'flexio.set'), _defineProperty(_module$exports, 'TASK_TYPE_SLEEP', 'flexio.sleep'), _defineProperty(_module$exports, 'TASK_TYPE_SORT', 'flexio.sort'), _defineProperty(_module$exports, 'TASK_TYPE_TRANSFORM', 'flexio.transform'), _defineProperty(_module$exports, 'TASK_TYPE_WRITE', 'flexio.write'), _module$exports);
 
 /***/ }),
 /* 3 */
@@ -18363,60 +18342,28 @@ module.exports = Cancel;
 "use strict";
 
 
-var _ = __webpack_require__(0);
-var taskTypes = __webpack_require__(2);
-var connTypes = __webpack_require__(53);
-var util = __webpack_require__(1);
-var input = function input() {
-  var args = Array.from(arguments);
-  var connection_type = _.get(args, '[0]', '');
-  var connection = undefined;
-  var items = undefined;
-
-  if (args.length == 0) throw 'The input task requires at least 1 parameter';
-
-  switch (connection_type) {
-    default:
-      connection_type = connTypes.CONNECTION_TYPE_HTTP;
-      items = [].concat(args);
-      break;
-
-    case connTypes.CONNECTION_TYPE_AMAZONS3:
-    case connTypes.CONNECTION_TYPE_DROPBOX:
-    case connTypes.CONNECTION_TYPE_ELASTICSEARCH:
-    case connTypes.CONNECTION_TYPE_GOOGLEDRIVE:
-    case connTypes.CONNECTION_TYPE_GOOGLESHEETS:
-    case connTypes.CONNECTION_TYPE_HTTP:
-    case connTypes.CONNECTION_TYPE_MYSQL:
-    case connTypes.CONNECTION_TYPE_POSTGRES:
-    case connTypes.CONNECTION_TYPE_SFTP:
-      connection = _.get(args, '[1]', '');
-      items = _.get(args, '[2]', []);
-      break;
-
-    case connTypes.CONNECTION_TYPE_RSS:
-      connection = connection_type;
-      items = _.get(args, '[1]', []);
-      break;
-  }
-
-  items = _.map(items, function (path) {
-    return {
-      path: path
-    };
-  });
-
-  return {
-    type: taskTypes.TASK_TYPE_INPUT,
-    metadata: { connection_type: connection_type },
-    params: {
-      connection: connection,
-      items: items
-    }
-  };
+module.exports = {
+    CONNECTION_TYPE_UNKNOWN: '',
+    CONNECTION_TYPE_AMAZONS3: 'amazons3',
+    CONNECTION_TYPE_BLANK_PIPE: 'blank-pipe',
+    CONNECTION_TYPE_DOWNLOAD: 'download',
+    CONNECTION_TYPE_DROPBOX: 'dropbox',
+    CONNECTION_TYPE_ELASTICSEARCH: 'elasticsearch',
+    CONNECTION_TYPE_EMAIL: 'email',
+    CONNECTION_TYPE_GOOGLEDRIVE: 'googledrive',
+    CONNECTION_TYPE_GOOGLESHEETS: 'googlesheets',
+    CONNECTION_TYPE_HTTP: 'http',
+    CONNECTION_TYPE_MAILJET: 'mailjet',
+    CONNECTION_TYPE_MYSQL: 'mysql',
+    CONNECTION_TYPE_POSTGRES: 'postgres',
+    CONNECTION_TYPE_RSS: 'rss',
+    CONNECTION_TYPE_SFTP: 'sftp',
+    CONNECTION_TYPE_SOCRATA: 'socrata',
+    CONNECTION_TYPE_STDIN: 'stdin',
+    CONNECTION_TYPE_STDOUT: 'stdout',
+    CONNECTION_TYPE_PIPELINEDEALS: 'pipelinedeals',
+    CONNECTION_TYPE_UPLOAD: 'upload'
 };
-
-module.exports = input;
 
 /***/ }),
 /* 18 */
@@ -18454,19 +18401,34 @@ var cfg = {
   debug: false
 };
 
+var pipeToCode = function pipeToCode(task_arr) {
+  var retval = _.map(task_arr, function (t) {
+    var cmd_str = Flexio.task.toCode(t);
+
+    if (_.get(t, 'params.lang', '') != 'python') cmd_str = cmd_str.replace(/\n/g, '\n  ');
+
+    return cmd_str;
+  });
+
+  var retval = ['Flexio.pipe()'].concat(retval);
+
+  return retval.join('\n  .');
+};
+
 var Flexio = {
-  version: __webpack_require__(68).version,
+  version: __webpack_require__(72).version,
 
   _init: function _init() {
-    this.connections = __webpack_require__(69).getConnectionsObject(this);
-    this.pipes = __webpack_require__(70).getPipesObject(this);
+    this.connections = __webpack_require__(73).getConnectionsObject(this);
+    this.pipes = __webpack_require__(74).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(71).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(75).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
+    this.pipe.toCode = pipeToCode;
 
-    var getConnectionConstructor = __webpack_require__(72).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(76).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -20366,32 +20328,322 @@ module.exports = function spread(callback) {
 "use strict";
 
 
-var executeFunctions = __webpack_require__(52);
+var _ = __webpack_require__(0);
+var taskTypes = __webpack_require__(2);
+
+var createFn = __webpack_require__(52);
+var convertFn = __webpack_require__(53);
+var echoFn = __webpack_require__(54);
+var emailFn = __webpack_require__(55);
+var executeFn = __webpack_require__(56);
+var filterFn = __webpack_require__(57);
+var inputFn = __webpack_require__(58);
+var insertFn = __webpack_require__(59);
+var limitFn = __webpack_require__(60);
+var listFn = __webpack_require__(61);
+var outputFn = __webpack_require__(62);
+var readFn = __webpack_require__(63);
+var renderFn = __webpack_require__(64);
+var requestFn = __webpack_require__(65);
+var selectFn = __webpack_require__(66);
+var setFn = __webpack_require__(67);
+var sleepFn = __webpack_require__(68);
+var taskFn = __webpack_require__(69);
+var transformFn = __webpack_require__(70);
+var writeFn = __webpack_require__(71);
+
+var toCode = function toCode(json) {
+  var type = _.get(json, 'type', '');
+
+  switch (type) {
+    default:
+      return taskFn.toCode(json);
+
+    case taskTypes.TASK_TYPE_CREATE:
+      return createFn.toCode(json);
+    case taskTypes.TASK_TYPE_CONVERT:
+      return convertFn.toCode(json);
+    case taskTypes.TASK_TYPE_ECHO:
+      return echoFn.toCode(json);
+    case taskTypes.TASK_TYPE_EMAIL_SEND:
+      return emailFn.toCode(json);
+    case taskTypes.TASK_TYPE_EXECUTE:
+      return executeFn.toCode(json);
+    case taskTypes.TASK_TYPE_FILTER:
+      return filterFn.toCode(json);
+    case taskTypes.TASK_TYPE_INSERT:
+      return insertFn.toCode(json);
+    case taskTypes.TASK_TYPE_LIMIT:
+      return limitFn.toCode(json);
+    case taskTypes.TASK_TYPE_READ:
+      return readFn.toCode(json);
+    case taskTypes.TASK_TYPE_RENDER:
+      return renderFn.toCode(json);
+    case taskTypes.TASK_TYPE_REQUEST:
+      return requestFn.toCode(json);
+    case taskTypes.TASK_TYPE_SELECT:
+      return selectFn.toCode(json);
+    case taskTypes.TASK_TYPE_SET:
+      return setFn.toCode(json);
+    case taskTypes.TASK_TYPE_SLEEP:
+      return sleepFn.toCode(json);
+    case taskTypes.TASK_TYPE_WRITE:
+      return writeFn.toCode(json);
+  }
+};
 
 module.exports = {
-    input: __webpack_require__(17),
-    output: __webpack_require__(17),
-    convert: __webpack_require__(54),
-    echo: __webpack_require__(55),
-    email: __webpack_require__(56),
-    execute: executeFunctions.execute,
-    filter: __webpack_require__(57),
-    javascript: executeFunctions.javascript,
-    limit: __webpack_require__(58),
-    list: __webpack_require__(59),
-    python: executeFunctions.python,
-    read: __webpack_require__(60),
-    render: __webpack_require__(61),
-    request: __webpack_require__(62),
-    select: __webpack_require__(63),
-    sleep: __webpack_require__(64),
-    task: __webpack_require__(65),
-    transform: __webpack_require__(66),
-    write: __webpack_require__(67)
+  create: createFn,
+  convert: convertFn,
+  echo: echoFn,
+  email: emailFn,
+  execute: executeFn.execute,
+  input: inputFn,
+  insert: insertFn,
+  filter: filterFn,
+  javascript: executeFn.javascript,
+  limit: limitFn,
+  list: listFn,
+  output: outputFn,
+  python: executeFn.python,
+  read: readFn,
+  render: renderFn,
+  request: requestFn,
+  select: selectFn,
+  set: setFn,
+  sleep: sleepFn,
+  task: taskFn,
+  transform: transformFn,
+  write: writeFn,
+
+  toCode: toCode
 };
 
 /***/ }),
 /* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var create = function create(p0, p1) {
+
+  if (Array.isArray(p0)) {
+    return {
+      type: taskTypes.TASK_TYPE_CREATE,
+      params: {
+        content_type: "application/vnd.flexio.table",
+        columns: p0
+      }
+    };
+  } else {
+    var ret = {
+      type: taskTypes.TASK_TYPE_CREATE,
+      params: {
+        path: p0
+      }
+    };
+
+    if (p1 !== undefined) {
+      if (Array.isArray(p1)) {
+        ret.params.columns = p1;
+      } else {
+        ret.params.content_type = p1;
+      }
+    }
+
+    return ret;
+  }
+};
+
+create.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var path = JSON.stringify(params.path) || undefined;
+  var content_type = JSON.stringify(params.content_type) || undefined;
+  var columns = JSON.stringify(params.columns) || undefined;
+
+  if (path !== undefined) {
+
+    if (columns !== undefined) {
+      return 'create(' + path + ', ' + columns + ')';
+    } else if (content_type !== undefined) {
+      return 'create(' + path + ', ' + content_type + ')';
+    } else {
+      return 'create(' + path + ')';
+    }
+  } else {
+
+    if (columns !== undefined) {
+      return 'create(' + columns + ')';
+    } else if (content_type !== undefined) {
+      return '';
+    }
+  }
+};
+
+module.exports = create;
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var DELIMITER_NONE = '{none}';
+var DELIMITER_COMMA = '{comma}';
+var DELIMITER_SEMICOLON = '{semicolon}';
+var DELIMITER_PIPE = '{pipe}';
+var DELIMITER_TAB = '{tab}';
+var DELIMITER_SPACE = '{space}';
+
+var TEXT_QUALIFIER_NONE = '{none}';
+var TEXT_QUALIFIER_SINGLE_QUOTE = '{single-quote}';
+var TEXT_QUALIFIER_DOUBLE_QUOTE = '{double-quote}';
+
+var FORMAT_DELIMITED_TEXT = 'delimited';
+var FORMAT_FIXED_LENGTH = 'fixed';
+var FORMAT_JSON = 'json';
+var FORMAT_RSS = 'rss';
+var FORMAT_PDF = 'pdf';
+var FORMAT_TABLE = 'table';
+
+var SHORTHAND_CSV = 'csv';
+var SHORTHAND_TSV = 'tsv';
+
+var FORMAT_CSV = {
+  format: FORMAT_DELIMITED_TEXT,
+  delimiter: DELIMITER_COMMA,
+  header: true,
+  qualifier: TEXT_QUALIFIER_DOUBLE_QUOTE
+};
+
+var FORMAT_TSV = {
+  format: FORMAT_DELIMITED_TEXT,
+  delimiter: DELIMITER_TAB,
+  header: true,
+  qualifier: TEXT_QUALIFIER_NONE
+};
+
+var convert = function convert(input, output) {
+
+  var task = {
+    type: taskTypes.TASK_TYPE_CONVERT,
+    params: {}
+  };
+
+  if (_.isString(input)) {
+    if (input == SHORTHAND_CSV) _.set(task, 'params.input', FORMAT_CSV);else if (input == SHORTHAND_TSV) _.set(task, 'params.input', FORMAT_TSV);else _.set(task, 'params.input.format', input);
+  } else if (_.isPlainObject(input)) {
+    _.set(task, 'params.input', input);
+  }
+
+  if (_.isString(output)) {
+    if (output == SHORTHAND_CSV) _.set(task, 'params.output', FORMAT_CSV);else if (output == SHORTHAND_TSV) _.set(task, 'params.output', FORMAT_TSV);else _.set(task, 'params.output.format', output);
+  } else if (_.isPlainObject(output)) {
+    _.set(task, 'params.output', output);
+  }
+
+  return task;
+};
+
+convert.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var input = _.get(params, 'input', {});
+  var output = _.get(params, 'output', {});
+
+  var p1;
+  var p2;
+
+  if (_.isEqual(input, FORMAT_CSV)) p1 = SHORTHAND_CSV;
+  if (_.isEqual(output, FORMAT_CSV)) p2 = SHORTHAND_CSV;
+
+  if (_.isEqual(input, FORMAT_TSV)) p1 = SHORTHAND_TSV;
+  if (_.isEqual(output, FORMAT_TSV)) p2 = SHORTHAND_TSV;
+
+  if (_.isEmpty(_.omit(input, ['format']))) p1 = _.get(input, 'format', '');
+  if (_.isEmpty(_.omit(output, ['format']))) p2 = _.get(output, 'format', '');
+
+  if (!p1) p1 = input;
+  if (!p2) p2 = output;
+
+  return 'convert(' + JSON.stringify(p1) + ', ' + JSON.stringify(p2) + ')';
+};
+
+module.exports = convert;
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var echo = function echo(msg) {
+  return {
+    type: taskTypes.TASK_TYPE_ECHO,
+    params: {
+      msg: msg
+    }
+  };
+};
+
+echo.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var msg = JSON.stringify(params.msg) || '""';
+  return 'echo(' + msg + ')';
+};
+
+module.exports = echo;
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var email = function email(params) {
+  if (!_.isPlainObject(params)) throw 'The first function parameter must be an object';
+
+  if (!_.has(params, 'to')) throw 'The `to` parameter is required';
+
+  if (!_.has(params, 'body_text')) throw 'The `body_text` parameter is required';
+
+  if (!_.isArray(params.to)) params.to = [params.to];
+
+  if (!_.has(params, 'body_html')) params.body_html = params.body_text;
+
+  var data = _.get(params, 'data', '');
+  if (data != 'body' && data != 'attachment') params.data = 'none';
+
+  return {
+    type: taskTypes.TASK_TYPE_EMAIL_SEND,
+    params: params
+  };
+};
+
+email.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  return 'email(' + JSON.stringify(params, null, 2) + ')';
+};
+
+module.exports = email;
+
+/***/ }),
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20469,7 +20721,7 @@ var getJsExport = function getJsExport(f) {
   }
 };
 
-var executeFn = function executeFn() {
+var execute = function execute() {
   var args = Array.from(arguments);
   var param0 = _.get(args, '[0]', null);
   var param1 = _.get(args, '[1]', null);
@@ -20514,178 +20766,40 @@ var executeFn = function executeFn() {
   return task;
 };
 
-var javascriptFn = function javascriptFn() {
+var javascript = function javascript() {
   var args = Array.from(arguments);
   args.unshift('javascript');
-  return executeFn.apply(this, args);
+  return execute.apply(this, args);
 };
 
-var pythonFn = function pythonFn() {
+var python = function python() {
   var args = Array.from(arguments);
   args.unshift('python');
-  return executeFn.apply(this, args);
+  return execute.apply(this, args);
+};
+
+var toCode = function toCode(json) {
+  var params = _.get(json, 'params', {});
+  var lang = params.lang || '';
+  var code = fromBase64(params.code || '');
+
+  switch (lang) {
+    case 'javascript':
+      code = code.replace('exports.flexio_handler =', '');
+      return 'javascript(' + code.trim() + ')';
+    case 'python':
+      return 'python(`\n' + code + '\n`)';
+    default:
+      return 'execute(' + JSON.stringify(lang) + ', `\n' + code + '\n`)';
+  }
 };
 
 module.exports = {
-  execute: executeFn,
-  javascript: javascriptFn,
-  python: pythonFn
+  execute: execute,
+  javascript: javascript,
+  python: python,
+  toCode: toCode
 };
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = {
-    CONNECTION_TYPE_UNKNOWN: '',
-    CONNECTION_TYPE_AMAZONS3: 'amazons3',
-    CONNECTION_TYPE_BLANK_PIPE: 'blank-pipe',
-    CONNECTION_TYPE_DOWNLOAD: 'download',
-    CONNECTION_TYPE_DROPBOX: 'dropbox',
-    CONNECTION_TYPE_ELASTICSEARCH: 'elasticsearch',
-    CONNECTION_TYPE_EMAIL: 'email',
-    CONNECTION_TYPE_GOOGLEDRIVE: 'googledrive',
-    CONNECTION_TYPE_GOOGLESHEETS: 'googlesheets',
-    CONNECTION_TYPE_HTTP: 'http',
-    CONNECTION_TYPE_MAILJET: 'mailjet',
-    CONNECTION_TYPE_MYSQL: 'mysql',
-    CONNECTION_TYPE_POSTGRES: 'postgres',
-    CONNECTION_TYPE_RSS: 'rss',
-    CONNECTION_TYPE_SFTP: 'sftp',
-    CONNECTION_TYPE_SOCRATA: 'socrata',
-    CONNECTION_TYPE_STDIN: 'stdin',
-    CONNECTION_TYPE_STDOUT: 'stdout',
-    CONNECTION_TYPE_PIPELINEDEALS: 'pipelinedeals',
-    CONNECTION_TYPE_UPLOAD: 'upload'
-};
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ = __webpack_require__(0);
-var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
-var DELIMITER_NONE = '{none}';
-var DELIMITER_COMMA = '{comma}';
-var DELIMITER_SEMICOLON = '{semicolon}';
-var DELIMITER_PIPE = '{pipe}';
-var DELIMITER_TAB = '{tab}';
-var DELIMITER_SPACE = '{space}';
-
-var TEXT_QUALIFIER_NONE = '{none}';
-var TEXT_QUALIFIER_SINGLE_QUOTE = '{single-quote}';
-var TEXT_QUALIFIER_DOUBLE_QUOTE = '{double-quote}';
-
-var FORMAT_DELIMITED_TEXT = 'delimited';
-var FORMAT_FIXED_LENGTH = 'fixed';
-var FORMAT_JSON = 'json';
-var FORMAT_RSS = 'rss';
-var FORMAT_PDF = 'pdf';
-var FORMAT_TABLE = 'table';
-
-var SHORTHAND_CSV = 'csv';
-var SHORTHAND_TSV = 'tsv';
-
-var convert = function convert(input, output) {
-
-  var task = {
-    type: taskTypes.TASK_TYPE_CONVERT,
-    params: {}
-  };
-
-  var csv_format = {
-    format: FORMAT_DELIMITED_TEXT,
-    delimiter: DELIMITER_COMMA,
-    header: true,
-    qualifier: TEXT_QUALIFIER_DOUBLE_QUOTE
-  };
-
-  var tsv_format = {
-    format: FORMAT_DELIMITED_TEXT,
-    delimiter: DELIMITER_TAB,
-    header: true,
-    qualifier: TEXT_QUALIFIER_NONE
-  };
-
-  if (_.isString(input)) {
-    if (input == SHORTHAND_CSV) _.set(task, 'params.input', csv_format);else if (input == SHORTHAND_TSV) _.set(task, 'params.input', tsv_format);else _.set(task, 'params.input.format', input);
-  } else if (_.isPlainObject(input)) {
-    _.set(task, 'params.input', input);
-  }
-
-  if (_.isString(output)) {
-    if (output == SHORTHAND_CSV) _.set(task, 'params.output', csv_format);else if (output == SHORTHAND_TSV) _.set(task, 'params.output', tsv_format);else _.set(task, 'params.output.format', output);
-  } else if (_.isPlainObject(output)) {
-    _.set(task, 'params.output', output);
-  }
-
-  return task;
-};
-
-module.exports = convert;
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ = __webpack_require__(0);
-var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
-var echo = function echo(msg) {
-
-  return {
-    type: taskTypes.TASK_TYPE_ECHO,
-    params: {
-      msg: msg
-    }
-  };
-};
-
-module.exports = echo;
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ = __webpack_require__(0);
-var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
-var email = function email(params) {
-
-  if (!_.isPlainObject(params)) throw 'The first function parameter must be an object';
-
-  if (!_.has(params, 'to')) throw 'The `to` parameter is required';
-
-  if (!_.has(params, 'body_text')) throw 'The `body_text` parameter is required';
-
-  if (!_.isArray(params.to)) params.to = [params.to];
-
-  if (!_.has(params, 'body_html')) params.body_html = params.body_text;
-
-  var data = _.get(params, 'data', '');
-  if (data != 'body' && data != 'attachment') params.data = 'none';
-
-  console.log(params);
-  return {
-    type: taskTypes.TASK_TYPE_EMAIL,
-    params: params
-  };
-};
-
-module.exports = email;
 
 /***/ }),
 /* 57 */
@@ -20709,10 +20823,117 @@ var filter = function filter(where) {
   };
 };
 
+filter.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var where = JSON.stringify(params.where) || '""';
+  return 'filter(' + where + ')';
+};
+
 module.exports = filter;
 
 /***/ }),
 /* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var taskTypes = __webpack_require__(2);
+var connTypes = __webpack_require__(17);
+var util = __webpack_require__(1);
+var input = function input() {
+  var args = Array.from(arguments);
+  var connection_type = _.get(args, '[0]', '');
+  var connection = undefined;
+  var items = undefined;
+
+  if (args.length == 0) throw 'The input task requires at least 1 parameter';
+
+  switch (connection_type) {
+    default:
+      connection_type = connTypes.CONNECTION_TYPE_HTTP;
+      items = [].concat(args);
+      break;
+
+    case connTypes.CONNECTION_TYPE_AMAZONS3:
+    case connTypes.CONNECTION_TYPE_DROPBOX:
+    case connTypes.CONNECTION_TYPE_ELASTICSEARCH:
+    case connTypes.CONNECTION_TYPE_GOOGLEDRIVE:
+    case connTypes.CONNECTION_TYPE_GOOGLESHEETS:
+    case connTypes.CONNECTION_TYPE_HTTP:
+    case connTypes.CONNECTION_TYPE_MYSQL:
+    case connTypes.CONNECTION_TYPE_POSTGRES:
+    case connTypes.CONNECTION_TYPE_SFTP:
+      connection = _.get(args, '[1]', '');
+      items = _.get(args, '[2]', []);
+      break;
+
+    case connTypes.CONNECTION_TYPE_RSS:
+      connection = connection_type;
+      items = _.get(args, '[1]', []);
+      break;
+  }
+
+  items = _.map(items, function (path) {
+    return {
+      path: path
+    };
+  });
+
+  return {
+    type: taskTypes.TASK_TYPE_INPUT,
+    metadata: { connection_type: connection_type },
+    params: {
+      connection: connection,
+      items: items
+    }
+  };
+};
+
+module.exports = input;
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var insert = function insert(path, values) {
+
+  var data;
+  if (Array.isArray(values)) data = values;else data = [values];
+
+  return {
+    type: taskTypes.TASK_TYPE_INSERT,
+    params: {
+      path: path,
+      values: data
+    }
+  };
+};
+
+insert.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var path = _.get(params, 'path', undefined);
+  var values = _.get(params, 'values', undefined);
+
+  if (!Array.isArray(values)) values = [values];
+
+  path = JSON.stringify(path);
+  values = JSON.stringify(values);
+
+  return 'insert(' + path + ', ' + values + ')';
+};
+
+module.exports = insert;
+
+/***/ }),
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20732,10 +20953,16 @@ var limit = function limit(value) {
   };
 };
 
+limit.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var val = JSON.stringify(params.value) || '';
+  return 'limit(' + val + ')';
+};
+
 module.exports = limit;
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20756,7 +20983,56 @@ var list = function list(path) {
 module.exports = list;
 
 /***/ }),
-/* 60 */
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var connTypes = __webpack_require__(17);
+var output = function output() {
+  var type = TASK_TYPE_OUTPUT;
+  var args = Array.from(arguments);
+  var connection_type = _.get(args, '[0]', '');
+  var connection = undefined;
+  var location = undefined;
+
+  if (args.length == 0) throw 'The output task requires at least 1 parameter';
+
+  switch (connection_type) {
+    case connTypes.CONNECTION_TYPE_AMAZONS3:
+    case connTypes.CONNECTION_TYPE_ELASTICSEARCH:
+    case connTypes.CONNECTION_TYPE_GOOGLESHEETS:
+    case connTypes.CONNECTION_TYPE_MYSQL:
+    case connTypes.CONNECTION_TYPE_POSTGRES:
+      connection = _.get(args, '[1]', '');
+      break;
+
+    case connTypes.CONNECTION_TYPE_DROPBOX:
+    case connTypes.CONNECTION_TYPE_GOOGLEDRIVE:
+    case connTypes.CONNECTION_TYPE_SFTP:
+      connection = _.get(args, '[1]', '');
+      location = _.get(args, '[2]', '/');
+      break;
+  }
+
+  return {
+    type: taskTypes.TASK_TYPE_OUTPUT,
+    metadata: { connection_type: connection_type },
+    params: {
+      connection: connection,
+      location: location
+    }
+  };
+};
+
+module.exports = output;
+
+/***/ }),
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20774,10 +21050,16 @@ var read = function read(path) {
   };
 };
 
+read.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var path = JSON.stringify(params.path) || '""';
+  return 'read(' + path + ')';
+};
+
 module.exports = read;
 
 /***/ }),
-/* 61 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20786,17 +21068,18 @@ module.exports = read;
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 var taskTypes = __webpack_require__(2);
+
+var defaults = {
+  format: 'png',
+  width: 800,
+  height: 600,
+  scrollbars: false
+};
+
 var render = function render(url, options) {
   var args = Array.from(arguments);
   var url = _.get(args, '[0]', '');
   var params = _.get(args, '[1]', {});
-
-  var defaults = {
-    format: 'png',
-    width: 800,
-    height: 600,
-    scrollbars: false
-  };
 
   if (_.isNil(url)) throw 'The `url` parameter is required';
 
@@ -20806,18 +21089,24 @@ var render = function render(url, options) {
     var params = _.assign({}, defaults, options, { url: url });
   }
 
-  console.log(params);
-
   return {
     type: taskTypes.TASK_TYPE_RENDER,
     params: params
   };
 };
 
+render.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var url = JSON.stringify(params.url) || '';
+  var opts = _.omit(params, ['url']);
+
+  if (_.isEqual(opts, defaults)) return 'render(' + url + ')';else return 'render(' + url + ', ' + JSON.stringify(opts, null, 2) + ')';
+};
+
 module.exports = render;
 
 /***/ }),
-/* 62 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20857,10 +21146,19 @@ var request = function request() {
   };
 };
 
+request.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var url = _.get(params, 'url', '');
+  var opts = _.omit(params, ['url']);
+  if (_.get(opts, 'method', '') == 'GET') opts = _.omit(opts, ['method']);
+
+  if (_.isEmpty(opts)) return 'request(' + JSON.stringify(url) + ')';else return 'request(' + JSON.stringify(url) + ', ' + JSON.stringify(opts, null, 2) + ')';
+};
+
 module.exports = request;
 
 /***/ }),
-/* 63 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20882,10 +21180,47 @@ var select = function select() {
   };
 };
 
+select.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  debugger;
+  var cols = JSON.stringify(params.columns) || '';
+  if (cols.indexOf('[') != -1 && cols.indexOf(']') != -1) cols = cols.substring(1, cols.length - 1);
+  return 'select(' + cols + ')';
+};
+
 module.exports = select;
 
 /***/ }),
-/* 64 */
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskTypes = __webpack_require__(2);
+var set = function set(variable, value) {
+  return {
+    type: taskTypes.TASK_TYPE_SET,
+    params: {
+      "var": variable,
+      "value": value
+    }
+  };
+};
+
+set.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var variable = JSON.stringify(params.variable) || '""';
+  var value = JSON.stringify(params.value) || '""';
+  return 'set(' + variable + ', ' + value + ')';
+};
+
+module.exports = set;
+
+/***/ }),
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20905,10 +21240,16 @@ var sleep = function sleep(value) {
   };
 };
 
+sleep.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var val = JSON.stringify(params.value) || '';
+  return 'sleep(' + val + ')';
+};
+
 module.exports = sleep;
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20920,10 +21261,14 @@ var task = function task(json) {
   return json;
 };
 
+task.toCode = function (json) {
+  return 'task(' + JSON.stringify(json, null, 2) + ')';
+};
+
 module.exports = task;
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20969,7 +21314,7 @@ var transform = function transform(value) {
 module.exports = transform;
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20978,7 +21323,7 @@ module.exports = transform;
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 var taskTypes = __webpack_require__(2);
-var writer = function writer(path) {
+var write = function write(path) {
   return {
     type: taskTypes.TASK_TYPE_WRITE,
     params: {
@@ -20987,16 +21332,22 @@ var writer = function writer(path) {
   };
 };
 
-module.exports = writer;
+write.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var path = JSON.stringify(params.path) || '""';
+  return 'write(' + path + ')';
+};
+
+module.exports = write;
 
 /***/ }),
-/* 68 */
+/* 72 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.12.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.13.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 69 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21067,7 +21418,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 70 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21224,6 +21575,11 @@ module.exports.getPipesObject = function (Flexio) {
             };
 
             if (typeof callback == 'function') callback.call(_this3, null, response_object);
+          }).catch(function (error) {
+            Flexio.util.debug('Process Run Failed. ' + error);
+            _this3.running = false;
+
+            if (typeof callback == 'function') callback.call(_this3, error, null);
           });
         }).catch(function (error) {
           Flexio.util.debug('Process Create Failed. ' + error);
@@ -21301,7 +21657,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 71 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21458,7 +21814,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 72 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
