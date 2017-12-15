@@ -11,13 +11,12 @@ def flexio_handler(context):
 
 Flexio.pipe()
   .execute(inline_python_code)
-  .email(
-    'flexio@mailinator.com',
-    'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(),
-    'This is a test using inline Python code...',
-    null,
-    'attachment'
-  )
+  .email({
+    to: 'flexio@mailinator.com',
+    subject: 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(),
+    body_text: 'This is a test using inline Python code...',
+    data: 'attachment'
+  })
   .run(function(err, response) {
     console.log(response.text)
   })`
@@ -33,13 +32,12 @@ def flexio_handler(context):
 `
   Flexio.pipe()
     .execute(inline_python_code)
-    .email(
-      'flexio@mailinator.com',
-      'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(),
-      'This is a test using inline Python code...',
-      null,
-      'attachment'
-    )
+    .email({
+      to: 'flexio@mailinator.com',
+      subject: 'Flex.io JS SDK Test (inline Python) - ' + (new Date()).toString(),
+      body_text: 'This is a test using inline Python code...',
+      data: 'attachment'
+    })
     .run(callback)
 }
 
