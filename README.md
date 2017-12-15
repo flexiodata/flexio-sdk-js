@@ -12,6 +12,19 @@ The preferred way of installing the Flex.io SDK For Node.js is to use the [npm](
 ```sh
 npm install flexio-sdk-js
 ```
+## Getting off of a CDN
+
+If you simply want to use the Flex.io Javascript SDK in a browser, you can add a script tag with a link to one of the CDNs below:
+
+- https://cdn.jsdelivr.net/npm/flexio-sdk-js
+- https://unpkg.com/flexio-sdk-js/dist/flexio.min.js
+
+For example:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/flexio-sdk-js"></script>
+```
+
 
 ## Documentation
 
