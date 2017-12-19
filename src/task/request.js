@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
+var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
 
 var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS']
 var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/

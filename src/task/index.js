@@ -1,5 +1,5 @@
 var _ = require('lodash')                               // import _ from 'lodash'
-var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
+var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
 
 var createFn    = require('./create.js')
 var convertFn   = require('./convert.js')

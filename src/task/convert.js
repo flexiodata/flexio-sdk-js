@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
+var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
 
 // token delimiters; other types of delimiters are allowed as well
 const DELIMITER_NONE              = '{none}'

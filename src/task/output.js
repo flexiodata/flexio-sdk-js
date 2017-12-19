@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
+var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
 var connTypes = require('../constants/connection-type') // import * as connTypes from '../constants/connection-type'
 
 // task definition function

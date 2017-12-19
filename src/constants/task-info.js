@@ -1,4 +1,4 @@
-import * as types from './task-type'
+import * as types from './task-op'
 
 /* task info */
 
