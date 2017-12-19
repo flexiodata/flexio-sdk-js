@@ -45,7 +45,7 @@ const FORMAT_TSV = {
 var convert = function(input, output) {
 
   var task = {
-    type: taskTypes.TASK_TYPE_CONVERT,
+    op: taskTypes.TASK_TYPE_CONVERT,
     params: {}
   }
 

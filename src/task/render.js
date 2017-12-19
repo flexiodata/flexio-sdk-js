@@ -28,7 +28,7 @@ var render = function(url, options) {
   }
 
   return {
-    type: taskTypes.TASK_TYPE_RENDER,
+    op: taskTypes.TASK_TYPE_RENDER,
     params
   }
 }

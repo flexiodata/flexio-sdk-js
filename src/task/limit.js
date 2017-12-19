@@ -7,7 +7,7 @@ var limit = function(value) {
   value = _.defaultTo(value, 10)
 
   return {
-    type: taskTypes.TASK_TYPE_LIMIT,
+    op: taskTypes.TASK_TYPE_LIMIT,
     params: {
       value
     }

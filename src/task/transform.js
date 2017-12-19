@@ -31,13 +31,13 @@ var transform = function(value) {
     }
 
     return {
-      type: taskTypes.TASK_TYPE_TRANSFORM,
+      op: taskTypes.TASK_TYPE_TRANSFORM,
       params
     }
   }
 
   return {
-    type: taskTypes.TASK_TYPE_TRANSFORM,
+    op: taskTypes.TASK_TYPE_TRANSFORM,
     params: {
       columns,
       operations,

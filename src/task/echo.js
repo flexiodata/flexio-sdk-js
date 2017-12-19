@@ -5,7 +5,7 @@ var taskTypes = require('../constants/task-type')       // import * as taskTypes
 // task definition function
 var echo = function(msg) {
   return {
-    type: taskTypes.TASK_TYPE_ECHO,
+    op: taskTypes.TASK_TYPE_ECHO,
     params: {
       msg
     }

@@ -33,7 +33,7 @@ var output = function() {
   }
 
   return {
-    type: taskTypes.TASK_TYPE_OUTPUT,
+    op: taskTypes.TASK_TYPE_OUTPUT,
     metadata: { connection_type },
     params: {
       connection,

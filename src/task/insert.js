@@ -16,7 +16,7 @@ var insert = function(path, values) {
     data = [ values ]
 
   return {
-    type: taskTypes.TASK_TYPE_INSERT,
+    op: taskTypes.TASK_TYPE_INSERT,
     params: {
       path: path,
       values: data

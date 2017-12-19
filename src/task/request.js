@@ -60,7 +60,7 @@ var request = function() {
   params = _.assign({ method: 'GET' }, params)
 
   return {
-    type: taskTypes.TASK_TYPE_REQUEST,
+    op: taskTypes.TASK_TYPE_REQUEST,
     params
   }
 }

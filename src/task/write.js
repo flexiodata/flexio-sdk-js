@@ -5,7 +5,7 @@ var taskTypes = require('../constants/task-type')       // import * as taskTypes
 // task definition function
 var write = function(path) {
   return {
-    type: taskTypes.TASK_TYPE_WRITE,
+    op: taskTypes.TASK_TYPE_WRITE,
     params: {
       path
     }
