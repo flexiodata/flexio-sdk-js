@@ -5,7 +5,7 @@ var taskOps = require('../constants/task-type')       // import * as taskOps fro
 // task definition function
 var echo = function(msg) {
   return {
-    op: taskOps.TASK_TYPE_ECHO,
+    op: taskOps.TASK_OP_ECHO,
     params: {
       msg
     }

@@ -7,7 +7,7 @@ var sleep = function(value) {
   value = _.defaultTo(value, 10)
 
   return {
-    op: taskOps.TASK_TYPE_SLEEP,
+    op: taskOps.TASK_OP_SLEEP,
     params: {
       value
     }

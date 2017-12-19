@@ -9,7 +9,7 @@ var filter = function(where) {
     throw 'The `filter` parameter is required'
 
   return {
-    op: taskOps.TASK_TYPE_FILTER,
+    op: taskOps.TASK_OP_FILTER,
     params: {
       where
     }

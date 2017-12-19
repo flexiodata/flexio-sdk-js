@@ -12,7 +12,7 @@ var select = function() {
     columns = _.get(columns, '[0]', [])
 
   return {
-    op: taskOps.TASK_TYPE_SELECT,
+    op: taskOps.TASK_OP_SELECT,
     params: {
       columns
     }

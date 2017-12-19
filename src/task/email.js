@@ -25,7 +25,7 @@ var email = function(params) {
     params.data = 'none'
 
   return {
-    op: taskOps.TASK_TYPE_EMAIL_SEND,
+    op: taskOps.TASK_OP_EMAIL_SEND,
     params
   }
 }

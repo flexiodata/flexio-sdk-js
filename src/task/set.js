@@ -5,7 +5,7 @@ var taskOps = require('../constants/task-type')       // import * as taskOps fro
 // task definition function
 var set = function(variable, value) {
   return {
-    op: taskOps.TASK_TYPE_SET,
+    op: taskOps.TASK_OP_SET,
     params: {
       "var": variable,
       "value": value

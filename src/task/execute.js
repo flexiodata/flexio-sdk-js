@@ -97,7 +97,7 @@ var execute = function() {
 
 
   var task = {
-    op: taskOps.TASK_TYPE_EXECUTE,
+    op: taskOps.TASK_OP_EXECUTE,
     params: {}
   }
 

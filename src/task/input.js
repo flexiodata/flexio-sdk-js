@@ -47,7 +47,7 @@ var input = function() {
   })
 
   return {
-    op: taskOps.TASK_TYPE_INPUT,
+    op: taskOps.TASK_OP_INPUT,
     metadata: { connection_type },
     params: {
       connection,

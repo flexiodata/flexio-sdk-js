@@ -5,7 +5,7 @@ var taskOps = require('../constants/task-type')       // import * as taskOps fro
 // task definition function
 var list = function(path) {
   return {
-    op: taskOps.TASK_TYPE_LIST,
+    op: taskOps.TASK_OP_LIST,
     params: {
       path
     }

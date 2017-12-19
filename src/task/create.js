@@ -15,7 +15,7 @@ var create = function(p0, p1) {
 
   if (Array.isArray(p0)) {
     return {
-      op: taskOps.TASK_TYPE_CREATE,
+      op: taskOps.TASK_OP_CREATE,
       params: {
         content_type: "application/vnd.flexio.table",
         columns: p0
@@ -23,7 +23,7 @@ var create = function(p0, p1) {
     }
   } else {
     var ret =  {
-      op: taskOps.TASK_TYPE_CREATE,
+      op: taskOps.TASK_OP_CREATE,
       params: {
         path: p0
       }
