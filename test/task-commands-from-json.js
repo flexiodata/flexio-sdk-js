@@ -9,7 +9,7 @@ var echoCommand = function(json) {
 }
 
 var json = {
-  type: 'flexio.convert',
+  op: 'convert',
   params: {
     input: {
       format: 'delimited',
@@ -26,7 +26,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.convert',
+  op: 'convert',
   params: {
     input: {
       format: 'table'
@@ -40,7 +40,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.echo',
+  op: 'echo',
   params: {
     msg: 'test123'
   }
@@ -49,7 +49,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.email',
+  op: 'email',
   params: {
     to: ['test@email.com'],
     body_text: 'This is my message',
@@ -60,7 +60,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.execute',
+  op: 'execute',
   params: {
     "lang": "python",
     "code": "ZGVmIGZsZXhpb19oYW5kbGVyKGNvbnRleHQpOg0KICAgIGNvbnRleHQub3V0cHV0LmNvbnRlbnRfdHlwZSA9ICJ0ZXh0L3BsYWluIg0KICAgIGNvbnRleHQub3V0cHV0LndyaXRlKCdIZWxsbyBXb3JsZCEnKQ=="
@@ -70,7 +70,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.execute',
+  op: 'execute',
   params: {
     "lang": "javascript",
     "code": "ZXhwb3J0cy5mbGV4aW9faGFuZGxlciA9IGZ1bmN0aW9uKGNvbnRleHQpIHsNCiAgICBjb250ZXh0Lm91dHB1dC5jb250ZW50X3R5cGUgPSAidGV4dC9wbGFpbiINCiAgICBjb250ZXh0Lm91dHB1dC53cml0ZSgnSGVsbG8sIFdvcmxkIScpDQp9"
@@ -80,7 +80,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.filter',
+  op: 'filter',
   params: {
     where: "vend_name = 'BOISE FIELDS'"
   }
@@ -89,7 +89,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.limit',
+  op: 'limit',
   params: {
     value: 10
   }
@@ -98,7 +98,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.read',
+  op: 'read',
   params: {
     path: '/msq8162lp5rw/mulch123.csv'
   }
@@ -107,7 +107,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.render',
+  op: 'render',
   params: {
     url: 'https://www.flex.io',
     format: 'png',
@@ -120,7 +120,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.request',
+  op: 'request',
   params: {
     method: 'GET',
     url: 'https://raw.githubusercontent.com/flexiodata/data/master/mockaroo/names-and-ip-addresses.csv'
@@ -130,7 +130,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.select',
+  op: 'select',
   params: {
     columns: ['test','test2','test3']
   }
@@ -139,7 +139,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.select',
+  op: 'select',
   params: {
     columns: ['test']
   }
@@ -148,7 +148,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.sleep',
+  op: 'sleep',
   params: {
     value: 10
   }
@@ -157,7 +157,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.write',
+  op: 'write',
   params: {
     path: '/msq8162lp5rw/bwilliams/mulch124.csv'
   }
@@ -166,7 +166,7 @@ var json = {
 echoCommand(json)
 
 var json = {
-  type: 'flexio.unknown',
+  op: 'unknown',
   params: {
     p1: 'test',
     p2: 'test2',
