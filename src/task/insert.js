@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 
 
 
@@ -16,7 +16,7 @@ var insert = function(path, values) {
     data = [ values ]
 
   return {
-    op: taskTypes.TASK_TYPE_INSERT,
+    op: taskOps.TASK_TYPE_INSERT,
     params: {
       path: path,
       values: data

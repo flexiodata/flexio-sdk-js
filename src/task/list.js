@@ -1,11 +1,11 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 
 // task definition function
 var list = function(path) {
   return {
-    op: taskTypes.TASK_TYPE_LIST,
+    op: taskOps.TASK_TYPE_LIST,
     params: {
       path
     }

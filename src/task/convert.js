@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 
 // token delimiters; other types of delimiters are allowed as well
 const DELIMITER_NONE              = '{none}'
@@ -45,7 +45,7 @@ const FORMAT_TSV = {
 var convert = function(input, output) {
 
   var task = {
-    op: taskTypes.TASK_TYPE_CONVERT,
+    op: taskOps.TASK_TYPE_CONVERT,
     params: {}
   }
 

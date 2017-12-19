@@ -1,5 +1,5 @@
 var _ = require('lodash')                               // import _ from 'lodash'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 
 var createFn    = require('./create.js')
 var convertFn   = require('./convert.js')
@@ -29,21 +29,21 @@ var toCode = function(json) {
     default:
       return taskFn.toCode(json)
 
-    case taskTypes.TASK_TYPE_CREATE:     return createFn.toCode(json)
-    case taskTypes.TASK_TYPE_CONVERT:    return convertFn.toCode(json)
-    case taskTypes.TASK_TYPE_ECHO:       return echoFn.toCode(json)
-    case taskTypes.TASK_TYPE_EMAIL_SEND: return emailFn.toCode(json)
-    case taskTypes.TASK_TYPE_EXECUTE:    return executeFn.toCode(json)
-    case taskTypes.TASK_TYPE_FILTER:     return filterFn.toCode(json)
-    case taskTypes.TASK_TYPE_INSERT:     return insertFn.toCode(json)
-    case taskTypes.TASK_TYPE_LIMIT:      return limitFn.toCode(json)
-    case taskTypes.TASK_TYPE_READ:       return readFn.toCode(json)
-    case taskTypes.TASK_TYPE_RENDER:     return renderFn.toCode(json)
-    case taskTypes.TASK_TYPE_REQUEST:    return requestFn.toCode(json)
-    case taskTypes.TASK_TYPE_SELECT:     return selectFn.toCode(json)
-    case taskTypes.TASK_TYPE_SET:        return setFn.toCode(json)
-    case taskTypes.TASK_TYPE_SLEEP:      return sleepFn.toCode(json)
-    case taskTypes.TASK_TYPE_WRITE:      return writeFn.toCode(json)
+    case taskOps.TASK_TYPE_CREATE:     return createFn.toCode(json)
+    case taskOps.TASK_TYPE_CONVERT:    return convertFn.toCode(json)
+    case taskOps.TASK_TYPE_ECHO:       return echoFn.toCode(json)
+    case taskOps.TASK_TYPE_EMAIL_SEND: return emailFn.toCode(json)
+    case taskOps.TASK_TYPE_EXECUTE:    return executeFn.toCode(json)
+    case taskOps.TASK_TYPE_FILTER:     return filterFn.toCode(json)
+    case taskOps.TASK_TYPE_INSERT:     return insertFn.toCode(json)
+    case taskOps.TASK_TYPE_LIMIT:      return limitFn.toCode(json)
+    case taskOps.TASK_TYPE_READ:       return readFn.toCode(json)
+    case taskOps.TASK_TYPE_RENDER:     return renderFn.toCode(json)
+    case taskOps.TASK_TYPE_REQUEST:    return requestFn.toCode(json)
+    case taskOps.TASK_TYPE_SELECT:     return selectFn.toCode(json)
+    case taskOps.TASK_TYPE_SET:        return setFn.toCode(json)
+    case taskOps.TASK_TYPE_SLEEP:      return sleepFn.toCode(json)
+    case taskOps.TASK_TYPE_WRITE:      return writeFn.toCode(json)
   }
 }
 

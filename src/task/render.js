@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 
 const defaults = {
   format: 'png',
@@ -28,7 +28,7 @@ var render = function(url, options) {
   }
 
   return {
-    op: taskTypes.TASK_TYPE_RENDER,
+    op: taskOps.TASK_TYPE_RENDER,
     params
   }
 }

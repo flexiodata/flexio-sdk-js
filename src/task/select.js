@@ -1,6 +1,6 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 
 // task definition function
 var select = function() {
@@ -12,7 +12,7 @@ var select = function() {
     columns = _.get(columns, '[0]', [])
 
   return {
-    op: taskTypes.TASK_TYPE_SELECT,
+    op: taskOps.TASK_TYPE_SELECT,
     params: {
       columns
     }

@@ -1,6 +1,6 @@
 var _ = require('lodash')     // import _ from 'lodash'
 var util = require('../util') // import util from '../util'
-var taskTypes = require('../constants/task-type')
+var taskOps = require('../constants/task-type')
 
 
 var isNodeJs = function() {
@@ -97,7 +97,7 @@ var execute = function() {
 
 
   var task = {
-    op: taskTypes.TASK_TYPE_EXECUTE,
+    op: taskOps.TASK_TYPE_EXECUTE,
     params: {}
   }
 

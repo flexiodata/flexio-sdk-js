@@ -1,11 +1,11 @@
 var _ = require('lodash')                               // import _ from 'lodash'
 var util = require('../util')                           // import util from '../util'
-var taskTypes = require('../constants/task-type')       // import * as taskTypes from '../constants/task-type'
+var taskOps = require('../constants/task-type')       // import * as taskOps from '../constants/task-type'
 var connTypes = require('../constants/connection-type') // import * as connTypes from '../constants/connection-type'
 
 // task definition function
 var output = function() {
-  var type = taskTypes.TASK_TYPE_OUTPUT
+  var type = taskOps.TASK_TYPE_OUTPUT
   var args = Array.from(arguments)
   var connection_type = _.get(args, '[0]', '')
   var connection = undefined
@@ -33,7 +33,7 @@ var output = function() {
   }
 
   return {
-    op: taskTypes.TASK_TYPE_OUTPUT,
+    op: taskOps.TASK_TYPE_OUTPUT,
     metadata: { connection_type },
     params: {
       connection,
