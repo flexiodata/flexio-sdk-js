@@ -23,7 +23,7 @@ var transformFn = require('./transform.js')
 var writeFn     = require('./write.js')
 
 var toCode = function(json) {
-  var type = _.get(json, 'type', '')
+  var type = _.get(json, 'op', '')
 
   switch (type) {
     default:
