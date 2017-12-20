@@ -30,6 +30,7 @@ module.exports = {
   TASK_OP_REQUEST: 'request',
   TASK_OP_SEARCH: 'search',
   TASK_OP_SELECT: 'select',
+  TASK_OP_SEQUENCE: 'sequence',
   TASK_OP_SET: 'set',
   TASK_OP_SLEEP: 'sleep',
   TASK_OP_SORT: 'sort',

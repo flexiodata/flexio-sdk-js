@@ -198,6 +198,13 @@ const SELECT = {
   bg_color: 'bg-task-orange'
 }
 
+const SEQUENCE = {
+  name: 'Sequence',
+  type: types.TASK_OP_SEQUENCE,
+  icon: 'view_carousel',
+  bg_color: 'bg-task-orange'
+}
+
 const SET = {
   name: 'Select',
   type: types.TASK_OP_SET,
@@ -255,6 +262,7 @@ export const TASK_INFO_RENDER        = RENDER
 export const TASK_INFO_REQUEST       = REQUEST
 //export const TASK_INFO_SEARCH        = SEARCH
 //export const TASK_INFO_SELECT        = SELECT
+export const TASK_INFO_SEQUENCE      = SEQUENCE
 export const TASK_INFO_SET           = SET
 //export const TASK_INFO_SORT          = SORT
 //export const TASK_INFO_TRANSFORM     = TRANSFORM
