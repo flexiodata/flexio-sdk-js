@@ -9,7 +9,7 @@ var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9
   syntax: request(url|connection[, config])
 
   json: {
-    "type": "flexio.request",
+    "op": "request",
     "params": {
       "method": "",
       "connection": "",
