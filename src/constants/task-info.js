@@ -1,234 +1,234 @@
-import * as types from './task-op'
+import * as ops from './task-op'
 
 /* task info */
 
 const CALC_FIELD = {
   name: 'Calculation',
-  type: types.TASK_OP_CALC,
+  op: ops.TASK_OP_CALC,
   icon: 'flash_on',
   bg_color: 'bg-task-green'
 }
 
 const COMMENT = {
   name: 'Comment',
-  type: types.TASK_OP_COMMENT,
+  op: ops.TASK_OP_COMMENT,
   icon: 'comment',
   bg_color: 'bg-task-blue'
 }
 
 const CONVERT = {
   name: 'Convert',
-  type: types.TASK_OP_CONVERT,
+  op: ops.TASK_OP_CONVERT,
   icon: 'settings',
   bg_color: 'bg-task-blue'
 }
 
 const COPY = {
   name: 'Copy',
-  type: types.TASK_OP_COPY,
+  op: ops.TASK_OP_COPY,
   icon: 'content_copy',
   bg_color: 'bg-task-orange'
 }
 
 const CREATE = {
   name: 'Copy',
-  type: types.TASK_OP_CREATE,
+  op: ops.TASK_OP_CREATE,
   icon: 'content_copy',
   bg_color: 'bg-task-orange'
 }
 
 const CUSTOM = {
   name: 'Custom',
-  type: types.TASK_OP_CUSTOM,
+  op: ops.TASK_OP_CUSTOM,
   icon: 'build',
   bg_color: 'bg-task-orange'
 }
 
 const DISTINCT = {
   name: 'Distinct',
-  type: types.TASK_OP_DISTINCT,
+  op: ops.TASK_OP_DISTINCT,
   icon: 'clear_all',
   bg_color: 'bg-task-green'
 }
 
 const DUPLICATE = {
   name: 'Duplicate',
-  type: types.TASK_OP_DUPLICATE,
+  op: ops.TASK_OP_DUPLICATE,
   icon: 'content_copy',
   bg_color: 'bg-task-green'
 }
 
 const EMAIL_SEND = {
   name: 'Email',
-  type: types.TASK_OP_EMAIL_SEND,
+  op: ops.TASK_OP_EMAIL_SEND,
   icon: 'mail_outline',
   bg_color: 'bg-task-blue'
 }
 
 const EXECUTE = {
   name: 'Execute',
-  type: types.TASK_OP_EXECUTE,
+  op: ops.TASK_OP_EXECUTE,
   icon: 'code',
   bg_color: 'bg-task-purple'
 }
 
 const FIND_REPLACE = {
   name: 'Find/Replace',
-  type: types.TASK_OP_FIND_REPLACE,
+  op: ops.TASK_OP_FIND_REPLACE,
   icon: 'find_replace',
   bg_color: 'bg-task-orange'
 }
 
 const FILTER = {
   name: 'Filter',
-  type: types.TASK_OP_FILTER,
+  op: ops.TASK_OP_FILTER,
   icon: 'filter_list',
   bg_color: 'bg-task-green'
 }
 
 const GROUP = {
   name: 'Group',
-  type: types.TASK_OP_GROUP,
+  op: ops.TASK_OP_GROUP,
   icon: 'functions',
   bg_color: 'bg-task-green'
 }
 
 const INPUT = {
   name: 'Input',
-  type: types.TASK_OP_INPUT,
+  op: ops.TASK_OP_INPUT,
   icon: 'input',
   bg_color: 'bg-task-blue'
 }
 
 const INSERT = {
   name: 'Input',
-  type: types.TASK_OP_INSERT,
+  op: ops.TASK_OP_INSERT,
   icon: 'input',
   bg_color: 'bg-task-blue'
 }
 
 const LIMIT = {
   name: 'Limit',
-  type: types.TASK_OP_LIMIT,
+  op: ops.TASK_OP_LIMIT,
   icon: 'play_for_work',
   bg_color: 'bg-task-green'
 }
 
 const LIST = {
   name: 'List',
-  type: types.TASK_OP_LIST,
+  op: ops.TASK_OP_LIST,
   icon: 'play_for_work',
   bg_color: 'bg-task-green'
 }
 
 const MERGE = {
   name: 'Merge',
-  type: types.TASK_OP_MERGE,
+  op: ops.TASK_OP_MERGE,
   icon: 'call_merge',
   bg_color: 'bg-task-green'
 }
 
 const NOP = {
   name: 'No Op.',
-  type: types.TASK_OP_NOP,
+  op: ops.TASK_OP_NOP,
   icon: 'build',
   bg_color: 'bg-task-orange'
 }
 
 const OUTPUT = {
   name: 'Output',
-  type: types.TASK_OP_OUTPUT,
+  op: ops.TASK_OP_OUTPUT,
   icon: 'input',
   bg_color: 'bg-task-blue'
 }
 
 const PROMPT = {
   name: 'Prompt',
-  type: types.TASK_OP_PROMPT,
+  op: ops.TASK_OP_PROMPT,
   icon: 'info_outline',
   bg_color: 'bg-task-blue'
 }
 
 const R = {
   name: 'R',
-  type: types.TASK_OP_R,
+  op: ops.TASK_OP_R,
   icon: '',
   bg_color: 'bg-task-purple'
 }
 
 const READ = {
   name: 'Rename',
-  type: types.TASK_OP_READ,
+  op: ops.TASK_OP_READ,
   icon: 'input',
   bg_color: 'bg-task-orange'
 }
 
 const RENAME = {
   name: 'Rename',
-  type: types.TASK_OP_RENAME,
+  op: ops.TASK_OP_RENAME,
   icon: 'edit',
   bg_color: 'bg-task-orange'
 }
 
 const RENDER = {
   name: 'Render',
-  type: types.TASK_OP_RENDER,
+  op: ops.TASK_OP_RENDER,
   icon: 'web',
   bg_color: 'bg-task-orange'
 }
 
 const REQUEST = {
   name: 'Request',
-  type: types.TASK_OP_REQUEST,
+  op: ops.TASK_OP_REQUEST,
   icon: 'http',
   bg_color: 'bg-task-blue'
 }
 
 const SEARCH = {
   name: 'Search',
-  type: types.TASK_OP_SEARCH,
+  op: ops.TASK_OP_SEARCH,
   icon: 'search',
   bg_color: 'bg-task-green'
 }
 
 const SELECT = {
   name: 'Select',
-  type: types.TASK_OP_SELECT,
+  op: ops.TASK_OP_SELECT,
   icon: 'view_carousel',
   bg_color: 'bg-task-orange'
 }
 
 const SEQUENCE = {
   name: 'Sequence',
-  type: types.TASK_OP_SEQUENCE,
+  op: ops.TASK_OP_SEQUENCE,
   icon: 'view_carousel',
   bg_color: 'bg-task-orange'
 }
 
 const SET = {
   name: 'Select',
-  type: types.TASK_OP_SET,
+  op: ops.TASK_OP_SET,
   icon: 'view_carousel',
   bg_color: 'bg-task-orange'
 }
 
 const SORT = {
   name: 'Sort',
-  type: types.TASK_OP_SORT,
+  op: ops.TASK_OP_SORT,
   icon: 'sort_by_alpha',
   bg_color: 'bg-task-green'
 }
 
 const TRANSFORM = {
   name: 'Transform',
-  type: types.TASK_OP_TRANSFORM,
+  op: ops.TASK_OP_TRANSFORM,
   icon: 'transform',
   bg_color: 'bg-task-orange'
 }
 
 const WRITE = {
   name: 'Rename',
-  type: types.TASK_OP_WRITE,
+  op: ops.TASK_OP_WRITE,
   icon: 'input',
   bg_color: 'bg-task-orange'
 }
