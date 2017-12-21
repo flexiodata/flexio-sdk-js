@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.13.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.14.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2017 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -17231,13 +17231,13 @@ var _module$exports;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 module.exports = (_module$exports = {
-    TASK_TYPE_CALC: 'flexio.calc',
-    TASK_TYPE_COMMENT: 'flexio.comment',
-    TASK_TYPE_CONVERT: 'flexio.convert',
-    TASK_TYPE_COPY: 'flexio.copy',
-    TASK_TYPE_CREATE: 'flexio.create',
-    TASK_TYPE_CUSTOM: 'flexio.create'
-}, _defineProperty(_module$exports, 'TASK_TYPE_CUSTOM', 'flexio.custom'), _defineProperty(_module$exports, 'TASK_TYPE_DISTINCT', 'flexio.distinct'), _defineProperty(_module$exports, 'TASK_TYPE_DUPLICATE', 'flexio.duplicate'), _defineProperty(_module$exports, 'TASK_TYPE_ECHO', 'flexio.echo'), _defineProperty(_module$exports, 'TASK_TYPE_EMAIL_SEND', 'flexio.email'), _defineProperty(_module$exports, 'TASK_TYPE_EXECUTE', 'flexio.execute'), _defineProperty(_module$exports, 'TASK_TYPE_FIND_REPLACE', 'flexio.replace'), _defineProperty(_module$exports, 'TASK_TYPE_FILTER', 'flexio.filter'), _defineProperty(_module$exports, 'TASK_TYPE_GROUP', 'flexio.group'), _defineProperty(_module$exports, 'TASK_TYPE_INPUT', 'flexio.input'), _defineProperty(_module$exports, 'TASK_TYPE_INSERT', 'flexio.insert'), _defineProperty(_module$exports, 'TASK_TYPE_LIMIT', 'flexio.limit'), _defineProperty(_module$exports, 'TASK_TYPE_LIST', 'flexio.list'), _defineProperty(_module$exports, 'TASK_TYPE_MERGE', 'flexio.merge'), _defineProperty(_module$exports, 'TASK_TYPE_NOP', 'flexio.nop'), _defineProperty(_module$exports, 'TASK_TYPE_OUTPUT', 'flexio.output'), _defineProperty(_module$exports, 'TASK_TYPE_PROMPT', 'flexio.prompt'), _defineProperty(_module$exports, 'TASK_TYPE_R', 'flexio.r'), _defineProperty(_module$exports, 'TASK_TYPE_READ', 'flexio.read'), _defineProperty(_module$exports, 'TASK_TYPE_RENAME', 'flexio.rename'), _defineProperty(_module$exports, 'TASK_TYPE_RENDER', 'flexio.render'), _defineProperty(_module$exports, 'TASK_TYPE_REQUEST', 'flexio.request'), _defineProperty(_module$exports, 'TASK_TYPE_SEARCH', 'flexio.search'), _defineProperty(_module$exports, 'TASK_TYPE_SELECT', 'flexio.select'), _defineProperty(_module$exports, 'TASK_TYPE_SET', 'flexio.set'), _defineProperty(_module$exports, 'TASK_TYPE_SLEEP', 'flexio.sleep'), _defineProperty(_module$exports, 'TASK_TYPE_SORT', 'flexio.sort'), _defineProperty(_module$exports, 'TASK_TYPE_TRANSFORM', 'flexio.transform'), _defineProperty(_module$exports, 'TASK_TYPE_WRITE', 'flexio.write'), _module$exports);
+  TASK_OP_CALC: 'calc',
+  TASK_OP_COMMENT: 'comment',
+  TASK_OP_CONVERT: 'convert',
+  TASK_OP_COPY: 'copy',
+  TASK_OP_CREATE: 'create',
+  TASK_OP_CUSTOM: 'create'
+}, _defineProperty(_module$exports, 'TASK_OP_CUSTOM', 'custom'), _defineProperty(_module$exports, 'TASK_OP_DISTINCT', 'distinct'), _defineProperty(_module$exports, 'TASK_OP_DUPLICATE', 'duplicate'), _defineProperty(_module$exports, 'TASK_OP_ECHO', 'echo'), _defineProperty(_module$exports, 'TASK_OP_EMAIL_SEND', 'email'), _defineProperty(_module$exports, 'TASK_OP_EXECUTE', 'execute'), _defineProperty(_module$exports, 'TASK_OP_FIND_REPLACE', 'replace'), _defineProperty(_module$exports, 'TASK_OP_FILTER', 'filter'), _defineProperty(_module$exports, 'TASK_OP_GROUP', 'group'), _defineProperty(_module$exports, 'TASK_OP_INPUT', 'input'), _defineProperty(_module$exports, 'TASK_OP_INSERT', 'insert'), _defineProperty(_module$exports, 'TASK_OP_LIMIT', 'limit'), _defineProperty(_module$exports, 'TASK_OP_LIST', 'list'), _defineProperty(_module$exports, 'TASK_OP_MERGE', 'merge'), _defineProperty(_module$exports, 'TASK_OP_NOP', 'nop'), _defineProperty(_module$exports, 'TASK_OP_OUTPUT', 'output'), _defineProperty(_module$exports, 'TASK_OP_PROMPT', 'prompt'), _defineProperty(_module$exports, 'TASK_OP_R', 'r'), _defineProperty(_module$exports, 'TASK_OP_READ', 'read'), _defineProperty(_module$exports, 'TASK_OP_RENAME', 'rename'), _defineProperty(_module$exports, 'TASK_OP_RENDER', 'render'), _defineProperty(_module$exports, 'TASK_OP_REQUEST', 'request'), _defineProperty(_module$exports, 'TASK_OP_SEARCH', 'search'), _defineProperty(_module$exports, 'TASK_OP_SELECT', 'select'), _defineProperty(_module$exports, 'TASK_OP_SEQUENCE', 'sequence'), _defineProperty(_module$exports, 'TASK_OP_SET', 'set'), _defineProperty(_module$exports, 'TASK_OP_SLEEP', 'sleep'), _defineProperty(_module$exports, 'TASK_OP_SORT', 'sort'), _defineProperty(_module$exports, 'TASK_OP_TRANSFORM', 'transform'), _defineProperty(_module$exports, 'TASK_OP_WRITE', 'write'), _module$exports);
 
 /***/ }),
 /* 3 */
@@ -18143,26 +18143,26 @@ module.exports = Cancel;
 
 
 module.exports = {
-    CONNECTION_TYPE_UNKNOWN: '',
-    CONNECTION_TYPE_AMAZONS3: 'amazons3',
-    CONNECTION_TYPE_BLANK_PIPE: 'blank-pipe',
-    CONNECTION_TYPE_DOWNLOAD: 'download',
-    CONNECTION_TYPE_DROPBOX: 'dropbox',
-    CONNECTION_TYPE_ELASTICSEARCH: 'elasticsearch',
-    CONNECTION_TYPE_EMAIL: 'email',
-    CONNECTION_TYPE_GOOGLEDRIVE: 'googledrive',
-    CONNECTION_TYPE_GOOGLESHEETS: 'googlesheets',
-    CONNECTION_TYPE_HTTP: 'http',
-    CONNECTION_TYPE_MAILJET: 'mailjet',
-    CONNECTION_TYPE_MYSQL: 'mysql',
-    CONNECTION_TYPE_POSTGRES: 'postgres',
-    CONNECTION_TYPE_RSS: 'rss',
-    CONNECTION_TYPE_SFTP: 'sftp',
-    CONNECTION_TYPE_SOCRATA: 'socrata',
-    CONNECTION_TYPE_STDIN: 'stdin',
-    CONNECTION_TYPE_STDOUT: 'stdout',
-    CONNECTION_TYPE_PIPELINEDEALS: 'pipelinedeals',
-    CONNECTION_TYPE_UPLOAD: 'upload'
+  CONNECTION_TYPE_UNKNOWN: '',
+  CONNECTION_TYPE_AMAZONS3: 'amazons3',
+  CONNECTION_TYPE_BLANK_PIPE: 'blank-pipe',
+  CONNECTION_TYPE_DOWNLOAD: 'download',
+  CONNECTION_TYPE_DROPBOX: 'dropbox',
+  CONNECTION_TYPE_ELASTICSEARCH: 'elasticsearch',
+  CONNECTION_TYPE_EMAIL: 'email',
+  CONNECTION_TYPE_GOOGLEDRIVE: 'googledrive',
+  CONNECTION_TYPE_GOOGLESHEETS: 'googlesheets',
+  CONNECTION_TYPE_HTTP: 'http',
+  CONNECTION_TYPE_MAILJET: 'mailjet',
+  CONNECTION_TYPE_MYSQL: 'mysql',
+  CONNECTION_TYPE_POSTGRES: 'postgres',
+  CONNECTION_TYPE_RSS: 'rss',
+  CONNECTION_TYPE_SFTP: 'sftp',
+  CONNECTION_TYPE_SOCRATA: 'socrata',
+  CONNECTION_TYPE_STDIN: 'stdin',
+  CONNECTION_TYPE_STDOUT: 'stdout',
+  CONNECTION_TYPE_PIPELINEDEALS: 'pipelinedeals',
+  CONNECTION_TYPE_UPLOAD: 'upload'
 };
 
 /***/ }),
@@ -19176,7 +19176,7 @@ module.exports = function spread(callback) {
 
 
 var _ = __webpack_require__(0);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 
 var createFn = __webpack_require__(36);
 var convertFn = __webpack_require__(37);
@@ -19200,41 +19200,41 @@ var transformFn = __webpack_require__(58);
 var writeFn = __webpack_require__(59);
 
 var toCode = function toCode(json) {
-  var type = _.get(json, 'type', '');
+  var op = _.get(json, 'op', '');
 
-  switch (type) {
+  switch (op) {
     default:
       return taskFn.toCode(json);
 
-    case taskTypes.TASK_TYPE_CREATE:
+    case taskOps.TASK_OP_CREATE:
       return createFn.toCode(json);
-    case taskTypes.TASK_TYPE_CONVERT:
+    case taskOps.TASK_OP_CONVERT:
       return convertFn.toCode(json);
-    case taskTypes.TASK_TYPE_ECHO:
+    case taskOps.TASK_OP_ECHO:
       return echoFn.toCode(json);
-    case taskTypes.TASK_TYPE_EMAIL_SEND:
+    case taskOps.TASK_OP_EMAIL_SEND:
       return emailFn.toCode(json);
-    case taskTypes.TASK_TYPE_EXECUTE:
+    case taskOps.TASK_OP_EXECUTE:
       return executeFn.toCode(json);
-    case taskTypes.TASK_TYPE_FILTER:
+    case taskOps.TASK_OP_FILTER:
       return filterFn.toCode(json);
-    case taskTypes.TASK_TYPE_INSERT:
+    case taskOps.TASK_OP_INSERT:
       return insertFn.toCode(json);
-    case taskTypes.TASK_TYPE_LIMIT:
+    case taskOps.TASK_OP_LIMIT:
       return limitFn.toCode(json);
-    case taskTypes.TASK_TYPE_READ:
+    case taskOps.TASK_OP_READ:
       return readFn.toCode(json);
-    case taskTypes.TASK_TYPE_RENDER:
+    case taskOps.TASK_OP_RENDER:
       return renderFn.toCode(json);
-    case taskTypes.TASK_TYPE_REQUEST:
+    case taskOps.TASK_OP_REQUEST:
       return requestFn.toCode(json);
-    case taskTypes.TASK_TYPE_SELECT:
+    case taskOps.TASK_OP_SELECT:
       return selectFn.toCode(json);
-    case taskTypes.TASK_TYPE_SET:
+    case taskOps.TASK_OP_SET:
       return setFn.toCode(json);
-    case taskTypes.TASK_TYPE_SLEEP:
+    case taskOps.TASK_OP_SLEEP:
       return sleepFn.toCode(json);
-    case taskTypes.TASK_TYPE_WRITE:
+    case taskOps.TASK_OP_WRITE:
       return writeFn.toCode(json);
   }
 };
@@ -19275,12 +19275,12 @@ module.exports = {
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var create = function create(p0, p1) {
 
   if (Array.isArray(p0)) {
     return {
-      type: taskTypes.TASK_TYPE_CREATE,
+      op: taskOps.TASK_OP_CREATE,
       params: {
         content_type: "application/vnd.flexio.table",
         columns: p0
@@ -19288,7 +19288,7 @@ var create = function create(p0, p1) {
     };
   } else {
     var ret = {
-      type: taskTypes.TASK_TYPE_CREATE,
+      op: taskOps.TASK_OP_CREATE,
       params: {
         path: p0
       }
@@ -19342,7 +19342,7 @@ module.exports = create;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var DELIMITER_NONE = '{none}';
 var DELIMITER_COMMA = '{comma}';
 var DELIMITER_SEMICOLON = '{semicolon}';
@@ -19381,7 +19381,7 @@ var FORMAT_TSV = {
 var convert = function convert(input, output) {
 
   var task = {
-    type: taskTypes.TASK_TYPE_CONVERT,
+    op: taskOps.TASK_OP_CONVERT,
     params: {}
   };
 
@@ -19434,10 +19434,10 @@ module.exports = convert;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var echo = function echo(msg) {
   return {
-    type: taskTypes.TASK_TYPE_ECHO,
+    op: taskOps.TASK_OP_ECHO,
     params: {
       msg: msg
     }
@@ -19461,7 +19461,7 @@ module.exports = echo;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var email = function email(params) {
   if (!_.isPlainObject(params)) throw 'The first function parameter must be an object';
 
@@ -19477,7 +19477,7 @@ var email = function email(params) {
   if (data != 'body' && data != 'attachment') params.data = 'none';
 
   return {
-    type: taskTypes.TASK_TYPE_EMAIL_SEND,
+    op: taskOps.TASK_OP_EMAIL_SEND,
     params: params
   };
 };
@@ -19498,7 +19498,7 @@ module.exports = email;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 
 var isNodeJs = function isNodeJs() {
   return typeof process !== 'undefined';
@@ -19576,7 +19576,7 @@ var execute = function execute() {
   var lang, code, check;
 
   var task = {
-    type: taskTypes.TASK_TYPE_EXECUTE,
+    op: taskOps.TASK_OP_EXECUTE,
     params: {}
   };
 
@@ -21677,13 +21677,13 @@ module.exports = Array.isArray || function (arr) {
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var filter = function filter(where) {
 
   if (_.isNil(where)) throw 'The `filter` parameter is required';
 
   return {
-    type: taskTypes.TASK_TYPE_FILTER,
+    op: taskOps.TASK_OP_FILTER,
     params: {
       where: where
     }
@@ -21706,7 +21706,7 @@ module.exports = filter;
 
 
 var _ = __webpack_require__(0);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var connTypes = __webpack_require__(12);
 var util = __webpack_require__(1);
 var input = function input() {
@@ -21749,7 +21749,7 @@ var input = function input() {
   });
 
   return {
-    type: taskTypes.TASK_TYPE_INPUT,
+    op: taskOps.TASK_OP_INPUT,
     metadata: { connection_type: connection_type },
     params: {
       connection: connection,
@@ -21769,14 +21769,14 @@ module.exports = input;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var insert = function insert(path, values) {
 
   var data;
   if (Array.isArray(values)) data = values;else data = [values];
 
   return {
-    type: taskTypes.TASK_TYPE_INSERT,
+    op: taskOps.TASK_OP_INSERT,
     params: {
       path: path,
       values: data
@@ -21808,12 +21808,12 @@ module.exports = insert;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var limit = function limit(value) {
   value = _.defaultTo(value, 10);
 
   return {
-    type: taskTypes.TASK_TYPE_LIMIT,
+    op: taskOps.TASK_OP_LIMIT,
     params: {
       value: value
     }
@@ -21837,10 +21837,10 @@ module.exports = limit;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var list = function list(path) {
   return {
-    type: taskTypes.TASK_TYPE_LIST,
+    op: taskOps.TASK_OP_LIST,
     params: {
       path: path
     }
@@ -21858,10 +21858,9 @@ module.exports = list;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var connTypes = __webpack_require__(12);
 var output = function output() {
-  var type = taskTypes.TASK_TYPE_OUTPUT;
   var args = Array.from(arguments);
   var connection_type = _.get(args, '[0]', '');
   var connection = undefined;
@@ -21887,7 +21886,7 @@ var output = function output() {
   }
 
   return {
-    type: taskTypes.TASK_TYPE_OUTPUT,
+    op: taskOps.TASK_OP_OUTPUT,
     metadata: { connection_type: connection_type },
     params: {
       connection: connection,
@@ -21907,10 +21906,10 @@ module.exports = output;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var read = function read(path) {
   return {
-    type: taskTypes.TASK_TYPE_READ,
+    op: taskOps.TASK_OP_READ,
     params: {
       path: path
     }
@@ -21934,7 +21933,7 @@ module.exports = read;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 
 var defaults = {
   format: 'png',
@@ -21957,7 +21956,7 @@ var render = function render(url, options) {
   }
 
   return {
-    type: taskTypes.TASK_TYPE_RENDER,
+    op: taskOps.TASK_OP_RENDER,
     params: params
   };
 };
@@ -21981,7 +21980,7 @@ module.exports = render;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 
 var method_types = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'HEAD', 'OPTIONS'];
 var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
@@ -22008,7 +22007,7 @@ var request = function request() {
   params = _.assign({ method: 'GET' }, params);
 
   return {
-    type: taskTypes.TASK_TYPE_REQUEST,
+    op: taskOps.TASK_OP_REQUEST,
     params: params
   };
 };
@@ -22033,14 +22032,14 @@ module.exports = request;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var select = function select() {
   var columns = Array.from(arguments);
 
   if (columns.length == 1 && _.isArray(_.get(columns, '[0]'))) columns = _.get(columns, '[0]', []);
 
   return {
-    type: taskTypes.TASK_TYPE_SELECT,
+    op: taskOps.TASK_OP_SELECT,
     params: {
       columns: columns
     }
@@ -22066,10 +22065,10 @@ module.exports = select;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var set = function set(variable, value) {
   return {
-    type: taskTypes.TASK_TYPE_SET,
+    op: taskOps.TASK_OP_SET,
     params: {
       "var": variable,
       "value": value
@@ -22095,12 +22094,12 @@ module.exports = set;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var sleep = function sleep(value) {
   value = _.defaultTo(value, 10);
 
   return {
-    type: taskTypes.TASK_TYPE_SLEEP,
+    op: taskOps.TASK_OP_SLEEP,
     params: {
       value: value
     }
@@ -22143,7 +22142,7 @@ module.exports = task;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var transform = function transform(value) {
   var args = Array.from(arguments);
 
@@ -22164,13 +22163,13 @@ var transform = function transform(value) {
     }
 
     return {
-      type: taskTypes.TASK_TYPE_TRANSFORM,
+      op: taskOps.TASK_OP_TRANSFORM,
       params: params
     };
   }
 
   return {
-    type: taskTypes.TASK_TYPE_TRANSFORM,
+    op: taskOps.TASK_OP_TRANSFORM,
     params: {
       columns: columns,
       operations: operations
@@ -22189,10 +22188,10 @@ module.exports = transform;
 
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
-var taskTypes = __webpack_require__(2);
+var taskOps = __webpack_require__(2);
 var write = function write(path) {
   return {
-    type: taskTypes.TASK_TYPE_WRITE,
+    op: taskOps.TASK_OP_WRITE,
     params: {
       path: path
     }
@@ -22211,7 +22210,7 @@ module.exports = write;
 /* 60 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.13.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.14.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
 /* 61 */
