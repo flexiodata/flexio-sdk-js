@@ -23,9 +23,9 @@ var transformFn = require('./transform.js')
 var writeFn     = require('./write.js')
 
 var toCode = function(json) {
-  var type = _.get(json, 'op', '')
+  var op = _.get(json, 'op', '')
 
-  switch (type) {
+  switch (op) {
     default:
       return taskFn.toCode(json)
 
