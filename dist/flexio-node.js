@@ -21485,8 +21485,6 @@ module.exports.getPipesObject = function (Flexio) {
     };
 
     this.run = function () {
-      var _this3 = this;
-
       var args = Array.from(arguments);
       args.push(null, null, null);
 
@@ -21573,18 +21571,16 @@ module.exports.getPipesObject = function (Flexio) {
               }
             };
 
-            if (typeof callback == 'function') callback.call(_this3, null, response_object);
+            if (typeof callback == 'function') callback.call(null, null, response_object);
           }).catch(function (error) {
             Flexio.util.debug('Process Run Failed. ' + error);
-            _this3.running = false;
 
-            if (typeof callback == 'function') callback.call(_this3, error, null);
+            if (typeof callback == 'function') callback.call(null, error, null);
           });
         }).catch(function (error) {
           Flexio.util.debug('Process Create Failed. ' + error);
-          _this3.running = false;
 
-          if (typeof callback == 'function') callback.call(_this3, error, null);
+          if (typeof callback == 'function') callback.call(null, error, null);
         });
       } else {
 
@@ -21616,7 +21612,6 @@ module.exports.getPipesObject = function (Flexio) {
 
         var http = Flexio.http();
         http(http_config).then(function (response) {
-          _this3.running = false;
           Flexio.util.debug('Process Complete.');
 
           var arraybuffer = response.data;
@@ -21640,13 +21635,12 @@ module.exports.getPipesObject = function (Flexio) {
             }
           };
 
-          if (typeof callback == 'function') callback.call(_this3, null, response_object);
+          if (typeof callback == 'function') callback.call(null, null, response_object);
         }).catch(function (error) {
 
-          Flexio.util.debug('Pipe Run Call Failed.');
-          _this3.running = false;
+          Flexio.util.debug('Pipe Run Call Failed. ' + error);
 
-          if (typeof callback == 'function') callback.call(_this3, error, null);
+          if (typeof callback == 'function') callback.call(null, error, null);
         });
       }
 
