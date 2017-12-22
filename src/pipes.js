@@ -75,7 +75,7 @@ module.exports.getPipesObject = function(Flexio) {
       var callback
       var pipe_identifier
       var tasks_array = null
-      
+
       if (args[0] instanceof Flexio.pipe) {
         pipe_identifier = _.get(args[0], 'pipe.eid', '')
         tasks_array =  _.get(args[0], 'pipe.task', '')
@@ -158,23 +158,21 @@ module.exports.getPipesObject = function(Flexio) {
                 }
 
                 if (typeof callback == 'function')
-                  callback.call(this, null, response_object)
+                  callback.call(null, null, response_object)
               })
               .catch(error => {
                 //console.log(Flexio.util.arrayBufferToString(error.response.data));
                 Flexio.util.debug('Process Run Failed. ' + error)
-                this.running = false
     
                 if (typeof callback == 'function')
-                  callback.call(this, error, null)
+                  callback.call(null, error, null)
               })
           })
           .catch(error => {
             Flexio.util.debug('Process Create Failed. ' + error)
-            this.running = false
-
+            
             if (typeof callback == 'function')
-              callback.call(this, error, null)
+              callback.call(null, error, null)
           })
       }
         else {
@@ -212,7 +210,6 @@ module.exports.getPipesObject = function(Flexio) {
 
         var http = Flexio.http()
         http(http_config).then(response => {
-          this.running = false
           Flexio.util.debug('Process Complete.')
 
           var arraybuffer = response.data
@@ -238,15 +235,14 @@ module.exports.getPipesObject = function(Flexio) {
           }
           
           if (typeof callback == 'function')
-            callback.call(this, null, response_object)
+            callback.call(null, null, response_object)
         })
         .catch(error => {
 
-          Flexio.util.debug('Pipe Run Call Failed.')
-          this.running = false
+          Flexio.util.debug('Pipe Run Call Failed. ' + error)
 
           if (typeof callback == 'function')
-            callback.call(this, error, null)
+            callback.call(null, error, null)
         })
       }
 
