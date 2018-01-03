@@ -10,13 +10,13 @@ return function(identifier) {
     return new Flexio.pipe(identifier)
   }
 
-  var retval = _.assign(this, {
+  var pipeobj = _.assign(this, {
     // -- state --
 
     pipe: {
       name: 'Untitled',
       description: '',
-      task: []
+      task: { op: 'sequence', params: { items: [] } }
     },
     processes: [],
     _params: {}, // avoid collision with `params` method name
@@ -39,12 +39,12 @@ return function(identifier) {
     },
 
     addTask(task) {
-      this.pipe.task.push(task)
+      this.pipe.task.params.items.push(task)
       return this
     },
 
     clearTasks() {
-      this.pipe.task = []
+      this.pipe.task.params.items = []
       return this
     },
 
@@ -165,7 +165,7 @@ return function(identifier) {
   */
 
   _.each(Flexio.task, function(taskFn, task_name) {
-    retval[task_name] = function() { return retval.addTask(taskFn.apply(retval /* scope */, arguments)) }
+    pipeobj[task_name] = function() { return pipeobj.addTask(taskFn.apply(pipeobj /* scope */, arguments)) }
   })
 
   /*
@@ -179,10 +179,10 @@ return function(identifier) {
 
 
   if (identifier !== undefined) {
-    retval.pipe.eid = identifier
+    pipeobj.pipe.eid = identifier
   }
   
-  return retval
+  return pipeobj
 }
 
 
