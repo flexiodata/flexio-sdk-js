@@ -1,6 +1,6 @@
 /*!
  * Flex.io Javascript SDK v1.14.1 (https://github.com/flexiodata/flexio-sdk-js)
- * (c) 2017 Gold Prairie LLC
+ * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -21667,12 +21667,12 @@ module.exports.getPipeConstructor = function (Flexio) {
       return new Flexio.pipe(identifier);
     }
 
-    var retval = _.assign(this, {
+    var pipeobj = _.assign(this, {
 
       pipe: {
         name: 'Untitled',
         description: '',
-        task: []
+        task: { op: 'sequence', params: { items: [] } }
       },
       processes: [],
       _params: {},
@@ -21690,11 +21690,11 @@ module.exports.getPipeConstructor = function (Flexio) {
         return _.last(this.processes);
       },
       addTask: function addTask(task) {
-        this.pipe.task.push(task);
+        this.pipe.task.params.items.push(task);
         return this;
       },
       clearTasks: function clearTasks() {
-        this.pipe.task = [];
+        this.pipe.task.params.items = [];
         return this;
       },
       load: function load() {
@@ -21793,16 +21793,16 @@ module.exports.getPipeConstructor = function (Flexio) {
     });
 
     _.each(Flexio.task, function (taskFn, task_name) {
-      retval[task_name] = function () {
-        return retval.addTask(taskFn.apply(retval, arguments));
+      pipeobj[task_name] = function () {
+        return pipeobj.addTask(taskFn.apply(pipeobj, arguments));
       };
     });
 
     if (identifier !== undefined) {
-      retval.pipe.eid = identifier;
+      pipeobj.pipe.eid = identifier;
     }
 
-    return retval;
+    return pipeobj;
   };
 };
 
