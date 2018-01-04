@@ -4,6 +4,10 @@ var taskOps = require('../constants/task-op')           // import * as taskOps f
 
 // task definition function
 var set = function(variable, value) {
+
+  if (util.isPipeObject(value))
+    value = value.pipe.task
+
   return {
     op: taskOps.TASK_OP_SET,
     params: {
