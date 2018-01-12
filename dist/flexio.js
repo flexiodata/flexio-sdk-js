@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.14.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.15.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -17176,13 +17176,53 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-module.exports = {};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+util = {};
+module.exports = util;
+
+util.isPipeObject = function (obj) {
+  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.hasOwnProperty('pipe') && _typeof(obj.pipe) === 'object';
+};
+
+util.isPipeJson = function (obj) {
+  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && obj.hasOwnProperty('op') && obj.hasOwnProperty('params');
+};
+
+util.isNodeJs = function () {
+  return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+};
+
+util.arrayBufferToString = function (buf) {
+
+  if (this.isNodeJs()) {
+    return buf.toString('utf-8');
+  } else {
+
+    if ("TextDecoder" in window) {
+      return new TextDecoder('utf-8').decode(buf);
+    } else {
+      var uint8arr = new Uint8Array(buf);
+      var utf8str = '';
+      var i,
+          len = uint8arr.length;
+      for (i = 0; i < len; ++i) {
+        utf8str += String.fromCharCode(uint8arr[i]);
+      }
+      return decodeURIComponent(escape(utf8str));
+    }
+  }
+};
+
 module.exports.getUtilObject = function (Flexio) {
 
   return new function () {
-    this.isNodeJs = function () {
-      return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-    };
+
+    for (method in util) {
+      if (util.hasOwnProperty(method)) {
+        this[method] = util[method];
+      }
+    }
 
     this.debug = function (msg) {
       var cfg = Flexio.getConfig();
@@ -17193,27 +17233,6 @@ module.exports.getUtilObject = function (Flexio) {
       }
 
       return this;
-    };
-
-    this.arrayBufferToString = function (buf) {
-
-      if (this.isNodeJs()) {
-        return buf.toString('utf-8');
-      } else {
-
-        if ("TextDecoder" in window) {
-          return new TextDecoder('utf-8').decode(buf);
-        } else {
-          var uint8arr = new Uint8Array(buf);
-          var utf8str = '';
-          var i,
-              len = uint8arr.length;
-          for (i = 0; i < len; ++i) {
-            utf8str += String.fromCharCode(uint8arr[i]);
-          }
-          return decodeURIComponent(escape(utf8str));
-        }
-      }
     };
   }();
 };
@@ -18216,19 +18235,19 @@ var pipeToCode = function pipeToCode(task_arr) {
 };
 
 var Flexio = {
-  version: __webpack_require__(60).version,
+  version: __webpack_require__(61).version,
 
   _init: function _init() {
-    this.connections = __webpack_require__(61).getConnectionsObject(this);
-    this.pipes = __webpack_require__(62).getPipesObject(this);
+    this.connections = __webpack_require__(62).getConnectionsObject(this);
+    this.pipes = __webpack_require__(63).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(63).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(64).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
     this.pipe.toCode = pipeToCode;
 
-    var getConnectionConstructor = __webpack_require__(64).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(65).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -19187,17 +19206,18 @@ var filterFn = __webpack_require__(45);
 var inputFn = __webpack_require__(46);
 var insertFn = __webpack_require__(47);
 var limitFn = __webpack_require__(48);
-var listFn = __webpack_require__(49);
-var outputFn = __webpack_require__(50);
-var readFn = __webpack_require__(51);
-var renderFn = __webpack_require__(52);
-var requestFn = __webpack_require__(53);
-var selectFn = __webpack_require__(54);
-var setFn = __webpack_require__(55);
-var sleepFn = __webpack_require__(56);
-var taskFn = __webpack_require__(57);
-var transformFn = __webpack_require__(58);
-var writeFn = __webpack_require__(59);
+var mergeFn = __webpack_require__(49);
+var listFn = __webpack_require__(50);
+var outputFn = __webpack_require__(51);
+var readFn = __webpack_require__(52);
+var renderFn = __webpack_require__(53);
+var requestFn = __webpack_require__(54);
+var selectFn = __webpack_require__(55);
+var setFn = __webpack_require__(56);
+var sleepFn = __webpack_require__(57);
+var taskFn = __webpack_require__(58);
+var transformFn = __webpack_require__(59);
+var writeFn = __webpack_require__(60);
 
 var toCode = function toCode(json) {
   var op = _.get(json, 'op', '');
@@ -19222,6 +19242,8 @@ var toCode = function toCode(json) {
       return insertFn.toCode(json);
     case taskOps.TASK_OP_LIMIT:
       return limitFn.toCode(json);
+    case taskOps.TASK_OP_MERGE:
+      return mergeFn.toCode(json);
     case taskOps.TASK_OP_READ:
       return readFn.toCode(json);
     case taskOps.TASK_OP_RENDER:
@@ -19251,6 +19273,7 @@ module.exports = {
   javascript: executeFn.javascript,
   limit: limitFn,
   list: listFn,
+  merge: mergeFn,
   output: outputFn,
   python: executeFn.python,
   read: readFn,
@@ -21838,6 +21861,37 @@ module.exports = limit;
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 var taskOps = __webpack_require__(2);
+var merge = function merge(path) {
+
+  if (Array.isArray(path)) {
+    var files = path;
+  } else {
+    var files = [];
+    for (var i = 0; i < arguments.length; ++i) {
+      files.push(arguments[i]);
+    }
+  }
+
+  return {
+    op: taskOps.TASK_OP_MERGE,
+    params: {
+      files: files
+    }
+  };
+};
+
+module.exports = merge;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskOps = __webpack_require__(2);
 var list = function list(path) {
   return {
     op: taskOps.TASK_OP_LIST,
@@ -21850,7 +21904,7 @@ var list = function list(path) {
 module.exports = list;
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21898,7 +21952,7 @@ var output = function output() {
 module.exports = output;
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21925,7 +21979,7 @@ read.toCode = function (json) {
 module.exports = read;
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21972,7 +22026,7 @@ render.toCode = function (json) {
 module.exports = render;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22024,7 +22078,7 @@ request.toCode = function (json) {
 module.exports = request;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22057,7 +22111,7 @@ select.toCode = function (json) {
 module.exports = select;
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22067,6 +22121,9 @@ var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 var taskOps = __webpack_require__(2);
 var set = function set(variable, value) {
+
+  if (util.isPipeObject(value)) value = value.pipe.task;
+
   return {
     op: taskOps.TASK_OP_SET,
     params: {
@@ -22086,7 +22143,7 @@ set.toCode = function (json) {
 module.exports = set;
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22115,7 +22172,7 @@ sleep.toCode = function (json) {
 module.exports = sleep;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22134,7 +22191,7 @@ task.toCode = function (json) {
 module.exports = task;
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22180,7 +22237,7 @@ var transform = function transform(value) {
 module.exports = transform;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22207,13 +22264,13 @@ write.toCode = function (json) {
 module.exports = write;
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.14.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.15.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22284,7 +22341,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22517,7 +22574,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22674,7 +22731,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
