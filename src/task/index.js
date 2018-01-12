@@ -10,6 +10,7 @@ var filterFn    = require('./filter.js')
 var inputFn     = require('./input.js')
 var insertFn    = require('./insert.js')
 var limitFn     = require('./limit.js')
+var mergeFn     = require('./merge.js')
 var listFn      = require('./list.js')
 var outputFn    = require('./output.js')
 var readFn      = require('./read.js')
@@ -37,6 +38,7 @@ var toCode = function(json) {
     case taskOps.TASK_OP_FILTER:     return filterFn.toCode(json)
     case taskOps.TASK_OP_INSERT:     return insertFn.toCode(json)
     case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json)
+    case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json)
     case taskOps.TASK_OP_READ:       return readFn.toCode(json)
     case taskOps.TASK_OP_RENDER:     return renderFn.toCode(json)
     case taskOps.TASK_OP_REQUEST:    return requestFn.toCode(json)
@@ -59,6 +61,7 @@ module.exports = {
   javascript: executeFn.javascript,
   limit:      limitFn,
   list:       listFn,
+  merge:      mergeFn,
   output:     outputFn,
   python:     executeFn.python,
   read:       readFn,
@@ -85,6 +88,7 @@ import * as executeFns from './execute'
 import filterFn from './filter'
 import limitFn from './limit'
 import listFn from './list'
+import mergeFn from './merge'
 import readFn from './read'
 import renderFn from './render'
 import requestFn from './request'
