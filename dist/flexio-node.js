@@ -17178,7 +17178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-util = {};
+var util = {};
 module.exports = util;
 
 util.isPipeObject = function (obj) {
@@ -17218,7 +17218,7 @@ module.exports.getUtilObject = function (Flexio) {
 
   return new function () {
 
-    for (method in util) {
+    for (var method in util) {
       if (util.hasOwnProperty(method)) {
         this[method] = util[method];
       }

@@ -1,5 +1,5 @@
 
-util = {}
+var util = {}
 module.exports = util
 
 
@@ -39,7 +39,7 @@ module.exports.getUtilObject = function(Flexio) {
 
   return new function() {
 
-    for (method in util) {
+    for (var method in util) {
       if (util.hasOwnProperty(method)) {
         this[method] = util[method]
       }
