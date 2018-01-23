@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.15.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.16.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -17255,7 +17255,7 @@ module.exports = (_module$exports = {
   TASK_OP_COPY: 'copy',
   TASK_OP_CREATE: 'create',
   TASK_OP_CUSTOM: 'create'
-}, _defineProperty(_module$exports, 'TASK_OP_CUSTOM', 'custom'), _defineProperty(_module$exports, 'TASK_OP_DISTINCT', 'distinct'), _defineProperty(_module$exports, 'TASK_OP_DUPLICATE', 'duplicate'), _defineProperty(_module$exports, 'TASK_OP_ECHO', 'echo'), _defineProperty(_module$exports, 'TASK_OP_EMAIL_SEND', 'email'), _defineProperty(_module$exports, 'TASK_OP_EXECUTE', 'execute'), _defineProperty(_module$exports, 'TASK_OP_FIND_REPLACE', 'replace'), _defineProperty(_module$exports, 'TASK_OP_FILTER', 'filter'), _defineProperty(_module$exports, 'TASK_OP_GROUP', 'group'), _defineProperty(_module$exports, 'TASK_OP_INPUT', 'input'), _defineProperty(_module$exports, 'TASK_OP_INSERT', 'insert'), _defineProperty(_module$exports, 'TASK_OP_LIMIT', 'limit'), _defineProperty(_module$exports, 'TASK_OP_LIST', 'list'), _defineProperty(_module$exports, 'TASK_OP_MERGE', 'merge'), _defineProperty(_module$exports, 'TASK_OP_NOP', 'nop'), _defineProperty(_module$exports, 'TASK_OP_OUTPUT', 'output'), _defineProperty(_module$exports, 'TASK_OP_PROMPT', 'prompt'), _defineProperty(_module$exports, 'TASK_OP_R', 'r'), _defineProperty(_module$exports, 'TASK_OP_READ', 'read'), _defineProperty(_module$exports, 'TASK_OP_RENAME', 'rename'), _defineProperty(_module$exports, 'TASK_OP_RENDER', 'render'), _defineProperty(_module$exports, 'TASK_OP_REQUEST', 'request'), _defineProperty(_module$exports, 'TASK_OP_SEARCH', 'search'), _defineProperty(_module$exports, 'TASK_OP_SELECT', 'select'), _defineProperty(_module$exports, 'TASK_OP_SEQUENCE', 'sequence'), _defineProperty(_module$exports, 'TASK_OP_SET', 'set'), _defineProperty(_module$exports, 'TASK_OP_SLEEP', 'sleep'), _defineProperty(_module$exports, 'TASK_OP_SORT', 'sort'), _defineProperty(_module$exports, 'TASK_OP_TRANSFORM', 'transform'), _defineProperty(_module$exports, 'TASK_OP_WRITE', 'write'), _module$exports);
+}, _defineProperty(_module$exports, 'TASK_OP_CUSTOM', 'custom'), _defineProperty(_module$exports, 'TASK_OP_DISTINCT', 'distinct'), _defineProperty(_module$exports, 'TASK_OP_DUPLICATE', 'duplicate'), _defineProperty(_module$exports, 'TASK_OP_ECHO', 'echo'), _defineProperty(_module$exports, 'TASK_OP_EMAIL_SEND', 'email'), _defineProperty(_module$exports, 'TASK_OP_EXECUTE', 'execute'), _defineProperty(_module$exports, 'TASK_OP_FIND_REPLACE', 'replace'), _defineProperty(_module$exports, 'TASK_OP_FILTER', 'filter'), _defineProperty(_module$exports, 'TASK_OP_FOREACH', 'foreach'), _defineProperty(_module$exports, 'TASK_OP_GROUP', 'group'), _defineProperty(_module$exports, 'TASK_OP_INPUT', 'input'), _defineProperty(_module$exports, 'TASK_OP_INSERT', 'insert'), _defineProperty(_module$exports, 'TASK_OP_LIMIT', 'limit'), _defineProperty(_module$exports, 'TASK_OP_LIST', 'list'), _defineProperty(_module$exports, 'TASK_OP_MERGE', 'merge'), _defineProperty(_module$exports, 'TASK_OP_NOP', 'nop'), _defineProperty(_module$exports, 'TASK_OP_OUTPUT', 'output'), _defineProperty(_module$exports, 'TASK_OP_PROMPT', 'prompt'), _defineProperty(_module$exports, 'TASK_OP_R', 'r'), _defineProperty(_module$exports, 'TASK_OP_READ', 'read'), _defineProperty(_module$exports, 'TASK_OP_RENAME', 'rename'), _defineProperty(_module$exports, 'TASK_OP_RENDER', 'render'), _defineProperty(_module$exports, 'TASK_OP_REQUEST', 'request'), _defineProperty(_module$exports, 'TASK_OP_SEARCH', 'search'), _defineProperty(_module$exports, 'TASK_OP_SELECT', 'select'), _defineProperty(_module$exports, 'TASK_OP_SEQUENCE', 'sequence'), _defineProperty(_module$exports, 'TASK_OP_SET', 'set'), _defineProperty(_module$exports, 'TASK_OP_SLEEP', 'sleep'), _defineProperty(_module$exports, 'TASK_OP_SORT', 'sort'), _defineProperty(_module$exports, 'TASK_OP_TRANSFORM', 'transform'), _defineProperty(_module$exports, 'TASK_OP_WRITE', 'write'), _module$exports);
 
 /***/ }),
 /* 3 */
@@ -18435,19 +18435,19 @@ var pipeToCode = function pipeToCode(task_arr) {
 };
 
 var Flexio = {
-  version: __webpack_require__(73).version,
+  version: __webpack_require__(74).version,
 
   _init: function _init() {
-    this.connections = __webpack_require__(74).getConnectionsObject(this);
-    this.pipes = __webpack_require__(75).getPipesObject(this);
+    this.connections = __webpack_require__(75).getConnectionsObject(this);
+    this.pipes = __webpack_require__(76).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(76).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(77).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
     this.pipe.toCode = pipeToCode;
 
-    var getConnectionConstructor = __webpack_require__(77).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(78).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -20356,21 +20356,22 @@ var echoFn = __webpack_require__(54);
 var emailFn = __webpack_require__(55);
 var executeFn = __webpack_require__(56);
 var filterFn = __webpack_require__(57);
-var inputFn = __webpack_require__(58);
-var insertFn = __webpack_require__(59);
-var limitFn = __webpack_require__(60);
-var mergeFn = __webpack_require__(61);
-var listFn = __webpack_require__(62);
-var outputFn = __webpack_require__(63);
-var readFn = __webpack_require__(64);
-var renderFn = __webpack_require__(65);
-var requestFn = __webpack_require__(66);
-var selectFn = __webpack_require__(67);
-var setFn = __webpack_require__(68);
-var sleepFn = __webpack_require__(69);
-var taskFn = __webpack_require__(70);
-var transformFn = __webpack_require__(71);
-var writeFn = __webpack_require__(72);
+var foreachFn = __webpack_require__(58);
+var inputFn = __webpack_require__(59);
+var insertFn = __webpack_require__(60);
+var limitFn = __webpack_require__(61);
+var mergeFn = __webpack_require__(62);
+var listFn = __webpack_require__(63);
+var outputFn = __webpack_require__(64);
+var readFn = __webpack_require__(65);
+var renderFn = __webpack_require__(66);
+var requestFn = __webpack_require__(67);
+var selectFn = __webpack_require__(68);
+var setFn = __webpack_require__(69);
+var sleepFn = __webpack_require__(70);
+var taskFn = __webpack_require__(71);
+var transformFn = __webpack_require__(72);
+var writeFn = __webpack_require__(73);
 
 var toCode = function toCode(json) {
   var op = _.get(json, 'op', '');
@@ -20391,6 +20392,8 @@ var toCode = function toCode(json) {
       return executeFn.toCode(json);
     case taskOps.TASK_OP_FILTER:
       return filterFn.toCode(json);
+    case taskOps.TASK_OP_FOREACH:
+      return foreachFn.toCode(json);
     case taskOps.TASK_OP_INSERT:
       return insertFn.toCode(json);
     case taskOps.TASK_OP_LIMIT:
@@ -20423,6 +20426,7 @@ module.exports = {
   input: inputFn,
   insert: insertFn,
   filter: filterFn,
+  foreach: foreachFn,
   javascript: executeFn.javascript,
   limit: limitFn,
   list: listFn,
@@ -20862,6 +20866,36 @@ module.exports = filter;
 
 
 var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
+var taskOps = __webpack_require__(2);
+var foreach = function foreach(run) {
+
+  if (util.isPipeObject(run)) run = run.pipe.task;
+
+  return {
+    op: taskOps.TASK_OP_FOREACH,
+    params: {
+      run: run
+    }
+  };
+};
+
+foreach.toCode = function (json) {
+  var params = _.get(json, 'params', {});
+  var msg = JSON.stringify(params.msg) || '""';
+  return 'foreach(' + msg + ')';
+};
+
+module.exports = foreach;
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
 var taskOps = __webpack_require__(2);
 var connTypes = __webpack_require__(17);
 var util = __webpack_require__(1);
@@ -20917,7 +20951,7 @@ var input = function input() {
 module.exports = input;
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20956,7 +20990,7 @@ insert.toCode = function (json) {
 module.exports = insert;
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20985,7 +21019,7 @@ limit.toCode = function (json) {
 module.exports = limit;
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21016,7 +21050,7 @@ var merge = function merge(path) {
 module.exports = merge;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21037,7 +21071,7 @@ var list = function list(path) {
 module.exports = list;
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21085,7 +21119,7 @@ var output = function output() {
 module.exports = output;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21112,7 +21146,7 @@ read.toCode = function (json) {
 module.exports = read;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21159,7 +21193,7 @@ render.toCode = function (json) {
 module.exports = render;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21211,7 +21245,7 @@ request.toCode = function (json) {
 module.exports = request;
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21244,7 +21278,7 @@ select.toCode = function (json) {
 module.exports = select;
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21276,7 +21310,7 @@ set.toCode = function (json) {
 module.exports = set;
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21305,7 +21339,7 @@ sleep.toCode = function (json) {
 module.exports = sleep;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21324,7 +21358,7 @@ task.toCode = function (json) {
 module.exports = task;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21370,7 +21404,7 @@ var transform = function transform(value) {
 module.exports = transform;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21397,13 +21431,13 @@ write.toCode = function (json) {
 module.exports = write;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.15.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.16.0","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21474,7 +21508,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21630,11 +21664,13 @@ module.exports.getPipesObject = function (Flexio) {
 
             if (typeof callback == 'function') callback.call(null, null, response_object);
           }).catch(function (error) {
+            console.log(Flexio.util.arrayBufferToString(error.response.data));
             Flexio.util.debug('Process Run Failed. ' + error);
 
             if (typeof callback == 'function') callback.call(null, error, null);
           });
         }).catch(function (error) {
+          console.log(Flexio.util.arrayBufferToString(error.response.data));
           Flexio.util.debug('Process Create Failed. ' + error);
 
           if (typeof callback == 'function') callback.call(null, error, null);
@@ -21707,7 +21743,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21864,7 +21900,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
