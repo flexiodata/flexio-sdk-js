@@ -161,7 +161,7 @@ module.exports.getPipesObject = function(Flexio) {
                   callback.call(null, null, response_object)
               })
               .catch(error => {
-                //console.log(Flexio.util.arrayBufferToString(error.response.data));
+                console.log(Flexio.util.arrayBufferToString(error.response.data));
                 Flexio.util.debug('Process Run Failed. ' + error)
     
                 if (typeof callback == 'function')
@@ -169,7 +169,7 @@ module.exports.getPipesObject = function(Flexio) {
               })
           })
           .catch(error => {
-            //console.log(error.response.data);
+            console.log(Flexio.util.arrayBufferToString(error.response.data));
             Flexio.util.debug('Process Create Failed. ' + error)
             
             if (typeof callback == 'function')

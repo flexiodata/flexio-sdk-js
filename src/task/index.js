@@ -7,6 +7,7 @@ var echoFn      = require('./echo.js')
 var emailFn     = require('./email.js')
 var executeFn   = require('./execute.js')
 var filterFn    = require('./filter.js')
+var foreachFn   = require('./foreach.js')
 var inputFn     = require('./input.js')
 var insertFn    = require('./insert.js')
 var limitFn     = require('./limit.js')
@@ -36,6 +37,7 @@ var toCode = function(json) {
     case taskOps.TASK_OP_EMAIL_SEND: return emailFn.toCode(json)
     case taskOps.TASK_OP_EXECUTE:    return executeFn.toCode(json)
     case taskOps.TASK_OP_FILTER:     return filterFn.toCode(json)
+    case taskOps.TASK_OP_FOREACH:    return foreachFn.toCode(json)
     case taskOps.TASK_OP_INSERT:     return insertFn.toCode(json)
     case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json)
     case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json)
@@ -58,6 +60,7 @@ module.exports = {
   input:      inputFn,
   insert:     insertFn,
   filter:     filterFn,
+  foreach:    foreachFn,
   javascript: executeFn.javascript,
   limit:      limitFn,
   list:       listFn,
@@ -86,6 +89,7 @@ import echoFn from './echo'
 import emailFn from './email'
 import * as executeFns from './execute'
 import filterFn from './filter'
+import foreachFn from './foreach'
 import limitFn from './limit'
 import listFn from './list'
 import mergeFn from './merge'
@@ -106,6 +110,7 @@ export const echo       = echoFn
 export const email      = emailFn
 export const execute    = executeFns.execute
 export const filter     = filterFn
+export const foreach    = foreachFn
 export const javascript = executeFns.javascript
 export const limit      = limitFn
 export const list       = listFn

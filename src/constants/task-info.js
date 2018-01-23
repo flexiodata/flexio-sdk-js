@@ -86,6 +86,13 @@ const FILTER = {
   bg_color: 'bg-task-green'
 }
 
+const FOREACH = {
+  name: 'For Each',
+  op: ops.TASK_OP_FOREACH,
+  icon: 'filter_list',
+  bg_color: 'bg-task-green'
+}
+
 const GROUP = {
   name: 'Group',
   op: ops.TASK_OP_GROUP,

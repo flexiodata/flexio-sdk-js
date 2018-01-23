@@ -14,6 +14,7 @@ module.exports = {
   TASK_OP_EXECUTE: 'execute',
   TASK_OP_FIND_REPLACE: 'replace',
   TASK_OP_FILTER: 'filter',
+  TASK_OP_FOREACH: 'foreach',
   TASK_OP_GROUP: 'group',
   TASK_OP_INPUT: 'input',
   TASK_OP_INSERT: 'insert',
