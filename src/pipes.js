@@ -92,6 +92,27 @@ module.exports.getPipesObject = function(Flexio) {
       }
 
 
+      var getResponseObjectFromArrayBuffer = function (arraybuffer, content_type) {
+        return {
+          contentType: content_type,
+          buffer: arraybuffer,
+          get blob() {
+            return new Blob([this.buffer], {"type":content_type})
+          },
+          get text() {
+            return Flexio.util.arrayBufferToString(this.buffer)
+          },
+          get data() {
+            try {
+              return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
+            }
+            catch (e) {
+              return null
+            }
+          }
+        }
+      }
+
 
       return new Promise((resolve, reject) => {
 
@@ -145,27 +166,8 @@ module.exports.getPipesObject = function(Flexio) {
               http(http_config).then(response => {
                   Flexio.util.debug('Process Complete.')
 
-                  var arraybuffer = response.data
                   var content_type =  _.get(response, 'headers.content-type', 'text/plain')
-
-                  var response_object = {
-                    contentType: content_type,
-                    buffer: arraybuffer,
-                    get blob() {
-                      return new Blob([this.buffer], {"type":content_type})
-                    },
-                    get text() {
-                      return Flexio.util.arrayBufferToString(this.buffer)
-                    },
-                    get data() {
-                      try {
-                        return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
-                      }
-                      catch (e) {
-                        return null
-                      }
-                    }
-                  }
+                  var response_object = getResponseObjectFromArrayBuffer(response.data, content_type)
 
                   //if (typeof callback == 'function')
                   //  callback.call(null, null, response_object)
@@ -226,28 +228,9 @@ module.exports.getPipesObject = function(Flexio) {
           http(http_config).then(response => {
             Flexio.util.debug('Process Complete.')
 
-            var arraybuffer = response.data
             var content_type =  _.get(response, 'headers.content-type', 'text/plain')
+            var response_object = getResponseObjectFromArrayBuffer(response.data, content_type)
 
-            var response_object = {
-              contentType: content_type,
-              buffer: arraybuffer,
-              get blob() {
-                return new Blob([this.buffer], {"type":content_type})
-              },
-              get text() {
-                return Flexio.util.arrayBufferToString(this.buffer)
-              },
-              get data() {
-                try {
-                  return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
-                }
-                catch (e) {
-                  return null
-                }
-              }
-            }
-            
             //if (typeof callback == 'function')
             //  callback.call(null, null, response_object)
             callbackHelper(null, response_object)
