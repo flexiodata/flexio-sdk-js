@@ -130,8 +130,7 @@ return function(identifier) {
     run() {
       var args = Array.from(arguments)
       args.unshift(this) // 'this' pipe object will be the first parameter
-      Flexio.pipes.run.apply(null, args)
-      return this
+      return Flexio.pipes.run.apply(null, args)
     },
 
 

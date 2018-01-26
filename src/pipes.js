@@ -91,157 +91,182 @@ module.exports.getPipesObject = function(Flexio) {
         callback = null;
       }
 
-      Flexio.util.debug('Running Pipe `' + (pipe_identifier.length==0?'[Pipe Object/Task Array]':pipe_identifier) + '`...')
 
-      if (pipe_identifier.length == 0) {
-        // execute ephemeral pipe (as process)
 
-        var create_params = {
-          name: 'SDK Pipe',
-          description: 'SDK Pipe',
-          task: tasks_array,
+      return new Promise((resolve, reject) => {
 
-          process_mode: 'R'
+        var callbackHelper = function(err, response) {
+          if (callback) {
+            callback(err, response)
+          }
+           else {
+            if (err) {
+              reject(err)
+            } else {
+              resolve(response)
+            }
+          }
         }
 
-        Flexio.http().post('/processes', create_params)
-          .then(response => {
-            var obj = _.get(response, 'data', {})
-            var process_eid = _.get(obj, 'eid', '')
-            Flexio.util.debug('Created Process.')
+        Flexio.util.debug('Running Pipe `' + (pipe_identifier.length==0?'[Pipe Object/Task Array]':pipe_identifier) + '`...')
 
-            var http_config = {
-              method: 'post',
-              url: '/processes/'+process_eid+'/run',
-              responseType: 'arraybuffer'
-            }
+        if (pipe_identifier.length == 0) {
+          // execute ephemeral pipe (as process)
 
-            if (run_params.hasOwnProperty('data')) {
-              http_config.data = run_params.data
-            }
+          var create_params = {
+            name: 'SDK Pipe',
+            description: 'SDK Pipe',
+            task: tasks_array,
 
-            if (run_params.hasOwnProperty('query')) {
-              http_config.params = run_params.query
-            }
+            process_mode: 'R'
+          }
 
-            var http = Flexio.http()
-            http(http_config).then(response => {
-                Flexio.util.debug('Process Complete.')
+          Flexio.http().post('/processes', create_params)
+            .then(response => {
+              var obj = _.get(response, 'data', {})
+              var process_eid = _.get(obj, 'eid', '')
+              Flexio.util.debug('Created Process.')
 
-                var arraybuffer = response.data
-                var content_type =  _.get(response, 'headers.content-type', 'text/plain')
+              var http_config = {
+                method: 'post',
+                url: '/processes/'+process_eid+'/run',
+                responseType: 'arraybuffer'
+              }
 
-                var response_object = {
-                  contentType: content_type,
-                  buffer: arraybuffer,
-                  get blob() {
-                    return new Blob([this.buffer], {"type":content_type})
-                  },
-                  get text() {
-                    return Flexio.util.arrayBufferToString(this.buffer)
-                  },
-                  get data() {
-                    try {
-                      return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
-                    }
-                    catch (e) {
-                      return null
+              if (run_params.hasOwnProperty('data')) {
+                http_config.data = run_params.data
+              }
+
+              if (run_params.hasOwnProperty('query')) {
+                http_config.params = run_params.query
+              }
+
+              var http = Flexio.http()
+              http(http_config).then(response => {
+                  Flexio.util.debug('Process Complete.')
+
+                  var arraybuffer = response.data
+                  var content_type =  _.get(response, 'headers.content-type', 'text/plain')
+
+                  var response_object = {
+                    contentType: content_type,
+                    buffer: arraybuffer,
+                    get blob() {
+                      return new Blob([this.buffer], {"type":content_type})
+                    },
+                    get text() {
+                      return Flexio.util.arrayBufferToString(this.buffer)
+                    },
+                    get data() {
+                      try {
+                        return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
+                      }
+                      catch (e) {
+                        return null
+                      }
                     }
                   }
-                }
 
-                if (typeof callback == 'function')
-                  callback.call(null, null, response_object)
-              })
-              .catch(error => {
-                console.log(Flexio.util.arrayBufferToString(error.response.data));
-                Flexio.util.debug('Process Run Failed. ' + error)
-    
-                if (typeof callback == 'function')
-                  callback.call(null, error, null)
-              })
-          })
-          .catch(error => {
-            console.log(Flexio.util.arrayBufferToString(error.response.data));
-            Flexio.util.debug('Process Create Failed. ' + error)
-            
-            if (typeof callback == 'function')
-              callback.call(null, error, null)
-          })
-      }
-        else {
-        // execute existant pipe
-
-        var http_config = {
-          method: 'post',
-          url: '/pipes/'+pipe_identifier+'/run',
-          responseType: 'arraybuffer'
-        }
+                  //if (typeof callback == 'function')
+                  //  callback.call(null, null, response_object)
+                  callbackHelper(null, response_object)
+                })
+                .catch(error => {
+                  //console.log(Flexio.util.arrayBufferToString(error.response.data));
+                  Flexio.util.debug('Process Run Failed. ' + error)
       
-        if (run_params.hasOwnProperty('data')) {
-          http_config.data = run_params.data
+                  //if (typeof callback == 'function')
+                  //  callback.call(null, error, null)
+                  callbackHelper(error, null)
+                })
+            })
+            .catch(error => {
+              console.log(Flexio.util.arrayBufferToString(error.response.data));
+              Flexio.util.debug('Process Create Failed. ' + error)
+              
+              //if (typeof callback == 'function')
+              //  callback.call(null, error, null)
+              callbackHelper(error, null)
+            })
         }
+          else {
+          // execute existant pipe
 
-        if (run_params.hasOwnProperty('query')) {
-          http_config.params = run_params.query
-        }
-        
-        if (run_params.hasOwnProperty('contentType')) {
-          http_config.headers = { 'Content-Type': run_params.contentType }
-        } else {
-          // no content type specified; choose a sensible one unless
-          // axios can detect it
-          if (http_config.hasOwnProperty('data')) {
-            if (_.isPlainObject(http_config.data)) {
-              // axios can figure it out
-            } else if (_.isString(http_config.data)) {
-              http_config.headers = { 'Content-Type': 'text/plain' }
-            } else {
-              http_config.headers = { 'Content-Type': 'application/octet-stream' }
-            }
+          var http_config = {
+            method: 'post',
+            url: '/pipes/'+pipe_identifier+'/run',
+            responseType: 'arraybuffer'
           }
-        }
+        
+          if (run_params.hasOwnProperty('data')) {
+            http_config.data = run_params.data
+          }
 
-        var http = Flexio.http()
-        http(http_config).then(response => {
-          Flexio.util.debug('Process Complete.')
-
-          var arraybuffer = response.data
-          var content_type =  _.get(response, 'headers.content-type', 'text/plain')
-
-          var response_object = {
-            contentType: content_type,
-            buffer: arraybuffer,
-            get blob() {
-              return new Blob([this.buffer], {"type":content_type})
-            },
-            get text() {
-              return Flexio.util.arrayBufferToString(this.buffer)
-            },
-            get data() {
-              try {
-                return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
-              }
-              catch (e) {
-                return null
-              }
-            }
+          if (run_params.hasOwnProperty('query')) {
+            http_config.params = run_params.query
           }
           
-          if (typeof callback == 'function')
-            callback.call(null, null, response_object)
-        })
-        .catch(error => {
+          if (run_params.hasOwnProperty('contentType')) {
+            http_config.headers = { 'Content-Type': run_params.contentType }
+          } else {
+            // no content type specified; choose a sensible one unless
+            // axios can detect it
+            if (http_config.hasOwnProperty('data')) {
+              if (_.isPlainObject(http_config.data)) {
+                // axios can figure it out
+              } else if (_.isString(http_config.data)) {
+                http_config.headers = { 'Content-Type': 'text/plain' }
+              } else {
+                http_config.headers = { 'Content-Type': 'application/octet-stream' }
+              }
+            }
+          }
 
-          Flexio.util.debug('Pipe Run Call Failed. ' + error)
+          var http = Flexio.http()
+          http(http_config).then(response => {
+            Flexio.util.debug('Process Complete.')
 
-          if (typeof callback == 'function')
-            callback.call(null, error, null)
-        })
-      }
+            var arraybuffer = response.data
+            var content_type =  _.get(response, 'headers.content-type', 'text/plain')
 
-      return this
+            var response_object = {
+              contentType: content_type,
+              buffer: arraybuffer,
+              get blob() {
+                return new Blob([this.buffer], {"type":content_type})
+              },
+              get text() {
+                return Flexio.util.arrayBufferToString(this.buffer)
+              },
+              get data() {
+                try {
+                  return JSON.parse(Flexio.util.arrayBufferToString(this.buffer))
+                }
+                catch (e) {
+                  return null
+                }
+              }
+            }
+            
+            //if (typeof callback == 'function')
+            //  callback.call(null, null, response_object)
+            callbackHelper(null, response_object)
+          })
+          .catch(error => {
+
+            Flexio.util.debug('Pipe Run Call Failed. ' + error)
+
+            //if (typeof callback == 'function')
+            //  callback.call(null, error, null)
+            callbackHelper(error, null)
+          })
+        }
+      })  // Promise
+
     }
+
+
+
   }
 
 }
