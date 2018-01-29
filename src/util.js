@@ -35,6 +35,22 @@ util.arrayBufferToString = function(buf) {
   }
 }
 
+// for simultaneous support of promise and errback callbacks
+util.callbackAdapter = function(err, response, resolve, reject, callback) {
+  if (typeof callback == 'function') {
+    callback(err, response)
+  }
+   else {
+    if (err) {
+      reject(err)
+    } else {
+      resolve(response)
+    }
+  }
+}
+
+
+
 module.exports.getUtilObject = function(Flexio) {
 
   return new function() {
@@ -45,7 +61,6 @@ module.exports.getUtilObject = function(Flexio) {
       }
     }
 
-
     this.debug = function(msg) {
       var cfg = Flexio.getConfig()
       if (cfg.debug) {
@@ -53,10 +68,8 @@ module.exports.getUtilObject = function(Flexio) {
         //this.isNodeJs() ? console.log(msg) : alert(msg)
         console.log(msg)
       }
-      
       return this
     }
-
 
   }
 }

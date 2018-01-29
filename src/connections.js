@@ -9,7 +9,7 @@ module.exports.getConnectionsObject = function(Flexio) {
 
     this.create = function(conn, callback) {
 
-      var data;
+      var data
       if (_.isPlainObject(conn)) {
         data = conn
       } else if (conn instanceof Flexio.connection) {
@@ -18,16 +18,15 @@ module.exports.getConnectionsObject = function(Flexio) {
         throw "Unknown connection object type"
       }
 
-
-      Flexio.http().post('/connections', data)
-      .then(response => {
-        if (typeof callback == 'function')
-          callback.call(null, null, response.data)
-      })
-      .catch(error => {
-        Flexio.util.debug('Flexio.connections.create(): Failed.')
-        if (typeof callback == 'function')
-          callback.call(this, error, null)
+      return new Promise((resolve, reject) => {
+        Flexio.http().post('/connections', data)
+        .then(response => {
+          Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback)
+        })
+        .catch(error => {
+          Flexio.util.debug('Flexio.connections.create(): Failed.')
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
+        })
       })
     }
 
@@ -35,24 +34,19 @@ module.exports.getConnectionsObject = function(Flexio) {
       var args = Array.from(arguments)
       var callback = _.get(args, '[0]')
 
-      Flexio.util.debug('Requesting Connections...')
-
-      Flexio.http().get('/connections')
+      return new Promise((resolve, reject) => {
+        Flexio.util.debug('Requesting Connections...')
+        Flexio.http().get('/connections')
         .then(response => {
           var items = _.get(response, 'data', [])
           Flexio.util.debug('Success!')
-
-          if (typeof callback == 'function')
-            callback.call(this, null, items)
+          Flexio.util.callbackAdapter(null, items, resolve, reject, callback)
         })
         .catch(error => {
           Flexio.util.debug('Failed.')
-
-          if (typeof callback == 'function')
-            callback.call(this, error, null)
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
         })
-
-      return this
+      })
     }
   }
 }

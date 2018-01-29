@@ -6,9 +6,10 @@ module.exports.getPipesObject = function(Flexio) {
 
   return new function() {
 
+
     this.create = function(pipe, callback) {
       
-      var data;
+      var data
       if (_.isPlainObject(pipe)) {
         data = pipe
       } else if (pipe instanceof Flexio.pipe) {
@@ -17,16 +18,15 @@ module.exports.getPipesObject = function(Flexio) {
         throw "Unknown pipe object type"
       }
 
-
-      Flexio.http().post('/pipes', data)
-      .then(response => {
-        if (typeof callback == 'function')
-          callback.call(null, null, response.data)
-      })
-      .catch(error => {
-        Flexio.util.debug('Flexio.pipes.create(): Failed.')
-        if (typeof callback == 'function')
-          callback.call(this, error, null)
+      return new Promise((resolve, reject) => {
+        Flexio.http().post('/pipes', data)
+        .then(response => {
+          Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback)
+        })
+        .catch(error => {
+          Flexio.util.debug('Flexio.pipes.create(): Failed.')
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
+        })
       })
     }
 
@@ -34,27 +34,21 @@ module.exports.getPipesObject = function(Flexio) {
       var args = Array.from(arguments)
       var callback = _.get(args, '[0]')
 
-      Flexio.util.debug('Requesting Pipes...')
+      return new Promise((resolve, reject) => {
+        Flexio.util.debug('Requesting Pipes...')
 
-      Flexio.http().get('/pipes')
+        Flexio.http().get('/pipes')
         .then(response => {
-
           var items = _.get(response, 'data', [])
           Flexio.util.debug('Success!')
-
-          if (typeof callback == 'function')
-          {
-            callback.call(null, null, items)
-          }
+          Flexio.util.callbackAdapter(null, items, resolve, reject, callback)
         })
         .catch(error => {
           Flexio.util.debug('Failed.')
-
-          if (typeof callback == 'function')
-            callback.call(null, error, null)
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
         })
+      })
 
-      return this
     }
 
     // Flexio.pipes.run([pipeIdentifier|pipeObject|taskArray], params, callback)
@@ -116,19 +110,6 @@ module.exports.getPipesObject = function(Flexio) {
 
       return new Promise((resolve, reject) => {
 
-        var callbackHelper = function(err, response) {
-          if (callback) {
-            callback(err, response)
-          }
-           else {
-            if (err) {
-              reject(err)
-            } else {
-              resolve(response)
-            }
-          }
-        }
-
         Flexio.util.debug('Running Pipe `' + (pipe_identifier.length==0?'[Pipe Object/Task Array]':pipe_identifier) + '`...')
 
         if (pipe_identifier.length == 0) {
@@ -163,32 +144,23 @@ module.exports.getPipesObject = function(Flexio) {
               }
 
               var http = Flexio.http()
-              http(http_config).then(response => {
+              http(http_config)
+                .then(response => {
                   Flexio.util.debug('Process Complete.')
-
                   var content_type =  _.get(response, 'headers.content-type', 'text/plain')
                   var response_object = getResponseObjectFromArrayBuffer(response.data, content_type)
-
-                  //if (typeof callback == 'function')
-                  //  callback.call(null, null, response_object)
-                  callbackHelper(null, response_object)
+                  Flexio.util.callbackAdapter(null, response_object, resolve, reject, callback)
                 })
                 .catch(error => {
                   //console.log(Flexio.util.arrayBufferToString(error.response.data));
                   Flexio.util.debug('Process Run Failed. ' + error)
-      
-                  //if (typeof callback == 'function')
-                  //  callback.call(null, error, null)
-                  callbackHelper(error, null)
+                  Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
                 })
             })
             .catch(error => {
               console.log(Flexio.util.arrayBufferToString(error.response.data));
               Flexio.util.debug('Process Create Failed. ' + error)
-              
-              //if (typeof callback == 'function')
-              //  callback.call(null, error, null)
-              callbackHelper(error, null)
+              Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
             })
         }
           else {
@@ -227,29 +199,18 @@ module.exports.getPipesObject = function(Flexio) {
           var http = Flexio.http()
           http(http_config).then(response => {
             Flexio.util.debug('Process Complete.')
-
             var content_type =  _.get(response, 'headers.content-type', 'text/plain')
             var response_object = getResponseObjectFromArrayBuffer(response.data, content_type)
-
-            //if (typeof callback == 'function')
-            //  callback.call(null, null, response_object)
-            callbackHelper(null, response_object)
+            Flexio.util.callbackAdapter(null, response_object, resolve, reject, callback)
           })
           .catch(error => {
-
             Flexio.util.debug('Pipe Run Call Failed. ' + error)
-
-            //if (typeof callback == 'function')
-            //  callback.call(null, error, null)
-            callbackHelper(error, null)
+            Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
           })
         }
       })  // Promise
-
-    }
-
+    } // Flexio.pipes.run()
 
 
   }
-
 }
