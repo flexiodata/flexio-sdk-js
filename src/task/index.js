@@ -41,6 +41,7 @@ var toCode = function(json, Flexio) {
     case taskOps.TASK_OP_FOREACH:    return foreachFn.toCode(json, Flexio)
     case taskOps.TASK_OP_INSERT:     return insertFn.toCode(json, Flexio)
     case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_LIST:       return listFn.toCode(json, Flexio)
     case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json, Flexio)
     case taskOps.TASK_OP_READ:       return readFn.toCode(json, Flexio)
     case taskOps.TASK_OP_RENDER:     return renderFn.toCode(json, Flexio)

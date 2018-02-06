@@ -19,8 +19,17 @@ var set = function(variable, value) {
 
 set.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
-  var variable = JSON.stringify(params.variable) || '""'
-  var value = JSON.stringify(params.value) || '""'
+  var variable = _.get(params, 'variable', '')
+  var value =  _.get(params, 'value', '')
+  
+  variable = JSON.stringify(variable)
+  
+  if (typeof value === 'object' && value !== null && value.hasOwnProperty('op')) {
+    value = Flexio.task.toCode(value, Flexio)
+  } else {
+    value = JSON.stringify(value)
+  }
+  
   return 'set(' + variable + ', ' + value + ')'
 }
 

@@ -12,4 +12,11 @@ var list = function(path) {
   }
 }
 
+list.toCode = function(json, Flexio) {
+  var params = _.get(json, 'params', {})
+  var path = JSON.stringify(params.path) || '""'
+  return 'list(' + path + ')'
+}
+
+
 module.exports = list   // export default list
