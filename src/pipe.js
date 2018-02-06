@@ -4,10 +4,10 @@ var _ = require('lodash')                               // import _ from 'lodash
 module.exports = {}
 module.exports.getPipeConstructor = function(Flexio) {
 
-return function(identifier) {
+return function(pipeconstruct_param) {
 
   if (!(this instanceof Flexio.pipe)) {
-    return new Flexio.pipe(identifier)
+    return new Flexio.pipe(pipeconstruct_param)
   }
 
   var pipeobj = _.assign(this, {
@@ -157,13 +157,7 @@ return function(identifier) {
 
 
     toCode(p) {
-      if (p && p instanceof Flexio.pipe) {
-        return p.toCode()
-      } else if (p && _.isPlainObject(p) && p.hasOwnProperty('op')) {
-        return Flexio.task.toCode(p, Flexio)
-      } else {
-        return Flexio.task.toCode(this.pipe.task, Flexio)
-      }
+      return Flexio.task.toCode(this.pipe.task, Flexio)
     }
 
 
@@ -195,8 +189,19 @@ return function(identifier) {
   */
 
 
-  if (identifier !== undefined) {
-    pipeobj.pipe.eid = identifier
+  if (pipeconstruct_param !== undefined) {
+    if (typeof pipeconstruct_param === 'string' || pipeconstruct_param instanceof String) {
+      // parameter is eid or identifier
+      pipeobj.pipe.eid = pipeconstruct_param
+    } else if (typeof pipeconstruct_param === 'object') {
+      if (pipeconstruct_param.hasOwnProperty('pipe')) {
+        pipeobj.pipe = JSON.parse(JSON.stringify(pipeconstruct_param.pipe))
+      } else if (pipeconstruct_param.hasOwnProperty('task')) {
+        pipeobj.pipe = JSON.parse(JSON.stringify(pipeconstruct_param))
+      } else if (pipeconstruct_param.hasOwnProperty('op')) {
+        pipeobj.pipe.task = pipeconstruct_param
+      }
+    }
   }
   
   return pipeobj
