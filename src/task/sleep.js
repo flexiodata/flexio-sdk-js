@@ -14,7 +14,7 @@ var sleep = function(value) {
   }
 }
 
-sleep.toCode = function(json) {
+sleep.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var val = JSON.stringify(params.value) || ''
   return 'sleep(' + val + ')'

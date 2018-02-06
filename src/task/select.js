@@ -19,7 +19,7 @@ var select = function() {
   }
 }
 
-select.toCode = function(json) {
+select.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   debugger
   var cols = JSON.stringify(params.columns) || ''

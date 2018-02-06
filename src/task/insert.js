@@ -24,7 +24,7 @@ var insert = function(path, values) {
   }
 }
 
-insert.toCode = function(json) {
+insert.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var path = _.get(params, 'path', undefined)
   var values = _.get(params, 'values', undefined)

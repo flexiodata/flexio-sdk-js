@@ -46,7 +46,7 @@ var request = function() {
   }
 }
 
-request.toCode = function(json) {
+request.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var url = _.get(params, 'url', '')
   var opts = _.omit(params, ['url'])

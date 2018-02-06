@@ -33,7 +33,7 @@ var render = function(url, options) {
   }
 }
 
-render.toCode = function(json) {
+render.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var url = JSON.stringify(params.url) || ''
   var opts = _.omit(params, ['url'])

@@ -12,7 +12,7 @@ var write = function(path) {
   }
 }
 
-write.toCode = function(json) {
+write.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var path = JSON.stringify(params.path) || '""'
   return 'write(' + path + ')'

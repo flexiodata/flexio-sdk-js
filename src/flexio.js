@@ -46,7 +46,7 @@ var Flexio = {
 
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
-    this.pipe.toCode = pipeToCode
+    //this.pipe.toCode = pipeToCode
 
     var getConnectionConstructor = require('./connection').getConnectionConstructor
     this.connection = getConnectionConstructor(this)

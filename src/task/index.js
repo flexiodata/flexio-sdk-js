@@ -18,36 +18,38 @@ var readFn      = require('./read.js')
 var renderFn    = require('./render.js')
 var requestFn   = require('./request.js')
 var selectFn    = require('./select.js')
+var sequenceFn  = require('./sequence.js')
 var setFn       = require('./set.js')
 var sleepFn     = require('./sleep.js')
 var taskFn      = require('./task.js')
 var transformFn = require('./transform.js')
 var writeFn     = require('./write.js')
 
-var toCode = function(json) {
+var toCode = function(json, Flexio) {
   var op = _.get(json, 'op', '')
 
   switch (op) {
     default:
       return taskFn.toCode(json)
 
-    case taskOps.TASK_OP_CREATE:     return createFn.toCode(json)
-    case taskOps.TASK_OP_CONVERT:    return convertFn.toCode(json)
-    case taskOps.TASK_OP_ECHO:       return echoFn.toCode(json)
-    case taskOps.TASK_OP_EMAIL_SEND: return emailFn.toCode(json)
-    case taskOps.TASK_OP_EXECUTE:    return executeFn.toCode(json)
-    case taskOps.TASK_OP_FILTER:     return filterFn.toCode(json)
-    case taskOps.TASK_OP_FOREACH:    return foreachFn.toCode(json)
-    case taskOps.TASK_OP_INSERT:     return insertFn.toCode(json)
-    case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json)
-    case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json)
-    case taskOps.TASK_OP_READ:       return readFn.toCode(json)
-    case taskOps.TASK_OP_RENDER:     return renderFn.toCode(json)
-    case taskOps.TASK_OP_REQUEST:    return requestFn.toCode(json)
-    case taskOps.TASK_OP_SELECT:     return selectFn.toCode(json)
-    case taskOps.TASK_OP_SET:        return setFn.toCode(json)
-    case taskOps.TASK_OP_SLEEP:      return sleepFn.toCode(json)
-    case taskOps.TASK_OP_WRITE:      return writeFn.toCode(json)
+    case taskOps.TASK_OP_CREATE:     return createFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_CONVERT:    return convertFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_ECHO:       return echoFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_EMAIL_SEND: return emailFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_EXECUTE:    return executeFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_FILTER:     return filterFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_FOREACH:    return foreachFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_INSERT:     return insertFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_READ:       return readFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_RENDER:     return renderFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_REQUEST:    return requestFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_SELECT:     return selectFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_SEQUENCE:   return sequenceFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_SET:        return setFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_SLEEP:      return sleepFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_WRITE:      return writeFn.toCode(json, Flexio)
   }
 }
 
@@ -71,6 +73,7 @@ module.exports = {
   render:     renderFn,
   request:    requestFn,
   select:     selectFn,
+  sequence:   sequenceFn,
   set:        setFn,
   sleep:      sleepFn,
   task:       taskFn,

@@ -7,7 +7,7 @@ var task = function(json) {
   return json
 }
 
-task.toCode = function(json) {
+task.toCode = function(json, Flexio) {
   return 'task(' + JSON.stringify(json, null, 2) + ')'
 }
 

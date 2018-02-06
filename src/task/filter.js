@@ -16,7 +16,7 @@ var filter = function(where) {
   }
 }
 
-filter.toCode = function(json) {
+filter.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var where = JSON.stringify(params.where) || '""'
   return 'filter(' + where + ')'

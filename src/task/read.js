@@ -12,7 +12,7 @@ var read = function(path) {
   }
 }
 
-read.toCode = function(json) {
+read.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var path = JSON.stringify(params.path) || '""'
   return 'read(' + path + ')'

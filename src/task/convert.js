@@ -84,7 +84,7 @@ var convert = function(input, output) {
   return task
 }
 
-convert.toCode = function(json) {
+convert.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var input = _.get(params, 'input', {})
   var output = _.get(params, 'output', {})

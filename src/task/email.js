@@ -30,7 +30,7 @@ var email = function(params) {
   }
 }
 
-email.toCode = function(json) {
+email.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   return 'email(' + JSON.stringify(params, null, 2) + ')'
 }

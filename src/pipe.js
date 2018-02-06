@@ -48,6 +48,10 @@ return function(identifier) {
       return this
     },
 
+    getTasks() {
+      return this.pipe.task.params.items
+    },
+
     load() {
       var args = Array.from(arguments)
       var identifier = _.get(args, '[0]')
@@ -133,7 +137,6 @@ return function(identifier) {
       return Flexio.pipes.run.apply(null, args)
     },
 
-
     params(params) {
       this._params = _.assign({}, this.getParams(), params)
       return this
@@ -150,7 +153,14 @@ return function(identifier) {
 
     getParams() {
       return _.assign({}, this._params)
+    },
+
+
+    toCode() {
+      return Flexio.task.toCode(this.pipe.task, Flexio)
     }
+
+
   }) /* end assign */
 
   /*
@@ -164,7 +174,9 @@ return function(identifier) {
   */
 
   _.each(Flexio.task, function(taskFn, task_name) {
-    pipeobj[task_name] = function() { return pipeobj.addTask(taskFn.apply(pipeobj /* scope */, arguments)) }
+    if (task_name != 'toCode') {
+      pipeobj[task_name] = function() { return pipeobj.addTask(taskFn.apply(pipeobj /* scope */, arguments)) }
+    }
   })
 
   /*
