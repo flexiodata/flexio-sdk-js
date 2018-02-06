@@ -156,8 +156,14 @@ return function(identifier) {
     },
 
 
-    toCode() {
-      return Flexio.task.toCode(this.pipe.task, Flexio)
+    toCode(p) {
+      if (p && p instanceof Flexio.pipe) {
+        return p.toCode()
+      } else if (p && _.isPlainObject(p) && p.hasOwnProperty('op')) {
+        return Flexio.task.toCode(p, Flexio)
+      } else {
+        return Flexio.task.toCode(this.pipe.task, Flexio)
+      }
     }
 
 
