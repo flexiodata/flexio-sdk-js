@@ -3,6 +3,7 @@ var taskOps = require('../constants/task-op')           // import * as taskOps f
 
 var createFn    = require('./create.js')
 var convertFn   = require('./convert.js')
+var copyFn      = require('./copy.js')
 var echoFn      = require('./echo.js')
 var emailFn     = require('./email.js')
 var executeFn   = require('./execute.js')
@@ -12,6 +13,7 @@ var inputFn     = require('./input.js')
 var insertFn    = require('./insert.js')
 var limitFn     = require('./limit.js')
 var mergeFn     = require('./merge.js')
+var mkdirFn     = require('./mkdir.js')
 var listFn      = require('./list.js')
 var outputFn    = require('./output.js')
 var readFn      = require('./read.js')
@@ -34,6 +36,7 @@ var toCode = function(json, Flexio) {
 
     case taskOps.TASK_OP_CREATE:     return createFn.toCode(json, Flexio)
     case taskOps.TASK_OP_CONVERT:    return convertFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_COPY:       return copyFn.toCode(json, Flexio)
     case taskOps.TASK_OP_ECHO:       return echoFn.toCode(json, Flexio)
     case taskOps.TASK_OP_EMAIL_SEND: return emailFn.toCode(json, Flexio)
     case taskOps.TASK_OP_EXECUTE:    return executeFn.toCode(json, Flexio)
@@ -43,6 +46,7 @@ var toCode = function(json, Flexio) {
     case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json, Flexio)
     case taskOps.TASK_OP_LIST:       return listFn.toCode(json, Flexio)
     case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_MKDIR:      return mkdirFn.toCode(json, Flexio)
     case taskOps.TASK_OP_READ:       return readFn.toCode(json, Flexio)
     case taskOps.TASK_OP_RENDER:     return renderFn.toCode(json, Flexio)
     case taskOps.TASK_OP_REQUEST:    return requestFn.toCode(json, Flexio)
@@ -57,6 +61,7 @@ var toCode = function(json, Flexio) {
 module.exports = {
   create:     createFn,
   convert:    convertFn,
+  copy:       copyFn,
   echo:       echoFn,
   email:      emailFn,
   execute:    executeFn.execute,
@@ -68,6 +73,7 @@ module.exports = {
   limit:      limitFn,
   list:       listFn,
   merge:      mergeFn,
+  mkdir:      mkdirFn,
   output:     outputFn,
   python:     executeFn.python,
   read:       readFn,

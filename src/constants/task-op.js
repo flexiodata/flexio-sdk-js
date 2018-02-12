@@ -21,6 +21,7 @@ module.exports = {
   TASK_OP_LIMIT: 'limit',
   TASK_OP_LIST: 'list',
   TASK_OP_MERGE: 'merge',
+  TASK_OP_MKDIR: 'mkdir',
   TASK_OP_NOP: 'nop',
   TASK_OP_OUTPUT: 'output',
   TASK_OP_PROMPT: 'prompt',
@@ -58,6 +59,7 @@ export const TASK_OP_INPUT         = 'input'
 export const TASK_OP_LIMIT         = 'limit'
 export const TASK_OP_LIST          = 'list'
 export const TASK_OP_MERGE         = 'merge'
+export const TASK_OP_MKDIR         = 'mkdir'
 export const TASK_OP_NOP           = 'nop'
 export const TASK_OP_OUTPUT        = 'output'
 export const TASK_OP_PROMPT        = 'prompt'

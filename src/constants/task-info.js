@@ -135,6 +135,13 @@ const MERGE = {
   bg_color: 'bg-task-green'
 }
 
+const MKDIR = {
+  name: 'Merge',
+  op: ops.TASK_OP_MKDIR,
+  icon: 'functions',
+  bg_color: 'bg-task-green'
+}
+
 const NOP = {
   name: 'No Op.',
   op: ops.TASK_OP_NOP,
