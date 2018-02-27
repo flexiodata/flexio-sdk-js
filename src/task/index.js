@@ -4,6 +4,7 @@ var taskOps = require('../constants/task-op')           // import * as taskOps f
 var createFn    = require('./create.js')
 var convertFn   = require('./convert.js')
 var copyFn      = require('./copy.js')
+var dumpFn      = require('./dump.js')
 var echoFn      = require('./echo.js')
 var emailFn     = require('./email.js')
 var executeFn   = require('./execute.js')
@@ -37,6 +38,7 @@ var toCode = function(json, Flexio) {
     case taskOps.TASK_OP_CREATE:     return createFn.toCode(json, Flexio)
     case taskOps.TASK_OP_CONVERT:    return convertFn.toCode(json, Flexio)
     case taskOps.TASK_OP_COPY:       return copyFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_DUMP:       return dumpFn.toCode(json, Flexio)
     case taskOps.TASK_OP_ECHO:       return echoFn.toCode(json, Flexio)
     case taskOps.TASK_OP_EMAIL_SEND: return emailFn.toCode(json, Flexio)
     case taskOps.TASK_OP_EXECUTE:    return executeFn.toCode(json, Flexio)
@@ -62,6 +64,7 @@ module.exports = {
   create:     createFn,
   convert:    convertFn,
   copy:       copyFn,
+  dump:       dumpFn,
   echo:       echoFn,
   email:      emailFn,
   execute:    executeFn.execute,
@@ -92,9 +95,9 @@ module.exports = {
 }
 
 /*
-import inputFn from './input'
-import outputFn from './output'
 import convertFn from './convert'
+import copyFn from './copy'
+import dumpFn from './dump'
 import echoFn from './echo'
 import emailFn from './email'
 import * as executeFns from './execute'
@@ -113,9 +116,9 @@ import transformFn from './task'
 import transformFn from './transform'
 import writeFn from './write'
 
-export const input      = inputFn
-export const output     = outputFn
 export const convert    = convertFn
+export const copy       = copyFn
+export const dump       = dumpFn
 export const echo       = echoFn
 export const email      = emailFn
 export const execute    = executeFns.execute

@@ -51,6 +51,13 @@ const DISTINCT = {
   bg_color: 'bg-task-green'
 }
 
+const DUMP = {
+  name: 'Dump',
+  op: ops.TASK_OP_DUMP,
+  icon: 'content_copy',
+  bg_color: 'bg-task-green'
+}
+
 const DUPLICATE = {
   name: 'Duplicate',
   op: ops.TASK_OP_DUPLICATE,

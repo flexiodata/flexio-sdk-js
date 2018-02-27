@@ -8,6 +8,7 @@ module.exports = {
   TASK_OP_CUSTOM: 'create',
   TASK_OP_CUSTOM: 'custom',
   TASK_OP_DISTINCT: 'distinct',
+  TASK_OP_DUMP: 'dump',
   TASK_OP_DUPLICATE: 'duplicate',
   TASK_OP_ECHO: 'echo',
   TASK_OP_EMAIL_SEND: 'email',
@@ -48,6 +49,7 @@ export const TASK_OP_COPY          = 'copy'
 export const TASK_OP_CREATE        = 'create'
 export const TASK_OP_CUSTOM        = 'custom'
 export const TASK_OP_DISTINCT      = 'distinct'
+export const TASK_OP_DUMP          = 'dump'
 export const TASK_OP_DUPLICATE     = 'duplicate'
 export const TASK_OP_ECHO          = 'echo'
 export const TASK_OP_EMAIL_SEND    = 'email'
