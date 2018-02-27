@@ -5,7 +5,6 @@ module.exports = {
   TASK_OP_CONVERT: 'convert',
   TASK_OP_COPY: 'copy',
   TASK_OP_CREATE: 'create',
-  TASK_OP_CUSTOM: 'create',
   TASK_OP_CUSTOM: 'custom',
   TASK_OP_DISTINCT: 'distinct',
   TASK_OP_DUMP: 'dump',
