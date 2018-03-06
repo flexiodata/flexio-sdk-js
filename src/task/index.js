@@ -10,13 +10,11 @@ var emailFn     = require('./email.js')
 var executeFn   = require('./execute.js')
 var filterFn    = require('./filter.js')
 var foreachFn   = require('./foreach.js')
-var inputFn     = require('./input.js')
 var insertFn    = require('./insert.js')
 var limitFn     = require('./limit.js')
 var mergeFn     = require('./merge.js')
 var mkdirFn     = require('./mkdir.js')
 var listFn      = require('./list.js')
-var outputFn    = require('./output.js')
 var readFn      = require('./read.js')
 var renderFn    = require('./render.js')
 var requestFn   = require('./request.js')
@@ -68,7 +66,6 @@ module.exports = {
   echo:       echoFn,
   email:      emailFn,
   execute:    executeFn.execute,
-  input:      inputFn,
   insert:     insertFn,
   filter:     filterFn,
   //"for":      foreachFn,
@@ -78,7 +75,6 @@ module.exports = {
   list:       listFn,
   merge:      mergeFn,
   mkdir:      mkdirFn,
-  output:     outputFn,
   python:     executeFn.python,
   read:       readFn,
   render:     renderFn,
