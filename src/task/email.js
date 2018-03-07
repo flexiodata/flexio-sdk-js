@@ -13,17 +13,6 @@ var email = function(params) {
   if (!_.has(params, 'body_text'))
     throw 'The `body_text` parameter is required'
 
-  // cast `to` parameter to array, if it already isn't one
-  if (!_.isArray(params.to))
-    params.to = [params.to]
-
-  if (!_.has(params, 'body_html'))
-    params.body_html = params.body_text
-
-  var data = _.get(params, 'data', '')
-  if (data != 'body' && data != 'attachment')
-    params.data = 'none'
-
   return {
     op: taskOps.TASK_OP_EMAIL_SEND,
     params
