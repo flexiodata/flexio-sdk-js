@@ -1,7 +1,7 @@
 
 const code = `
 Flexio.pipe()
-  .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+  .execute('https://raw.githubusercontent.com/flexiodata/functions/master/hello-world.py')
   .email({
     to: 'flexio@mailinator.com',
     subject: 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(),
@@ -14,7 +14,7 @@ Flexio.pipe()
 
 const fn = (Flexio, callback) => {
   Flexio.pipe()
-    .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+    .execute('https://raw.githubusercontent.com/flexiodata/functions/master/hello-world.py')
     .email({
       to: 'flexio@mailinator.com',
       subject: 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(),
