@@ -3,17 +3,18 @@ var taskOps = require('../constants/task-op')           // import * as taskOps f
 
 var createFn    = require('./create.js')
 var convertFn   = require('./convert.js')
+var copyFn      = require('./copy.js')
+var dumpFn      = require('./dump.js')
 var echoFn      = require('./echo.js')
 var emailFn     = require('./email.js')
 var executeFn   = require('./execute.js')
 var filterFn    = require('./filter.js')
 var foreachFn   = require('./foreach.js')
-var inputFn     = require('./input.js')
 var insertFn    = require('./insert.js')
 var limitFn     = require('./limit.js')
 var mergeFn     = require('./merge.js')
+var mkdirFn     = require('./mkdir.js')
 var listFn      = require('./list.js')
-var outputFn    = require('./output.js')
 var readFn      = require('./read.js')
 var renderFn    = require('./render.js')
 var requestFn   = require('./request.js')
@@ -34,6 +35,8 @@ var toCode = function(json, Flexio) {
 
     case taskOps.TASK_OP_CREATE:     return createFn.toCode(json, Flexio)
     case taskOps.TASK_OP_CONVERT:    return convertFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_COPY:       return copyFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_DUMP:       return dumpFn.toCode(json, Flexio)
     case taskOps.TASK_OP_ECHO:       return echoFn.toCode(json, Flexio)
     case taskOps.TASK_OP_EMAIL_SEND: return emailFn.toCode(json, Flexio)
     case taskOps.TASK_OP_EXECUTE:    return executeFn.toCode(json, Flexio)
@@ -43,6 +46,7 @@ var toCode = function(json, Flexio) {
     case taskOps.TASK_OP_LIMIT:      return limitFn.toCode(json, Flexio)
     case taskOps.TASK_OP_LIST:       return listFn.toCode(json, Flexio)
     case taskOps.TASK_OP_MERGE:      return mergeFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_MKDIR:      return mkdirFn.toCode(json, Flexio)
     case taskOps.TASK_OP_READ:       return readFn.toCode(json, Flexio)
     case taskOps.TASK_OP_RENDER:     return renderFn.toCode(json, Flexio)
     case taskOps.TASK_OP_REQUEST:    return requestFn.toCode(json, Flexio)
@@ -57,18 +61,20 @@ var toCode = function(json, Flexio) {
 module.exports = {
   create:     createFn,
   convert:    convertFn,
+  copy:       copyFn,
+  dump:       dumpFn,
   echo:       echoFn,
   email:      emailFn,
   execute:    executeFn.execute,
-  input:      inputFn,
   insert:     insertFn,
   filter:     filterFn,
+  //"for":      foreachFn,
   foreach:    foreachFn,
   javascript: executeFn.javascript,
   limit:      limitFn,
   list:       listFn,
   merge:      mergeFn,
-  output:     outputFn,
+  mkdir:      mkdirFn,
   python:     executeFn.python,
   read:       readFn,
   render:     renderFn,
@@ -84,48 +90,3 @@ module.exports = {
   // expose all task 'toCode' calls as a single function
   toCode:     toCode
 }
-
-/*
-import inputFn from './input'
-import outputFn from './output'
-import convertFn from './convert'
-import echoFn from './echo'
-import emailFn from './email'
-import * as executeFns from './execute'
-import filterFn from './filter'
-import foreachFn from './foreach'
-import limitFn from './limit'
-import listFn from './list'
-import mergeFn from './merge'
-import readFn from './read'
-import renderFn from './render'
-import requestFn from './request'
-import selectFn from './select'
-import setFn from './set'
-import sleepFn from './sleep'
-import transformFn from './task'
-import transformFn from './transform'
-import writeFn from './write'
-
-export const input      = inputFn
-export const output     = outputFn
-export const convert    = convertFn
-export const echo       = echoFn
-export const email      = emailFn
-export const execute    = executeFns.execute
-export const filter     = filterFn
-export const foreach    = foreachFn
-export const javascript = executeFns.javascript
-export const limit      = limitFn
-export const list       = listFn
-export const python     = executeFns.python
-export const read       = readFn
-export const render     = renderFn
-export const request    = requestFn
-export const select     = selectFn
-export const set        = setFn
-export const sleep      = sleepFn
-export const transform  = taskFn
-export const transform  = transformFn
-export const write      = writeFn
-*/

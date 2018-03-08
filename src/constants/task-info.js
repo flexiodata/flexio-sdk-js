@@ -51,6 +51,13 @@ const DISTINCT = {
   bg_color: 'bg-task-green'
 }
 
+const DUMP = {
+  name: 'Dump',
+  op: ops.TASK_OP_DUMP,
+  icon: 'content_copy',
+  bg_color: 'bg-task-green'
+}
+
 const DUPLICATE = {
   name: 'Duplicate',
   op: ops.TASK_OP_DUPLICATE,
@@ -100,13 +107,6 @@ const GROUP = {
   bg_color: 'bg-task-green'
 }
 
-const INPUT = {
-  name: 'Input',
-  op: ops.TASK_OP_INPUT,
-  icon: 'input',
-  bg_color: 'bg-task-blue'
-}
-
 const INSERT = {
   name: 'Input',
   op: ops.TASK_OP_INSERT,
@@ -135,18 +135,18 @@ const MERGE = {
   bg_color: 'bg-task-green'
 }
 
+const MKDIR = {
+  name: 'Merge',
+  op: ops.TASK_OP_MKDIR,
+  icon: 'functions',
+  bg_color: 'bg-task-green'
+}
+
 const NOP = {
   name: 'No Op.',
   op: ops.TASK_OP_NOP,
   icon: 'build',
   bg_color: 'bg-task-orange'
-}
-
-const OUTPUT = {
-  name: 'Output',
-  op: ops.TASK_OP_OUTPUT,
-  icon: 'input',
-  bg_color: 'bg-task-blue'
 }
 
 const PROMPT = {
@@ -255,12 +255,10 @@ export const TASK_INFO_EXECUTE       = EXECUTE
 //export const TASK_INFO_FIND_REPLACE  = FIND_REPLACE
 //export const TASK_INFO_FILTER        = FILTER
 //export const TASK_INFO_GROUP         = GROUP
-export const TASK_INFO_INPUT         = INPUT
 export const TASK_INFO_INSERT        = INSERT
 export const TASK_INFO_LIMIT         = LIMIT
 export const TASK_INFO_MERGE         = MERGE
 //export const TASK_INFO_NOP           = NOP
-export const TASK_INFO_OUTPUT        = OUTPUT
 //export const TASK_INFO_PROMPT        = PROMPT
 //export const TASK_INFO_R             = R
 export const TASK_INFO_READ          = READ
