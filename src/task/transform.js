@@ -45,4 +45,11 @@ var transform = function(value) {
   }
 }
 
+transform.toCode = function(json, Flexio) {
+  var params = json.hasOwnProperty('params') ? json.params : {}
+  if (!params.hasOwnProperty('columns') && params.hasOwnProperty('operations') && Array.isArray(params.operations) && params.operations.length == 1)
+    return "transform(" + JSON.stringify(params.operations[0]) + ")"
+  return "transform(" + JSON.stringify(params) + ")"
+}
+
 module.exports = transform   // export default transform
