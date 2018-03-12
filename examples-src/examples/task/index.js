@@ -52,8 +52,8 @@ tasks.push({
 
 tasks.push({
   title: 'Execute a remote python script',
-  description: "Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')",
-  obj: Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+  description: "Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/functions/master/hello-world.py')",
+  obj: Flexio.task.execute('https://raw.githubusercontent.com/flexiodata/functions/master/hello-world.py')
 })
 
 var description = `

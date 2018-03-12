@@ -169,7 +169,7 @@ def flexio_handler(context):\n\
       <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">Create a message from a remote python script and email it as an attachment</h4>
         <pre class="overflow-x-auto"><code class="js">Flexio.pipe()
-  .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+  .execute('https://raw.githubusercontent.com/flexiodata/functions/master/hello-world.py')
   .email('flexio@mailinator.com', 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(), 'This is a test using Python code from a remote file...', null, 'attachment')
   .save({ name: 'Create a message from a remote python script and email it as an attachment' })
   .run()</code></pre>
@@ -396,7 +396,7 @@ def flexio_handler(context):\n\
       $div.empty().append('Loading...')
 
       var pipe = Flexio.pipe()
-        .execute('https://raw.githubusercontent.com/flexiodata/examples/master/functions/hello-world.py')
+        .execute('https://raw.githubusercontent.com/flexiodata/functions/master/hello-world.py')
         .email('flexio@mailinator.com', 'Flex.io JS SDK Test (remote Python) - ' + (new Date()).toString(), 'This is a test using Python code from a remote file...', null, 'attachment')
         .save({ name: 'Create a message from a remote python script and email it as an attachment' })
         .run(function() {
