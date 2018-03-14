@@ -54,6 +54,7 @@ var toCode = function(json, Flexio) {
     case taskOps.TASK_OP_SEQUENCE:   return sequenceFn.toCode(json, Flexio)
     case taskOps.TASK_OP_SET:        return setFn.toCode(json, Flexio)
     case taskOps.TASK_OP_SLEEP:      return sleepFn.toCode(json, Flexio)
+    case taskOps.TASK_OP_TRANSFORM:  return transformFn.toCode(json, Flexio)
     case taskOps.TASK_OP_WRITE:      return writeFn.toCode(json, Flexio)
   }
 }

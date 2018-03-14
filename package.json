@@ -5,7 +5,7 @@
   "author": "David Z. Williams <dave@flex.io>",
   "--main": "dist/flexio-node.js",
   "main": "src/main.js",
-  "browser": "dist/flexio.min.js",
+  "browser": "src/main.js",
   "scripts": {
     "dev": "cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot",
     "build:debug": "cross-env build=debug webpack --config build/webpack.dist.js",

@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -17167,7 +17167,7 @@ return /******/ (function(modules) { // webpackBootstrap
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(15)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(14)(module)))
 
 /***/ }),
 /* 1 */
@@ -17273,14 +17273,12 @@ module.exports = {
   TASK_OP_FILTER: 'filter',
   TASK_OP_FOREACH: 'foreach',
   TASK_OP_GROUP: 'group',
-  TASK_OP_INPUT: 'input',
   TASK_OP_INSERT: 'insert',
   TASK_OP_LIMIT: 'limit',
   TASK_OP_LIST: 'list',
   TASK_OP_MERGE: 'merge',
   TASK_OP_MKDIR: 'mkdir',
   TASK_OP_NOP: 'nop',
-  TASK_OP_OUTPUT: 'output',
   TASK_OP_PROMPT: 'prompt',
   TASK_OP_R: 'r',
   TASK_OP_READ: 'read',
@@ -17305,7 +17303,7 @@ module.exports = {
 
 
 var bind = __webpack_require__(7);
-var isBuffer = __webpack_require__(18);
+var isBuffer = __webpack_require__(17);
 
 /*global toString:true*/
 
@@ -17805,7 +17803,7 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(3);
-var normalizeHeaderName = __webpack_require__(20);
+var normalizeHeaderName = __webpack_require__(19);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -17950,12 +17948,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(3);
-var settle = __webpack_require__(21);
-var buildURL = __webpack_require__(23);
-var parseHeaders = __webpack_require__(24);
-var isURLSameOrigin = __webpack_require__(25);
+var settle = __webpack_require__(20);
+var buildURL = __webpack_require__(22);
+var parseHeaders = __webpack_require__(23);
+var isURLSameOrigin = __webpack_require__(24);
 var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(26);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(25);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -18052,7 +18050,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(27);
+      var cookies = __webpack_require__(26);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -18137,7 +18135,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(22);
+var enhanceError = __webpack_require__(21);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -18200,55 +18198,25 @@ module.exports = Cancel;
 "use strict";
 
 
-module.exports = {
-  CONNECTION_TYPE_UNKNOWN: '',
-  CONNECTION_TYPE_AMAZONS3: 'amazons3',
-  CONNECTION_TYPE_BLANK_PIPE: 'blank-pipe',
-  CONNECTION_TYPE_DOWNLOAD: 'download',
-  CONNECTION_TYPE_DROPBOX: 'dropbox',
-  CONNECTION_TYPE_ELASTICSEARCH: 'elasticsearch',
-  CONNECTION_TYPE_EMAIL: 'email',
-  CONNECTION_TYPE_GOOGLEDRIVE: 'googledrive',
-  CONNECTION_TYPE_GOOGLESHEETS: 'googlesheets',
-  CONNECTION_TYPE_HTTP: 'http',
-  CONNECTION_TYPE_MAILJET: 'mailjet',
-  CONNECTION_TYPE_MYSQL: 'mysql',
-  CONNECTION_TYPE_POSTGRES: 'postgres',
-  CONNECTION_TYPE_RSS: 'rss',
-  CONNECTION_TYPE_SFTP: 'sftp',
-  CONNECTION_TYPE_SOCRATA: 'socrata',
-  CONNECTION_TYPE_STDIN: 'stdin',
-  CONNECTION_TYPE_STDOUT: 'stdout',
-  CONNECTION_TYPE_PIPELINEDEALS: 'pipelinedeals',
-  CONNECTION_TYPE_UPLOAD: 'upload'
-};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+
+var Flexio = __webpack_require__(13);
+
+exports.default = Flexio;
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-
-var Flexio = __webpack_require__(14);
-
-exports.default = Flexio;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var _ = __webpack_require__(0);
-var axios = __webpack_require__(16);
-var task = __webpack_require__(35);
+var axios = __webpack_require__(15);
+var task = __webpack_require__(34);
 
 var base_url = 'https://www.flex.io/api/v1';
 
@@ -18274,19 +18242,19 @@ var pipeToCode = function pipeToCode(task_arr) {
 };
 
 var Flexio = {
-  version: __webpack_require__(66).version,
+  version: __webpack_require__(63).version,
 
   _init: function _init() {
-    this.connections = __webpack_require__(67).getConnectionsObject(this);
-    this.pipes = __webpack_require__(68).getPipesObject(this);
+    this.connections = __webpack_require__(64).getConnectionsObject(this);
+    this.pipes = __webpack_require__(65).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(69).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(66).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
 
 
-    var getConnectionConstructor = __webpack_require__(70).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(67).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -18325,7 +18293,7 @@ module.exports = Flexio;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -18353,13 +18321,13 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(17);
+module.exports = __webpack_require__(16);
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18367,7 +18335,7 @@ module.exports = __webpack_require__(17);
 
 var utils = __webpack_require__(3);
 var bind = __webpack_require__(7);
-var Axios = __webpack_require__(19);
+var Axios = __webpack_require__(18);
 var defaults = __webpack_require__(5);
 
 /**
@@ -18402,14 +18370,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(11);
-axios.CancelToken = __webpack_require__(33);
+axios.CancelToken = __webpack_require__(32);
 axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(34);
+axios.spread = __webpack_require__(33);
 
 module.exports = axios;
 
@@ -18418,7 +18386,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /*!
@@ -18445,7 +18413,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18453,10 +18421,10 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(5);
 var utils = __webpack_require__(3);
-var InterceptorManager = __webpack_require__(28);
-var dispatchRequest = __webpack_require__(29);
-var isAbsoluteURL = __webpack_require__(31);
-var combineURLs = __webpack_require__(32);
+var InterceptorManager = __webpack_require__(27);
+var dispatchRequest = __webpack_require__(28);
+var isAbsoluteURL = __webpack_require__(30);
+var combineURLs = __webpack_require__(31);
 
 /**
  * Create a new instance of Axios
@@ -18538,7 +18506,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18557,7 +18525,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18590,7 +18558,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18618,7 +18586,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18693,7 +18661,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18737,7 +18705,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18812,7 +18780,7 @@ module.exports = (
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18855,7 +18823,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18915,7 +18883,7 @@ module.exports = (
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18974,14 +18942,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(3);
-var transformData = __webpack_require__(30);
+var transformData = __webpack_require__(29);
 var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(5);
 
@@ -19060,7 +19028,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19087,7 +19055,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19108,7 +19076,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19129,7 +19097,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19193,7 +19161,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19227,7 +19195,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19236,32 +19204,30 @@ module.exports = function spread(callback) {
 var _ = __webpack_require__(0);
 var taskOps = __webpack_require__(2);
 
-var createFn = __webpack_require__(36);
-var convertFn = __webpack_require__(37);
-var copyFn = __webpack_require__(38);
-var dumpFn = __webpack_require__(39);
-var echoFn = __webpack_require__(40);
-var emailFn = __webpack_require__(41);
-var executeFn = __webpack_require__(42);
-var filterFn = __webpack_require__(47);
-var foreachFn = __webpack_require__(48);
-var inputFn = __webpack_require__(49);
-var insertFn = __webpack_require__(50);
-var limitFn = __webpack_require__(51);
-var mergeFn = __webpack_require__(52);
-var mkdirFn = __webpack_require__(53);
-var listFn = __webpack_require__(54);
-var outputFn = __webpack_require__(55);
-var readFn = __webpack_require__(56);
-var renderFn = __webpack_require__(57);
-var requestFn = __webpack_require__(58);
-var selectFn = __webpack_require__(59);
-var sequenceFn = __webpack_require__(60);
-var setFn = __webpack_require__(61);
-var sleepFn = __webpack_require__(62);
-var taskFn = __webpack_require__(63);
-var transformFn = __webpack_require__(64);
-var writeFn = __webpack_require__(65);
+var createFn = __webpack_require__(35);
+var convertFn = __webpack_require__(36);
+var copyFn = __webpack_require__(37);
+var dumpFn = __webpack_require__(38);
+var echoFn = __webpack_require__(39);
+var emailFn = __webpack_require__(40);
+var executeFn = __webpack_require__(41);
+var filterFn = __webpack_require__(46);
+var foreachFn = __webpack_require__(47);
+var insertFn = __webpack_require__(48);
+var limitFn = __webpack_require__(49);
+var mergeFn = __webpack_require__(50);
+var mkdirFn = __webpack_require__(51);
+var listFn = __webpack_require__(52);
+var readFn = __webpack_require__(53);
+var renderFn = __webpack_require__(54);
+var requestFn = __webpack_require__(55);
+var selectFn = __webpack_require__(56);
+var sequenceFn = __webpack_require__(57);
+var setFn = __webpack_require__(58);
+var sleepFn = __webpack_require__(59);
+var taskFn = __webpack_require__(60);
+var transformFn = __webpack_require__(61);
+var writeFn = __webpack_require__(62);
 
 var toCode = function toCode(json, Flexio) {
   var op = _.get(json, 'op', '');
@@ -19312,6 +19278,8 @@ var toCode = function toCode(json, Flexio) {
       return setFn.toCode(json, Flexio);
     case taskOps.TASK_OP_SLEEP:
       return sleepFn.toCode(json, Flexio);
+    case taskOps.TASK_OP_TRANSFORM:
+      return transformFn.toCode(json, Flexio);
     case taskOps.TASK_OP_WRITE:
       return writeFn.toCode(json, Flexio);
   }
@@ -19325,16 +19293,15 @@ module.exports = {
   echo: echoFn,
   email: emailFn,
   execute: executeFn.execute,
-  input: inputFn,
   insert: insertFn,
   filter: filterFn,
+
   foreach: foreachFn,
   javascript: executeFn.javascript,
   limit: limitFn,
   list: listFn,
   merge: mergeFn,
   mkdir: mkdirFn,
-  output: outputFn,
   python: executeFn.python,
   read: readFn,
   render: renderFn,
@@ -19351,7 +19318,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19418,7 +19385,7 @@ create.toCode = function (json, Flexio) {
 module.exports = create;
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19510,7 +19477,7 @@ convert.toCode = function (json, Flexio) {
 module.exports = convert;
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19550,7 +19517,7 @@ copy.toCode = function (json, Flexio) {
 module.exports = copy;
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19577,7 +19544,7 @@ dump.toCode = function (json, Flexio) {
 module.exports = dump;
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19604,7 +19571,7 @@ echo.toCode = function (json, Flexio) {
 module.exports = echo;
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19620,13 +19587,6 @@ var email = function email(params) {
 
   if (!_.has(params, 'body_text')) throw 'The `body_text` parameter is required';
 
-  if (!_.isArray(params.to)) params.to = [params.to];
-
-  if (!_.has(params, 'body_html')) params.body_html = params.body_text;
-
-  var data = _.get(params, 'data', '');
-  if (data != 'body' && data != 'attachment') params.data = 'none';
-
   return {
     op: taskOps.TASK_OP_EMAIL_SEND,
     params: params
@@ -19641,7 +19601,7 @@ email.toCode = function (json, Flexio) {
 module.exports = email;
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19798,10 +19758,10 @@ module.exports = {
   python: python,
   toCode: toCode
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(43).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(42).Buffer))
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19815,9 +19775,9 @@ module.exports = {
 
 
 
-var base64 = __webpack_require__(44)
-var ieee754 = __webpack_require__(45)
-var isArray = __webpack_require__(46)
+var base64 = __webpack_require__(43)
+var ieee754 = __webpack_require__(44)
+var isArray = __webpack_require__(45)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -21598,7 +21558,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21719,7 +21679,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -21809,7 +21769,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -21820,7 +21780,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21850,7 +21810,7 @@ filter.toCode = function (json, Flexio) {
 module.exports = filter;
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21895,69 +21855,7 @@ foreach.toCode = function (json, Flexio) {
 module.exports = foreach;
 
 /***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ = __webpack_require__(0);
-var taskOps = __webpack_require__(2);
-var connTypes = __webpack_require__(12);
-var util = __webpack_require__(1);
-var input = function input() {
-  var args = Array.from(arguments);
-  var connection_type = _.get(args, '[0]', '');
-  var connection = undefined;
-  var items = undefined;
-
-  if (args.length == 0) throw 'The input task requires at least 1 parameter';
-
-  switch (connection_type) {
-    default:
-      connection_type = connTypes.CONNECTION_TYPE_HTTP;
-      items = [].concat(args);
-      break;
-
-    case connTypes.CONNECTION_TYPE_AMAZONS3:
-    case connTypes.CONNECTION_TYPE_DROPBOX:
-    case connTypes.CONNECTION_TYPE_ELASTICSEARCH:
-    case connTypes.CONNECTION_TYPE_GOOGLEDRIVE:
-    case connTypes.CONNECTION_TYPE_GOOGLESHEETS:
-    case connTypes.CONNECTION_TYPE_HTTP:
-    case connTypes.CONNECTION_TYPE_MYSQL:
-    case connTypes.CONNECTION_TYPE_POSTGRES:
-    case connTypes.CONNECTION_TYPE_SFTP:
-      connection = _.get(args, '[1]', '');
-      items = _.get(args, '[2]', []);
-      break;
-
-    case connTypes.CONNECTION_TYPE_RSS:
-      connection = connection_type;
-      items = _.get(args, '[1]', []);
-      break;
-  }
-
-  items = _.map(items, function (path) {
-    return {
-      path: path
-    };
-  });
-
-  return {
-    op: taskOps.TASK_OP_INPUT,
-    metadata: { connection_type: connection_type },
-    params: {
-      connection: connection,
-      items: items
-    }
-  };
-};
-
-module.exports = input;
-
-/***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21996,7 +21894,7 @@ insert.toCode = function (json, Flexio) {
 module.exports = insert;
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22025,7 +21923,7 @@ limit.toCode = function (json, Flexio) {
 module.exports = limit;
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22071,7 +21969,7 @@ merge.toCode = function (json, Flexio) {
 module.exports = merge;
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22098,7 +21996,7 @@ mkdir.toCode = function (json, Flexio) {
 module.exports = mkdir;
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22125,55 +22023,7 @@ list.toCode = function (json, Flexio) {
 module.exports = list;
 
 /***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _ = __webpack_require__(0);
-var util = __webpack_require__(1);
-var taskOps = __webpack_require__(2);
-var connTypes = __webpack_require__(12);
-var output = function output() {
-  var args = Array.from(arguments);
-  var connection_type = _.get(args, '[0]', '');
-  var connection = undefined;
-  var location = undefined;
-
-  if (args.length == 0) throw 'The output task requires at least 1 parameter';
-
-  switch (connection_type) {
-    case connTypes.CONNECTION_TYPE_AMAZONS3:
-    case connTypes.CONNECTION_TYPE_ELASTICSEARCH:
-    case connTypes.CONNECTION_TYPE_GOOGLESHEETS:
-    case connTypes.CONNECTION_TYPE_MYSQL:
-    case connTypes.CONNECTION_TYPE_POSTGRES:
-      connection = _.get(args, '[1]', '');
-      break;
-
-    case connTypes.CONNECTION_TYPE_DROPBOX:
-    case connTypes.CONNECTION_TYPE_GOOGLEDRIVE:
-    case connTypes.CONNECTION_TYPE_SFTP:
-      connection = _.get(args, '[1]', '');
-      location = _.get(args, '[2]', '/');
-      break;
-  }
-
-  return {
-    op: taskOps.TASK_OP_OUTPUT,
-    metadata: { connection_type: connection_type },
-    params: {
-      connection: connection,
-      location: location
-    }
-  };
-};
-
-module.exports = output;
-
-/***/ }),
-/* 56 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22200,7 +22050,7 @@ read.toCode = function (json, Flexio) {
 module.exports = read;
 
 /***/ }),
-/* 57 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22247,7 +22097,7 @@ render.toCode = function (json, Flexio) {
 module.exports = render;
 
 /***/ }),
-/* 58 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22287,7 +22137,7 @@ request.toCode = function (json, Flexio) {
 module.exports = request;
 
 /***/ }),
-/* 59 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22320,7 +22170,7 @@ select.toCode = function (json, Flexio) {
 module.exports = select;
 
 /***/ }),
-/* 60 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22357,7 +22207,7 @@ sequence.toCode = function (json, Flexio) {
 module.exports = sequence;
 
 /***/ }),
-/* 61 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22400,7 +22250,7 @@ set.toCode = function (json, Flexio) {
 module.exports = set;
 
 /***/ }),
-/* 62 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22429,7 +22279,7 @@ sleep.toCode = function (json, Flexio) {
 module.exports = sleep;
 
 /***/ }),
-/* 63 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22448,7 +22298,7 @@ task.toCode = function (json, Flexio) {
 module.exports = task;
 
 /***/ }),
-/* 64 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22491,10 +22341,16 @@ var transform = function transform(value) {
   };
 };
 
+transform.toCode = function (json, Flexio) {
+  var params = json.hasOwnProperty('params') ? json.params : {};
+  if (!params.hasOwnProperty('columns') && params.hasOwnProperty('operations') && Array.isArray(params.operations) && params.operations.length == 1) return "transform(" + JSON.stringify(params.operations[0]) + ")";
+  return "transform(" + JSON.stringify(params) + ")";
+};
+
 module.exports = transform;
 
 /***/ }),
-/* 65 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22521,13 +22377,13 @@ write.toCode = function (json, Flexio) {
 module.exports = write;
 
 /***/ }),
-/* 66 */
+/* 63 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.19.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.19.1","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","browser":"src/main.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"echo \"Error: no test specified\" && exit 1"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash":"^4.17.4","vue-highlightjs":"^1.3.3"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-lodash":"^3.2.11","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 67 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22582,7 +22438,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 68 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22777,7 +22633,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 69 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22953,7 +22809,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 70 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
