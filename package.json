@@ -27,9 +27,7 @@
   "homepage": "https://github.com/flexiodata/flexio-sdk-js/",
   "dependencies": {
     "axios": "^0.16.2",
-    "lodash.assign": "^4.2.0",
     "lodash.defaultto": "^4.14.0",
-    "lodash.get": "^4.4.2",
     "lodash.isfunction": "^3.0.9",
     "lodash.isplainobject": "^4.0.6",
     "lodash.last": "^3.0.0",
