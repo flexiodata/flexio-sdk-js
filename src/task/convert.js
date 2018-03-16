@@ -41,6 +41,21 @@ const FORMAT_TSV = {
   qualifier: TEXT_QUALIFIER_NONE
 }
 
+function isEquivalent(a, b) {
+  var aprops = Object.getOwnPropertyNames(a)
+  var bprops = Object.getOwnPropertyNames(b)
+  if (aprops.length != bprops.length) {
+    return false
+  }
+  for (var i = 0; i < aprops.length; i++) {
+    var prop = aprops[i]
+    if (a[prop] !== b[prop]) {
+      return false
+    }
+  }
+  return true
+}
+
 // task definition function
 var convert = function(input, output) {
 
@@ -93,21 +108,21 @@ convert.toCode = function(json, Flexio) {
   var p2
 
   // we can use the 'csv' shorthand string as the parameter
-  if (_.isEqual(input, FORMAT_CSV))
+  if (isEquivalent(input, FORMAT_CSV))
     p1 = SHORTHAND_CSV
-  if (_.isEqual(output, FORMAT_CSV))
+  if (isEquivalent(output, FORMAT_CSV))
     p2 = SHORTHAND_CSV
 
   // we can use the 'tsv' shorthand string as the parameter
-  if (_.isEqual(input, FORMAT_TSV))
+  if (isEquivalent(input, FORMAT_TSV))
     p1 = SHORTHAND_TSV
-  if (_.isEqual(output, FORMAT_TSV))
+  if (isEquivalent(output, FORMAT_TSV))
     p2 = SHORTHAND_TSV
 
   // we can use the format string as the parameter
-  if (_.isEmpty(_.omit(input, ['format'])))
+  if (Object.keys(_.omit(input, ['format'])).length == 0)
     p1 = _.get(input, 'format', '')
-  if (_.isEmpty(_.omit(output, ['format'])))
+  if (Object.keys(_.omit(output, ['format'])).length == 0)
     p2 = _.get(output, 'format', '')
 
   // use the raw object as a fallback
