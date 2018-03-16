@@ -119,10 +119,10 @@ convert.toCode = function(json, Flexio) {
   if (isEquivalent(output, FORMAT_TSV))
     p2 = SHORTHAND_TSV
 
-  // we can use the format string as the parameter
-  if (Object.keys(_.omit(input, ['format'])).length == 0)
+  // if format is the only parameter, just use that without an object
+  if (isEquivalent(Object.keys(input), ['format']))
     p1 = _.get(input, 'format', '')
-  if (Object.keys(_.omit(output, ['format'])).length == 0)
+  if (isEquivalent(Object.keys(output), ['format']))
     p2 = _.get(output, 'format', '')
 
   // use the raw object as a fallback

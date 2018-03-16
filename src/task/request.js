@@ -37,9 +37,6 @@ var request = function() {
     params = _.assign({}, { url }, params)
   }
 
-  // default to `GET` method
-  params = _.assign({ method: 'GET' }, params)
-
   return {
     op: taskOps.TASK_OP_REQUEST,
     params
@@ -49,14 +46,12 @@ var request = function() {
 request.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
   var url = _.get(params, 'url', '')
-  var opts = _.omit(params, ['url'])
-  if (_.get(opts, 'method', '') == 'GET')
-    opts = _.omit(opts, ['method'])
 
-  if (Object.keys(opts).length == 0)
+  var keys = Object.keys(params)
+  if (keys.length == 1 && keys[0] == 'url')
     return 'request(' + JSON.stringify(url) + ')'
      else
-    return 'request(' + JSON.stringify(url) + ', ' + JSON.stringify(opts, null, 2) + ')'
+    return 'request(' + JSON.stringify(params, null, 2) + ')'
 }
 
 module.exports = request // export default request
