@@ -59,25 +59,22 @@ function isEquivalent(a, b) {
 // task definition function
 var convert = function(input, output) {
 
-  var task = {
-    op: taskOps.TASK_OP_CONVERT,
-    params: {}
-  }
+  var params = {}
 
   // convert input
 
   if (_.isString(input))
   {
     if (input == SHORTHAND_CSV)
-      _.set(task, 'params.input', FORMAT_CSV)
+      params.input = FORMAT_CSV
        else if (input == SHORTHAND_TSV)
-      _.set(task, 'params.input', FORMAT_TSV)
+      params.input = FORMAT_TSV
        else
-      _.set(task, 'params.input.format', input)
+      params.input = { format: input }
   }
    else if (_.isPlainObject(input))
   {
-    _.set(task, 'params.input', input)
+    params.input = input
   }
 
   // convert output
@@ -85,18 +82,21 @@ var convert = function(input, output) {
   if (_.isString(output))
   {
     if (output == SHORTHAND_CSV)
-      _.set(task, 'params.output', FORMAT_CSV)
+      params.output = FORMAT_CSV
        else if (output == SHORTHAND_TSV)
-      _.set(task, 'params.output', FORMAT_TSV)
+      params.output = FORMAT_TSV
        else
-      _.set(task, 'params.output.format', output)
+      params.output = { format: output }
   }
    else if (_.isPlainObject(output))
   {
-    _.set(task, 'params.output', output)
+    params.output = output
   }
 
-  return task
+  return {
+    op: taskOps.TASK_OP_CONVERT,
+    params
+  }
 }
 
 convert.toCode = function(json, Flexio) {
