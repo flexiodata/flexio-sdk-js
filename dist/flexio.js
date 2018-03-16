@@ -124,21 +124,23 @@ function pick(src, want_array) {
 
 module.exports = {
   assign: assign,
+  pick: pick,
+  get: getprop,
   isString: function isString(value) {
     return typeof value === 'string' || value instanceof String;
   },
-  isPlainObject: __webpack_require__(14),
   isNumber: function isNumber(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
   },
   isNil: function isNil(value) {
     return value == null;
   },
-  pick: pick,
+  defaultTo: function defaultTo(value, default_value) {
+    return value == null || value !== value ? default_value : value;
+  },
+  isPlainObject: __webpack_require__(14),
   last: __webpack_require__(15),
-  isFunction: __webpack_require__(16),
-  defaultTo: __webpack_require__(17),
-  get: getprop
+  isFunction: __webpack_require__(16)
 };
 
 /***/ }),
@@ -275,7 +277,7 @@ module.exports = {
 
 
 var bind = __webpack_require__(7);
-var isBuffer = __webpack_require__(20);
+var isBuffer = __webpack_require__(19);
 
 /*global toString:true*/
 
@@ -775,7 +777,7 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(3);
-var normalizeHeaderName = __webpack_require__(22);
+var normalizeHeaderName = __webpack_require__(21);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -920,12 +922,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(3);
-var settle = __webpack_require__(23);
-var buildURL = __webpack_require__(25);
-var parseHeaders = __webpack_require__(26);
-var isURLSameOrigin = __webpack_require__(27);
+var settle = __webpack_require__(22);
+var buildURL = __webpack_require__(24);
+var parseHeaders = __webpack_require__(25);
+var isURLSameOrigin = __webpack_require__(26);
 var createError = __webpack_require__(9);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(28);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1022,7 +1024,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(29);
+      var cookies = __webpack_require__(28);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1107,7 +1109,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(24);
+var enhanceError = __webpack_require__(23);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -1187,8 +1189,8 @@ exports.default = Flexio;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var _ = __webpack_require__(0);
-var axios = __webpack_require__(18);
-var task = __webpack_require__(37);
+var axios = __webpack_require__(17);
+var task = __webpack_require__(36);
 
 var base_url = 'https://www.flex.io/api/v1';
 
@@ -1200,22 +1202,22 @@ var cfg = {
 };
 
 var Flexio = {
-  version: __webpack_require__(66).version,
+  version: __webpack_require__(65).version,
 
   _init: function _init() {
     var mulch = { "mulchify": 123 };
     var obj1 = { a: 0, b: { c: 0 } };
     var mulch2 = Object.assign(mulch, obj1);
 
-    this.connections = __webpack_require__(67).getConnectionsObject(this);
-    this.pipes = __webpack_require__(68).getPipesObject(this);
+    this.connections = __webpack_require__(66).getConnectionsObject(this);
+    this.pipes = __webpack_require__(67).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
 
-    var getPipeConstructor = __webpack_require__(69).getPipeConstructor;
+    var getPipeConstructor = __webpack_require__(68).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
 
-    var getConnectionConstructor = __webpack_require__(70).getConnectionConstructor;
+    var getConnectionConstructor = __webpack_require__(69).getConnectionConstructor;
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
@@ -1596,52 +1598,12 @@ module.exports = isFunction;
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/**
- * Checks `value` to determine whether a default value should be returned in
- * its place. The `defaultValue` is returned if `value` is `NaN`, `null`,
- * or `undefined`.
- *
- * @static
- * @memberOf _
- * @since 4.14.0
- * @category Util
- * @param {*} value The value to check.
- * @param {*} defaultValue The default value.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * _.defaultTo(1, 10);
- * // => 1
- *
- * _.defaultTo(undefined, 10);
- * // => 10
- */
-function defaultTo(value, defaultValue) {
-  return (value == null || value !== value) ? defaultValue : value;
-}
-
-module.exports = defaultTo;
-
+module.exports = __webpack_require__(18);
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(19);
-
-/***/ }),
-/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1649,7 +1611,7 @@ module.exports = __webpack_require__(19);
 
 var utils = __webpack_require__(3);
 var bind = __webpack_require__(7);
-var Axios = __webpack_require__(21);
+var Axios = __webpack_require__(20);
 var defaults = __webpack_require__(5);
 
 /**
@@ -1684,14 +1646,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(11);
-axios.CancelToken = __webpack_require__(35);
+axios.CancelToken = __webpack_require__(34);
 axios.isCancel = __webpack_require__(10);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(36);
+axios.spread = __webpack_require__(35);
 
 module.exports = axios;
 
@@ -1700,7 +1662,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 /*!
@@ -1727,7 +1689,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1735,10 +1697,10 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(5);
 var utils = __webpack_require__(3);
-var InterceptorManager = __webpack_require__(30);
-var dispatchRequest = __webpack_require__(31);
-var isAbsoluteURL = __webpack_require__(33);
-var combineURLs = __webpack_require__(34);
+var InterceptorManager = __webpack_require__(29);
+var dispatchRequest = __webpack_require__(30);
+var isAbsoluteURL = __webpack_require__(32);
+var combineURLs = __webpack_require__(33);
 
 /**
  * Create a new instance of Axios
@@ -1820,7 +1782,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1839,7 +1801,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1872,7 +1834,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1900,7 +1862,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1975,7 +1937,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2019,7 +1981,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2094,7 +2056,7 @@ module.exports = (
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2137,7 +2099,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2197,7 +2159,7 @@ module.exports = (
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2256,14 +2218,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(3);
-var transformData = __webpack_require__(32);
+var transformData = __webpack_require__(31);
 var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(5);
 
@@ -2342,7 +2304,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2369,7 +2331,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2390,7 +2352,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2411,7 +2373,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2475,7 +2437,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2509,7 +2471,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2518,30 +2480,30 @@ module.exports = function spread(callback) {
 var _ = __webpack_require__(0);
 var taskOps = __webpack_require__(2);
 
-var createFn = __webpack_require__(38);
-var convertFn = __webpack_require__(39);
-var copyFn = __webpack_require__(40);
-var dumpFn = __webpack_require__(41);
-var echoFn = __webpack_require__(42);
-var emailFn = __webpack_require__(43);
-var executeFn = __webpack_require__(44);
-var filterFn = __webpack_require__(49);
-var foreachFn = __webpack_require__(50);
-var insertFn = __webpack_require__(51);
-var limitFn = __webpack_require__(52);
-var mergeFn = __webpack_require__(53);
-var mkdirFn = __webpack_require__(54);
-var listFn = __webpack_require__(55);
-var readFn = __webpack_require__(56);
-var renderFn = __webpack_require__(57);
-var requestFn = __webpack_require__(58);
-var selectFn = __webpack_require__(59);
-var sequenceFn = __webpack_require__(60);
-var setFn = __webpack_require__(61);
-var sleepFn = __webpack_require__(62);
-var taskFn = __webpack_require__(63);
-var transformFn = __webpack_require__(64);
-var writeFn = __webpack_require__(65);
+var createFn = __webpack_require__(37);
+var convertFn = __webpack_require__(38);
+var copyFn = __webpack_require__(39);
+var dumpFn = __webpack_require__(40);
+var echoFn = __webpack_require__(41);
+var emailFn = __webpack_require__(42);
+var executeFn = __webpack_require__(43);
+var filterFn = __webpack_require__(48);
+var foreachFn = __webpack_require__(49);
+var insertFn = __webpack_require__(50);
+var limitFn = __webpack_require__(51);
+var mergeFn = __webpack_require__(52);
+var mkdirFn = __webpack_require__(53);
+var listFn = __webpack_require__(54);
+var readFn = __webpack_require__(55);
+var renderFn = __webpack_require__(56);
+var requestFn = __webpack_require__(57);
+var selectFn = __webpack_require__(58);
+var sequenceFn = __webpack_require__(59);
+var setFn = __webpack_require__(60);
+var sleepFn = __webpack_require__(61);
+var taskFn = __webpack_require__(62);
+var transformFn = __webpack_require__(63);
+var writeFn = __webpack_require__(64);
 
 var toCode = function toCode(json, Flexio) {
   var op = _.get(json, 'op', '');
@@ -2632,7 +2594,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2699,7 +2661,7 @@ create.toCode = function (json, Flexio) {
 module.exports = create;
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2806,7 +2768,7 @@ convert.toCode = function (json, Flexio) {
 module.exports = convert;
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2846,7 +2808,7 @@ copy.toCode = function (json, Flexio) {
 module.exports = copy;
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2873,7 +2835,7 @@ dump.toCode = function (json, Flexio) {
 module.exports = dump;
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2900,7 +2862,7 @@ echo.toCode = function (json, Flexio) {
 module.exports = echo;
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2930,7 +2892,7 @@ email.toCode = function (json, Flexio) {
 module.exports = email;
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3092,10 +3054,10 @@ module.exports = {
   python: python,
   toCode: toCode
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(45).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(44).Buffer))
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3109,9 +3071,9 @@ module.exports = {
 
 
 
-var base64 = __webpack_require__(46)
-var ieee754 = __webpack_require__(47)
-var isArray = __webpack_require__(48)
+var base64 = __webpack_require__(45)
+var ieee754 = __webpack_require__(46)
+var isArray = __webpack_require__(47)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -4892,7 +4854,7 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5013,7 +4975,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -5103,7 +5065,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -5114,7 +5076,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5144,7 +5106,7 @@ filter.toCode = function (json, Flexio) {
 module.exports = filter;
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5189,7 +5151,7 @@ foreach.toCode = function (json, Flexio) {
 module.exports = foreach;
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5228,7 +5190,7 @@ insert.toCode = function (json, Flexio) {
 module.exports = insert;
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5257,7 +5219,7 @@ limit.toCode = function (json, Flexio) {
 module.exports = limit;
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5303,7 +5265,7 @@ merge.toCode = function (json, Flexio) {
 module.exports = merge;
 
 /***/ }),
-/* 54 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5330,7 +5292,7 @@ mkdir.toCode = function (json, Flexio) {
 module.exports = mkdir;
 
 /***/ }),
-/* 55 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5357,7 +5319,7 @@ list.toCode = function (json, Flexio) {
 module.exports = list;
 
 /***/ }),
-/* 56 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5384,7 +5346,7 @@ read.toCode = function (json, Flexio) {
 module.exports = read;
 
 /***/ }),
-/* 57 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5424,7 +5386,7 @@ render.toCode = function (json, Flexio) {
 module.exports = render;
 
 /***/ }),
-/* 58 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5461,7 +5423,7 @@ request.toCode = function (json, Flexio) {
 module.exports = request;
 
 /***/ }),
-/* 59 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5493,7 +5455,7 @@ select.toCode = function (json, Flexio) {
 module.exports = select;
 
 /***/ }),
-/* 60 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5534,7 +5496,7 @@ sequence.toCode = function (json, Flexio) {
 module.exports = sequence;
 
 /***/ }),
-/* 61 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5577,7 +5539,7 @@ set.toCode = function (json, Flexio) {
 module.exports = set;
 
 /***/ }),
-/* 62 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5606,7 +5568,7 @@ sleep.toCode = function (json, Flexio) {
 module.exports = sleep;
 
 /***/ }),
-/* 63 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5625,7 +5587,7 @@ task.toCode = function (json, Flexio) {
 module.exports = task;
 
 /***/ }),
-/* 64 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5677,7 +5639,7 @@ transform.toCode = function (json, Flexio) {
 module.exports = transform;
 
 /***/ }),
-/* 65 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5704,13 +5666,13 @@ write.toCode = function (json, Flexio) {
 module.exports = write;
 
 /***/ }),
-/* 66 */
+/* 65 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"flexio-sdk-js","version":"1.20.2","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","--browser":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"jest"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash.defaultto":"^4.14.0","lodash.isfunction":"^3.0.9","lodash.isplainobject":"^4.0.6","lodash.last":"^3.0.0"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","jest":"^22.4.2","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-bundle-analyzer":"^2.11.1","webpack-dev-server":"^2.8.2"}}
+module.exports = {"name":"flexio-sdk-js","version":"1.20.2","description":"Javascript SDK for managing Flex.io resources and services","author":"David Z. Williams <dave@flex.io>","--main":"dist/flexio-node.js","main":"src/main.js","--browser":"src/main.js","browser":"dist/flexio.min.js","scripts":{"dev":"cross-env build=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --https --hot","build:debug":"cross-env build=debug webpack --config build/webpack.dist.js","build:release":"cross-env build=production webpack --config build/webpack.dist.js","build:examples":"webpack --config build/webpack.examples.js","build":"npm run build:debug && npm run build:release && npm run build:examples","test":"jest"},"repository":{"type":"git","url":"git+https://github.com/flexiodata/flexio-sdk-js.git"},"keywords":[],"license":"Apache-2.0","bugs":{"url":"https://github.com/flexiodata/flexio-sdk-js/issues"},"homepage":"https://github.com/flexiodata/flexio-sdk-js/","dependencies":{"axios":"^0.16.2","lodash.isfunction":"^3.0.9","lodash.isplainobject":"^4.0.6","lodash.last":"^3.0.0"},"devDependencies":{"autoprefixer":"^7.1.4","babel-core":"^6.26.0","babel-loader":"^7.1.2","babel-plugin-transform-es2015-destructuring":"^6.23.0","babel-plugin-transform-es2015-parameters":"^6.24.1","babel-plugin-transform-object-rest-spread":"^6.26.0","babel-plugin-transform-runtime":"^6.23.0","babel-preset-env":"^1.6.0","babel-preset-es2015":"^6.24.1","babel-preset-stage-2":"^6.24.1","cross-env":"^5.0.5","css-loader":"^0.28.7","deep-assign":"^2.0.0","jest":"^22.4.2","vue":"^2.4.4","vue-loader":"^13.0.4","vue-simple-spinner":"^1.2.7","vue-style-loader":"^3.0.3","vue-template-compiler":"^2.4.4","webpack":"^3.5.5","webpack-bundle-analyzer":"^2.11.1","webpack-dev-server":"^2.8.2"}}
 
 /***/ }),
-/* 67 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5765,7 +5727,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 };
 
 /***/ }),
-/* 68 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5960,7 +5922,7 @@ module.exports.getPipesObject = function (Flexio) {
 };
 
 /***/ }),
-/* 69 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6137,7 +6099,7 @@ module.exports.getPipeConstructor = function (Flexio) {
 };
 
 /***/ }),
-/* 70 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
