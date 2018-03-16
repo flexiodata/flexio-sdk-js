@@ -96,10 +96,7 @@ var execute = function() {
   var lang, code, check
 
 
-  var task = {
-    op: taskOps.TASK_OP_EXECUTE,
-    params: {}
-  }
+  var params = {}
 
   // allow for flexible parameters
   if (param0 == 'python' || param0 == 'javascript')
@@ -124,24 +121,27 @@ var execute = function() {
   }
 
   // set the job's language
-  _.set(task, 'params.lang', lang)
+  params.lang = lang
 
   // handle files or code snippets
   var http_regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
   if (code.match(http_regex))
   {
-    _.set(task, 'params.path', code)
+    params.path = code
   }
   else
   {
-    _.set(task, 'params.code', toBase64(code))
+    params.code = toBase64(code)
   }
 
   if (check !== null) {
-    _.set(task, 'params.integrity', check)
+    params.integrity = check
   }
 
-  return task
+  return {
+    op: taskOps.TASK_OP_EXECUTE,
+    params
+  }
 }
 
 // shorthand for .execute('javascript', ...)
@@ -167,8 +167,13 @@ var toCode = function(json) {
   switch (lang)
   {
     case 'javascript':
-      code = code.replace('exports.flexio_handler =', '')
-      return 'javascript(' + code.trim() + ')'
+      if (code.indexOf('exports.flexio_handler') != -1) {
+        code = code.replace('exports.flexio_handler =', '')
+        return 'javascript(' + code.trim() + ')'
+      } else {
+        return 'javascript(' + JSON.stringify(code.trim()) + ')'
+      }
+
     case 'python':
       return 'python(`\n' + code + '\n`)'
     default:
