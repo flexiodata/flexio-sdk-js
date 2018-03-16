@@ -1,4 +1,4 @@
-var _ = require('lodash')                  // import _ from 'lodash'
+var _ = require('./lodash-local')          // import _ from 'lodash'
 var axios = require('axios')               // import axios from 'axios'
 var task = require('./task')               // import * as task from './task'
 

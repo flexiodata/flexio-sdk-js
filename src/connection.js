@@ -1,4 +1,4 @@
-var _ = require('lodash')                               // import _ from 'lodash'
+var _ = require('./lodash-local')                               // import _ from 'lodash'
 
 var method_types = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 var allowed_auth = ['', 'basic', 'bearer', 'oauth2']

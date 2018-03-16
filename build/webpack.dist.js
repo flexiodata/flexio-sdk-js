@@ -6,6 +6,8 @@ const webpack = require('webpack')
 const options = require('./options')
 const base = require('./webpack.base.js')
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
 const config = merge(base, {
   entry: options.paths.resolve('src/main-webpack.js'),
 
@@ -46,6 +48,15 @@ if (options.isProduction) {
   ])
 }
 
+
+if (false)   // set to true if bundle analyzer is desired
+{
+  config.plugins = config.plugins.concat([
+    new BundleAnalyzerPlugin()
+  ])
+}
+
+
 const clientConfig = merge({
   output: {
     filename: options.isProduction ? 'flexio.min.js' : 'flexio.js',
@@ -68,5 +79,7 @@ const serverConfig = merge({
     libraryTarget: 'umd'
   }
 }, config)
+
+
 
 module.exports = [clientConfig, serverConfig]

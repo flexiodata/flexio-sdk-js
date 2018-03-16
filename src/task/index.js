@@ -1,4 +1,4 @@
-var _ = require('lodash')                               // import _ from 'lodash'
+var _ = require('../lodash-local')                               // import _ from 'lodash'
 var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
 
 var createFn    = require('./create.js')
