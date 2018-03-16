@@ -67,10 +67,10 @@ return function() {
       var method = _.get(args, '[0]')
 
       if (!_.isString(method))
-        return this
+        throw 'Invalid/empty method'
 
-      if (!_.includes(method_types, method))
-        return this
+      if (method_types.indexOf(method) == -1)
+        throw 'Invalid method'
 
       return this._setInfo('method', method)
     },
@@ -90,10 +90,10 @@ return function() {
       var auth = _.get(args, '[0]')
 
       if (!_.isString(auth))
-        return this
+        throw 'Invalid/empty auth'
 
-      if (!_.includes(allowed_auth, auth))
-        return this
+      if (allowed_auth.indexOf(auth) == -1)
+        throw 'Invalid auth'
 
       if (auth == 'none')
         auth = ''
