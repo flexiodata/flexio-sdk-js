@@ -67,6 +67,7 @@ const clientConfig = merge({
   },
 }, config)
 
+/*
 const serverConfig = merge({
   // this is necessary for the Axios lib to work in a Node.js environment
   target: 'node',
@@ -79,7 +80,8 @@ const serverConfig = merge({
     libraryTarget: 'umd'
   }
 }, config)
+*/
 
 
-
-module.exports = [clientConfig, serverConfig]
+//module.exports = [clientConfig, serverConfig]
+module.exports = [clientConfig]
