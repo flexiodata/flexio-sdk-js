@@ -11,6 +11,11 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const config = merge(base, {
   entry: options.paths.resolve('src/main-webpack.js'),
 
+  // without this, webpack throws in a polyfill for node.js's Buffer class
+  node: {
+    Buffer: false
+  },
+    
   plugins: [
     new webpack.BannerPlugin({
       banner: options.banner,
