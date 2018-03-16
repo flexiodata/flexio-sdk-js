@@ -49,7 +49,7 @@ if (options.isProduction) {
 }
 
 
-if (false)   // set to true if bundle analyzer is desired
+if (true)   // set to true if bundle analyzer is desired
 {
   config.plugins = config.plugins.concat([
     new BundleAnalyzerPlugin()

@@ -32,7 +32,6 @@
     "lodash.foreach": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.includes": "^4.3.0",
-    "lodash.isequal": "^4.5.0",
     "lodash.isfunction": "^3.0.9",
     "lodash.isplainobject": "^4.0.6",
     "lodash.last": "^3.0.0",
