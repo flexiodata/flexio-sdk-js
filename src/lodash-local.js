@@ -21,16 +21,30 @@ function assign(target, options) {
   return target
 }
 
+function pick(src, want_array) {
+  if (src == null || !Array.isArray(want_array)) {
+    return {}
+  }
+  var ret = {}, prop
+  for (var i = 0; i < want_array.length; ++i) {
+    prop = want_array[i]
+    if (src.hasOwnProperty(prop)) {
+      ret[prop] = src[prop]
+    }
+  }
+  return ret
+}
+
 
 module.exports = {
   assign:        assign,
+  pick:          pick,
+  get:           getprop,
   isString:      function(value) { return typeof value === 'string' || value instanceof String },
-  isPlainObject: require('lodash.isplainobject'),
   isNumber:      function(value) { return !isNaN(parseFloat(value)) && isFinite(value) },
   isNil:         function(value) { return value == null },
-  pick:          require('lodash.pick'),
+  isPlainObject: require('lodash.isplainobject'),
   last:          require('lodash.last'),
   isFunction:    require('lodash.isfunction'),
-  defaultTo:     require('lodash.defaultto'),
-  get:           getprop
+  defaultTo:     require('lodash.defaultto')
 }
