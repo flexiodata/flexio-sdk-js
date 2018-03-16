@@ -9,7 +9,6 @@ module.exports = {
   isNil:         function(value) { return value == null },
   pick:          require('lodash.pick'),
   last:          require('lodash.last'),
-  each:          require('lodash.foreach'),
   isFunction:    require('lodash.isfunction'),
   defaultTo:     require('lodash.defaultto')
 }
