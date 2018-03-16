@@ -3,7 +3,6 @@ module.exports = {
 
   assign:        require('lodash.assign'),
   isString:      function(value) { return typeof value === 'string' || value instanceof String },
-  includes:      require('lodash.includes'),
   isPlainObject: require('lodash.isplainobject'),
   isNumber:      function(value) { return !isNaN(parseFloat(value)) && isFinite(value) },
   get:           require('lodash.get'),

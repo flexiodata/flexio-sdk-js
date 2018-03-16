@@ -281,7 +281,10 @@ return function() {
     },
 
     _setInfo(key, val) {
-      _.set(this.connection, 'connection_info.'+key, val)
+      if (!this.connection.hasOwnProperty('connection_info')) {
+        this.connection.connection_info = {}
+      }
+      this.connection.connection_info[key] = val
       return this
     }
   })
