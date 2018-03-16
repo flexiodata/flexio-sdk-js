@@ -8,7 +8,6 @@ module.exports = {
   get:           require('lodash.get'),
   isNil:         function(value) { return value == null },
   pick:          require('lodash.pick'),
-  set:           require('lodash.set'),
   last:          require('lodash.last'),
   each:          require('lodash.foreach'),
   isFunction:    require('lodash.isfunction'),
