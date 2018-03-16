@@ -44,7 +44,7 @@ module.exports = {
   isNumber:      function(value) { return !isNaN(parseFloat(value)) && isFinite(value) },
   isNil:         function(value) { return value == null },
   defaultTo:     function(value, default_value) { return (value == null || value !== value) ? default_value : value },
+  last:          function(array) { const length = array == null ? 0 : array.length; return length ? array[length - 1] : undefined; },
   isPlainObject: require('lodash.isplainobject'),
-  last:          require('lodash.last'),
   isFunction:    require('lodash.isfunction')
 }
