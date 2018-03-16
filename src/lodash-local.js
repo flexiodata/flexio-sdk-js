@@ -6,7 +6,6 @@ module.exports = {
   includes:      require('lodash.includes'),
   isPlainObject: require('lodash.isplainobject'),
   isNumber:      function(value) { return !isNaN(parseFloat(value)) && isFinite(value) },
-  omit:          require('lodash.omit'),
   get:           require('lodash.get'),
   isNil:         function(value) { return value == null },
   pick:          require('lodash.pick'),
