@@ -53,7 +53,7 @@ request.toCode = function(json, Flexio) {
   if (_.get(opts, 'method', '') == 'GET')
     opts = _.omit(opts, ['method'])
 
-  if (_.isEmpty(opts))
+  if (Object.keys(opts).length == 0)
     return 'request(' + JSON.stringify(url) + ')'
      else
     return 'request(' + JSON.stringify(url) + ', ' + JSON.stringify(opts, null, 2) + ')'
