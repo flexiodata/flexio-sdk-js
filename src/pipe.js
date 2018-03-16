@@ -142,15 +142,6 @@ return function(pipeconstruct_param) {
       return this
     },
 
-    clearParams(keys /* array */) {
-      if (_.isArray(keys))
-        this._params = _.omit(this._params, keys)
-         else if (_.isNil(keys))
-        this._params = {}
-
-      return this
-    },
-
     getParams() {
       return _.assign({}, this._params)
     },

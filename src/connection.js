@@ -184,24 +184,6 @@ return function() {
       return this._setInfo('data', data)
     },
 
-    clearData() {
-      var keys = Array.from(arguments)
-
-      // no arguments; clear all form data
-      if (keys.length == 0)
-        return this._setInfo('data', {})
-
-      // handle the case where the user passed an array of items
-      // instead of just passing them as arguments
-      if (keys.length == 1 && _.isArray(_.get(keys, '[0]')))
-        keys = _.get(keys, '[0]', [])
-
-      var existing_data = this._getInfo('data', {})
-      var data = _.omit(existing_data, keys)
-
-      return this._setInfo('data', data)
-    },
-
     headers() {
       var args = Array.from(arguments)
       var headers = _.get(args, '[0]')
@@ -211,24 +193,6 @@ return function() {
 
       var existing_headers = this._getInfo('headers', {})
       headers = _.assign({}, existing_headers, headers)
-
-      return this._setInfo('headers', headers)
-    },
-
-    clearHeaders() {
-      var keys = Array.from(arguments)
-
-      // no arguments; clear all headers
-      if (keys.length == 0)
-        return this._setInfo('headers', {})
-
-      // handle the case where the user passed an array of items
-      // instead of just passing them as arguments
-      if (keys.length == 1 && _.isArray(_.get(keys, '[0]')))
-        keys = _.get(keys, '[0]', [])
-
-      var existing_headers = this._getInfo('headers', {})
-      var headers = _.omit(existing_headers, keys)
 
       return this._setInfo('headers', headers)
     },
