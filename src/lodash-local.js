@@ -43,8 +43,8 @@ module.exports = {
   isString:      function(value) { return typeof value === 'string' || value instanceof String },
   isNumber:      function(value) { return !isNaN(parseFloat(value)) && isFinite(value) },
   isNil:         function(value) { return value == null },
+  defaultTo:     function(value, default_value) { return (value == null || value !== value) ? default_value : value },
   isPlainObject: require('lodash.isplainobject'),
   last:          require('lodash.last'),
-  isFunction:    require('lodash.isfunction'),
-  defaultTo:     require('lodash.defaultto')
+  isFunction:    require('lodash.isfunction')
 }
