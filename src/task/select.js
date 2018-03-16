@@ -8,7 +8,7 @@ var select = function() {
 
   // handle the case where the user passed an array of items
   // instead of just passing them as arguments
-  if (columns.length == 1 && _.isArray(_.get(columns, '[0]')))
+  if (columns.length == 1 && Array.isArray(_.get(columns, '[0]')))
     columns = _.get(columns, '[0]', [])
 
   return {
