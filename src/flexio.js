@@ -17,10 +17,6 @@ var Flexio = {
   version: require('../package.json').version,
 
   _init() {
-    var mulch = {"mulchify":123}
-    var obj1 = { a: 0 , b: { c: 0}};
-    var mulch2 = Object.assign(mulch, obj1);
-
     this.connections = require('./connections').getConnectionsObject(this)
     this.pipes = require('./pipes').getPipesObject(this)
     this.util = require('./util').getUtilObject(this)
