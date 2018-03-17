@@ -1,0 +1,12 @@
+
+// To get the testing working properly, do the following:
+//
+// 1) Copy this file to sdk-test-config.js
+// 2) Edit that file and place the SDK Testing API key from Keepass here. Search for "sdk testing" in Keepass
+// 3) You can now run "yarn test"
+
+
+
+module.exports = {
+    apikey: 'TESTING-API-KEY-HERE'
+}
