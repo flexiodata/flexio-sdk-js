@@ -18,9 +18,12 @@ util.isNodeJs = function() {
 util.arrayBufferToString = function(buf) {
 
   if (this.isNodeJs()) {
-    return buf.toString('utf-8')
+    if (buf instanceof Buffer) {
+      return buf.toString('utf-8')
+    } else {
+      return Buffer.from(buf).toString('utf-8')
+    }
   } else {
-
     if ("TextDecoder" in window) {
       return (new TextDecoder('utf-8')).decode(buf)
     } else {
