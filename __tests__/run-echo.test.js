@@ -1,17 +1,13 @@
 var Flexio = require('../src/main.js')
 
 
-Flexio.setup(require('../sdk-test-config.js').apikey)
+test('Flexio.task.echo; code to object', async () => {
 
-test('Flexio.pipes.list', (done) => {
+  var pipe = Flexio.pipe().echo("Hello")
 
-  Flexio.pipes.list().then((pipes) => {
+  var response = await pipe.run()
+  var result = response.text
 
-    expect(
-      pipes.length
-    ).toBeGreaterThanOrEqual(1)
-
-    done()
-  })
-
+  expect(result).toEqual("Hello")
 })
+
