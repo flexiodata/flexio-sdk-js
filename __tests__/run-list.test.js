@@ -2,7 +2,7 @@ var Flexio = require('../src/main.js')
 
 Flexio.setup(require('../sdk-test-config.js').apikey)
 
-test('Flexio.task.echo; code to object', async () => {
+test('Pipe execution; .list()', async () => {
 
   var pipe = Flexio.pipe().list('/home*')
 
