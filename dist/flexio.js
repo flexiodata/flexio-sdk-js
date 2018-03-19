@@ -142,7 +142,7 @@ module.exports = {
     var length = array == null ? 0 : array.length;return length ? array[length - 1] : undefined;
   },
   isFunction: function isFunction(value) {
-    return v instanceof Function;
+    return value instanceof Function;
   },
   isPlainObject: __webpack_require__(13)
 };
@@ -174,9 +174,12 @@ util.isNodeJs = function () {
 util.arrayBufferToString = function (buf) {
 
   if (this.isNodeJs()) {
-    return buf.toString('utf-8');
+    if (buf instanceof Buffer) {
+      return buf.toString('utf-8');
+    } else {
+      return Buffer.from(buf).toString('utf-8');
+    }
   } else {
-
     if ("TextDecoder" in window) {
       return new TextDecoder('utf-8').decode(buf);
     } else {
@@ -2447,99 +2450,21 @@ module.exports = create;
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 var taskOps = __webpack_require__(2);
-var DELIMITER_NONE = '{none}';
-var DELIMITER_COMMA = '{comma}';
-var DELIMITER_SEMICOLON = '{semicolon}';
-var DELIMITER_PIPE = '{pipe}';
-var DELIMITER_TAB = '{tab}';
-var DELIMITER_SPACE = '{space}';
 
-var TEXT_QUALIFIER_NONE = '{none}';
-var TEXT_QUALIFIER_SINGLE_QUOTE = '{single-quote}';
-var TEXT_QUALIFIER_DOUBLE_QUOTE = '{double-quote}';
-
-var FORMAT_DELIMITED_TEXT = 'delimited';
-var FORMAT_FIXED_LENGTH = 'fixed';
-var FORMAT_JSON = 'json';
-var FORMAT_RSS = 'rss';
-var FORMAT_PDF = 'pdf';
-var FORMAT_TABLE = 'table';
-
-var SHORTHAND_CSV = 'csv';
-var SHORTHAND_TSV = 'tsv';
-
-var FORMAT_CSV = {
-  format: FORMAT_DELIMITED_TEXT,
-  delimiter: DELIMITER_COMMA,
-  header: true,
-  qualifier: TEXT_QUALIFIER_DOUBLE_QUOTE
-};
-
-var FORMAT_TSV = {
-  format: FORMAT_DELIMITED_TEXT,
-  delimiter: DELIMITER_TAB,
-  header: true,
-  qualifier: TEXT_QUALIFIER_NONE
-};
-
-function isEquivalent(a, b) {
-  var aprops = Object.getOwnPropertyNames(a);
-  var bprops = Object.getOwnPropertyNames(b);
-  if (aprops.length != bprops.length) {
-    return false;
-  }
-  for (var i = 0; i < aprops.length; i++) {
-    var prop = aprops[i];
-    if (a[prop] !== b[prop]) {
-      return false;
-    }
-  }
-  return true;
-}
-
+module.exports = convert;
 var convert = function convert(input, output) {
-
-  var params = {};
-
-  if (_.isString(input)) {
-    if (input == SHORTHAND_CSV) params.input = FORMAT_CSV;else if (input == SHORTHAND_TSV) params.input = FORMAT_TSV;else params.input = { format: input };
-  } else if (_.isPlainObject(input)) {
-    params.input = input;
-  }
-
-  if (_.isString(output)) {
-    if (output == SHORTHAND_CSV) params.output = FORMAT_CSV;else if (output == SHORTHAND_TSV) params.output = FORMAT_TSV;else params.output = { format: output };
-  } else if (_.isPlainObject(output)) {
-    params.output = output;
-  }
 
   return {
     op: taskOps.TASK_OP_CONVERT,
-    params: params
+    params: { input: input, output: output }
   };
 };
 
 convert.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
-  var input = _.get(params, 'input', {});
-  var output = _.get(params, 'output', {});
+  var input = _.get(json, 'params.input', {});
+  var output = _.get(json, 'params.output', {});
 
-  var p1;
-  var p2;
-
-  if (isEquivalent(input, FORMAT_CSV)) p1 = SHORTHAND_CSV;
-  if (isEquivalent(output, FORMAT_CSV)) p2 = SHORTHAND_CSV;
-
-  if (isEquivalent(input, FORMAT_TSV)) p1 = SHORTHAND_TSV;
-  if (isEquivalent(output, FORMAT_TSV)) p2 = SHORTHAND_TSV;
-
-  if (isEquivalent(Object.keys(input), ['format'])) p1 = _.get(input, 'format', '');
-  if (isEquivalent(Object.keys(output), ['format'])) p2 = _.get(output, 'format', '');
-
-  if (!p1) p1 = input;
-  if (!p2) p2 = output;
-
-  return 'convert(' + JSON.stringify(p1) + ', ' + JSON.stringify(p2) + ')';
+  return 'convert(' + JSON.stringify(input) + ', ' + JSON.stringify(output) + ')';
 };
 
 module.exports = convert;
