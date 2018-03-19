@@ -1,9 +1,5 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-
-// task definition function
 var render = function(p0, p1) {
 
   var params = {}
@@ -19,7 +15,7 @@ var render = function(p0, p1) {
   }
 
   return {
-    op: taskOps.TASK_OP_RENDER,
+    op: 'render',
     params
   }
 }
@@ -35,4 +31,4 @@ render.toCode = function(json, Flexio) {
     return 'render(' + url + ', ' + JSON.stringify(params, null, 2) + ')'
 }
 
-module.exports = render   // export default render
+module.exports = render

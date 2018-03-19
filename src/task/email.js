@@ -1,8 +1,5 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var email = function(params) {
   if (!_.isPlainObject(params))
     throw 'The first function parameter must be an object'
@@ -14,7 +11,7 @@ var email = function(params) {
     throw 'The `body_text` parameter is required'
 
   return {
-    op: taskOps.TASK_OP_EMAIL_SEND,
+    op: 'email',
     params
   }
 }
@@ -24,4 +21,4 @@ email.toCode = function(json, Flexio) {
   return 'email(' + JSON.stringify(params, null, 2) + ')'
 }
 
-module.exports = email // export default email
+module.exports = email

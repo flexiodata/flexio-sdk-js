@@ -1,21 +1,14 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
-
-
-
+var _ = require('../lodash-local')
 
 // .create(columns_array)
 // .create(vfs_file, [mime_type])
 // .create(vfs_file, columns_array)
 
-
-// task definition function
 var create = function(p0, p1) {
 
   if (Array.isArray(p0)) {
     return {
-      op: taskOps.TASK_OP_CREATE,
+      op: 'create',
       params: {
         content_type: "application/vnd.flexio.table",
         columns: p0
@@ -23,7 +16,7 @@ var create = function(p0, p1) {
     }
   } else {
     var ret =  {
-      op: taskOps.TASK_OP_CREATE,
+      op: 'create',
       params: {
         path: p0
       }
@@ -68,4 +61,4 @@ create.toCode = function(json, Flexio) {
 
 }
 
-module.exports = create  // export default create
+module.exports = create

@@ -1,12 +1,9 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var sequence = function(steps) {
 
   return {
-    op: taskOps.TASK_OP_SEQUENCE,
+    op: 'sequence',
     params: {
       steps
     }
@@ -65,5 +62,4 @@ sequence.toCode = function(json, Flexio) {
     return retval.join('\n  .')
 */
 
-
-module.exports = sequence  // export default sequence
+module.exports = sequence

@@ -1,13 +1,8 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var limit = function(value) {
-  value = _.defaultTo(value, 10)
-
   return {
-    op: taskOps.TASK_OP_LIMIT,
+    op: 'limit',
     params: {
       value
     }
@@ -20,4 +15,4 @@ limit.toCode = function(json, Flexio) {
   return 'limit(' + val + ')'
 }
 
-module.exports = limit  // export default limit
+module.exports = limit

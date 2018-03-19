@@ -1,8 +1,5 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var transform = function(value) {
   var args = Array.from(arguments)
 
@@ -31,13 +28,13 @@ var transform = function(value) {
     }
 
     return {
-      op: taskOps.TASK_OP_TRANSFORM,
+      op: 'transform',
       params
     }
   }
 
   return {
-    op: taskOps.TASK_OP_TRANSFORM,
+    op: 'transform',
     params: {
       columns,
       operations,
@@ -52,4 +49,4 @@ transform.toCode = function(json, Flexio) {
   return "transform(" + JSON.stringify(params) + ")"
 }
 
-module.exports = transform   // export default transform
+module.exports = transform

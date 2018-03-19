@@ -1,5 +1,4 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
+var _ = require('../lodash-local')
 
 // task definition function
 // .task() simply passes through json raw
@@ -11,4 +10,4 @@ task.toCode = function(json, Flexio) {
   return 'task(' + JSON.stringify(json, null, 2) + ')'
 }
 
-module.exports = task   // export default list
+module.exports = task 

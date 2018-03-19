@@ -1,8 +1,5 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var merge = function(path) {
 
   if (Array.isArray(path)) {
@@ -15,7 +12,7 @@ var merge = function(path) {
   }
 
   return {
-    op: taskOps.TASK_OP_MERGE,
+    op: 'merge',
     params: {
       files
     }
@@ -38,4 +35,4 @@ merge.toCode = function(json, Flexio) {
   return 'merge(' +  param + ')'
 }
 
-module.exports = merge   // export default merge
+module.exports = merge

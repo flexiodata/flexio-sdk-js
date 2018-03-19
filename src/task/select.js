@@ -1,8 +1,5 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var select = function() {
   var columns = Array.from(arguments)
 
@@ -12,7 +9,7 @@ var select = function() {
     columns = _.get(columns, '[0]', [])
 
   return {
-    op: taskOps.TASK_OP_SELECT,
+    op: 'select',
     params: {
       columns
     }
@@ -27,4 +24,4 @@ select.toCode = function(json, Flexio) {
   return 'select(' + cols + ')'
 }
 
-module.exports = select   // export default select
+module.exports = select

@@ -1,12 +1,5 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-
-
-
-
-// task definition function
 var insert = function(path, values) {
 
   var data;
@@ -16,7 +9,7 @@ var insert = function(path, values) {
     data = [ values ]
 
   return {
-    op: taskOps.TASK_OP_INSERT,
+    op: 'insert',
     params: {
       path: path,
       values: data
@@ -38,4 +31,4 @@ insert.toCode = function(json, Flexio) {
   return 'insert(' + path + ', ' + values + ')'
 }
 
-module.exports = insert  // export default insert
+module.exports = insert

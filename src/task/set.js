@@ -1,15 +1,13 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
+var util = require('../util')
 
-// task definition function
 var set = function(variable, value) {
 
   if (util.isPipeObject(value))
     value = value.pipe.task
 
   return {
-    op: taskOps.TASK_OP_SET,
+    op: 'set',
     params: {
       "var": variable,
       "value": value
@@ -33,4 +31,4 @@ set.toCode = function(json, Flexio) {
   return 'set(' + variable + ', ' + value + ')'
 }
 
-module.exports = set   // export default set
+module.exports = set

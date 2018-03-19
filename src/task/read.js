@@ -1,11 +1,8 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var read = function(path) {
   return {
-    op: taskOps.TASK_OP_READ,
+    op: 'read',
     params: {
       path
     }
@@ -18,4 +15,4 @@ read.toCode = function(json, Flexio) {
   return 'read(' + path + ')'
 }
 
-module.exports = read   // export default list
+module.exports = read

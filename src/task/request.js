@@ -1,6 +1,4 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
 /*
   syntax: request(url|connection[, config])
@@ -20,7 +18,6 @@ var taskOps = require('../constants/task-op')           // import * as taskOps f
   }
 */
 
-// task definition function
 var request = function() {
   var args = Array.from(arguments)
   var url = _.get(args, '[0]', '')
@@ -38,7 +35,7 @@ var request = function() {
   }
 
   return {
-    op: taskOps.TASK_OP_REQUEST,
+    op: 'request',
     params
   }
 }
@@ -54,4 +51,4 @@ request.toCode = function(json, Flexio) {
     return 'request(' + JSON.stringify(params, null, 2) + ')'
 }
 
-module.exports = request // export default request
+module.exports = request

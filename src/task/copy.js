@@ -1,11 +1,8 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var copy = function(from,to,options) {
   var ret = {
-    op: taskOps.TASK_OP_COPY,
+    op: 'copy',
     params: {
       from,
       to
@@ -15,6 +12,7 @@ var copy = function(from,to,options) {
   if (_.isPlainObject(options)) {
     ret.params.options = options
   }
+
   return ret
 }
 

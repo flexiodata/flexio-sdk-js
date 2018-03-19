@@ -1,7 +1,4 @@
-var _ = require('../lodash-local')     // import _ from 'lodash'
-var util = require('../util') // import util from '../util'
-var taskOps = require('../constants/task-op')
-
+var _ = require('../lodash-local')
 
 var isNodeJs = function() {
   return (typeof process !== 'undefined')
@@ -95,7 +92,6 @@ var execute = function() {
   var param2 = _.get(args, '[2]', null)
   var lang, code, check
 
-
   var params = {}
 
   // allow for flexible parameters
@@ -139,7 +135,7 @@ var execute = function() {
   }
 
   return {
-    op: taskOps.TASK_OP_EXECUTE,
+    op: 'execute',
     params
   }
 }
@@ -180,13 +176,6 @@ var toCode = function(json) {
       return 'execute(' + JSON.stringify(lang) + ', `\n' + code + '\n`)'
   }
 }
-
-/*
-export const execute    = executeFn
-export const javascript = javascriptFn
-export const python     = pythonFn
-export default executeFn
-*/
 
 module.exports = {
   execute: execute,

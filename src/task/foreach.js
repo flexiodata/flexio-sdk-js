@@ -1,12 +1,10 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
+var util = require('../util')
 
-// task definition function
 var foreach = function(p0, p1) {
 
   var res = {
-    op: taskOps.TASK_OP_FOREACH,
+    op: 'foreach',
     params: {}
   }
 

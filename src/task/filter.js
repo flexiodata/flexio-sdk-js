@@ -1,15 +1,12 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
-// task definition function
 var filter = function(where) {
 
   if (_.isNil(where))
     throw 'The `filter` parameter is required'
 
   return {
-    op: taskOps.TASK_OP_FILTER,
+    op: 'filter',
     params: {
       where
     }
@@ -22,5 +19,4 @@ filter.toCode = function(json, Flexio) {
   return 'filter(' + where + ')'
 }
 
-
-module.exports = filter   // export default filter
+module.exports = filter

@@ -1,11 +1,9 @@
-var _ = require('../lodash-local')                               // import _ from 'lodash'
-var util = require('../util')                           // import util from '../util'
-var taskOps = require('../constants/task-op')           // import * as taskOps from '../constants/task-op'
+var _ = require('../lodash-local')
 
 // task definition function
 var echo = function(msg) {
   return {
-    op: taskOps.TASK_OP_ECHO,
+    op: 'echo',
     params: {
       msg
     }
