@@ -149,7 +149,7 @@ function HttpClient(options) {
         var requestData = config.data
         var requestHeaders = config.headers
     
-        if ((typeof FormData !== 'undefined') && (val instanceof FormData)) {
+        if ((typeof FormData !== 'undefined') && (requestData instanceof FormData)) {
             delete requestHeaders['Content-Type'] // browser will take care of setting this
         }
 
@@ -159,11 +159,23 @@ function HttpClient(options) {
 
             var xhr = new XMLHttpRequest()
             xhr.open(config.method.toUpperCase(), config.url, true)
+            
+            if (config.responseType) {
+              //  xhr.responseType = config.responseType
+            }
 
             xhr.onload = function () {
 
+                var resData = !config.responseType || config.responseType === 'text' ? xhr.responseText : xhr.response
+
+                console.log(resData)
+
+                if (typeof resData === 'string') {
+                    try { resData = JSON.parse(resData) } catch(e) { }
+                }
+
                 var response = {
-                    data: responseData,
+                    data: resData,
                     status: xhr.status === 1223 ? 204 : xhr.status, // IE sends 1223 instead of 204
                     statusText: xhr.status === 1223 ? 'No Content' : xhr.statusText,
                     headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
