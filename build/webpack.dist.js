@@ -13,7 +13,8 @@ const config = merge(base, {
 
   // without this, webpack throws in a polyfill for node.js's Buffer class
   node: {
-    Buffer: false
+    Buffer: false,
+    process: false
   },
     
   plugins: [
@@ -21,7 +22,13 @@ const config = merge(base, {
       banner: options.banner,
       raw: true,
       entryOnly: true
-    })
+    }),
+
+    // ignore https and url requires. This could have been
+    // in the node:{} structure above, but webpack will throw
+    // a build error if it sees code that tries to use these modules;
+    // to solve this, we just ignore requires with the following modules:
+    new webpack.IgnorePlugin(/https|url/)
   ]
 })
 
