@@ -25,9 +25,7 @@
     "url": "https://github.com/flexiodata/flexio-sdk-js/issues"
   },
   "homepage": "https://github.com/flexiodata/flexio-sdk-js/",
-  "dependencies": {
-    "axios": "^0.16.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^7.1.4",
     "babel-core": "^6.26.0",
