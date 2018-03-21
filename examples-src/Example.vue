@@ -7,7 +7,7 @@
         <div class="mv3 bb b--black-10"></div>
       </div>
       <textarea class="w-100 h5 pa1 ba b--black-10 code" style="font-size: 13px; outline: none" spellcheck="false" v-model="editable_code" v-if="isEditable"></textarea>
-      <pre class="overflow-x-auto" v-highlightjs="code_trimmed" v-else><code class="javascript"></code></pre>
+      <pre class="overflow-x-auto" v-else><code class="javascript">{{code_trimmed}}</code></pre>
       <div v-if="showRun">
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" @click="run">Run</button>
       </div>
@@ -22,7 +22,7 @@
         <div class="bb b--black-10"></div>
         <h4>Output</h4>
         <div class="overflow-y-auto" style="max-height: 30rem" v-if="has_text_result">
-          <pre v-highlightjs="result"><code class="javascript"></code></pre>
+          <pre><code class="javascript">{{result}}</code></pre>
         </div>
         <img :src="img_src" v-if="has_image_result" />
       </div>
@@ -37,9 +37,7 @@
   import VueSimpleSpinner from 'vue-simple-spinner'
 
   var editable_code = `Flexio.pipe()
-    .javascript(function(context) {
-      context.output.write('Hello World!')
-    })
+    .echo('Hello, World!')
     .run(callback)`
 
   export default {

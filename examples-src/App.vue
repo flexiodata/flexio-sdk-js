@@ -32,6 +32,13 @@
           </div>
         </form>
 
+        <h2 class="mt5 mb0 pb2 bb b--light-gray">Live Editor</h2>
+
+        <example
+          :title="'Create Your Own...'"
+          :is-editable="true"
+        />
+
         <h2 class="mt5 mb0 pb2 bb b--light-gray">Setup</h2>
 
         <example
@@ -79,13 +86,6 @@
           :code="JSON.stringify(example.obj, null, 2)"
           :show-run="false"
         />
-
-        <h2 class="mt5 mb0 pb2 bb b--light-gray">Live Editor</h2>
-
-        <example
-          :title="'Create Your Own...'"
-          :is-editable="true"
-        />
       </div>
     </div>
   </div>
@@ -99,11 +99,10 @@
   //import connection_examples from './examples/connection'
   //import pipe_examples from './examples/pipe'
   //import task_examples from './examples/task'
-const list_examples = []
-const connection_examples = []
-const pipe_examples = []
-const task_examples = []
-
+  const list_examples = []
+  const connection_examples = []
+  const pipe_examples = []
+  const task_examples = []
 
   var version = Flexio.version
 
@@ -186,7 +185,6 @@ const task_examples = []
   }
 
   .box-shadow {
-
-    box-shadow: 0 2px 4px -2px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 4px -1px rgba(0,0,0,0.4);
   }
 </style>
