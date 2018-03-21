@@ -25,6 +25,7 @@ util.arrayBufferToString = function(buf) {
     }
   } else {
     if ("TextDecoder" in window) {
+      console.log("TYPE " + (typeof buf))
       return (new TextDecoder('utf-8')).decode(buf)
     } else {
       var uint8arr = new Uint8Array(buf)
