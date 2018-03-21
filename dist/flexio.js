@@ -186,7 +186,6 @@ util.arrayBufferToString = function (buf) {
     }
   } else {
     if ("TextDecoder" in window) {
-      console.log("TYPE " + (typeof buf === 'undefined' ? 'undefined' : _typeof(buf)));
       return new TextDecoder('utf-8').decode(buf);
     } else {
       var uint8arr = new Uint8Array(buf);
@@ -2217,8 +2216,6 @@ function HttpClient(options) {
 
     this.requestXHR = function (config) {
 
-        console.log("requestXHR");
-
         function parseResponseHeaders(headerstr) {
             var headers = {};
             var pairs = headerstr ? headerstr.split('\r\n') : [];
@@ -2245,8 +2242,6 @@ function HttpClient(options) {
 
         return new Promise(function (resolve, reject) {
 
-            console.log("URL " + config.url);
-
             var xhr = new XMLHttpRequest();
             xhr.open(config.method.toUpperCase(), config.url, true);
 
@@ -2255,7 +2250,6 @@ function HttpClient(options) {
             }
 
             if (Object.keys(headers).length > 0) {
-                console.log("HEADERS: " + JSON.stringify(headers));
                 for (var k in headers) {
                     if (headers.hasOwnProperty(k)) {
                         xhr.setRequestHeader(k, headers[k]);
