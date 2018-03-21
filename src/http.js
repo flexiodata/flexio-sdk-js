@@ -1,7 +1,6 @@
 var _ = require('./lodash-local')
 var util = require('./util')
 
-
 function HttpClient(options) {
 
     this.options = _.isPlainObject(options) ? options : {}
@@ -41,6 +40,10 @@ function HttpClient(options) {
 
     this.requestNodeJs = function(config) {
 
+        if (this.options.insecure === true) {
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+        }
+
         var https = this.hasOwnProperty('https') ? this.https : null;
         if (https === null) {
             https = this.https = require('https')
@@ -79,17 +82,14 @@ function HttpClient(options) {
         }
 
 
-
-        //console.log(options)
-
         return new Promise(function(resolve, reject) {
 
             var resData = []
 
             var req = https.request(options, function(res) {
                 
-             //console.log(`STATUS: ${res.statusCode}`)
-            // console.log(`HEADERS: ${JSON.stringify(res.headers)}`)
+               //console.log(`STATUS: ${res.statusCode}`)
+               //console.log(`HEADERS: ${JSON.stringify(res.headers)}`)
                // res.setEncoding('binary')
 
                 var response = {
@@ -132,8 +132,6 @@ function HttpClient(options) {
 
     this.requestXHR = function(config) {
 
-        console.log("requestXHR")
-        
         function parseResponseHeaders(headerstr) {
             var headers = {};
             var pairs = headerstr ? headerstr.split('\u000d\u000a') : []
@@ -161,8 +159,6 @@ function HttpClient(options) {
 
         return new Promise(function(resolve, reject) {
 
-            console.log("URL " + config.url)
-
             var xhr = new XMLHttpRequest()
             xhr.open(config.method.toUpperCase(), config.url, true)
             
@@ -171,7 +167,6 @@ function HttpClient(options) {
             }
 
             if (Object.keys(headers).length > 0) {
-                console.log("HEADERS: " + JSON.stringify(headers))
                 for (var k in headers) {
                     if (headers.hasOwnProperty(k)) {
                         xhr.setRequestHeader(k, headers[k])
