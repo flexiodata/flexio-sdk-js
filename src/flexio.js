@@ -61,8 +61,8 @@ var Flexio = {
     if (cfg.insecure === true)
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
-    this._http = require('axios').create(http_opts)
-    //this._http = require('./http').create(http_opts)
+    //this._http = require('axios').create(http_opts)
+    this._http = require('./http').create(http_opts)
   }
 }
 

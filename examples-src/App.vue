@@ -95,10 +95,15 @@
   import _ from 'lodash'
   import Flexio from '../src/flexio'
   import Example from './Example.vue'
-  import list_examples from './examples/list'
-  import connection_examples from './examples/connection'
-  import pipe_examples from './examples/pipe'
-  import task_examples from './examples/task'
+  //import list_examples from './examples/list'
+  //import connection_examples from './examples/connection'
+  //import pipe_examples from './examples/pipe'
+  //import task_examples from './examples/task'
+const list_examples = []
+const connection_examples = []
+const pipe_examples = []
+const task_examples = []
+
 
   var version = Flexio.version
 

@@ -6,7 +6,6 @@
   <title>Flex.io Javascript SDK Test</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.8.1/tachyons.min.css" integrity="sha256-i0Y6JXo6ZVDJM7TUXTNTB2KKeO4TFQOfMTGgm9mW0II=" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" integrity="sha256-3YM6A3pH4QFCl9WbSU8oXF5N6W/2ylvW0o2g+Z6TmLQ=" crossorigin="anonymous" />
 
   <style>
     html, body {
@@ -102,7 +101,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.min.js" integrity="sha256-Ab5a6BPGk8Sg3mpdlsHzH6khPkniIWsvEuz8Fv/s9X8=" crossorigin="anonymous"></script>
   <script src="https://cdn.rawgit.com/dzwillia/vue-simple-spinner/v1.2.5/dist/vue-simple-spinner.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
   <script src="../dist/flexio.min.js"></script>
   <script>
     Flexio.setup('crhxftrjzjdjcbfvdcqg')
@@ -173,6 +171,7 @@ Flexio.pipe()
       }
     ]
 
+/*
     Vue.directive('highlightjs', {
       deep: true,
       bind: function(el, binding) {
@@ -198,6 +197,7 @@ Flexio.pipe()
         })
       }
     })
+    */
 
     Vue.component('example', {
       props: {
@@ -253,10 +253,10 @@ Flexio.pipe()
 <div class="mv3">
   <div class="pa3 bg-near-white box-shadow">
     <h4 class="mt0">{{title}}</h4>
-    <pre class="overflow-x-auto" v-highlightjs="code_trimmed"><code class="javascript"></code></pre>
+    <pre class="overflow-x-auto"><code class="javascript">{{code_trimmed}}</code></pre>
     <div class="overflow-x-auto mt3" v-if="has_result">
       <h4 class="mt0">Output</h4>
-      <pre v-highlightjs="result"><code class="javascript"></code></pre>
+      <pre><code class="javascript">{{result}}</code></pre>
     </div>
     <div class="mt3" v-else-if="is_loading">
       <vue-simple-spinner class="dib v-mid" size="34" line-bg-color="#ddd"></vue-simple-spinner>
