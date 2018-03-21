@@ -1,11 +1,17 @@
 
+function isPlainObject(value) {
+  return Object.prototype.toString.call(value) === '[object Object]'
+}
 
-function getprop(object, path, defaultVal) {
+function getProp(object, path, defaultVal) {
   var _path = Array.isArray(path) ? path : path.replace(/(\[(\d)\])/g, '.$2').split('.').filter(function(i) { return i.length })
   if (!_path.length) {
     return object === undefined ? defaultVal : object
   }
-  return getprop(object[_path.shift()], _path, defaultVal)
+  if (!isPlainObject(object)) {
+    return defaultVal
+  }
+  return getProp(object[_path.shift()], _path, defaultVal)
 }
 
 function assign(target, options) {
@@ -37,14 +43,12 @@ function pick(src, want_array) {
 
 
 module.exports = {
-  assign:        assign,
-  pick:          pick,
-  get:           getprop,
+  isPlainObject, assign, pick, get: getProp,
+
   isString:      function(value) { return typeof value === 'string' || value instanceof String },
   isNumber:      function(value) { return !isNaN(parseFloat(value)) && isFinite(value) },
   isNil:         function(value) { return value == null },
   defaultTo:     function(value, default_value) { return (value == null || value !== value) ? default_value : value },
   last:          function(array) { const length = array == null ? 0 : array.length; return length ? array[length - 1] : undefined; },
-  isFunction:    function(value) { return value instanceof Function; },
-  isPlainObject: function(value) { return Object.prototype.toString.call(value) === '[object Object]'}
+  isFunction:    function(value) { return value instanceof Function; }
 }

@@ -1,5 +1,4 @@
 var _ = require('./lodash-local')          // import _ from 'lodash'
-var axios = require('axios')               // import axios from 'axios'
 var task = require('./task')               // import * as task from './task'
 
 var base_url = 'https://www.flex.io/api/v1'
@@ -51,7 +50,7 @@ var Flexio = {
 
   _createHttp() {
     // axios instance options with base url and auth token
-    var axios_opts = {
+    var http_opts = {
       baseURL: cfg.baseUrl,
       headers: { 'Authorization': 'Bearer ' + cfg.token }
     }
@@ -62,7 +61,8 @@ var Flexio = {
     if (cfg.insecure === true)
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
-    this._http = axios.create(axios_opts)
+    this._http = require('axios').create(http_opts)
+    //this._http = require('./http').create(http_opts)
   }
 }
 

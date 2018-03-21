@@ -144,7 +144,7 @@ module.exports.getPipesObject = function(Flexio) {
               }
 
               var http = Flexio.http()
-              http(http_config)
+              http.request(http_config)
                 .then(response => {
                   Flexio.util.debug('Process Complete.')
                   var content_type =  _.get(response, 'headers.content-type', 'text/plain')
