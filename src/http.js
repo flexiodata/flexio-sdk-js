@@ -146,11 +146,17 @@ function HttpClient(options) {
             return headers
         }
 
-        var requestData = config.data
-        var requestHeaders = config.headers
-    
-        if ((typeof FormData !== 'undefined') && (requestData instanceof FormData)) {
-            delete requestHeaders['Content-Type'] // browser will take care of setting this
+
+        var headers = _.assign({}, _.get(this.options, 'headers', {}), _.get(config, 'headers', {}))
+        var postdata = _.get(config, 'data', null)
+
+        if ((typeof FormData !== 'undefined') && (postdata instanceof FormData)) {
+            delete headers['Content-Type'] // browser will take care of setting this
+        } else {
+            if (_.isPlainObject(postdata)) {
+                postdata = JSON.stringify(postdata)
+                headers['Content-Type'] = 'application/json'
+            }
         }
 
         return new Promise(function(resolve, reject) {
@@ -161,8 +167,18 @@ function HttpClient(options) {
             xhr.open(config.method.toUpperCase(), config.url, true)
             
             if (config.responseType) {
-              //  xhr.responseType = config.responseType
+                xhr.responseType = config.responseType
             }
+
+            if (Object.keys(headers).length > 0) {
+                console.log("HEADERS: " + JSON.stringify(headers))
+                for (var k in headers) {
+                    if (headers.hasOwnProperty(k)) {
+                        xhr.setRequestHeader(k, headers[k])
+                    }
+                }
+            }
+
 
             xhr.onload = function () {
 
@@ -184,9 +200,11 @@ function HttpClient(options) {
                 }
 
                 resolve(response)
+            
+                xhr = null
             }
 
-            xhr.send(requestData)
+            xhr.send(postdata)
             // xhr.send('string');
             // xhr.send(new Blob());
             // xhr.send(new Int8Array());
