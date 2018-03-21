@@ -1,9 +1,6 @@
 var _ = require('./lodash-local')
 var util = require('./util')
 
-function bufferToArrayBuffer(buffer) {
-    return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength)
-}
 
 function HttpClient(options) {
 
@@ -43,7 +40,6 @@ function HttpClient(options) {
     }
 
     this.requestNodeJs = function(config) {
-
 
         var https = this.hasOwnProperty('https') ? this.https : null;
         if (https === null) {
@@ -99,7 +95,8 @@ function HttpClient(options) {
                 var response = {
                     status: res.statusCode,
                     statusText: res.statusMessage,
-                    headers: res.headers
+                    headers: res.headers,
+                    request: req
                 }
 
                 res.on('data', (chunk) => {
@@ -129,6 +126,65 @@ function HttpClient(options) {
             req.end(postdata)
         }) // promise
     }
+
+
+
+
+    this.requestXHR = function(config) {
+
+        console.log("requestXHR")
+        
+        function parseResponseHeaders(headerstr) {
+            var headers = {};
+            var pairs = headerstr ? headerstr.split('\u000d\u000a') : []
+            for (var i = 0, len = pairs.length; i < len; i++) {
+                var comma = pairs[i].indexOf(':');
+                if (comma > 0) {
+                    headers[pairs[i].substr(0, comma).trim()] = pairs[i].substr(comma+1).trim()
+                }
+            }
+            return headers
+        }
+
+        var requestData = config.data
+        var requestHeaders = config.headers
+    
+        if ((typeof FormData !== 'undefined') && (val instanceof FormData)) {
+            delete requestHeaders['Content-Type'] // browser will take care of setting this
+        }
+
+        return new Promise(function(resolve, reject) {
+
+            console.log("URL " + config.url)
+
+            var xhr = new XMLHttpRequest()
+            xhr.open(config.method.toUpperCase(), config.url, true)
+
+            xhr.onload = function () {
+
+                var response = {
+                    data: responseData,
+                    status: xhr.status === 1223 ? 204 : xhr.status, // IE sends 1223 instead of 204
+                    statusText: xhr.status === 1223 ? 'No Content' : xhr.statusText,
+                    headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
+                    config: config,
+                    request: xhr
+                }
+
+                resolve(response)
+            }
+
+            xhr.send(requestData)
+            // xhr.send('string');
+            // xhr.send(new Blob());
+            // xhr.send(new Int8Array());
+            // xhr.send({ form: 'data' });
+            // xhr.send(document);
+
+        }) // promise
+    }
+
+
 }
 
 
