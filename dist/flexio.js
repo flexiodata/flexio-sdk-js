@@ -7977,7 +7977,7 @@ function HttpClient(options) {
             });
 
             req.on('error', function (e) {
-                console.error('problem with request: ' + e.message);
+                reject(response);
             });
 
             req.end(postdata);
@@ -8032,17 +8032,19 @@ function HttpClient(options) {
                 }
             }
 
-            xhr.onload = function () {
-
-                var resData = !config.responseType || config.responseType === 'text' ? xhr.responseText : xhr.response;
-
-                console.log(resData);
-
+            function getResData(req) {
+                var resData = !config.responseType || config.responseType === 'text' ? req.responseText : req.response;
                 if (typeof resData === 'string') {
                     try {
                         resData = JSON.parse(resData);
                     } catch (e) {}
                 }
+                return resData;
+            }
+
+            xhr.onload = function () {
+
+                var resData = getResData(xhr);
 
                 var response = {
                     data: resData,
@@ -8054,6 +8056,24 @@ function HttpClient(options) {
                 };
 
                 resolve(response);
+
+                xhr = null;
+            };
+
+            xhr.onerror = function handleError() {
+
+                var resData = getResData(xhr);
+
+                var response = {
+                    data: resData,
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
+                    config: config,
+                    request: xhr
+                };
+
+                reject(response);
 
                 xhr = null;
             };
