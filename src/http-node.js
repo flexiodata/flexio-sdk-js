@@ -28,18 +28,10 @@ function requestNodeJs(config) {
         options.headers = headers
     }
 
-    var content_type = null
     var postdata = _.get(config, 'data', null)
-    if (_.isPlainObject(postdata)) {
-        postdata = JSON.stringify(postdata)
-        content_type = 'application/json'
-    }
     if (postdata) {
         if (!options.hasOwnProperty('headers')) {
             options.headers = {}
-        }
-        if (content_type) {
-            options.headers['Content-Type'] = content_type
         }
         options.headers['Content-Length'] = Buffer.byteLength(postdata)
     }

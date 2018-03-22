@@ -20,11 +20,6 @@ function requestXHR(config) {
 
     if ((typeof FormData !== 'undefined') && (postdata instanceof FormData)) {
         delete headers['Content-Type'] // browser will take care of setting this
-    } else {
-        if (_.isPlainObject(postdata)) {
-            postdata = JSON.stringify(postdata)
-            headers['Content-Type'] = 'application/json'
-        }
     }
 
     return new Promise(function(resolve, reject) {
