@@ -270,13 +270,12 @@ var cfg = {
 };
 
 var Flexio = {
-  version: "1.20.2",
-
   _init: function _init() {
     this.connections = __webpack_require__(29).getConnectionsObject(this);
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.20.2";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -2118,187 +2117,10 @@ function HttpClient(options) {
         params = _.assign({}, params, { url: finalurl });
 
         if (util.isNodeJs()) {
-            return this.requestNodeJs(params);
+            return __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./http-node\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).apply(this, [params]);
         } else {
-            return this.requestXHR(params);
+            return __webpack_require__(34).apply(this, [params]);
         }
-    };
-
-    this.requestNodeJs = function (config) {
-
-        if (this.options.insecure === true) {
-            process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-        }
-
-        var https = this.hasOwnProperty('https') ? this.https : null;
-        if (https === null) {
-            https = this.https = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"https\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-        }
-
-        var URL = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"url\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).URL;
-        var url = new URL(_.get(config, 'url', ''), _.get(this.options, 'baseUrl', undefined));
-
-        var options = {
-            method: config.hasOwnProperty('method') ? config.method.toUpperCase() : 'GET',
-            port: url.port ? url.port : 443,
-            host: url.hostname,
-            path: url.pathname,
-            encoding: null
-        };
-
-        var headers = _.assign({}, _.get(this.options, 'headers', {}), _.get(config, 'headers', {}));
-        if (Object.keys(headers).length > 0) {
-            options.headers = headers;
-        }
-
-        var content_type = null;
-        var postdata = _.get(config, 'data', null);
-        if (_.isPlainObject(postdata)) {
-            postdata = JSON.stringify(postdata);
-            content_type = 'application/json';
-        }
-        if (postdata) {
-            if (!options.hasOwnProperty('headers')) {
-                options.headers = {};
-            }
-            if (content_type) {
-                options.headers['Content-Type'] = content_type;
-            }
-            options.headers['Content-Length'] = Buffer.byteLength(postdata);
-        }
-
-        return new Promise(function (resolve, reject) {
-
-            var resData = [];
-
-            var req = https.request(options, function (res) {
-
-                var response = {
-                    status: res.statusCode,
-                    statusText: res.statusMessage,
-                    headers: res.headers,
-                    request: req
-                };
-
-                res.on('data', function (chunk) {
-                    resData.push(chunk);
-                });
-                res.on('end', function () {
-                    resData = Buffer.concat(resData);
-
-                    if (config.responseType !== 'arraybuffer') {
-                        resData = resData.toString(config.responseEncoding);
-                    }
-
-                    if (typeof resData === 'string') {
-                        try {
-                            resData = JSON.parse(resData);
-                        } catch (e) {}
-                    }
-                    response.data = resData;
-                    resolve(response);
-                });
-            });
-
-            req.on('error', function (e) {
-                reject(response);
-            });
-
-            req.end(postdata);
-        });
-    };
-
-    this.requestXHR = function (config) {
-
-        function parseResponseHeaders(headerstr) {
-            var headers = {};
-            var pairs = headerstr ? headerstr.split('\r\n') : [];
-            for (var i = 0, len = pairs.length; i < len; i++) {
-                var comma = pairs[i].indexOf(':');
-                if (comma > 0) {
-                    headers[pairs[i].substr(0, comma).trim()] = pairs[i].substr(comma + 1).trim();
-                }
-            }
-            return headers;
-        }
-
-        var headers = _.assign({}, _.get(this.options, 'headers', {}), _.get(config, 'headers', {}));
-        var postdata = _.get(config, 'data', null);
-
-        if (typeof FormData !== 'undefined' && postdata instanceof FormData) {
-            delete headers['Content-Type'];
-        } else {
-            if (_.isPlainObject(postdata)) {
-                postdata = JSON.stringify(postdata);
-                headers['Content-Type'] = 'application/json';
-            }
-        }
-
-        return new Promise(function (resolve, reject) {
-
-            var xhr = new XMLHttpRequest();
-            xhr.open(config.method.toUpperCase(), config.url, true);
-
-            if (config.responseType) {
-                xhr.responseType = config.responseType;
-            }
-
-            if (Object.keys(headers).length > 0) {
-                for (var k in headers) {
-                    if (headers.hasOwnProperty(k)) {
-                        xhr.setRequestHeader(k, headers[k]);
-                    }
-                }
-            }
-
-            function getResData(req) {
-                var resData = !config.responseType || config.responseType === 'text' ? req.responseText : req.response;
-                if (typeof resData === 'string') {
-                    try {
-                        resData = JSON.parse(resData);
-                    } catch (e) {}
-                }
-                return resData;
-            }
-
-            xhr.onload = function () {
-
-                var resData = getResData(xhr);
-
-                var response = {
-                    data: resData,
-                    status: xhr.status === 1223 ? 204 : xhr.status,
-                    statusText: xhr.status === 1223 ? 'No Content' : xhr.statusText,
-                    headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
-                    config: config,
-                    request: xhr
-                };
-
-                resolve(response);
-
-                xhr = null;
-            };
-
-            xhr.onerror = function handleError() {
-
-                var resData = getResData(xhr);
-
-                var response = {
-                    data: resData,
-                    status: xhr.status,
-                    statusText: xhr.statusText,
-                    headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
-                    config: config,
-                    request: xhr
-                };
-
-                reject(response);
-
-                xhr = null;
-            };
-
-            xhr.send(postdata);
-        });
     };
 }
 
@@ -2307,6 +2129,110 @@ module.exports = {
         return new HttpClient(params);
     }
 };
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _ = __webpack_require__(0);
+
+function requestXHR(config) {
+
+    function parseResponseHeaders(headerstr) {
+        var headers = {};
+        var pairs = headerstr ? headerstr.split('\r\n') : [];
+        for (var i = 0, len = pairs.length; i < len; i++) {
+            var comma = pairs[i].indexOf(':');
+            if (comma > 0) {
+                headers[pairs[i].substr(0, comma).trim()] = pairs[i].substr(comma + 1).trim();
+            }
+        }
+        return headers;
+    }
+
+    var headers = _.assign({}, _.get(this.options, 'headers', {}), _.get(config, 'headers', {}));
+    var postdata = _.get(config, 'data', null);
+
+    if (typeof FormData !== 'undefined' && postdata instanceof FormData) {
+        delete headers['Content-Type'];
+    } else {
+        if (_.isPlainObject(postdata)) {
+            postdata = JSON.stringify(postdata);
+            headers['Content-Type'] = 'application/json';
+        }
+    }
+
+    return new Promise(function (resolve, reject) {
+
+        var xhr = new XMLHttpRequest();
+        xhr.open(config.method.toUpperCase(), config.url, true);
+
+        if (config.responseType) {
+            xhr.responseType = config.responseType;
+        }
+
+        if (Object.keys(headers).length > 0) {
+            for (var k in headers) {
+                if (headers.hasOwnProperty(k)) {
+                    xhr.setRequestHeader(k, headers[k]);
+                }
+            }
+        }
+
+        function getResData(req) {
+            var resData = !config.responseType || config.responseType === 'text' ? req.responseText : req.response;
+            if (typeof resData === 'string') {
+                try {
+                    resData = JSON.parse(resData);
+                } catch (e) {}
+            }
+            return resData;
+        }
+
+        xhr.onload = function () {
+
+            var resData = getResData(xhr);
+
+            var response = {
+                data: resData,
+                status: xhr.status === 1223 ? 204 : xhr.status,
+                statusText: xhr.status === 1223 ? 'No Content' : xhr.statusText,
+                headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
+                config: config,
+                request: xhr
+            };
+
+            resolve(response);
+
+            xhr = null;
+        };
+
+        xhr.onerror = function handleError() {
+
+            var resData = getResData(xhr);
+
+            var response = {
+                data: resData,
+                status: xhr.status,
+                statusText: xhr.statusText,
+                headers: parseResponseHeaders(xhr.getAllResponseHeaders()),
+                config: config,
+                request: xhr
+            };
+
+            reject(response);
+
+            xhr = null;
+        };
+
+        xhr.send(postdata);
+    });
+}
+
+module.exports = requestXHR;
 
 /***/ })
 /******/ ])["default"];

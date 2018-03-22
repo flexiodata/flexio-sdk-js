@@ -28,7 +28,7 @@ const config = merge(base, {
     // in the node:{} structure above, but webpack will throw
     // a build error if it sees code that tries to use these modules;
     // to solve this, we just ignore requires with the following modules:
-    new webpack.IgnorePlugin(/http-node/)
+    new webpack.IgnorePlugin(/http-node|package[.]json/)
   ]
 })
 
