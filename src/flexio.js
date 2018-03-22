@@ -13,7 +13,7 @@ var cfg = {
 
 var Flexio = {
   // see `../build/webpack.dist.js`
-  version: require('../package.json').version,
+  version: VERSION,
 
   _init() {
     this.connections = require('./connections').getConnectionsObject(this)
