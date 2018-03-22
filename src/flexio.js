@@ -13,13 +13,14 @@ var cfg = {
 
 var Flexio = {
   // see `../build/webpack.dist.js`
-  version: VERSION,
 
   _init() {
     this.connections = require('./connections').getConnectionsObject(this)
     this.pipes = require('./pipes').getPipesObject(this)
     this.util = require('./util').getUtilObject(this)
     this._http = null
+    this.version = (this.util.isNodeJs() ? require('../package.json').version : VERSION)
+
 
     var getPipeConstructor = require('./pipe').getPipeConstructor
     this.pipe = getPipeConstructor(this)
