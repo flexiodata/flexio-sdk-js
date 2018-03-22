@@ -2083,6 +2083,8 @@ module.exports.getConnectionConstructor = function (Flexio) {
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _ = __webpack_require__(0);
 var util = __webpack_require__(1);
 
@@ -2098,11 +2100,19 @@ function HttpClient(options) {
         return this.request(_.assign(config || {}, { method: 'GET', url: url }));
     };
 
-    this.request = function (params) {
+    this.isFormData = function (val) {
+        return typeof FormData !== 'undefined' && val instanceof FormData;
+    };
+
+    this.isBlob = function (val) {
+        return typeof Blob !== 'undefined' && val instanceof Blob;
+    };
+
+    this.request = function (config) {
 
         var finalurl = _.get(this.options, 'baseURL', '');
 
-        var url = _.get(params, 'url', '');
+        var url = _.get(config, 'url', '');
 
         if (url.indexOf('://') != -1) {
             finalurl = url;
@@ -2114,12 +2124,23 @@ function HttpClient(options) {
             finalurl += url;
         }
 
-        params = _.assign({}, params, { url: finalurl });
+        config = _.assign({}, config, { url: finalurl });
+
+        var data = _.get(config, 'data', null);
+        if (this.isFormData(data) || this.isBlob(data) || data instanceof ArrayBuffer) {} else if (data !== null && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
+            config.data = JSON.stringify(data);
+            if (!config.hasOwnProperty('headers')) {
+                config.headers = {};
+            }
+            if (!config.headers.hasOwnProperty('Content-Type')) {
+                config.headers['Content-Type'] = 'application/json';
+            }
+        }
 
         if (util.isNodeJs()) {
-            return __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./http-node\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).apply(this, [params]);
+            return __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./http-node\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).apply(this, [config]);
         } else {
-            return __webpack_require__(34).apply(this, [params]);
+            return __webpack_require__(34).apply(this, [config]);
         }
     };
 }
@@ -2158,11 +2179,6 @@ function requestXHR(config) {
 
     if (typeof FormData !== 'undefined' && postdata instanceof FormData) {
         delete headers['Content-Type'];
-    } else {
-        if (_.isPlainObject(postdata)) {
-            postdata = JSON.stringify(postdata);
-            headers['Content-Type'] = 'application/json';
-        }
     }
 
     return new Promise(function (resolve, reject) {
