@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.21.2 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.21.3 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -95,7 +95,7 @@ function getProp(object, path, defaultVal) {
   if (!_path.length) {
     return object === undefined ? defaultVal : object;
   }
-  if (!isPlainObject(object)) {
+  if (!isPlainObject(object) && !Array.isArray(object)) {
     return defaultVal;
   }
   return getProp(object[_path.shift()], _path, defaultVal);
@@ -276,7 +276,7 @@ var Flexio = {
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.21.2";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.21.3";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -729,24 +729,24 @@ var getJsExport = function getJsExport(f) {
 
 var execute = function execute() {
   var args = Array.from(arguments);
-  var param0 = _.get(args, '[0]', null);
-  var param1 = _.get(args, '[1]', null);
-  var param2 = _.get(args, '[2]', null);
+  var param0 = _.get(args, '[0]');
+  var param1 = _.get(args, '[1]');
+  var param2 = _.get(args, '[2]');
   var lang, code, check;
-
   var params = {};
 
   if (param0 == 'python' || param0 == 'javascript') {
     lang = param0;
     code = param1;
-    if (code === null || code === undefined) {
-      code = '';
-    }
     check = param2;
   } else {
     lang = 'javascript';
     code = param0;
     check = param1;
+  }
+
+  if (!code) {
+    code = '';
   }
 
   if (lang == 'javascript') {
@@ -762,7 +762,7 @@ var execute = function execute() {
     params.code = toBase64(code);
   }
 
-  if (check !== null) {
+  if (check) {
     params.integrity = check;
   }
 
@@ -800,6 +800,7 @@ var toCode = function toCode(json) {
 
     case 'python':
       return 'python(`\n' + code + '\n`)';
+
     default:
       return 'execute(' + JSON.stringify(lang) + ', `\n' + code + '\n`)';
   }
