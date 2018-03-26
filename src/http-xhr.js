@@ -91,6 +91,7 @@ function requestXHR(config) {
             xhr = null
         }
 
+        console.log(postdata)
         xhr.send(postdata)
 
         // xhr.send('string');

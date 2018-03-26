@@ -4,10 +4,10 @@ test('Flexio.task.echo; test posting JSON data', async () => {
 
   var pipe = Flexio.pipe()
                    .javascript(function(context) {
-                      context.output.write('Hello ' + context.form.name + '!')
+                      context.output.write('Hello ' + context.query.name + '!')
                    })
 
-  var response = await pipe.run({ data: { name: 'World' } })
+  var response = await pipe.run({ query: { name: 'World' } })
   var result = response.text
 
   expect(result).toEqual("Hello World!")
