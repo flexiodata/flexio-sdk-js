@@ -1,34 +1,6 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
-var isNodeJs = function() {
-  return (typeof process !== 'undefined')
-}
-
-var toBase64 = function(str) {
-  try {
-    if (isNodeJs()) {
-      return Buffer(str,'utf8').toString('base64')
-    } else {
-      return btoa(unescape(encodeURIComponent(str)))
-    }
-  }
-  catch(e) {
-    return e
-  }
-}
-
-var fromBase64 = function(str) {
-  try {
-    if (isNodeJs()) {
-      return Buffer.from(str, 'base64').toString('utf8')
-    } else {
-      return decodeURIComponent(escape(atob(str)))
-    }
-  }
-  catch(e) {
-    return e
-  }
-}
 
 var getJsFunctionBody = function(f) {
   var body
@@ -127,7 +99,7 @@ var execute = function() {
   }
   else
   {
-    params.code = toBase64(code)
+    params.code = util.toBase64(code)
   }
 
   if (check) {
@@ -157,7 +129,7 @@ var python = function() {
 var toCode = function(json) {
   var params = _.get(json, 'params', {})
   var lang = params.lang || ''
-  var code = fromBase64(params.code || '')
+  var code = util.fromBase64(params.code || '')
 
   // TODO: we need to handle 'path' and 'integrity'
   switch (lang)

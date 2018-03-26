@@ -15,6 +15,33 @@ util.isNodeJs = function() {
   return (Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]')
 }
 
+util.toBase64 = function(str) {
+  try {
+    if (util.isNodeJs()) {
+      return Buffer(str,'utf8').toString('base64')
+    } else {
+      return btoa(unescape(encodeURIComponent(str)))
+    }
+  }
+  catch(e) {
+    return e
+  }
+}
+
+util.fromBase64 = function(str) {
+  try {
+    if (util.isNodeJs()) {
+      return Buffer.from(str, 'base64').toString('utf8')
+    } else {
+      return decodeURIComponent(escape(atob(str)))
+    }
+  }
+  catch(e) {
+    return e
+  }
+}
+
+
 util.arrayBufferToString = function(buf) {
 
   if (this.isNodeJs()) {
