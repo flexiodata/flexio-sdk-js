@@ -28,6 +28,11 @@ function requestNodeJs(config) {
         options.headers = headers
     }
 
+    if (config.params) {
+        var qs = require('querystring').stringify(config.params)
+        options.path += (options.path.indexOf('?') < 0 ? '?'+qs:'&'+qs)
+    }
+
     var postdata = _.get(config, 'data', null)
     if (postdata) {
         if (!options.hasOwnProperty('headers')) {
