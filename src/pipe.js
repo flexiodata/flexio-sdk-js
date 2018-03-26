@@ -164,6 +164,18 @@ return function(pipeconstruct_param) {
     so we do this...
   */
 
+ for (var task_name in Flexio.task) {
+
+    (function(task_name, task_func){
+      if (Flexio.task.hasOwnProperty(task_name) && task_name != 'toCode') {
+        pipeobj[task_name] = function() {
+          return pipeobj.addTask(task_func.apply(pipeobj, arguments))
+        }
+      }
+    })(task_name, Flexio.task[task_name])
+
+  }
+  /*
   var forEachTask = function(callback) {
     for (var task_name in Flexio.task) {
       if (Flexio.task.hasOwnProperty(task_name) && task_name != 'toCode') {
@@ -175,6 +187,8 @@ return function(pipeconstruct_param) {
   forEachTask(function(task_name, task_func) {
       pipeobj[task_name] = function() { return pipeobj.addTask(task_func.apply(pipeobj, arguments)) }
   })
+*/
+
 
 
 /*

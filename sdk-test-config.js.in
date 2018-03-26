@@ -6,7 +6,14 @@
 // 3) You can now run "yarn test"
 
 
-
-module.exports = {
+var config = {
+    //host: 'OPTIONAL-HOST',
     apikey: 'TESTING-API-KEY-HERE'
 }
+
+
+var Flexio = require('./src/flexio.js')
+var apikey = config.apikey
+delete config.api
+Flexio.setup(apikey, config)
+module.exports = Flexio
