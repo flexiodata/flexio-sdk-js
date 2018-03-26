@@ -2105,6 +2105,10 @@ function HttpClient(options) {
         return typeof Blob !== 'undefined' && val instanceof Blob;
     };
 
+    this.isStream = function (val) {
+        return val !== null && (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && typeof val.pipe === 'function';
+    };
+
     this.request = function (config) {
 
         var finalurl = _.get(this.options, 'baseURL', '');
@@ -2124,7 +2128,8 @@ function HttpClient(options) {
         config = _.assign({}, config, { url: finalurl });
 
         var data = _.get(config, 'data', null);
-        if (this.isFormData(data) || this.isBlob(data) || data instanceof ArrayBuffer) {} else if (data !== null && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
+
+        if (this.isFormData(data) || this.isBlob(data) || this.isStream(data) || data instanceof ArrayBuffer) {} else if (data !== null && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
             config.data = JSON.stringify(data);
             if (!config.hasOwnProperty('headers')) {
                 config.headers = {};
