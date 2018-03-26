@@ -87,11 +87,10 @@ var getJsExport = function(f) {
 // task definition function
 var execute = function() {
   var args = Array.from(arguments)
-  var param0 = _.get(args, '[0]', null)
-  var param1 = _.get(args, '[1]', null)
-  var param2 = _.get(args, '[2]', null)
+  var param0 = _.get(args, '[0]')
+  var param1 = _.get(args, '[1]')
+  var param2 = _.get(args, '[2]')
   var lang, code, check
-
   var params = {}
 
   // allow for flexible parameters
@@ -99,9 +98,6 @@ var execute = function() {
   {
     lang = param0
     code = param1
-    if (code === null || code === undefined) {
-     code = ''
-    }
     check = param2
   }
    else
@@ -110,6 +106,10 @@ var execute = function() {
     lang = 'javascript'
     code = param0
     check = param1
+  }
+
+  if (!code) {
+    code = ''
   }
 
   if (lang == 'javascript') {
@@ -130,7 +130,7 @@ var execute = function() {
     params.code = toBase64(code)
   }
 
-  if (check !== null) {
+  if (check) {
     params.integrity = check
   }
 
@@ -172,6 +172,7 @@ var toCode = function(json) {
 
     case 'python':
       return 'python(`\n' + code + '\n`)'
+    
     default:
       return 'execute(' + JSON.stringify(lang) + ', `\n' + code + '\n`)'
   }
