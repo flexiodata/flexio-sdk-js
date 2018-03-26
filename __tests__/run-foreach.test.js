@@ -1,4 +1,4 @@
-var Flexio = require('../src/main.js')
+var Flexio = require('../sdk-test-config')
 
 
 test('A.1. Pipe execution; for loop receiving information from post stdin json', async () => {

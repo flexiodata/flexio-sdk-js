@@ -1,7 +1,4 @@
-var Flexio = require('../src/main.js')
-
-
-Flexio.setup(require('../sdk-test-config.js').apikey)
+var Flexio = require('../sdk-test-config')
 
 test('Flexio.pipes.list', (done) => {
 

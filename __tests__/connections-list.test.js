@@ -1,9 +1,7 @@
-var Flexio = require('../src/main.js')
+var Flexio = require('../sdk-test-config')
 
 
-Flexio.setup(require('../sdk-test-config.js').apikey)
-
-test('Flexio.connection.list', (done) => {
+test('Flexio.connections.list', (done) => {
 
   Flexio.connections.list().then((connections) => {
 

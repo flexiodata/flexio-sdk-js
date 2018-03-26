@@ -1,5 +1,4 @@
-var Flexio = require('../src/main.js')
-
+var Flexio = require('../sdk-test-config')
 
 test('Flexio.task.echo; code to object', async () => {
 
