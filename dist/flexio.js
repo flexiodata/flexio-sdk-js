@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.21.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.21.2 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -271,11 +271,12 @@ var cfg = {
 
 var Flexio = {
   _init: function _init() {
+
     this.connections = __webpack_require__(29).getConnectionsObject(this);
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.21.1";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.21.2";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1780,19 +1781,17 @@ module.exports.getPipeConstructor = function (Flexio) {
       }
     });
 
-    var forEachTask = function forEachTask(callback) {
-      for (var task_name in Flexio.task) {
-        if (Flexio.task.hasOwnProperty(task_name) && task_name != 'toCode') {
-          callback(task_name, Flexio.task[task_name]);
-        }
-      }
-    };
+    for (var task_name in Flexio.task) {
 
-    forEachTask(function (task_name, task_func) {
-      pipeobj[task_name] = function () {
-        return pipeobj.addTask(task_func.apply(pipeobj, arguments));
-      };
-    });
+      (function (task_name, task_func) {
+        if (Flexio.task.hasOwnProperty(task_name) && task_name != 'toCode') {
+          pipeobj[task_name] = function () {
+            return pipeobj.addTask(task_func.apply(pipeobj, arguments));
+          };
+        }
+      })(task_name, Flexio.task[task_name]);
+    }
+
 
     if (pipeconstruct_param !== undefined) {
       if (typeof pipeconstruct_param === 'string' || pipeconstruct_param instanceof String) {
