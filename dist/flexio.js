@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.21.3 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.21.4 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -176,6 +176,30 @@ util.isNodeJs = function () {
   return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
 };
 
+util.toBase64 = function (str) {
+  try {
+    if (util.isNodeJs()) {
+      return Buffer(str, 'utf8').toString('base64');
+    } else {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+  } catch (e) {
+    return e;
+  }
+};
+
+util.fromBase64 = function (str) {
+  try {
+    if (util.isNodeJs()) {
+      return Buffer.from(str, 'base64').toString('utf8');
+    } else {
+      return decodeURIComponent(escape(atob(str)));
+    }
+  } catch (e) {
+    return e;
+  }
+};
+
 util.arrayBufferToString = function (buf) {
 
   if (this.isNodeJs()) {
@@ -276,7 +300,7 @@ var Flexio = {
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.21.3";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.21.4";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -658,34 +682,7 @@ module.exports = email;
 
 
 var _ = __webpack_require__(0);
-
-var isNodeJs = function isNodeJs() {
-  return typeof process !== 'undefined';
-};
-
-var toBase64 = function toBase64(str) {
-  try {
-    if (isNodeJs()) {
-      return Buffer(str, 'utf8').toString('base64');
-    } else {
-      return btoa(unescape(encodeURIComponent(str)));
-    }
-  } catch (e) {
-    return e;
-  }
-};
-
-var fromBase64 = function fromBase64(str) {
-  try {
-    if (isNodeJs()) {
-      return Buffer.from(str, 'base64').toString('utf8');
-    } else {
-      return decodeURIComponent(escape(atob(str)));
-    }
-  } catch (e) {
-    return e;
-  }
-};
+var util = __webpack_require__(1);
 
 var getJsFunctionBody = function getJsFunctionBody(f) {
   var body;
@@ -759,7 +756,7 @@ var execute = function execute() {
   if (code.match(http_regex)) {
     params.path = code;
   } else {
-    params.code = toBase64(code);
+    params.code = util.toBase64(code);
   }
 
   if (check) {
@@ -787,7 +784,7 @@ var python = function python() {
 var toCode = function toCode(json) {
   var params = _.get(json, 'params', {});
   var lang = params.lang || '';
-  var code = fromBase64(params.code || '');
+  var code = util.fromBase64(params.code || '');
 
   switch (lang) {
     case 'javascript':
