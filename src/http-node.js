@@ -75,6 +75,14 @@ function requestNodeJs(config) {
         })
 
         req.on('error', (e) => {
+            
+            var response = {
+                status: null,
+                statusText: e.code,
+                headers: {},
+                request: req
+            }
+
             reject(response)
         })
         
