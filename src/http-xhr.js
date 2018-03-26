@@ -22,10 +22,18 @@ function requestXHR(config) {
         delete headers['Content-Type'] // browser will take care of setting this
     }
 
+    var url = config.url
+    if (config.params) {
+        var qs = Object.keys(config.params).map(
+            function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(config.params[k]) }
+        ).join('&')
+        url += (url.indexOf('?') < 0 ? '?'+qs:'&'+qs)
+    }
+
     return new Promise(function(resolve, reject) {
 
         var xhr = new XMLHttpRequest()
-        xhr.open(config.method.toUpperCase(), config.url, true)
+        xhr.open(config.method.toUpperCase(), url, true)
         
         if (config.responseType) {
             xhr.responseType = config.responseType
