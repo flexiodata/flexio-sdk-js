@@ -40,6 +40,7 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "deep-assign": "^2.0.0",
+    "form-data": "^2.3.2",
     "jest": "^22.4.2",
     "vue": "^2.4.4",
     "vue-loader": "^13.0.4",

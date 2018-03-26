@@ -7,6 +7,7 @@ function requestNodeJs(config) {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
     }
 
+    var pThis = this
     var https = this.hasOwnProperty('https') ? this.https : null;
     if (https === null) {
         https = this.https = require('https')
@@ -38,7 +39,13 @@ function requestNodeJs(config) {
         if (!options.hasOwnProperty('headers')) {
             options.headers = {}
         }
-        options.headers['Content-Length'] = Buffer.byteLength(postdata)
+        if (this.isStream(postdata)) {
+            if (typeof postdata.getHeaders === 'function') {
+                _.assign(options.headers, postdata.getHeaders())
+            }
+        } else {
+            options.headers['Content-Length'] = Buffer.byteLength(postdata)
+        }
     }
 
 
@@ -91,7 +98,12 @@ function requestNodeJs(config) {
             reject(response)
         })
         
-        req.end(postdata)
+        if (pThis.isStream(postdata)) {
+            postdata.pipe(req)
+        } else {
+            req.end(postdata)
+        }
+
     }) // promise
 }
 

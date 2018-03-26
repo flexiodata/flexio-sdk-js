@@ -21,6 +21,10 @@ function HttpClient(options) {
         return (typeof Blob !== 'undefined') && (val instanceof Blob)
     }
 
+    this.isStream = function(val) {
+        return val !== null && typeof val === 'object' && typeof val.pipe === 'function'
+    }
+
     this.request = function(config) {
 
         var finalurl = _.get(this.options, 'baseURL', '')
@@ -42,7 +46,8 @@ function HttpClient(options) {
 
 
         var data = _.get(config, 'data', null)
-        if (this.isFormData(data) || this.isBlob(data) || data instanceof ArrayBuffer)
+
+        if (this.isFormData(data) || this.isBlob(data) || this.isStream(data) || data instanceof ArrayBuffer)
         {}
         else if (data !== null && typeof data === 'object')
         {
