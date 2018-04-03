@@ -1,14 +1,7 @@
 var _ = require('./lodash-local')          // import _ from 'lodash'
 var task = require('./task')               // import * as task from './task'
 
-var base_url = 'https://www.flex.io/api/v1'
 
-var cfg = {
-  token: '',
-  baseUrl: 'https://www.flex.io/api/v1',
-  insecure: false,
-  debug: false
-}
 
 
 var Flexio = {
@@ -16,6 +9,13 @@ var Flexio = {
 
   _init() {
 
+    this.config = {
+      token: '',
+      host: 'api.flex.io',
+      insecure: false,
+      debug: false
+    }
+    
     this.connections = require('./connections').getConnectionsObject(this)
     this.pipes = require('./pipes').getPipesObject(this)
     this.util = require('./util').getUtilObject(this)
@@ -31,14 +31,18 @@ var Flexio = {
   },
 
   setup(token, params) {
-    cfg = _.assign(cfg, { token }, params)
+    _.assign(this.config, { token }, params)
     this._http = null
     this._createHttp()
     return this
   },
 
   getConfig() {
-    return _.assign({}, cfg)
+    if (!this.config.baseUrl) {
+      baseUrl = 'https://' + this.config.host + '/v1'
+      _.assign(this.config, { baseUrl })
+    }
+    return _.assign({}, this.config)
   },
 
   http() {
@@ -52,6 +56,8 @@ var Flexio = {
 
   _createHttp() {
     // axios instance options with base url and auth token
+    var cfg = this.getConfig()
+
     var http_opts = {
       baseURL: cfg.baseUrl,
       headers: { 'Authorization': 'Bearer ' + cfg.token },
