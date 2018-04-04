@@ -69,7 +69,7 @@ return function(pipeconstruct_param) {
       this.loading = true
       Flexio.util.debug('Loading Pipe `' + identifier + '`...')
 
-      Flexio.http().get('/pipes/' + identifier)
+      Flexio.http().get('/me/pipes/' + identifier)
         .then(response => {
           var obj = _.get(response, 'data', {})
           this.pipe = _.assign({}, obj)
@@ -110,7 +110,7 @@ return function(pipeconstruct_param) {
       this.saving = true
       Flexio.util.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...')
 
-      Flexio.http().post('/pipes', this.pipe)
+      Flexio.http().post('/me/pipes', this.pipe)
         .then(response => {
           var pipe = _.get(response, 'data', {})
           this.pipe = _.assign({}, pipe)

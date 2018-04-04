@@ -214,7 +214,7 @@ return function() {
       this.loading = true
       Flexio.util.debug('Loading Connection `' + identifier + '`...')
 
-      Flexio.http().get('/connections/' + identifier)
+      Flexio.http().get('/me/connections/' + identifier)
         .then(response => {
           var connection = _.get(response, 'data', {})
           this.connection = _.assign({}, connection)
@@ -255,7 +255,7 @@ return function() {
       this.saving = true
       Flexio.util.debug('Saving Connection `' + _.get(this.connection, 'name', 'Untitled Connection') + '`...')
 
-      Flexio.http().post('/connections', this.connection)
+      Flexio.http().post('/me/connections', this.connection)
         .then(response => {
           var connection = _.get(response, 'data', {})
           this.connection = _.assign({}, connection)

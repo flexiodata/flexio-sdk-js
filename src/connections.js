@@ -19,7 +19,7 @@ module.exports.getConnectionsObject = function(Flexio) {
       }
 
       return new Promise((resolve, reject) => {
-        Flexio.http().post('/connections', data)
+        Flexio.http().post('/me/connections', data)
         .then(response => {
           Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback)
         })
@@ -36,7 +36,7 @@ module.exports.getConnectionsObject = function(Flexio) {
 
       return new Promise((resolve, reject) => {
         Flexio.util.debug('Requesting Connections...')
-        Flexio.http().get('/connections')
+        Flexio.http().get('/me/connections')
         .then(response => {
           var items = _.get(response, 'data', [])
           Flexio.util.debug('Success!')

@@ -39,7 +39,7 @@ var Flexio = {
 
   getConfig() {
     if (!this.config.baseUrl) {
-      baseUrl = 'https://' + this.config.host + '/v1'
+      var baseUrl = 'https://' + this.config.host + '/v1'
       _.assign(this.config, { baseUrl })
     }
     return _.assign({}, this.config)

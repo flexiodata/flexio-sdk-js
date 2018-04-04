@@ -19,7 +19,7 @@ module.exports.getPipesObject = function(Flexio) {
       }
 
       return new Promise((resolve, reject) => {
-        Flexio.http().post('/pipes', data)
+        Flexio.http().post('/me/pipes', data)
         .then(response => {
           Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback)
         })
@@ -37,7 +37,7 @@ module.exports.getPipesObject = function(Flexio) {
       return new Promise((resolve, reject) => {
         Flexio.util.debug('Requesting Pipes...')
 
-        Flexio.http().get('/pipes')
+        Flexio.http().get('/me/pipes')
         .then(response => {
           var items = _.get(response, 'data', [])
           Flexio.util.debug('Success!')
@@ -123,7 +123,7 @@ module.exports.getPipesObject = function(Flexio) {
             process_mode: 'R'
           }
 
-          Flexio.http().post('/processes', create_params)
+          Flexio.http().post('/me/processes', create_params)
             .then(response => {
               var obj = _.get(response, 'data', {})
               var process_eid = _.get(obj, 'eid', '')
@@ -131,7 +131,7 @@ module.exports.getPipesObject = function(Flexio) {
 
               var http_config = {
                 method: 'post',
-                url: '/processes/'+process_eid+'/run',
+                url: '/me/processes/'+process_eid+'/run',
                 responseType: 'arraybuffer'
               }
 
@@ -169,7 +169,7 @@ module.exports.getPipesObject = function(Flexio) {
 
           var http_config = {
             method: 'post',
-            url: '/pipes/'+pipe_identifier+'/run',
+            url: '/me/pipes/'+pipe_identifier+'/run',
             responseType: 'arraybuffer'
           }
         
