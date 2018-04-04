@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.22.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.23.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -284,23 +284,21 @@ exports.default = Flexio;
 var _ = __webpack_require__(0);
 var task = __webpack_require__(4);
 
-var base_url = 'https://www.flex.io/api/v1';
-
-var cfg = {
-  token: '',
-  baseUrl: 'https://www.flex.io/api/v1',
-  insecure: false,
-  debug: false
-};
-
 var Flexio = {
   _init: function _init() {
+
+    this.config = {
+      token: '',
+      host: 'api.flex.io',
+      insecure: false,
+      debug: false
+    };
 
     this.connections = __webpack_require__(29).getConnectionsObject(this);
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.22.0";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.0";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -309,13 +307,17 @@ var Flexio = {
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
-    cfg = _.assign(cfg, { token: token }, params);
+    _.assign(this.config, { token: token }, params);
     this._http = null;
     this._createHttp();
     return this;
   },
   getConfig: function getConfig() {
-    return _.assign({}, cfg);
+    if (!this.config.baseUrl) {
+      var baseUrl = 'https://' + this.config.host + '/v1';
+      _.assign(this.config, { baseUrl: baseUrl });
+    }
+    return _.assign({}, this.config);
   },
   http: function http() {
     if (!this._http) this._createHttp();
@@ -327,6 +329,8 @@ var Flexio = {
   task: task,
 
   _createHttp: function _createHttp() {
+    var cfg = this.getConfig();
+
     var http_opts = {
       baseURL: cfg.baseUrl,
       headers: { 'Authorization': 'Bearer ' + cfg.token },
@@ -1411,7 +1415,7 @@ module.exports.getConnectionsObject = function (Flexio) {
       }
 
       return new Promise(function (resolve, reject) {
-        Flexio.http().post('/connections', data).then(function (response) {
+        Flexio.http().post('/me/connections', data).then(function (response) {
           Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback);
         }).catch(function (error) {
           Flexio.util.debug('Flexio.connections.create(): Failed.');
@@ -1426,7 +1430,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 
       return new Promise(function (resolve, reject) {
         Flexio.util.debug('Requesting Connections...');
-        Flexio.http().get('/connections').then(function (response) {
+        Flexio.http().get('/me/connections').then(function (response) {
           var items = _.get(response, 'data', []);
           Flexio.util.debug('Success!');
           Flexio.util.callbackAdapter(null, items, resolve, reject, callback);
@@ -1465,7 +1469,7 @@ module.exports.getPipesObject = function (Flexio) {
       }
 
       return new Promise(function (resolve, reject) {
-        Flexio.http().post('/pipes', data).then(function (response) {
+        Flexio.http().post('/me/pipes', data).then(function (response) {
           Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback);
         }).catch(function (error) {
           Flexio.util.debug('Flexio.pipes.create(): Failed.');
@@ -1481,7 +1485,7 @@ module.exports.getPipesObject = function (Flexio) {
       return new Promise(function (resolve, reject) {
         Flexio.util.debug('Requesting Pipes...');
 
-        Flexio.http().get('/pipes').then(function (response) {
+        Flexio.http().get('/me/pipes').then(function (response) {
           var items = _.get(response, 'data', []);
           Flexio.util.debug('Success!');
           Flexio.util.callbackAdapter(null, items, resolve, reject, callback);
@@ -1557,14 +1561,14 @@ module.exports.getPipesObject = function (Flexio) {
             process_mode: 'R'
           };
 
-          Flexio.http().post('/processes', create_params).then(function (response) {
+          Flexio.http().post('/me/processes', create_params).then(function (response) {
             var obj = _.get(response, 'data', {});
             var process_eid = _.get(obj, 'eid', '');
             Flexio.util.debug('Created Process.');
 
             var http_config = {
               method: 'post',
-              url: '/processes/' + process_eid + '/run',
+              url: '/me/processes/' + process_eid + '/run',
               responseType: 'arraybuffer'
             };
 
@@ -1594,7 +1598,7 @@ module.exports.getPipesObject = function (Flexio) {
 
           var http_config = {
             method: 'post',
-            url: '/pipes/' + pipe_identifier + '/run',
+            url: '/me/pipes/' + pipe_identifier + '/run',
             responseType: 'arraybuffer'
           };
 
@@ -1707,7 +1711,7 @@ module.exports.getPipeConstructor = function (Flexio) {
         this.loading = true;
         Flexio.util.debug('Loading Pipe `' + identifier + '`...');
 
-        Flexio.http().get('/pipes/' + identifier).then(function (response) {
+        Flexio.http().get('/me/pipes/' + identifier).then(function (response) {
           var obj = _.get(response, 'data', {});
           _this.pipe = _.assign({}, obj);
           _this.loading = false;
@@ -1746,7 +1750,7 @@ module.exports.getPipeConstructor = function (Flexio) {
         this.saving = true;
         Flexio.util.debug('Saving Pipe `' + _.get(this.pipe, 'name', 'Untitled Pipe') + '`...');
 
-        Flexio.http().post('/pipes', this.pipe).then(function (response) {
+        Flexio.http().post('/me/pipes', this.pipe).then(function (response) {
           var pipe = _.get(response, 'data', {});
           _this2.pipe = _.assign({}, pipe);
           _this2.saving = false;
@@ -2002,7 +2006,7 @@ module.exports.getConnectionConstructor = function (Flexio) {
         this.loading = true;
         Flexio.util.debug('Loading Connection `' + identifier + '`...');
 
-        Flexio.http().get('/connections/' + identifier).then(function (response) {
+        Flexio.http().get('/me/connections/' + identifier).then(function (response) {
           var connection = _.get(response, 'data', {});
           _this.connection = _.assign({}, connection);
           _this.loading = false;
@@ -2041,7 +2045,7 @@ module.exports.getConnectionConstructor = function (Flexio) {
         this.saving = true;
         Flexio.util.debug('Saving Connection `' + _.get(this.connection, 'name', 'Untitled Connection') + '`...');
 
-        Flexio.http().post('/connections', this.connection).then(function (response) {
+        Flexio.http().post('/me/connections', this.connection).then(function (response) {
           var connection = _.get(response, 'data', {});
           _this2.connection = _.assign({}, connection);
           _this2.saving = false;
