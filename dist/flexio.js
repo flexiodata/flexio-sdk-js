@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.23.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.23.1 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -149,6 +149,9 @@ module.exports = {
   },
   isFunction: function isFunction(value) {
     return value instanceof Function;
+  },
+  has: function has(obj, value) {
+    return obj.hasOwnProperty(value);
   }
 };
 
@@ -298,7 +301,7 @@ var Flexio = {
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.0";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.1";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1355,9 +1358,12 @@ var transform = function transform(value) {
 };
 
 transform.toCode = function (json, Flexio) {
-  var params = json.hasOwnProperty('params') ? json.params : {};
-  if (!params.hasOwnProperty('columns') && params.hasOwnProperty('operations') && Array.isArray(params.operations) && params.operations.length == 1) return "transform(" + JSON.stringify(params.operations[0]) + ")";
-  return "transform(" + JSON.stringify(params) + ")";
+  var params = _.get(json, 'params', {});
+  if (!_.has(params, 'columns') && _.has(params, 'operations') && Array.isArray(params.operations) && params.operations.length == 1) {
+    return "transform(" + JSON.stringify(params.operations[0]) + ")";
+  } else {
+    return "transform(" + JSON.stringify(params) + ")";
+  }
 };
 
 module.exports = transform;
