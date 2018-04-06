@@ -43,7 +43,14 @@ function HttpClient(options) {
 
         config = _.assign({}, config, { url: finalurl })
 
-
+        function setContentTypeNotSet(value) {
+            if (!_.has(config,'headers')) {
+                config.headers = {}
+            }
+            if (!_.has(config.headers,'Content-Type')) {
+                config.headers['Content-Type'] = value
+            }
+        }
 
         var data = _.get(config, 'data', null)
 
@@ -52,14 +59,15 @@ function HttpClient(options) {
         else if (data !== null && typeof data === 'object')
         {
             config.data = JSON.stringify(data)
-            if (!config.hasOwnProperty('headers')) {
-                config.headers = {}
-            }
-            if (!config.headers.hasOwnProperty('Content-Type')) {
-                config.headers['Content-Type'] = 'application/json'
+            setContentTypeNotSet('application/json')
+        }
+        else
+        {
+            var m = _.get(config,'method','').toUpperCase()
+            if (m == 'POST' || m == 'PUT' || m == 'PATCH') {
+                setContentTypeNotSet('application/x-www-form-urlencoded')
             }
         }
-
 
         if (util.isNodeJs()) {
             return require('./http-node').apply(this, [ config ])
