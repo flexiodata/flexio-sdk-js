@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.23.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.23.2 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -301,7 +301,7 @@ var Flexio = {
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.1";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.2";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -2137,15 +2137,24 @@ function HttpClient(options) {
 
         config = _.assign({}, config, { url: finalurl });
 
+        function setContentTypeNotSet(value) {
+            if (!_.has(config, 'headers')) {
+                config.headers = {};
+            }
+            if (!_.has(config.headers, 'Content-Type')) {
+                config.headers['Content-Type'] = value;
+            }
+        }
+
         var data = _.get(config, 'data', null);
 
         if (this.isFormData(data) || this.isBlob(data) || this.isStream(data) || data instanceof ArrayBuffer) {} else if (data !== null && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
             config.data = JSON.stringify(data);
-            if (!config.hasOwnProperty('headers')) {
-                config.headers = {};
-            }
-            if (!config.headers.hasOwnProperty('Content-Type')) {
-                config.headers['Content-Type'] = 'application/json';
+            setContentTypeNotSet('application/json');
+        } else {
+            var m = _.get(config, 'method', '').toUpperCase();
+            if (m == 'POST' || m == 'PUT' || m == 'PATCH') {
+                setContentTypeNotSet('application/x-www-form-urlencoded');
             }
         }
 
