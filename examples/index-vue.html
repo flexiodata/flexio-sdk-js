@@ -111,7 +111,7 @@
         title: 'List connections (Console)',
         fn: (successCb, errorCb) => {
           var connections = Flexio.connections().load(function() {
-            var result = connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+            var result = connections.list({ format: 'list', keys: ['eid', 'alias', 'name', 'description'] })
             successCb(result)
           }, function() {
             errorCb()
@@ -119,14 +119,14 @@
         },
         code: `
 var connections = Flexio.connections().load(function() {
-  connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+  connections.list({ format: 'list', keys: ['eid', 'alias', 'name', 'description'] })
 })`,
       },
       {
         title: 'List connections (JSON)',
         fn: (successCb, errorCb) => {
           var connections = Flexio.connections().load(function() {
-            var result = connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
+            var result = connections.list({ format: 'json', keys: ['eid', 'alias', 'name', 'description'] })
             successCb(result)
           }, function() {
             errorCb()
@@ -134,7 +134,7 @@ var connections = Flexio.connections().load(function() {
         },
         code: `
 var connections = Flexio.connections().load(function() {
-  connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
+  connections.list({ format: 'json', keys: ['eid', 'alias', 'name', 'description'] })
 })`,
       }
     ]

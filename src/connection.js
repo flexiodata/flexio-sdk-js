@@ -248,7 +248,7 @@ return function() {
 
       if (_.isPlainObject(params))
       {
-        _.assign(this.connection, _.pick(params, ['name', 'description', 'ename']))
+        _.assign(this.connection, _.pick(params, ['name', 'description', 'alias']))
         callback = _.get(args, '[1]')
       }
 

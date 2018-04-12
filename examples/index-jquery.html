@@ -87,7 +87,7 @@
       <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List connections (Console)</h4>
         <pre class="overflow-x-auto"><code class="js">var connections = Flexio.connections().load(function() {
-  connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+  connections.list({ format: 'list', keys: ['eid', 'alias', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-console">Run</button>
       </div>
@@ -98,7 +98,7 @@
       <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List connections (JSON)</h4>
         <pre class="overflow-x-auto"><code class="js">var connections = Flexio.connections().load(function() {
-  connections.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
+  connections.list({ format: 'json', keys: ['eid', 'alias', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-connections-json">Run</button>
       </div>
@@ -109,7 +109,7 @@
       <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List pipes (Console)</h4>
         <pre class="overflow-x-auto"><code class="js">var pipes = Flexio.pipes().load(function() {
-  pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] })
+  pipes.list({ format: 'list', keys: ['eid', 'alias', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-console">Run</button>
       </div>
@@ -120,7 +120,7 @@
       <div class="pa3 bg-near-white box-shadow">
         <h4 class="mt0">List pipes (JSON)</h4>
         <pre class="overflow-x-auto"><code class="js">var pipes = Flexio.pipes().load(function() {
-  pipes.list({ format: 'json', keys: ['eid', 'ename', 'name', 'description'] })
+  pipes.list({ format: 'json', keys: ['eid', 'alias', 'name', 'description'] })
 })</code></pre>
         <button class="mt3 border-box no-select pointer ttu b ba f6 ph3 pv2 br1 white bg-blue b--blue darken-10" id="btn-list-pipes-json">Run</button>
       </div>
@@ -257,7 +257,7 @@ def flexio_handler(context):\n\
       var connections = Flexio.connections().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre>' + connections.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
+        $div.append('<pre>' + connections.list({ format: 'list', keys: ['eid', 'alias', 'name', 'description'] }) + '</pre>')
       }, function() {
         $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the connection list</pre>')
@@ -271,7 +271,7 @@ def flexio_handler(context):\n\
       var connections = Flexio.connections().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre><code class="json">' + connections.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</code></pre>')
+        $div.append('<pre><code class="json">' + connections.list({ keys: ['eid', 'alias', 'name', 'description'] }) + '</code></pre>')
 
         $div.find('code').each(function(i, block) {
           hljs.highlightBlock(block)
@@ -289,7 +289,7 @@ def flexio_handler(context):\n\
       var pipes = Flexio.pipes().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre>' + pipes.list({ format: 'list', keys: ['eid', 'ename', 'name', 'description'] }) + '</pre>')
+        $div.append('<pre>' + pipes.list({ format: 'list', keys: ['eid', 'alias', 'name', 'description'] }) + '</pre>')
       }, function() {
         $div.append('<h4 class="mt0">Output</h4>')
         $div.append('<pre>There was an error requesting the pipe list</pre>')
@@ -303,7 +303,7 @@ def flexio_handler(context):\n\
       var pipes = Flexio.pipes().load(function() {
         $div.empty()
         $div.append('<h4 class="mt0">Output</h4>')
-        $div.append('<pre><code class="json">' + pipes.list({ keys: ['eid', 'ename', 'name', 'description'] }) + '</code></pre>')
+        $div.append('<pre><code class="json">' + pipes.list({ keys: ['eid', 'alias', 'name', 'description'] }) + '</code></pre>')
 
         $div.find('code').each(function(i, block) {
           hljs.highlightBlock(block)

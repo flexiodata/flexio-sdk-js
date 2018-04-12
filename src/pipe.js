@@ -103,7 +103,7 @@ return function(pipeconstruct_param) {
 
       if (_.isPlainObject(params))
       {
-        _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']))
+        _.assign(this.pipe, _.pick(params, ['name', 'description', 'alias']))
         callback = _.get(args, '[1]')
       }
 
@@ -183,7 +183,7 @@ return function(pipeconstruct_param) {
       }
     }
   }
-  
+
   forEachTask(function(task_name, task_func) {
       pipeobj[task_name] = function() { return pipeobj.addTask(task_func.apply(pipeobj, arguments)) }
   })
@@ -223,7 +223,7 @@ return function(pipeconstruct_param) {
       }
     }
   }
-  
+
   return pipeobj
 }
 
