@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.23.2 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.23.3 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -301,7 +301,7 @@ var Flexio = {
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.2";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.3";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1749,7 +1749,7 @@ module.exports.getPipeConstructor = function (Flexio) {
         }
 
         if (_.isPlainObject(params)) {
-          _.assign(this.pipe, _.pick(params, ['name', 'description', 'ename']));
+          _.assign(this.pipe, _.pick(params, ['name', 'description', 'alias']));
           callback = _.get(args, '[1]');
         }
 
@@ -2044,7 +2044,7 @@ module.exports.getConnectionConstructor = function (Flexio) {
         }
 
         if (_.isPlainObject(params)) {
-          _.assign(this.connection, _.pick(params, ['name', 'description', 'ename']));
+          _.assign(this.connection, _.pick(params, ['name', 'description', 'alias']));
           callback = _.get(args, '[1]');
         }
 
