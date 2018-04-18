@@ -31,6 +31,7 @@ var Flexio = {
   },
 
   setup(token, params) {
+    delete this.config.baseUrl
     _.assign(this.config, { token }, params)
     this._http = null
     this._createHttp()
