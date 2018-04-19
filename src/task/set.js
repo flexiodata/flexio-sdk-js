@@ -17,7 +17,7 @@ var set = function(variable, value) {
 
 set.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', {})
-  var variable = _.get(params, 'variable', '')
+  var variable = _.get(params, 'var', '')
   var value =  _.get(params, 'value', '')
   
   variable = JSON.stringify(variable)
