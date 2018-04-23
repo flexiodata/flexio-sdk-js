@@ -1,6 +1,6 @@
 
 var _ = require('./lodash-local')
-var qs = require('querystring')
+var querystring = require('querystring')
 
 function requestNodeJs(config) {
 
@@ -31,7 +31,7 @@ function requestNodeJs(config) {
     }
 
     if (config.params) {
-        qs.stringify(config.params)
+        var qs = querystring.stringify(config.params)
         options.path += (options.path.indexOf('?') < 0 ? '?'+qs:'&'+qs)
     }
 
