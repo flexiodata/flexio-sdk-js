@@ -1,5 +1,5 @@
-var _ = require('./lodash-local')                               // import _ from 'lodash'
-
+var _ = require('./lodash-local')
+var util = require('./util')
 
 module.exports = {}
 module.exports.getPipesObject = function(Flexio) {
@@ -135,12 +135,21 @@ module.exports.getPipesObject = function(Flexio) {
                 responseType: 'arraybuffer'
               }
 
-              if (run_params.hasOwnProperty('data')) {
+              if (_.has(run_params, 'data')) {
                 http_config.data = run_params.data
               }
 
-              if (run_params.hasOwnProperty('query')) {
+              if (_.has(run_params, 'form')) {
+                http_config.data = util.queryString(run_params.form)
+                http_config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+              }
+    
+              if (_.has(run_params, 'query')) {
                 http_config.params = run_params.query
+              }
+
+              if (_.has(run_params, 'content_type')) {
+                http_config.headers = { 'Content-Type': run_params.content_type }
               }
 
               var http = Flexio.http()
@@ -173,31 +182,25 @@ module.exports.getPipesObject = function(Flexio) {
             responseType: 'arraybuffer'
           }
         
-          if (run_params.hasOwnProperty('data')) {
+          if (_.has(run_params, 'data')) {
             http_config.data = run_params.data
           }
 
-          if (run_params.hasOwnProperty('query')) {
+          if (_.has(run_params, 'form')) {
+            http_config.data = util.queryString(run_params.form)
+            http_config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+          }
+
+          if (_.has(run_params, 'query')) {
             http_config.params = run_params.query
           }
           
-          if (run_params.hasOwnProperty('contentType')) {
-            http_config.headers = { 'Content-Type': run_params.contentType }
-          } else {
-            // no content type specified; choose a sensible one unless
-            // axios can detect it
-            if (http_config.hasOwnProperty('data')) {
-              if (_.isPlainObject(http_config.data)) {
-                // axios can figure it out
-              } else if (_.isString(http_config.data)) {
-                http_config.headers = { 'Content-Type': 'text/plain' }
-              } else {
-                http_config.headers = { 'Content-Type': 'application/octet-stream' }
-              }
-            }
+          if (_.has(run_params, 'content_type')) {
+            http_config.headers = { 'Content-Type': run_params.content_type }
           }
 
           var http = Flexio.http()
+
           http(http_config).then(response => {
             Flexio.util.debug('Process Complete.')
             var content_type =  _.get(response, 'headers.content-type', 'text/plain')

@@ -1,7 +1,7 @@
 var Flexio = require('../sdk-test-config')
 var FormData = require('form-data')
 
-test('Flexio.task.echo; test posting JSON data', async () => {
+test('Flexio.task.echo; test posting a FormData object', async () => {
 
   var form = new FormData();
   form.append('name', 'World');

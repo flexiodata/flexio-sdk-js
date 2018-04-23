@@ -58,8 +58,11 @@ function HttpClient(options) {
         {}
         else if (data !== null && typeof data === 'object')
         {
-            config.data = JSON.stringify(data)
-            setContentTypeNotSet('application/json')
+            if (_.get(config, 'headers.Content-Type', 'application/json') == 'application/json')
+            {
+                config.data = JSON.stringify(data)
+                setContentTypeNotSet('application/json')
+            }
         }
         else
         {

@@ -41,6 +41,16 @@ util.fromBase64 = function(str) {
   }
 }
 
+util.queryString = function(obj) {
+  if (util.isNodeJs()) {
+    return require('querystring').stringify(obj)
+  } else {
+    return Object.keys(obj).map(
+      function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
+    ).join('&')
+  }
+}
+
 
 util.arrayBufferToString = function(buf) {
 
