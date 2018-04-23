@@ -52,13 +52,18 @@ function HttpClient(options) {
             }
         }
 
+        const form_mime_type = 'application/x-www-form-urlencoded'
         var data = _.get(config, 'data', null)
 
         if (this.isFormData(data) || this.isBlob(data) || this.isStream(data) || data instanceof ArrayBuffer)
         {}
         else if (data !== null && typeof data === 'object')
         {
-            if (_.get(config, 'headers.Content-Type', 'application/json') == 'application/json')
+            if (_.get(config, 'headers.Content-Type', '') == form_mime_type)
+            {
+                config.data = util.queryString(config.data)
+            }
+             else
             {
                 config.data = JSON.stringify(data)
                 setContentTypeNotSet('application/json')
@@ -68,7 +73,7 @@ function HttpClient(options) {
         {
             var m = _.get(config,'method','').toUpperCase()
             if (m == 'POST' || m == 'PUT' || m == 'PATCH') {
-                setContentTypeNotSet('application/x-www-form-urlencoded')
+                setContentTypeNotSet(form_mime_type)
             }
         }
 
