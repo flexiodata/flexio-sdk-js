@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.23.3 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.24.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -311,7 +311,7 @@ var Flexio = {
     this.pipes = __webpack_require__(30).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.23.3";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.24.0";
 
     var getPipeConstructor = __webpack_require__(31).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
