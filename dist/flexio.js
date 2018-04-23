@@ -203,6 +203,16 @@ util.fromBase64 = function (str) {
   }
 };
 
+util.queryString = function (obj) {
+  if (util.isNodeJs()) {
+    return __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"querystring\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).stringify(obj);
+  } else {
+    return Object.keys(obj).map(function (k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+    }).join('&');
+  }
+};
+
 util.arrayBufferToString = function (buf) {
 
   if (this.isNodeJs()) {
@@ -310,6 +320,7 @@ var Flexio = {
     this.connection = getConnectionConstructor(this);
   },
   setup: function setup(token, params) {
+    delete this.config.baseUrl;
     _.assign(this.config, { token: token }, params);
     this._http = null;
     this._createHttp();
@@ -1251,7 +1262,7 @@ var set = function set(variable, value) {
 
 set.toCode = function (json, Flexio) {
   var params = _.get(json, 'params', {});
-  var variable = _.get(params, 'variable', '');
+  var variable = _.get(params, 'var', '');
   var value = _.get(params, 'value', '');
 
   variable = JSON.stringify(variable);
@@ -1457,6 +1468,7 @@ module.exports.getConnectionsObject = function (Flexio) {
 
 
 var _ = __webpack_require__(0);
+var util = __webpack_require__(1);
 
 module.exports = {};
 module.exports.getPipesObject = function (Flexio) {
@@ -1578,12 +1590,24 @@ module.exports.getPipesObject = function (Flexio) {
               responseType: 'arraybuffer'
             };
 
-            if (run_params.hasOwnProperty('data')) {
+            if (_.has(run_params, 'data')) {
               http_config.data = run_params.data;
+              if (_.isString(run_params.data)) {
+                http_config.headers = { 'Content-Type': 'text/plain' };
+              }
             }
 
-            if (run_params.hasOwnProperty('query')) {
+            if (_.has(run_params, 'form')) {
+              http_config.data = util.queryString(run_params.form);
+              http_config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+            }
+
+            if (_.has(run_params, 'query')) {
               http_config.params = run_params.query;
+            }
+
+            if (_.has(run_params, 'content_type')) {
+              http_config.headers = { 'Content-Type': run_params.content_type };
             }
 
             var http = Flexio.http();
@@ -1608,27 +1632,25 @@ module.exports.getPipesObject = function (Flexio) {
             responseType: 'arraybuffer'
           };
 
-          if (run_params.hasOwnProperty('data')) {
+          if (_.has(run_params, 'data')) {
             http_config.data = run_params.data;
           }
 
-          if (run_params.hasOwnProperty('query')) {
+          if (_.has(run_params, 'form')) {
+            http_config.data = util.queryString(run_params.form);
+            http_config.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+          }
+
+          if (_.has(run_params, 'query')) {
             http_config.params = run_params.query;
           }
 
-          if (run_params.hasOwnProperty('contentType')) {
-            http_config.headers = { 'Content-Type': run_params.contentType };
-          } else {
-            if (http_config.hasOwnProperty('data')) {
-              if (_.isPlainObject(http_config.data)) {} else if (_.isString(http_config.data)) {
-                http_config.headers = { 'Content-Type': 'text/plain' };
-              } else {
-                http_config.headers = { 'Content-Type': 'application/octet-stream' };
-              }
-            }
+          if (_.has(run_params, 'content_type')) {
+            http_config.headers = { 'Content-Type': run_params.content_type };
           }
 
           var http = Flexio.http();
+
           http(http_config).then(function (response) {
             Flexio.util.debug('Process Complete.');
             var content_type = _.get(response, 'headers.content-type', 'text/plain');
@@ -2146,15 +2168,20 @@ function HttpClient(options) {
             }
         }
 
+        var form_mime_type = 'application/x-www-form-urlencoded';
         var data = _.get(config, 'data', null);
 
         if (this.isFormData(data) || this.isBlob(data) || this.isStream(data) || data instanceof ArrayBuffer) {} else if (data !== null && (typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
-            config.data = JSON.stringify(data);
-            setContentTypeNotSet('application/json');
+            if (_.get(config, 'headers.Content-Type', '') == form_mime_type) {
+                config.data = util.queryString(config.data);
+            } else {
+                config.data = JSON.stringify(data);
+                setContentTypeNotSet('application/json');
+            }
         } else {
             var m = _.get(config, 'method', '').toUpperCase();
             if (m == 'POST' || m == 'PUT' || m == 'PATCH') {
-                setContentTypeNotSet('application/x-www-form-urlencoded');
+                setContentTypeNotSet(form_mime_type);
             }
         }
 
