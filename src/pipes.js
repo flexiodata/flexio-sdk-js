@@ -137,6 +137,9 @@ module.exports.getPipesObject = function(Flexio) {
 
               if (_.has(run_params, 'data')) {
                 http_config.data = run_params.data
+                if (_.isString(run_params.data)) {
+                  http_config.headers = { 'Content-Type': 'text/plain' }
+                }
               }
 
               if (_.has(run_params, 'form')) {
