@@ -1,6 +1,6 @@
 var Flexio = require('../sdk-test-config')
 
-test('Flexio.task.echo; test posting JSON data', async () => {
+test('test posting query string data', async () => {
 
   var pipe = Flexio.pipe()
                    .javascript(function(context) {
