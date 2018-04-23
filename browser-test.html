@@ -20,7 +20,7 @@
 
         var pipe = eval(document.getElementById('input').value)
 
-        pipe.run({data:{name:'World'}}).then(response => {
+        pipe.run({query:{name:'World'}}).then(response => {
           document.getElementById('output').value = response.text
         })
 
