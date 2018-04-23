@@ -14,7 +14,8 @@ const config = merge(base, {
   // without this, webpack throws in a polyfill for node.js's Buffer class
   node: {
     Buffer: false,
-    process: false
+    process: false,
+    querystring: false
   },
     
   plugins: [
@@ -28,7 +29,7 @@ const config = merge(base, {
     // in the node:{} structure above, but webpack will throw
     // a build error if it sees code that tries to use these modules;
     // to solve this, we just ignore requires with the following modules:
-    new webpack.IgnorePlugin(/http-node|package[.]json/)
+    new webpack.IgnorePlugin(/http-node|package[.]json|querystring/)
   ]
 })
 
