@@ -1,8 +1,9 @@
 var _ = require('../lodash-local')
 
-var createFn    = require('./create.js')
+var connectFn   = require('./connect.js')
 var convertFn   = require('./convert.js')
 var copyFn      = require('./copy.js')
+var createFn    = require('./create.js')
 var dumpFn      = require('./dump.js')
 var echoFn      = require('./echo.js')
 var emailFn     = require('./email.js')
@@ -32,9 +33,10 @@ var toCode = function(json, Flexio) {
     default:
       return taskFn.toCode(json)
 
-    case 'create':    return createFn.toCode(json, Flexio)
+    case 'connect':   return connectFn.toCode(json, Flexio)
     case 'convert':   return convertFn.toCode(json, Flexio)
     case 'copy':      return copyFn.toCode(json, Flexio)
+    case 'create':    return createFn.toCode(json, Flexio)
     case 'dump':      return dumpFn.toCode(json, Flexio)
     case 'echo':      return echoFn.toCode(json, Flexio)
     case 'email':     return emailFn.toCode(json, Flexio)
@@ -59,9 +61,11 @@ var toCode = function(json, Flexio) {
 }
 
 module.exports = {
-  create:     createFn,
+
+  connect:    connectFn,
   convert:    convertFn,
   copy:       copyFn,
+  create:     createFn,
   dump:       dumpFn,
   echo:       echoFn,
   email:      emailFn,
