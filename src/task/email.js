@@ -1,14 +1,17 @@
 var _ = require('../lodash-local')
 
-var email = function(params) {
-  if (!_.isPlainObject(params))
-    throw 'The first function parameter must be an object'
+var email = function(p0, p1) {
 
-  if (!params.hasOwnProperty('to'))
-    throw 'The `to` parameter is required'
+  var params = {}
+  if (_.isPlainObject(p0)) {
+    _.assign(params, p0)
+  } else {
+    params.connection = p0
+  }
 
-  if (!params.hasOwnProperty('body_text'))
-    throw 'The `body_text` parameter is required'
+  if (_.isPlainObject(p1)) {
+    _.assign(params, p1)
+  }
 
   return {
     op: 'email',
