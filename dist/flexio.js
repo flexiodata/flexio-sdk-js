@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.25.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.26.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -311,7 +311,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.25.0";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.26.0";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -700,12 +700,18 @@ module.exports = echo;
 
 var _ = __webpack_require__(0);
 
-var email = function email(params) {
-  if (!_.isPlainObject(params)) throw 'The first function parameter must be an object';
+var email = function email(p0, p1) {
 
-  if (!params.hasOwnProperty('to')) throw 'The `to` parameter is required';
+  var params = {};
+  if (_.isPlainObject(p0)) {
+    _.assign(params, p0);
+  } else {
+    params.connection = p0;
+  }
 
-  if (!params.hasOwnProperty('body_text')) throw 'The `body_text` parameter is required';
+  if (_.isPlainObject(p1)) {
+    _.assign(params, p1);
+  }
 
   return {
     op: 'email',
