@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.26.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.26.1 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -311,7 +311,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.26.0";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.26.1";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1645,6 +1645,7 @@ module.exports.getPipesObject = function (Flexio) {
             }
 
             var http = Flexio.http();
+
             http.request(http_config).then(function (response) {
               Flexio.util.debug('Process Complete.');
               var content_type = _.get(response, 'headers.content-type', 'text/plain');
@@ -1685,7 +1686,7 @@ module.exports.getPipesObject = function (Flexio) {
 
           var http = Flexio.http();
 
-          http(http_config).then(function (response) {
+          http.request(http_config).then(function (response) {
             Flexio.util.debug('Process Complete.');
             var content_type = _.get(response, 'headers.content-type', 'text/plain');
             var response_object = getResponseObjectFromArrayBuffer(response.data, content_type);
