@@ -156,6 +156,7 @@ module.exports.getPipesObject = function(Flexio) {
               }
 
               var http = Flexio.http()
+              
               http.request(http_config)
                 .then(response => {
                   Flexio.util.debug('Process Complete.')
@@ -204,7 +205,7 @@ module.exports.getPipesObject = function(Flexio) {
 
           var http = Flexio.http()
 
-          http(http_config).then(response => {
+          http.request(http_config).then(function (response) {
             Flexio.util.debug('Process Complete.')
             var content_type =  _.get(response, 'headers.content-type', 'text/plain')
             var response_object = getResponseObjectFromArrayBuffer(response.data, content_type)
