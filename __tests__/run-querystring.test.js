@@ -1,6 +1,6 @@
 var Flexio = require('../sdk-test-config')
 
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
 test('test posting query string data', async () => {
 
