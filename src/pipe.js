@@ -16,7 +16,7 @@ return function(pipeconstruct_param) {
     pipe: {
       name: 'Untitled',
       description: '',
-      task: { op: 'sequence', params: { items: [] } }
+      task: { op: 'sequence', items: [] }
     },
     processes: [],
     _params: {}, // avoid collision with `params` method name
@@ -39,17 +39,17 @@ return function(pipeconstruct_param) {
     },
 
     addTask(task) {
-      this.pipe.task.params.items.push(task)
+      this.pipe.task.items.push(task)
       return this
     },
 
     clearTasks() {
-      this.pipe.task.params.items = []
+      this.pipe.task.items = []
       return this
     },
 
     getTasks() {
-      return this.pipe.task.params.items
+      return this.pipe.task.items
     },
 
     load() {
