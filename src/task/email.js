@@ -3,6 +3,7 @@ var _ = require('../lodash-local')
 var email = function(p0, p1) {
 
   var params = {}
+  
   if (_.isPlainObject(p0)) {
     _.assign(params, p0)
   } else {
@@ -13,10 +14,7 @@ var email = function(p0, p1) {
     _.assign(params, p1)
   }
 
-  return {
-    op: 'email',
-    params
-  }
+  return _.assign({}, params, { op: 'email' })
 }
 
 email.toCode = function(json, Flexio) {

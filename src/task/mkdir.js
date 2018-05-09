@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var mkdir = function(path) {
-  return {
-    op: 'mkdir',
-    params: {
-      path
-    }
-  }
+  return _.assign({}, { path }, { op: 'mkdir' })
 }
 
 mkdir.toCode = function(json, Flexio) {

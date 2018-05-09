@@ -5,7 +5,7 @@ test('Flexio.task.echo; code to object', () => {
   expect(
     Flexio.task.transform({"columns":["givenname","surname","streetaddress","city"],"operations":[{"operation":"case","case":"upper"}]})
   ).toEqual(
-    {"op":"transform","params":{"operations":[{"operation":"case","case":"upper"}],"columns":["givenname","surname","streetaddress","city"]}}
+    { "op":"transform", "operations": [{"operation":"case","case":"upper"}],"columns":["givenname","surname","streetaddress","city"] }
   )
 })
 

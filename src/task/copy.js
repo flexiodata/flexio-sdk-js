@@ -1,19 +1,16 @@
 var _ = require('../lodash-local')
 
 var copy = function(from,to,options) {
-  var ret = {
-    op: 'copy',
-    params: {
-      from,
-      to
-    }
+  var params = {
+    from,
+    to
   }
 
   if (_.isPlainObject(options)) {
-    ret.params.options = options
+    params.options = options
   }
 
-  return ret
+  return _.assign({}, params, { op: 'copy' })
 }
 
 copy.toCode = function(json, Flexio) {

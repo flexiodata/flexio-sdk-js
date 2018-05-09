@@ -1,10 +1,13 @@
 var _ = require('../lodash-local')
 
 var convert = function(input, output) {
-  return {
-    op: 'convert',
-    params: { input, output }
+
+  var params = {
+    input,
+    output
   }
+
+  return _.assign({}, params, { op: 'convert' })
 }
 
 convert.toCode = function(json, Flexio) {

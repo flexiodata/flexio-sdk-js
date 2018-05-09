@@ -8,12 +8,7 @@ var select = function() {
   if (columns.length == 1 && Array.isArray(_.get(columns, '[0]')))
     columns = _.get(columns, '[0]', [])
 
-  return {
-    op: 'select',
-    params: {
-      columns
-    }
-  }
+    return _.assign({}, { columns }, { op: 'select' })
 }
 
 select.toCode = function(json, Flexio) {

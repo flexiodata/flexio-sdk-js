@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var filter = function(where) {
-  return {
-    op: 'filter',
-    params: {
-      where
-    }
-  }
+  return _.assign({}, { where }, { op: 'filter' })
 }
 
 filter.toCode = function(json, Flexio) {

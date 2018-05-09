@@ -26,20 +26,13 @@ var transform = function(value) {
       operations = [].concat(args)
       params = { operations }
     }
-
-    return {
-      op: 'transform',
-      params
-    }
+  }
+   else
+  {
+    params = { columns, operations }
   }
 
-  return {
-    op: 'transform',
-    params: {
-      columns,
-      operations,
-    }
-  }
+  return _.assign({}, params, { op: 'transform' })
 }
 
 transform.toCode = function(json, Flexio) {

@@ -106,10 +106,7 @@ var execute = function() {
     params.integrity = check
   }
 
-  return {
-    op: 'execute',
-    params
-  }
+  return _.assign({}, params, { op: 'execute' })
 }
 
 // shorthand for .execute('javascript', ...)

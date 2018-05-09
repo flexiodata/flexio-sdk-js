@@ -1,10 +1,7 @@
 var _ = require('../lodash-local')
 
 var connect = function(params) {
-  return {
-    op: 'connect',
-    params
-  }
+  return _.assign({}, params, { op: 'connect' })
 }
 
 connect.toCode = function(json, Flexio) {

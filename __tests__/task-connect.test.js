@@ -5,7 +5,7 @@ test('Flexio.task.connect; code to object', () => {
   expect(
     Flexio.task.connect({type: 'sftp'})
   ).toEqual(
-    { op: 'connect', params: { type: 'sftp' } }
+    { op: 'connect', type: 'sftp' }
   )
 })
 

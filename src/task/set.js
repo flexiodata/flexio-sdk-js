@@ -6,13 +6,7 @@ var set = function(variable, value) {
   if (util.isPipeObject(value))
     value = value.pipe.task
 
-  return {
-    op: 'set',
-    params: {
-      "var": variable,
-      "value": value
-    }
-  }
+  return _.assign({}, { "var": variable, "value": value }, { op: 'set' })
 }
 
 set.toCode = function(json, Flexio) {

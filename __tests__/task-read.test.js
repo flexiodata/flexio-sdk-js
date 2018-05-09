@@ -5,7 +5,7 @@ test('Flexio.task.read; code to object', () => {
   expect(
     Flexio.task.read('/connection/file.txt')
   ).toEqual(
-    { op: 'read', params: { path: '/connection/file.txt' } }
+    { op: 'read', path: '/connection/file.txt' }
   )
 })
 

@@ -5,7 +5,7 @@ test('Flexio.task.dump; code to object', () => {
   expect(
     Flexio.task.dump('hello')
   ).toEqual(
-    { op: 'dump', params: { msg: 'hello' }}
+    { op: 'dump', msg: 'hello' }
   )
 })
 

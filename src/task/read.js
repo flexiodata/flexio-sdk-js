@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var read = function(path) {
-  return {
-    op: 'read',
-    params: {
-      path
-    }
-  }
+  return _.assign({}, { path }, { op: 'read' })
 }
 
 read.toCode = function(json, Flexio) {

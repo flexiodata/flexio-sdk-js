@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var dump = function(msg) {
-  return {
-    op: 'dump',
-    params: {
-      msg
-    }
-  }
+  return _.assign({}, { msg }, { op: 'dump' })
 }
 
 dump.toCode = function(json, Flexio) {

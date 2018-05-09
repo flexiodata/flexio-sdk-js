@@ -1,14 +1,7 @@
 var _ = require('../lodash-local')
 
 var sleep = function(value) {
-  value = _.defaultTo(value, 10)
-
-  return {
-    op: 'sleep',
-    params: {
-      value
-    }
-  }
+  return _.assign({}, { value }, { op: 'sleep' })
 }
 
 sleep.toCode = function(json, Flexio) {

@@ -14,10 +14,7 @@ var render = function(p0, p1) {
     _.assign(params, p1)
   }
 
-  return {
-    op: 'render',
-    params
-  }
+  return _.assign({}, params, { op: 'render' })
 }
 
 render.toCode = function(json, Flexio) {

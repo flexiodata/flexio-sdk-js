@@ -2,12 +2,7 @@ var _ = require('../lodash-local')
 
 // task definition function
 var echo = function(msg) {
-  return {
-    op: 'echo',
-    params: {
-      msg
-    }
-  }
+  return _.assign({}, { msg }, { op: 'echo' })
 }
 
 echo.toCode = function(json, Flexio) {

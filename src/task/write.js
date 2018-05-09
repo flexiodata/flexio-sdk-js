@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var write = function(path) {
-  return {
-    op: 'write',
-    params: {
-      path
-    }
-  }
+  return _.assign({}, { path }, { op: 'write' })
 }
 
 write.toCode = function(json, Flexio) {

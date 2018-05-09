@@ -5,7 +5,7 @@ test('Flexio.task.email; code to object', () => {
   expect(
     Flexio.task.email({to: 'hello@flex.io'})
   ).toEqual(
-    { op: 'email', params: { to: 'hello@flex.io' } }
+    { op: 'email', to: 'hello@flex.io' }
   )
 })
 
@@ -39,7 +39,7 @@ test('Flexio.task.email; code to object with connection parameter', () => {
   expect(
     Flexio.task.email('my-connection', {to: 'hello@flex.io'})
   ).toEqual(
-    { op: 'email', params: { connection: 'my-connection', to: 'hello@flex.io' } }
+    { op: 'email', connection: 'my-connection', to: 'hello@flex.io' }
   )
 })
 

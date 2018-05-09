@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var list = function(path) {
-  return {
-    op: 'list',
-    params: {
-      path
-    }
-  }
+  return _.assign({}, { path }, { op: 'list' })
 }
 
 list.toCode = function(json, Flexio) {

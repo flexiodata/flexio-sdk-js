@@ -1,13 +1,7 @@
 var _ = require('../lodash-local')
 
 var sequence = function(steps) {
-
-  return {
-    op: 'sequence',
-    params: {
-      steps
-    }
-  }
+  return _.assign({}, { steps }, { op: 'sequence' })
 }
 
 sequence.toCode = function(json, Flexio) {

@@ -7,30 +7,26 @@ var _ = require('../lodash-local')
 var create = function(p0, p1) {
 
   if (Array.isArray(p0)) {
-    return {
-      op: 'create',
-      params: {
-        content_type: "application/vnd.flexio.table",
-        columns: p0
-      }
+    var params = {
+      content_type: "application/vnd.flexio.table",
+      columns: p0
     }
+
   } else {
-    var ret =  {
-      op: 'create',
-      params: {
-        path: p0
-      }
+
+    var params = {
+      path: p0
     }
 
     if (p1 !== undefined) {
       if (Array.isArray(p1)) {
-        ret.params.columns = p1
+        params.columns = p1
       } else {
-        ret.params.content_type = p1
+        params.content_type = p1
       }
     }
 
-    return ret
+    return _.assign({}, params, { op: 'create' })
   }
 }
 

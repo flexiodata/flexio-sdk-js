@@ -2,19 +2,13 @@ var _ = require('../lodash-local')
 
 var insert = function(path, values) {
 
-  var data;
+  var data
   if (Array.isArray(values))
     data = values
       else
     data = [ values ]
 
-  return {
-    op: 'insert',
-    params: {
-      path: path,
-      values: data
-    }
-  }
+  return _.assign({}, { path, values: data }, { op: 'insert' })
 }
 
 insert.toCode = function(json, Flexio) {

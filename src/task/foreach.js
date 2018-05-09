@@ -3,22 +3,19 @@ var util = require('../util')
 
 var foreach = function(p0, p1) {
 
-  var res = {
-    op: 'foreach',
-    params: {}
-  }
+  var params = {}
 
   if (typeof p0 === 'string' || p0 instanceof String) {
-    res.params.spec = p0
+    params.spec = p0
   }
 
   if (util.isPipeObject(p0)) {
-    res.params.run = p0.pipe.task
+    params.run = p0.pipe.task
   } else if (util.isPipeObject(p1)) {
-    res.params.run = p1.pipe.task
+    params.run = p1.pipe.task
   }
 
-  return res
+  return _.assign({}, params, { op: 'foreach' })
 }
 
 foreach.toCode = function(json, Flexio) {

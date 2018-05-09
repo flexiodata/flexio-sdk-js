@@ -5,7 +5,7 @@ test('Flexio.task.list; code to object', () => {
   expect(
     Flexio.task.list('/')
   ).toEqual(
-    { op: 'list', params: { path: '/' } }
+    { op: 'list', path: '/' }
   )
 })
 

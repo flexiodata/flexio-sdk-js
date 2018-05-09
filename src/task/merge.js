@@ -11,12 +11,7 @@ var merge = function(path) {
     }
   }
 
-  return {
-    op: 'merge',
-    params: {
-      files
-    }
-  }
+  return _.assign({}, { files }, { op: 'merge' })
 }
 
 merge.toCode = function(json, Flexio) {

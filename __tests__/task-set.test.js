@@ -5,7 +5,7 @@ test('Flexio.task.dump; code to object', () => {
   expect(
     Flexio.task.set('key','value')
   ).toEqual(
-    {"op": "set", "params": {"var": "key", "value": "value"}}
+    {"op": "set", "var": "key", "value": "value"}
   )
 })
 

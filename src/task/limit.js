@@ -1,12 +1,7 @@
 var _ = require('../lodash-local')
 
 var limit = function(value) {
-  return {
-    op: 'limit',
-    params: {
-      value
-    }
-  }
+  return _.assign({}, { value }, { op: 'limit' })
 }
 
 limit.toCode = function(json, Flexio) {
