@@ -21,7 +21,7 @@ var render = function(p0, p1) {
 }
 
 render.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var url = JSON.stringify(params.url) || ''
   delete params.url
 

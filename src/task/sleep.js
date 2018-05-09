@@ -12,7 +12,7 @@ var sleep = function(value) {
 }
 
 sleep.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var val = JSON.stringify(params.value) || ''
   return 'sleep(' + val + ')'
 }

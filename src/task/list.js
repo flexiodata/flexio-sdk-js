@@ -10,7 +10,7 @@ var list = function(path) {
 }
 
 list.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var path = JSON.stringify(params.path) || '""'
   return 'list(' + path + ')'
 }

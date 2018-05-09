@@ -8,7 +8,8 @@ var connect = function(params) {
 }
 
 connect.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
+  delete params['op']
   return 'connect(' + JSON.stringify(params) + ')'
 }
 

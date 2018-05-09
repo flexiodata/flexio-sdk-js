@@ -17,7 +17,7 @@ var select = function() {
 }
 
 select.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var cols = JSON.stringify(params.columns) || ''
   if (cols.indexOf('[') != -1 && cols.indexOf(']') != -1)
     cols = cols.substring(1, cols.length-1)

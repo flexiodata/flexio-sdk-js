@@ -1,10 +1,6 @@
 var _ = require('../lodash-local')
 
 var filter = function(where) {
-
-  if (_.isNil(where))
-    throw 'The `filter` parameter is required'
-
   return {
     op: 'filter',
     params: {
@@ -14,7 +10,7 @@ var filter = function(where) {
 }
 
 filter.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var where = JSON.stringify(params.where) || '""'
   return 'filter(' + where + ')'
 }

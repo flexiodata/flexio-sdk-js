@@ -11,6 +11,16 @@ test('Flexio.task.dump; code to object', () => {
 
 
 test('Flexio.task.dump; object to code', () => {
+  var obj = {"op": "set", "var": "key", "value": "value" }
+
+  expect(
+    Flexio.task.set.toCode(obj)
+  ).toEqual(
+    `set("key", "value")`
+  )
+})
+
+test('Flexio.task.dump; object to code (with params subnode)', () => {
   var obj = {"op": "set", "params": {"var": "key", "value": "value"}}
 
   expect(

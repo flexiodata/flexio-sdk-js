@@ -41,7 +41,14 @@ var request = function() {
 }
 
 request.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+
+  if (_.get(json, 'url', '').length > 0) {
+    var params = json
+  }
+   else {
+    var params = _.get(json, 'params', {})
+  }
+  
   var url = _.get(params, 'url', '')
 
   var keys = Object.keys(params)

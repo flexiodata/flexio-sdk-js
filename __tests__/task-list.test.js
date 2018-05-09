@@ -11,6 +11,16 @@ test('Flexio.task.list; code to object', () => {
 
 
 test('Flexio.task.list; object to code', () => {
+  var obj = { op: 'list', path: '/' }
+
+  expect(
+    Flexio.task.list.toCode(obj)
+  ).toEqual(
+    `list("/")`
+  )
+})
+
+test('Flexio.task.list; object to code (with params subnode)', () => {
   var obj = { op: 'list', params: { path: '/' } }
 
   expect(

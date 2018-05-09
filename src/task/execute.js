@@ -127,7 +127,7 @@ var python = function() {
 }
 
 var toCode = function(json) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var lang = params.lang || ''
   var code = util.fromBase64(params.code || '')
 

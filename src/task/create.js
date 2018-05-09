@@ -35,7 +35,7 @@ var create = function(p0, p1) {
 }
 
 create.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var path = JSON.stringify(params.path) || undefined
   var content_type = JSON.stringify(params.content_type) || undefined
   var columns = JSON.stringify(params.columns) || undefined

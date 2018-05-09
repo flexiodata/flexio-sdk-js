@@ -8,8 +8,9 @@ var convert = function(input, output) {
 }
 
 convert.toCode = function(json, Flexio) {
-  var input = _.get(json, 'params.input', {})
-  var output = _.get(json, 'params.output', {})
+  var params = _.get(json, 'params', json)
+  var input = _.get(params, 'input', {})
+  var output = _.get(params, 'output', {})
   return 'convert(' + JSON.stringify(input) + ', ' + JSON.stringify(output) + ')'
 }
 

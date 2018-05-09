@@ -43,7 +43,8 @@ var transform = function(value) {
 }
 
 transform.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
+  delete params['op']
   if (!_.has(params,'columns') && _.has(params, 'operations') && Array.isArray(params.operations) && params.operations.length == 1) {
     return "transform(" + JSON.stringify(params.operations[0]) + ")"
   } else {

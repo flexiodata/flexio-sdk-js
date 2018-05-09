@@ -20,7 +20,8 @@ var email = function(p0, p1) {
 }
 
 email.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
+  delete params['op']
   return 'email(' + JSON.stringify(params, null, 2) + ')'
 }
 

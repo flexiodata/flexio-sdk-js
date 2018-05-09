@@ -12,10 +12,11 @@ var sequence = function(steps) {
 
 sequence.toCode = function(json, Flexio) {
 
+  var params = _.get(json, 'params', json)
   var retval = []
-
-  for (var i = 0; i < json.params.items.length; ++i) {
-    var task = json.params.items[i]
+  
+  for (var i = 0; i < params.items.length; ++i) {
+    var task = params.items[i]
 
     var cmd_str = Flexio.task.toCode(task, Flexio)
 

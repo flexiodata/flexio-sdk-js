@@ -11,7 +11,7 @@ var echo = function(msg) {
 }
 
 echo.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', {})
+  var params = _.get(json, 'params', json)
   var msg = JSON.stringify(params.msg) || '""'
   return 'echo(' + msg + ')'
 }
