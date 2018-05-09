@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.27.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.27.1 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -311,7 +311,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.27.0";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.27.1";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1628,7 +1628,7 @@ module.exports.getPipeConstructor = function (Flexio) {
       pipe: {
         name: 'Untitled',
         description: '',
-        task: { op: 'sequence', params: { items: [] } }
+        task: { op: 'sequence', items: [] }
       },
       processes: [],
       _params: {},
@@ -1646,15 +1646,15 @@ module.exports.getPipeConstructor = function (Flexio) {
         return _.last(this.processes);
       },
       addTask: function addTask(task) {
-        this.pipe.task.params.items.push(task);
+        this.pipe.task.items.push(task);
         return this;
       },
       clearTasks: function clearTasks() {
-        this.pipe.task.params.items = [];
+        this.pipe.task.items = [];
         return this;
       },
       getTasks: function getTasks() {
-        return this.pipe.task.params.items;
+        return this.pipe.task.items;
       },
       load: function load() {
         var _this = this,
