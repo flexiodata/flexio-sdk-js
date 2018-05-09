@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.26.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.27.0 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -311,7 +311,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.26.1";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.27.0";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -496,14 +496,12 @@ module.exports = {
 var _ = __webpack_require__(0);
 
 var connect = function connect(params) {
-  return {
-    op: 'connect',
-    params: params
-  };
+  return _.assign({}, params, { op: 'connect' });
 };
 
 connect.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
+  delete params['op'];
   return 'connect(' + JSON.stringify(params) + ')';
 };
 
@@ -519,15 +517,19 @@ module.exports = connect;
 var _ = __webpack_require__(0);
 
 var convert = function convert(input, output) {
-  return {
-    op: 'convert',
-    params: { input: input, output: output }
+
+  var params = {
+    input: input,
+    output: output
   };
+
+  return _.assign({}, params, { op: 'convert' });
 };
 
 convert.toCode = function (json, Flexio) {
-  var input = _.get(json, 'params.input', {});
-  var output = _.get(json, 'params.output', {});
+  var params = _.get(json, 'params', json);
+  var input = _.get(params, 'input', {});
+  var output = _.get(params, 'output', {});
   return 'convert(' + JSON.stringify(input) + ', ' + JSON.stringify(output) + ')';
 };
 
@@ -543,23 +545,20 @@ module.exports = convert;
 var _ = __webpack_require__(0);
 
 var copy = function copy(from, to, options) {
-  var ret = {
-    op: 'copy',
-    params: {
-      from: from,
-      to: to
-    }
+  var params = {
+    from: from,
+    to: to
   };
 
   if (_.isPlainObject(options)) {
-    ret.params.options = options;
+    params.options = options;
   }
 
-  return ret;
+  return _.assign({}, params, { op: 'copy' });
 };
 
 copy.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var from = JSON.stringify(params.from) || '""';
   var to = JSON.stringify(params.to) || '""';
   var options = params.hasOwnProperty('options') && _.isPlainObject(params.options) ? JSON.stringify(params.options) : null;
@@ -585,35 +584,30 @@ var _ = __webpack_require__(0);
 var create = function create(p0, p1) {
 
   if (Array.isArray(p0)) {
-    return {
-      op: 'create',
-      params: {
-        content_type: "application/vnd.flexio.table",
-        columns: p0
-      }
+    var params = {
+      content_type: "application/vnd.flexio.table",
+      columns: p0
     };
   } else {
-    var ret = {
-      op: 'create',
-      params: {
-        path: p0
-      }
+
+    var params = {
+      path: p0
     };
 
     if (p1 !== undefined) {
       if (Array.isArray(p1)) {
-        ret.params.columns = p1;
+        params.columns = p1;
       } else {
-        ret.params.content_type = p1;
+        params.content_type = p1;
       }
     }
 
-    return ret;
+    return _.assign({}, params, { op: 'create' });
   }
 };
 
 create.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var path = JSON.stringify(params.path) || undefined;
   var content_type = JSON.stringify(params.content_type) || undefined;
   var columns = JSON.stringify(params.columns) || undefined;
@@ -649,16 +643,11 @@ module.exports = create;
 var _ = __webpack_require__(0);
 
 var dump = function dump(msg) {
-  return {
-    op: 'dump',
-    params: {
-      msg: msg
-    }
-  };
+  return _.assign({}, { msg: msg }, { op: 'dump' });
 };
 
 dump.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var msg = JSON.stringify(params.msg) || '""';
   return 'dump(' + msg + ')';
 };
@@ -675,16 +664,11 @@ module.exports = dump;
 var _ = __webpack_require__(0);
 
 var echo = function echo(msg) {
-  return {
-    op: 'echo',
-    params: {
-      msg: msg
-    }
-  };
+  return _.assign({}, { msg: msg }, { op: 'echo' });
 };
 
 echo.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var msg = JSON.stringify(params.msg) || '""';
   return 'echo(' + msg + ')';
 };
@@ -703,6 +687,7 @@ var _ = __webpack_require__(0);
 var email = function email(p0, p1) {
 
   var params = {};
+
   if (_.isPlainObject(p0)) {
     _.assign(params, p0);
   } else {
@@ -713,14 +698,12 @@ var email = function email(p0, p1) {
     _.assign(params, p1);
   }
 
-  return {
-    op: 'email',
-    params: params
-  };
+  return _.assign({}, params, { op: 'email' });
 };
 
 email.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
+  delete params['op'];
   return 'email(' + JSON.stringify(params, null, 2) + ')';
 };
 
@@ -815,10 +798,7 @@ var execute = function execute() {
     params.integrity = check;
   }
 
-  return {
-    op: 'execute',
-    params: params
-  };
+  return _.assign({}, params, { op: 'execute' });
 };
 
 var javascript = function javascript() {
@@ -834,7 +814,7 @@ var python = function python() {
 };
 
 var toCode = function toCode(json) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var lang = params.lang || '';
   var code = util.fromBase64(params.code || '');
 
@@ -872,19 +852,11 @@ module.exports = {
 var _ = __webpack_require__(0);
 
 var filter = function filter(where) {
-
-  if (_.isNil(where)) throw 'The `filter` parameter is required';
-
-  return {
-    op: 'filter',
-    params: {
-      where: where
-    }
-  };
+  return _.assign({}, { where: where }, { op: 'filter' });
 };
 
 filter.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var where = JSON.stringify(params.where) || '""';
   return 'filter(' + where + ')';
 };
@@ -903,26 +875,23 @@ var util = __webpack_require__(1);
 
 var foreach = function foreach(p0, p1) {
 
-  var res = {
-    op: 'foreach',
-    params: {}
-  };
+  var params = {};
 
   if (typeof p0 === 'string' || p0 instanceof String) {
-    res.params.spec = p0;
+    params.spec = p0;
   }
 
   if (util.isPipeObject(p0)) {
-    res.params.run = p0.pipe.task;
+    params.run = p0.pipe.task;
   } else if (util.isPipeObject(p1)) {
-    res.params.run = p1.pipe.task;
+    params.run = p1.pipe.task;
   }
 
-  return res;
+  return _.assign({}, params, { op: 'foreach' });
 };
 
 foreach.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {}),
+  var params = _.get(json, 'params', json),
       p = [];
   if (params.hasOwnProperty('spec')) {
     p.push(JSON.stringify(params.spec));
@@ -950,17 +919,11 @@ var insert = function insert(path, values) {
   var data;
   if (Array.isArray(values)) data = values;else data = [values];
 
-  return {
-    op: 'insert',
-    params: {
-      path: path,
-      values: data
-    }
-  };
+  return _.assign({}, { path: path, values: data }, { op: 'insert' });
 };
 
 insert.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var path = _.get(params, 'path', undefined);
   var values = _.get(params, 'values', undefined);
 
@@ -984,16 +947,11 @@ module.exports = insert;
 var _ = __webpack_require__(0);
 
 var limit = function limit(value) {
-  return {
-    op: 'limit',
-    params: {
-      value: value
-    }
-  };
+  return _.assign({}, { value: value }, { op: 'limit' });
 };
 
 limit.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var val = JSON.stringify(params.value) || '';
   return 'limit(' + val + ')';
 };
@@ -1020,16 +978,11 @@ var merge = function merge(path) {
     }
   }
 
-  return {
-    op: 'merge',
-    params: {
-      files: files
-    }
-  };
+  return _.assign({}, { files: files }, { op: 'merge' });
 };
 
 merge.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var files = _.get(params, 'files', []);
   for (var i = 0; i < files.length; ++i) {
     if (typeof files[i] === 'string' || files[i] instanceof String) {
@@ -1055,16 +1008,11 @@ module.exports = merge;
 var _ = __webpack_require__(0);
 
 var mkdir = function mkdir(path) {
-  return {
-    op: 'mkdir',
-    params: {
-      path: path
-    }
-  };
+  return _.assign({}, { path: path }, { op: 'mkdir' });
 };
 
 mkdir.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var path = JSON.stringify(params.path) || '""';
   return 'mkdir(' + path + ')';
 };
@@ -1081,16 +1029,11 @@ module.exports = mkdir;
 var _ = __webpack_require__(0);
 
 var list = function list(path) {
-  return {
-    op: 'list',
-    params: {
-      path: path
-    }
-  };
+  return _.assign({}, { path: path }, { op: 'list' });
 };
 
 list.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var path = JSON.stringify(params.path) || '""';
   return 'list(' + path + ')';
 };
@@ -1107,16 +1050,11 @@ module.exports = list;
 var _ = __webpack_require__(0);
 
 var read = function read(path) {
-  return {
-    op: 'read',
-    params: {
-      path: path
-    }
-  };
+  return _.assign({}, { path: path }, { op: 'read' });
 };
 
 read.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var path = JSON.stringify(params.path) || '""';
   return 'read(' + path + ')';
 };
@@ -1146,14 +1084,11 @@ var render = function render(p0, p1) {
     _.assign(params, p1);
   }
 
-  return {
-    op: 'render',
-    params: params
-  };
+  return _.assign({}, params, { op: 'render' });
 };
 
 render.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var url = JSON.stringify(params.url) || '';
   delete params.url;
 
@@ -1182,14 +1117,17 @@ var request = function request() {
     params = _.assign({}, { url: url }, params);
   }
 
-  return {
-    op: 'request',
-    params: params
-  };
+  return _.assign({}, params, { op: 'render' });
 };
 
 request.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+
+  if (_.get(json, 'url', '').length > 0) {
+    var params = json;
+  } else {
+    var params = _.get(json, 'params', {});
+  }
+
   var url = _.get(params, 'url', '');
 
   var keys = Object.keys(params);
@@ -1212,16 +1150,11 @@ var select = function select() {
 
   if (columns.length == 1 && Array.isArray(_.get(columns, '[0]'))) columns = _.get(columns, '[0]', []);
 
-  return {
-    op: 'select',
-    params: {
-      columns: columns
-    }
-  };
+  return _.assign({}, { columns: columns }, { op: 'select' });
 };
 
 select.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var cols = JSON.stringify(params.columns) || '';
   if (cols.indexOf('[') != -1 && cols.indexOf(']') != -1) cols = cols.substring(1, cols.length - 1);
   return 'select(' + cols + ')';
@@ -1239,21 +1172,16 @@ module.exports = select;
 var _ = __webpack_require__(0);
 
 var sequence = function sequence(steps) {
-
-  return {
-    op: 'sequence',
-    params: {
-      steps: steps
-    }
-  };
+  return _.assign({}, { steps: steps }, { op: 'sequence' });
 };
 
 sequence.toCode = function (json, Flexio) {
 
+  var params = _.get(json, 'params', json);
   var retval = [];
 
-  for (var i = 0; i < json.params.items.length; ++i) {
-    var task = json.params.items[i];
+  for (var i = 0; i < params.items.length; ++i) {
+    var task = params.items[i];
 
     var cmd_str = Flexio.task.toCode(task, Flexio);
 
@@ -1285,17 +1213,11 @@ var set = function set(variable, value) {
 
   if (util.isPipeObject(value)) value = value.pipe.task;
 
-  return {
-    op: 'set',
-    params: {
-      "var": variable,
-      "value": value
-    }
-  };
+  return _.assign({}, { "var": variable, "value": value }, { op: 'set' });
 };
 
 set.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var variable = _.get(params, 'var', '');
   var value = _.get(params, 'value', '');
 
@@ -1322,18 +1244,11 @@ module.exports = set;
 var _ = __webpack_require__(0);
 
 var sleep = function sleep(value) {
-  value = _.defaultTo(value, 10);
-
-  return {
-    op: 'sleep',
-    params: {
-      value: value
-    }
-  };
+  return _.assign({}, { value: value }, { op: 'sleep' });
 };
 
 sleep.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var val = JSON.stringify(params.value) || '';
   return 'sleep(' + val + ')';
 };
@@ -1386,24 +1301,16 @@ var transform = function transform(value) {
       operations = [].concat(args);
       params = { operations: operations };
     }
-
-    return {
-      op: 'transform',
-      params: params
-    };
+  } else {
+    params = { columns: columns, operations: operations };
   }
 
-  return {
-    op: 'transform',
-    params: {
-      columns: columns,
-      operations: operations
-    }
-  };
+  return _.assign({}, params, { op: 'transform' });
 };
 
 transform.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
+  delete params['op'];
   if (!_.has(params, 'columns') && _.has(params, 'operations') && Array.isArray(params.operations) && params.operations.length == 1) {
     return "transform(" + JSON.stringify(params.operations[0]) + ")";
   } else {
@@ -1423,16 +1330,11 @@ module.exports = transform;
 var _ = __webpack_require__(0);
 
 var write = function write(path) {
-  return {
-    op: 'write',
-    params: {
-      path: path
-    }
-  };
+  return _.assign({}, { path: path }, { op: 'write' });
 };
 
 write.toCode = function (json, Flexio) {
-  var params = _.get(json, 'params', {});
+  var params = _.get(json, 'params', json);
   var path = JSON.stringify(params.path) || '""';
   return 'write(' + path + ')';
 };
