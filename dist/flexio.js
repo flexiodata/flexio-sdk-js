@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.27.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.27.2 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -152,8 +152,10 @@ module.exports = {
   },
   has: function has(obj, value) {
     return obj.hasOwnProperty(value);
-  }
-};
+  },
+  cloneDeep: function cloneDeep(value) {
+    return JSON.parse(JSON.stringify(value));
+  } };
 
 /***/ }),
 /* 1 */
@@ -311,7 +313,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.27.1";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.27.2";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1117,13 +1119,14 @@ var request = function request() {
     params = _.assign({}, { url: url }, params);
   }
 
-  return _.assign({}, params, { op: 'render' });
+  return _.assign({}, params, { op: 'request' });
 };
 
 request.toCode = function (json, Flexio) {
 
   if (_.get(json, 'url', '').length > 0) {
     var params = json;
+    delete params['op'];
   } else {
     var params = _.get(json, 'params', {});
   }
@@ -1764,10 +1767,11 @@ module.exports.getPipeConstructor = function (Flexio) {
       if (typeof pipeconstruct_param === 'string' || pipeconstruct_param instanceof String) {
         pipeobj.pipe.eid = pipeconstruct_param;
       } else if ((typeof pipeconstruct_param === 'undefined' ? 'undefined' : _typeof(pipeconstruct_param)) === 'object') {
+        pipeconstruct_param = _.cloneDeep(pipeconstruct_param);
         if (pipeconstruct_param.hasOwnProperty('pipe')) {
-          pipeobj.pipe = JSON.parse(JSON.stringify(pipeconstruct_param.pipe));
+          pipeobj.pipe = pipeconstruct_param.pipe;
         } else if (pipeconstruct_param.hasOwnProperty('task')) {
-          pipeobj.pipe = JSON.parse(JSON.stringify(pipeconstruct_param));
+          pipeobj.pipe = pipeconstruct_param;
         } else if (pipeconstruct_param.hasOwnProperty('op')) {
           pipeobj.pipe.task = pipeconstruct_param;
         }
