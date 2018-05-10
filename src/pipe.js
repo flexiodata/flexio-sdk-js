@@ -214,10 +214,11 @@ return function(pipeconstruct_param) {
       // parameter is eid or identifier
       pipeobj.pipe.eid = pipeconstruct_param
     } else if (typeof pipeconstruct_param === 'object') {
+      pipeconstruct_param = _.cloneDeep(pipeconstruct_param)
       if (pipeconstruct_param.hasOwnProperty('pipe')) {
-        pipeobj.pipe = JSON.parse(JSON.stringify(pipeconstruct_param.pipe))
+        pipeobj.pipe = pipeconstruct_param.pipe
       } else if (pipeconstruct_param.hasOwnProperty('task')) {
-        pipeobj.pipe = JSON.parse(JSON.stringify(pipeconstruct_param))
+        pipeobj.pipe = pipeconstruct_param
       } else if (pipeconstruct_param.hasOwnProperty('op')) {
         pipeobj.pipe.task = pipeconstruct_param
       }

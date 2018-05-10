@@ -51,5 +51,6 @@ module.exports = {
   defaultTo:     function(value, default_value) { return (value == null || value !== value) ? default_value : value },
   last:          function(array) { const length = array == null ? 0 : array.length; return length ? array[length - 1] : undefined; },
   isFunction:    function(value) { return value instanceof Function; },
-  has:           function(obj, value) { return obj.hasOwnProperty(value) }
+  has:           function(obj, value) { return obj.hasOwnProperty(value) },
+  cloneDeep:     function(value) { return JSON.parse(JSON.stringify(value)) } // poor man's version
 }

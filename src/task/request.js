@@ -34,7 +34,7 @@ var request = function() {
     params = _.assign({}, { url }, params)
   }
 
-  return _.assign({}, params, { op: 'render' })
+  return _.assign({}, params, { op: 'request' })
 }
 
 request.toCode = function(json, Flexio) {
