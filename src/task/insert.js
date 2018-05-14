@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 var insert = function(path, values) {
 
@@ -12,7 +13,7 @@ var insert = function(path, values) {
 }
 
 insert.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json)
+  var params = util.getTaskParams(json)
   var path = _.get(params, 'path', undefined)
   var values = _.get(params, 'values', undefined)
 

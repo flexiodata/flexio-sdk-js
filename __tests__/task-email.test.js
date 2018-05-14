@@ -21,19 +21,6 @@ test('Flexio.task.email; object to code', () => {
   )
 })
 
-test('Flexio.task.email; object to code (with params subnode)', () => {
-  var obj = { op: 'email', params: { to: 'hello@flex.io' } }
-
-  expect(
-    Flexio.task.email.toCode(obj)
-  ).toEqual(
-     `email({
-  "to": "hello@flex.io"
-})`
-  )
-})
-
-
 
 test('Flexio.task.email; code to object with connection parameter', () => {
   expect(
@@ -46,19 +33,6 @@ test('Flexio.task.email; code to object with connection parameter', () => {
 
 test('Flexio.task.email; object to code with connection parameter', () => {
   var obj = { op: 'email', connection: 'my-connection', to: 'hello@flex.io' }
-
-  expect(
-    Flexio.task.email.toCode(obj)
-  ).toEqual(
-     `email({
-  "connection": "my-connection",
-  "to": "hello@flex.io"
-})`
-  )
-})
-
-test('Flexio.task.email; object to code with connection parameter (with params subnode)', () => {
-  var obj = { op: 'email', params: { connection: 'my-connection', to: 'hello@flex.io' } }
 
   expect(
     Flexio.task.email.toCode(obj)

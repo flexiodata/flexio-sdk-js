@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 /*
   syntax: request(url|connection[, config])
@@ -39,15 +40,7 @@ var request = function() {
 
 request.toCode = function(json, Flexio) {
 
-  if (_.get(json, 'url', '').length > 0) {
-    var params = json
-    delete params['op']
-    delete params['eid']
-  }
-   else {
-    var params = _.get(json, 'params', {})
-  }
-  
+  var params = util.getTaskParams(json)
   var url = _.get(params, 'url', '')
 
   var keys = Object.keys(params)

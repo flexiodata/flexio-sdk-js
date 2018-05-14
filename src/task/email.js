@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 var email = function(p0, p1) {
 
@@ -18,9 +19,7 @@ var email = function(p0, p1) {
 }
 
 email.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json)
-  delete params['op']
-  delete params['eid']
+  var params = util.getTaskParams(json)
   return 'email(' + JSON.stringify(params, null, 2) + ')'
 }
 

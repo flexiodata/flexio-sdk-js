@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 // task definition function
 // .task() simply passes through json raw

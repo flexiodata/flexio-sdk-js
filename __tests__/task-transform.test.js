@@ -19,13 +19,3 @@ test('Flexio.task.echo; object to code', () => {
     `transform({"operations":[{"operation":"case","case":"upper"}],"columns":["givenname","surname","streetaddress","city"]})`
   )
 })
-
-test('Flexio.task.echo; object to code (with params subnode)', () => {
-  var obj = {"op":"transform","params":{"operations":[{"operation":"case","case":"upper"}],"columns":["givenname","surname","streetaddress","city"]}}
-
-  expect(
-    Flexio.task.transform.toCode(obj)
-  ).toEqual(
-    `transform({"operations":[{"operation":"case","case":"upper"}],"columns":["givenname","surname","streetaddress","city"]})`
-  )
-})
