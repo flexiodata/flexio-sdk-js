@@ -7,6 +7,7 @@ var connect = function(params) {
 connect.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', json)
   delete params['op']
+  delete params['eid']
   return 'connect(' + JSON.stringify(params) + ')'
 }
 

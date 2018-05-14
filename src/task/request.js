@@ -42,6 +42,7 @@ request.toCode = function(json, Flexio) {
   if (_.get(json, 'url', '').length > 0) {
     var params = json
     delete params['op']
+    delete params['eid']
   }
    else {
     var params = _.get(json, 'params', {})

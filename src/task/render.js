@@ -20,7 +20,10 @@ var render = function(p0, p1) {
 render.toCode = function(json, Flexio) {
   var params = _.get(json, 'params', json)
   var url = JSON.stringify(params.url) || ''
-  delete params.url
+
+  delete params['op']
+  delete params['eid']
+  delete params['url']
 
   if (Object.keys(params).length == 0)
     return 'render(' + url + ')'
