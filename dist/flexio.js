@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.28.0 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.28.1 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -320,7 +320,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.28.0";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.28.1";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1291,7 +1291,9 @@ var task = function task(json) {
 };
 
 task.toCode = function (json, Flexio) {
-  return 'task(' + JSON.stringify(json, null, 2) + ')';
+  var params = JSON.parse(JSON.stringify(json));
+  delete params['eid'];
+  return 'task(' + JSON.stringify(params, null, 2) + ')';
 };
 
 module.exports = task;
