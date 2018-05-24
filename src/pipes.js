@@ -30,6 +30,20 @@ module.exports.getPipesObject = function(Flexio) {
       })
     }
 
+    this.remove = function(identifier, callback) {
+
+      return new Promise((resolve, reject) => {
+        Flexio.http().request({ method: 'DELETE' , url: '/me/pipes/' + identifier })
+        .then(response => {
+          Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback)
+        })
+        .catch(error => {
+          Flexio.util.debug('Flexio.pipes.remove(): Failed.')
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
+        })
+      })
+    }
+
     this.list = function(callback) {
       var args = Array.from(arguments)
       var callback = _.get(args, '[0]')
