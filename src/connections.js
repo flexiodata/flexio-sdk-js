@@ -30,6 +30,21 @@ module.exports.getConnectionsObject = function(Flexio) {
       })
     }
 
+    this.remove = function(conn, callback) {
+
+      return new Promise((resolve, reject) => {
+        Flexio.http().request({ method: 'DELETE' , url: '/me/connections/' + conn })
+        .then(response => {
+          Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback)
+        })
+        .catch(error => {
+          Flexio.util.debug('Flexio.connections.create(): Failed.')
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback)
+        })
+      })
+    }
+
+
     this.list = function(callback) {
       var args = Array.from(arguments)
       var callback = _.get(args, '[0]')
