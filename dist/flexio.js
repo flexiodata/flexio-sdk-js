@@ -1,5 +1,5 @@
 /*!
- * Flex.io Javascript SDK v1.28.1 (https://github.com/flexiodata/flexio-sdk-js)
+ * Flex.io Javascript SDK v1.28.2 (https://github.com/flexiodata/flexio-sdk-js)
  * (c) 2018 Gold Prairie LLC
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -320,7 +320,7 @@ var Flexio = {
     this.pipes = __webpack_require__(31).getPipesObject(this);
     this.util = __webpack_require__(1).getUtilObject(this);
     this._http = null;
-    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.28.1";
+    this.version = this.util.isNodeJs() ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())).version : "1.28.2";
 
     var getPipeConstructor = __webpack_require__(32).getPipeConstructor;
     this.pipe = getPipeConstructor(this);
@@ -1402,6 +1402,18 @@ module.exports.getConnectionsObject = function (Flexio) {
       });
     };
 
+    this.remove = function (identifier, callback) {
+
+      return new Promise(function (resolve, reject) {
+        Flexio.http().request({ method: 'DELETE', url: '/me/connections/' + identifier }).then(function (response) {
+          Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback);
+        }).catch(function (error) {
+          Flexio.util.debug('Flexio.connections.remove(): Failed.');
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback);
+        });
+      });
+    };
+
     this.list = function (callback) {
       var args = Array.from(arguments);
       var callback = _.get(args, '[0]');
@@ -1452,6 +1464,18 @@ module.exports.getPipesObject = function (Flexio) {
           Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback);
         }).catch(function (error) {
           Flexio.util.debug('Flexio.pipes.create(): Failed.');
+          Flexio.util.callbackAdapter(error, null, resolve, reject, callback);
+        });
+      });
+    };
+
+    this.remove = function (identifier, callback) {
+
+      return new Promise(function (resolve, reject) {
+        Flexio.http().request({ method: 'DELETE', url: '/me/pipes/' + identifier }).then(function (response) {
+          Flexio.util.callbackAdapter(null, response.data, resolve, reject, callback);
+        }).catch(function (error) {
+          Flexio.util.debug('Flexio.pipes.remove(): Failed.');
           Flexio.util.callbackAdapter(error, null, resolve, reject, callback);
         });
       });
@@ -1733,7 +1757,7 @@ module.exports.getPipeConstructor = function (Flexio) {
         }
 
         if (_.isPlainObject(params)) {
-          _.assign(this.pipe, _.pick(params, ['name', 'description', 'alias']));
+          _.assign(this.pipe, _.pick(params, ['name', 'description', 'alias', 'task', 'schedule', 'schedule_status']));
           callback = _.get(args, '[1]');
         }
 
