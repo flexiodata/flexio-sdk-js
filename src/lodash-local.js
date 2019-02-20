@@ -8,7 +8,7 @@ function getProp(object, path, defaultVal) {
   if (!_path.length) {
     return object === undefined ? defaultVal : object
   }
-  if (!isPlainObject(object) && !Array.isArray(object)) {
+  if (!isPlainObject(object) && !Array.isArray(_path)) {
     return defaultVal
   }
   return getProp(object[_path.shift()], _path, defaultVal)
