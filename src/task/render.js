@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 var render = function(p0, p1) {
 
@@ -18,9 +19,9 @@ var render = function(p0, p1) {
 }
 
 render.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json)
+  var params = util.getTaskParams(json)
   var url = JSON.stringify(params.url) || ''
-  delete params.url
+  delete params['url']
 
   if (Object.keys(params).length == 0)
     return 'render(' + url + ')'

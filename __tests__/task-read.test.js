@@ -19,13 +19,3 @@ test('Flexio.task.read; object to code', () => {
     `read("/connection/file.txt")`
   )
 })
-
-test('Flexio.task.read; object to code (with params subnode)', () => {
-  var obj = { op: 'read', params: { path: '/connection/file.txt' } }
-
-  expect(
-    Flexio.task.read.toCode(obj)
-  ).toEqual(
-    `read("/connection/file.txt")`
-  )
-})

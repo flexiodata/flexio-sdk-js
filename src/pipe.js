@@ -103,7 +103,7 @@ return function(pipeconstruct_param) {
 
       if (_.isPlainObject(params))
       {
-        _.assign(this.pipe, _.pick(params, ['name', 'description', 'alias']))
+        _.assign(this.pipe, _.pick(params, ['name', 'description', 'alias', 'task', 'schedule', 'schedule_status']))
         callback = _.get(args, '[1]')
       }
 

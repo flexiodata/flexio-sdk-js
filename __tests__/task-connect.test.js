@@ -19,14 +19,3 @@ test('Flexio.task.connect; object to code', () => {
     `connect({"type":"sftp"})`
   )
 })
-
-
-test('Flexio.task.connect; object to code (with params subnode)', () => {
-  var obj = { op: 'connect', params: { type: 'sftp' } }
-
-  expect(
-    Flexio.task.connect.toCode(obj)
-  ).toEqual(
-    `connect({"type":"sftp"})`
-  )
-})

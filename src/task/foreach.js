@@ -19,7 +19,7 @@ var foreach = function(p0, p1) {
 }
 
 foreach.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json), p = []
+  var params = util.getTaskParams(json), p = []
   if (params.hasOwnProperty('spec')) {
     p.push(JSON.stringify(params.spec))
   }

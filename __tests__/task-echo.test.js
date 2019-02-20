@@ -19,13 +19,3 @@ test('Flexio.task.echo; object to code', () => {
     `echo("hello")`
   )
 })
-
-test('Flexio.task.echo; object to code (with params subnode)', () => {
-  var obj = { op: 'echo', params: { msg: 'hello' } }
-
-  expect(
-    Flexio.task.echo.toCode(obj)
-  ).toEqual(
-    `echo("hello")`
-  )
-})

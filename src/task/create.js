@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 // .create(columns_array)
 // .create(vfs_file, [mime_type])
@@ -31,7 +32,7 @@ var create = function(p0, p1) {
 }
 
 create.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json)
+  var params = util.getTaskParams(json)
   var path = JSON.stringify(params.path) || undefined
   var content_type = JSON.stringify(params.content_type) || undefined
   var columns = JSON.stringify(params.columns) || undefined

@@ -89,7 +89,12 @@ util.callbackAdapter = function(err, response, resolve, reject, callback) {
   }
 }
 
-
+util.getTaskParams = function(task) {
+  var ret = JSON.parse(JSON.stringify(task))
+  delete ret['op']
+  delete ret['eid']
+  return ret
+}
 
 module.exports.getUtilObject = function(Flexio) {
 

@@ -19,13 +19,3 @@ test('Flexio.task.write; object to code', () => {
     `write("/connection/file.txt")`
   )
 })
-
-test('Flexio.task.write; object to code (with params subnode)', () => {
-  var obj = { op: 'write', params: { path: '/connection/file.txt' } }
-
-  expect(
-    Flexio.task.write.toCode(obj)
-  ).toEqual(
-    `write("/connection/file.txt")`
-  )
-})

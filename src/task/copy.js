@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 var copy = function(from,to,options) {
   var params = {
@@ -14,7 +15,7 @@ var copy = function(from,to,options) {
 }
 
 copy.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json)
+  var params = util.getTaskParams(json)
   var from = JSON.stringify(params.from) || '""'
   var to = JSON.stringify(params.to) || '""'
   var options = (params.hasOwnProperty('options') && _.isPlainObject(params.options)) ? JSON.stringify(params.options) : null

@@ -7,6 +7,7 @@ test('test posting query string data', async () => {
   var pipe = Flexio.pipe()
                    .javascript(function(context) {
                       context.output.write('Hello ' + context.query.name + '!')
+                      context.end()
                    })
 
   var response = await pipe.run({ query: { name: 'World' } })

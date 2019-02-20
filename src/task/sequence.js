@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 var sequence = function(steps) {
   return _.assign({}, { steps }, { op: 'sequence' })
@@ -6,7 +7,7 @@ var sequence = function(steps) {
 
 sequence.toCode = function(json, Flexio) {
 
-  var params = _.get(json, 'params', json)
+  var params = util.getTaskParams(json)
   var retval = []
   
   for (var i = 0; i < params.items.length; ++i) {

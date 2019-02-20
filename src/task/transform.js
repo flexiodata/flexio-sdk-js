@@ -1,4 +1,5 @@
 var _ = require('../lodash-local')
+var util = require('../util')
 
 var transform = function(value) {
   var args = Array.from(arguments)
@@ -36,8 +37,7 @@ var transform = function(value) {
 }
 
 transform.toCode = function(json, Flexio) {
-  var params = _.get(json, 'params', json)
-  delete params['op']
+  var params = util.getTaskParams(json)
   if (!_.has(params,'columns') && _.has(params, 'operations') && Array.isArray(params.operations) && params.operations.length == 1) {
     return "transform(" + JSON.stringify(params.operations[0]) + ")"
   } else {
